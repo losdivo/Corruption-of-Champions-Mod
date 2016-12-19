@@ -2332,6 +2332,12 @@ use namespace kGAMECLASS;
 				if (min > 40) min += 10;
 				else if (min >= 20) min += 20;
 				else min += 40;
+				if (armorName == "bimbo skirt") min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 4;
+			}
+			else if (armorName == "bimbo skirt") {
+				if (min > 40) min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 4;
+				else if (min >= 20 ) min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 2;
+				else min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST];
 			}
 			//Omnibus' Gift
 			if (findPerk(PerkLib.OmnibusGift) >= 0) {

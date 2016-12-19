@@ -445,27 +445,7 @@ package classes {
 				}
 				else player.addStatusValue(StatusEffects.Rut, 3, -1);
 			}
-			if (player.findStatusEffect(StatusEffects.LustyTongue) >= 0) { //Lusty Tongue Check!
-				if (rand(5) == 0) {
-					outputText("\nYou keep licking your lips, blushing with the sexual pleasure it brings you.");
-					getGame().dynStats("lus", 2 + rand(15));
-					if (player.lust >= player.maxLust()) {
-						outputText("  Your knees lock from the pleasure, and you fall back in pleasure, twisting and moaning like a whore as you somehow orgasm from your mouth.  When it finishes, you realize your mouth feels even more sensitive than before.");
-						player.orgasm();
-						getGame().dynStats("sen", 2);
-						player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) + 10); //Tongue orgasming makes it last longer.
-						
-					}
-					outputText("\n");			
-					needNext = true;
-				}
-				player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) - 1); //Decrement
-				if (player.statusEffectv1(StatusEffects.LustyTongue) <= 0) {
-					player.removeStatusEffect(StatusEffects.LustyTongue);
-					outputText("\nYour mouth and tongue return to normal.\n");
-					needNext = true;
-				}
-			}
+
 			if (player.statusEffectv2(StatusEffects.Kelt) > 0) player.addStatusValue(StatusEffects.Kelt, 2, -0.15); //Reduce kelt submissiveness by 1 every 5 hours
 			//Mino cum update.
 			if (getGame().mountain.minotaurScene.minoCumUpdate()) {
@@ -812,10 +792,10 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (getGame().model.time.hours == 6 && player.armorName == "bimbo skirt" && rand(10) == 0 && player.biggestTitSize() < 12) {
-				outputText("\n<b>As you wake up, you feel a strange tingling starting in your nipples that extends down into your breasts.  After a minute, the tingling dissipates in a soothing wave.  As you cup your tits, you realize they've gotten larger!</b>");
-				player.growTits(1, player.bRows(), false, 2);
-				getGame().dynStats("lus", 10);
+			if (player.armorName == "bimbo skirt" && getGame().bimboProgress.readyToProgress()) {
+				
+				getGame().bimboProgress.progress();
+				
 				needNext = true;
 			}
 			if (flags[kFLAGS.BIKINI_ARMOR_BONUS] > 0) {
@@ -826,6 +806,27 @@ package classes {
 				}
 				else flags[kFLAGS.BIKINI_ARMOR_BONUS] = 0;
 			}
+			if (player.findStatusEffect(StatusEffects.LustyTongue) >= 0) { //Lusty Tongue Check!
+				if (rand(5) == 0) {
+					outputText("\nYou keep licking your lips, blushing with the sexual pleasure it brings you.");
+					getGame().dynStats("lus", 2 + rand(15));
+					if (player.lust >= player.maxLust() && !player.armorName == "bimbo skirt") {
+						outputText("  Your knees lock from the pleasure, and you fall back in pleasure, twisting and moaning like a whore as you somehow orgasm from your mouth.  When it finishes, you realize your mouth feels even more sensitive than before.");
+						player.orgasmLips();
+						getGame().dynStats("sen", 2);
+						player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) + 10); //Tongue orgasming makes it last longer.
+						
+					}
+					outputText("\n");			
+					needNext = true;
+				}
+				player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) - 1); //Decrement
+				if (player.statusEffectv1(StatusEffects.LustyTongue) <= 0) {
+					player.removeStatusEffect(StatusEffects.LustyTongue);
+					outputText("\nYour mouth and tongue return to normal.\n");
+					needNext = true;
+				}
+			}			
 			
 			//No better place for these since the code for the event is part of CoC.as or one of its included files
 			if (flags[kFLAGS.TIME_SINCE_VALA_ATTEMPTED_RAPE_PC] > 0) flags[kFLAGS.TIME_SINCE_VALA_ATTEMPTED_RAPE_PC]--; //Vala post-rape countdown
