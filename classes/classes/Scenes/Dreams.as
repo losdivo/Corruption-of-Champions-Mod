@@ -10,7 +10,7 @@
 		//Returns true if needs to END SHIT
 		public function dreamSelect():Boolean {
 			var inBimbo:Boolean = false;
-			if (player.armorName == "bimbo skirt" && !( (player.findPerk(PerkLib.BimboBrains) >= 0) && (player.findPerk(PerkLib.BimboBody) >= 0) )) inBimbo = true;
+			if (getGame().bimboProgress.ableToProgress()) inBimbo = true;
 				
 			var daydream:Number = 0;
 			var choices:Array = new Array();

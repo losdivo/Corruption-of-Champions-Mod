@@ -6,9 +6,13 @@ package classes.Scenes
 	public class BimboProgression extends BaseContent
 	{
 		public function BimboProgression() {}
-
+			
+		public function ableToProgress() : Boolean {
+			if ( (player.findPerk(PerkLib.BimboBrains) >= 0) && (player.findPerk(PerkLib.BimboBody) >= 0) ) return false;
+			if (player.armorName == "bimbo skirt") return true;
+			return false;
+		}
 		public function readyToProgress() : Boolean {
-			if ( (player.findPerk(PerkLib.BimboBrains) >= 0) && (player.findPerk(PerkLib.BimboBody) >= 0) ) return false; // Already a bimbo
 			if (player.lust >= player.maxLust() ) return true;
 			if (flags[kFLAGS.TIMES_ORGASM_VAGINAL] > 25 || flags[kFLAGS.TIMES_ORGASM_TITS] > 25 || flags[kFLAGS.TIMES_ORGASM_ANAL] > 25 || flags[kFLAGS.TIMES_ORGASM_LIPS] > 25) {
 				if (rand(2) == 0) return true;
@@ -1274,7 +1278,7 @@ package classes.Scenes
 		public function bimboRating() : int {
 			if ((player.findPerk(PerkLib.BimboBrains) >= 0) && (player.findPerk(PerkLib.BimboBody) >= 0) ) return 4;
 			
-			if (player.armorName == "bimbo skirt") {
+			if (ableToProgress()) {
 				
 				if (flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] > 25 && player.hasVagina() && !player.hasCock() ) return 3;
 				

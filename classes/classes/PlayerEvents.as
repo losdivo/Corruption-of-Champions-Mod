@@ -795,7 +795,7 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (player.armorName == "bimbo skirt" && getGame().bimboProgress.readyToProgress()) {
+			if (getGame().bimboProgress.ableToProgress() && getGame().bimboProgress.readyToProgress()) {
 				
 				getGame().bimboProgress.progress();
 				
