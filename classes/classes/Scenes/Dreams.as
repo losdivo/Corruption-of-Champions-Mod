@@ -119,7 +119,7 @@
 				choices[choices.length] = 17;
 				choices[choices.length] = 17;
 			}
-			if (player.bimboScore() > 0) {
+			if (player.bimboScore() > 0 && inBimbo) {
 				temp = player.bimboScore();
 				while (temp > 0) {
 					choices[choices.length] = 18;
