@@ -646,7 +646,7 @@ package classes.Scenes
 			if (removeCock) { 
 				shrinkCock();
 			}
-			else if (!player.hasVagina()) {
+			else if (!player.hasVagina() && !player.hasCock() ) {
 				growVagina();
 			}
 			outputText(player.modFem(player.hasCock() ? 80 : 100, 2));
@@ -853,7 +853,7 @@ package classes.Scenes
 				//outputText("\nYou notice and ooze trickling out of your " + player.cockDescript(0) + ". You feel somehow empiter\n");
 				shrinkCock();
 			}
-			else if (!player.hasVagina()) {
+			else if (!player.hasVagina() && !player.hasCock()) {
 				growVagina();
 			}
 			player.orgasmAnal();
@@ -1077,7 +1077,7 @@ package classes.Scenes
 				
 			}
 			if (reduceDick) shrinkCock();
-			else if (!player.hasVagina()) {
+			else if (!player.hasVagina() && !player.hasCock()) {
 				growVagina();
 			}
 			
