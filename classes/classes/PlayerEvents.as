@@ -445,27 +445,7 @@ package classes {
 				}
 				else player.addStatusValue(StatusEffects.Rut, 3, -1);
 			}
-			if (player.findStatusEffect(StatusEffects.LustyTongue) >= 0) { //Lusty Tongue Check!
-				if (rand(5) == 0) {
-					outputText("\nYou keep licking your lips, blushing with the sexual pleasure it brings you.");
-					getGame().dynStats("lus", 2 + rand(15));
-					if (player.lust >= player.maxLust()) {
-						outputText("  Your knees lock from the pleasure, and you fall back in pleasure, twisting and moaning like a whore as you somehow orgasm from your mouth.  When it finishes, you realize your mouth feels even more sensitive than before.");
-						player.orgasm();
-						getGame().dynStats("sen", 2);
-						player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) + 10); //Tongue orgasming makes it last longer.
-						
-					}
-					outputText("\n");			
-					needNext = true;
-				}
-				player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) - 1); //Decrement
-				if (player.statusEffectv1(StatusEffects.LustyTongue) <= 0) {
-					player.removeStatusEffect(StatusEffects.LustyTongue);
-					outputText("\nYour mouth and tongue return to normal.\n");
-					needNext = true;
-				}
-			}
+
 			if (player.statusEffectv2(StatusEffects.Kelt) > 0) player.addStatusValue(StatusEffects.Kelt, 2, -0.15); //Reduce kelt submissiveness by 1 every 5 hours
 			//Mino cum update.
 			if (getGame().mountain.minotaurScene.minoCumUpdate()) {
@@ -662,7 +642,10 @@ package classes {
 				if (player.statusEffectv1(StatusEffects.LactationReduction) >= 48) {
 					if (player.findStatusEffect(StatusEffects.LactationReduc0) < 0) {
 						player.createStatusEffect(StatusEffects.LactationReduc0, 0, 0, 0, 0);
-						if (player.biggestLactation() >= 1) outputText("\n<b>Your " + player.nippleDescript(0) + "s feel swollen and bloated, needing to be milked.</b>\n");
+						if (player.biggestLactation() >= 1) {
+							outputText("\n<b>Your " + player.nippleDescript(0) + "s feel swollen and bloated, needing to be milked.</b>\n");
+							player.orgasmTits(false);
+						}
 						if (player.biggestLactation() <= 2) player.createStatusEffect(StatusEffects.LactationReduc1, 0, 0, 0, 0);
 						if (player.biggestLactation() <= 1) player.createStatusEffect(StatusEffects.LactationReduc2, 0, 0, 0, 0);
 						needNext = true;
@@ -812,12 +795,6 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (getGame().model.time.hours == 6 && player.armorName == "bimbo skirt" && rand(10) == 0 && player.biggestTitSize() < 12) {
-				outputText("\n<b>As you wake up, you feel a strange tingling starting in your nipples that extends down into your breasts.  After a minute, the tingling dissipates in a soothing wave.  As you cup your tits, you realize they've gotten larger!</b>");
-				player.growTits(1, player.bRows(), false, 2);
-				getGame().dynStats("lus", 10);
-				needNext = true;
-			}
 			if (flags[kFLAGS.BIKINI_ARMOR_BONUS] > 0) {
 				if (player.armorName == "lusty maiden's armor") {
 					if (getGame().model.time.hours == 0) flags[kFLAGS.BIKINI_ARMOR_BONUS]--; //Adjust for inflation
@@ -826,6 +803,27 @@ package classes {
 				}
 				else flags[kFLAGS.BIKINI_ARMOR_BONUS] = 0;
 			}
+			if (player.findStatusEffect(StatusEffects.LustyTongue) >= 0) { //Lusty Tongue Check!
+				if (rand(5) == 0) {
+					outputText("\nYou keep licking your lips, blushing with the sexual pleasure it brings you.");
+					getGame().dynStats("lus", 2 + rand(15));
+					if (player.lust >= player.maxLust() && !player.armorName == "bimbo skirt") {
+						outputText("  Your knees lock from the pleasure, and you fall back in pleasure, twisting and moaning like a whore as you somehow orgasm from your mouth.  When it finishes, you realize your mouth feels even more sensitive than before.");
+						player.orgasmLips();
+						getGame().dynStats("sen", 2);
+						player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) + 10); //Tongue orgasming makes it last longer.
+						
+					}
+					outputText("\n");			
+					needNext = true;
+				}
+				player.changeStatusValue(StatusEffects.LustyTongue, 1, player.statusEffectv1(StatusEffects.LustyTongue) - 1); //Decrement
+				if (player.statusEffectv1(StatusEffects.LustyTongue) <= 0) {
+					player.removeStatusEffect(StatusEffects.LustyTongue);
+					outputText("\nYour mouth and tongue return to normal.\n");
+					needNext = true;
+				}
+			}			
 			
 			//No better place for these since the code for the event is part of CoC.as or one of its included files
 			if (flags[kFLAGS.TIME_SINCE_VALA_ATTEMPTED_RAPE_PC] > 0) flags[kFLAGS.TIME_SINCE_VALA_ATTEMPTED_RAPE_PC]--; //Vala post-rape countdown
@@ -954,7 +952,7 @@ package classes {
 					if (player.cumQ() >= 1000) outputText("  It's completely soaked your bedroll, too... you won't be sleeping on this again until you wash it out.  Grumbling, you roll the soggy, white-stained fabric up and stow it.");
 					outputText("  The sensation of wetness inside your own clothes torments you as you try to return to sleep, driving up your lust and making you half-hard once again... the rumbling of eggs in your abdomen, as if they're ready to be laid, doesn't help either.");
 					player.fertilizeEggs(); //convert eggs to fertilized based on player cum output, reduce lust by 100 and then add 20 lust
-					player.orgasm(); //reduce lust by 100 and add 20, convert eggs to fertilized depending on cum output
+					player.orgasmDick(); //reduce lust by 100 and add 20, convert eggs to fertilized depending on cum output
 					getGame().dynStats("lus", 20);
 					getGame().doNext(playerMenu);
 					//Hey Fenoxo - maybe the unsexed characters get a few \"cock up the ovipositor\" scenes for fertilization with some characters (probably only willing ones)?
@@ -974,7 +972,7 @@ package classes {
 					if (player.cumQ() > 1000) outputText("It's all over your bedroll, too...");
 					outputText("  Turning over and trying to find a dry spot, you attempt to return to sleep... the wet pressure against your crotch doesn't make it easy, nor do the rumbles in your abdomen, and you're already partway erect by the time you drift off into another erotic dream.  Another traveler passes under you, and you prepare to snare her with your web; your ovipositor peeks out eagerly and a bead of slime drips from it, running just ahead of the first fertilized egg you'll push into your poor victim...");
 					player.fertilizeEggs(); //reduce lust by 100 and add 20, convert eggs to fertilized depending on cum output
-					player.orgasm();
+					player.orgasmDick();
 					getGame().dynStats("lus", 20);
 					getGame().doNext(playerMenu);
 					//Hey Fenoxo - maybe the unsexed characters get a few \"cock up the ovipositor\" scenes for fertilization with some characters (probably only willing ones)?
@@ -1034,6 +1032,14 @@ package classes {
 					if (player.cocks[i].cockThickness > 99.9) player.cocks[i].cockThickness = 99.9;
 				}
 			}
+			
+			//Bimbo transformation
+			if (getGame().bimboProgress.ableToProgress() && getGame().bimboProgress.readyToProgress()) {
+				
+				return getGame().bimboProgress.bimboDoProgress();
+
+			}
+			
 			//Randomly change weather post-game
 			if (flags[kFLAGS.GAME_END] > 0 && flags[kFLAGS.WEATHER_CHANGE_COOLDOWN] <= 0) {
 				var randomWeather:int = rand(100);

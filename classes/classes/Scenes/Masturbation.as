@@ -310,6 +310,25 @@ package classes.Scenes {
 			doStripCheck();
 			//Tit foreplay
 			titForeplay();
+			
+			if (player.hasCock() && getGame().bimboProgress.bimboRating() > 0)  {
+				
+				var craving:int = getGame().bimboProgress.analCraving(); 
+				if 		(craving >= 3 && player.hasKeyItem("Deluxe Dildo") >= 0 ) deluxeDildoAnal();
+				else if	(craving >= 2 && player.hasKeyItem("Dildo") >= 0) dildoButts();
+				else if (craving >= 1) {
+					fingerFuck();
+				}
+				
+				if (craving >= 1) {
+					player.orgasmAnal();
+					dynStats("sen", (0.5));
+					flags[kFLAGS.TIMES_MASTURBATED]++;
+					doNext(camp.returnToCampUseOneHour);
+					return;				
+				}
+				
+			}
 			//Touch our various junks
 			if (player.cocks.length > 0) {
 				if (player.cocks[0].cockType == CockTypesEnum.BEE && (player.hasItem(consumables.BEEHONY) || player.hasItem(consumables.PURHONY) || player.hasItem(consumables.SPHONEY))) {
@@ -906,7 +925,7 @@ package classes.Scenes {
 			}
 		}
 		
-		private function titForeplay():void {
+		public  function titForeplay():void {
 			//Ok lets touch our boobies if we haz them and they are big enough
 			if (player.breastRows.length == 1 && player.biggestTitSize() > 3) {
 				if (player.lib < 45)
@@ -1675,7 +1694,9 @@ package classes.Scenes {
 		//ORGASM COOOOAD
 		private function orgazmo(selfSucking:Boolean, nippleFuck:Boolean):void {
 			outputText("\n\n");
+			var cumType:int = 0;
 			if (player.cocks.length > 0) {
+				cumType = 1;
 				if (player.cocks.length == 1) {
 					outputText("The sensations prove too much for you, and you feel the tightness building in your ");
 					if (player.countCocksOfType(CockTypesEnum.HUMAN) == 1)
@@ -1795,6 +1816,7 @@ package classes.Scenes {
 			}
 			//Vaginal CUMMING
 			if (player.vaginas.length > 0) {
+				cumType = 2;
 				//Single vagina!
 				if (player.vaginas.length == 1) {
 					outputText("Your ");
@@ -1818,6 +1840,7 @@ package classes.Scenes {
 			if (player.averageLactation() >= 2 || player.hasFuckableNipples()) {
 				//FUCK ANOTHER SHODDILY WRITTEN FUNCTION TO DEBUG/PORT
 				//WHYYYYY
+				cumType = 3;
 				titCum(player.cumQ());
 				titDrink();
 			}
@@ -1837,12 +1860,21 @@ package classes.Scenes {
 				if (valeriaFluids > 0) outputText("\"<i>Thanks for the fluids!</i>\" Valeria says.  ");
 			}
 			//DONE!
-			player.orgasm();
+			if 	(cumType == 1) {
+				player.orgasmDick(); 
+			}
+			else if (cumType == 2) {
+				player.orgasmVaginal();
+			}
+			else if (cumType == 3) {
+				player.orgasmTits();
+			}
 			flags[kFLAGS.TIMES_MASTURBATED]++;
-			dynStats("sen", (-0.5));
+			if (getGame().bimboProgress.bimboRating() < 1) dynStats("sen", ( -0.5));
+			else dynStats("sen", (0.1));
 		}
 		
-		private function titCum(cumQuantity:Number = 3):void {
+		public function titCum(cumQuantity:Number = 3):void {
 			//var tempSize:Number = Math.round((nippleLength + baseCockLength/2)*100)/100;
 			//var nippleCockDescript:String = nippleCockDescript(tempSize);
 			//Normal Tits, only if lactating at at least level 2
@@ -1980,12 +2012,78 @@ package classes.Scenes {
 						outputText("his tentacles splattering mouse-jizz everywhere as he gets off from your show.");
 					else outputText("splattering himself with mouse-spunk as he finishes enjoying your inadvertent show.  He runs off before you have a chance to react.");
 				}
-				player.orgasm();
+				player.orgasmVaginal();
 				flags[kFLAGS.TIMES_MASTURBATED]++;
 				doNext(camp.returnToCampUseOneHour);
 				outputText("\n");
 				player.cuntChange(player.vaginalCapacity() * 0.9, true);
 			}
+		}
+		
+		private function deluxeDildoAnal():void {
+			player.slimeFeed();
+			clearOutput();
+			//(highcor)
+			if (player.cor > 66)
+				outputText("You retrieve the floppy pink dildo from your possessions and strip down in the middle of your camp, shivering with the sexual thrill of your exhibitionism.");
+			//(medcor)
+			else if (player.cor > 33)
+				outputText("You retrieve your floppy dildo and sigh happily as you squeeze it, feeling the spongy surface give a little bit.  Glancing around furtively, you find a secluded spot and strip down.");
+			//(lowcor)
+			else outputText("You blush feverishly as you grab your pink dildo.  It flops about lewdly as you run off behind some rocks and strip down to use it.  You feel like such a pervert.");
+			outputText("\n\n");
+			
+			//(low cor)
+			if (player.cor < 50)
+				outputText("You hold the fake dong away from you, aroused but still somewhat disgusted by its lewd shape.");
+			//high cor
+			else outputText("You hold the fake dong, squeezing it and giggling at the realistic texture.  You can't wait to try it out.");
+			outputText("  A drop of pink aphrodisiac leaks from the tip, offering you a hint of the pleasure you're in for.   You make sure to catch it on your crotch, letting the fluid seep into your [ass].  Warmth radiates outwards, spreading to your thighs.");
+			outputText(".  You ");
+			if (player.cor > 50) outputText("don't ");
+			outputText("hesitate ");
+			if (player.cor < 50)
+				outputText("before slowly working it inside you, gasping at the enhanced sensitivity of your " + player.buttDescript() + ".");
+			else outputText("ramming it deep inside you, moaning as it rubs your now over-sensitive walls.");
+			outputText("  You splay your " + player.legs() + " and lie there with it inside you, feeling it respond to your arousal, becoming more and more turned on by the second.\n\n");
+		
+			//(Kinda dry)
+			if (player.ass.analWetness < ANAL_WETNESS_SLIMY)
+				outputText("The thickness of the toy gradually increases, filling you more and more effectively as it reacts to your heat.  You grab it two-handed and start slamming it into your [asshole], vigorously fucking yourself with the swelling dong.  The sensations just keep getting better and better as more and more of the goblin's sex-drug leaks into you.\n\n"); 
+			//(Pretty wet)
+			else if (player.ass.analWetness < ANAL_WETNESS_SLIME_DROOLING) {
+				outputText("The toy's girth seems to pulse and swell within you, spreading you wide open as it sops up your unnatural wetness and grows larger.  You grab it in a two-handed grip and begin working it in and out of your [asshole], gasping and twitching as every ridge and feature of the dildo rubs you just right.  Every inch of your [ass] tingles with a desire to be touched, rubbed, and squeezed. ");
+				if (player.cocks.length > 0) {
+					outputText("Even your " + player.multiCockDescript() + " ache");
+					if (player.totalCocks() == 1) outputText("s");
+					outputText(" and pulse");
+					if (player.totalCocks() == 1) outputText("s");
+					outputText(", bouncing on your belly.  ");
+				}
+				outputText("You answer that need by pistoning the fat juicy dick even harder into your tightly stretched box, cooing as tiny squirts of fluid erupt with every thrust.\n\n");
+			}
+			//(Soaked)
+			else outputText("You can feel the dildo growing inside you, reacting to gushing anal fluids by stretching your [ass] wide.  It doesn't seem to stop when you start fucking yourself with it.  If anything, it only seems to get thicker and thicker until there is barely room for your juices to squirt around it and your hips feel sore.  However, the tingling hotness of the dildo's aphrodisiac cum overwhelms the discomfort of the fattening fuck-tool, and you work it harder and harder, reveling in being stretched beyond your normal capacity.\n\n");
+			
+			//Sensitivity based orgasms.
+			//(Low sensitivity) 
+			if (player.sens < 80) {
+				outputText("Practically brutalizing your [ass] with the swollen puss-plug, you bring yourself to orgasm.  Your " + player.hipDescript() + " leap off the ground, quivering in the air against your hands as you ram the toy into yourself as far as it will go.  You can feel it spurting inside you, just like a real man.  You wiggle and moan as the muscle spasms work their way through your " + player.legs() + ", leaving you drained and exhausted.  The pink dildo suddenly shrinks back to its original size and flops free, leaving your [asshole] stretched open to drool a puddle of pink cum.");
+				//(+sensitivity by 5)
+				dynStats("sen", 5);
+			}
+			//High sensitivity (80+)
+			else {
+				outputText("Brutalizing your stretched [asshole] the bloated toy, you manage to get yourself off.   Your body quakes and spasms while your " + player.hipDescript() + " buck into the air, fucking an imaginary lover.  The dildo sinks into your core, your arms instinctively fulfilling your desire for complete penetration.  A warm wetness suddenly soaks your belly as the fuck-stick erupts, filling you.  Just like that the orgasm you had seems like foreplay.  Your eyes roll back into your head and you begin convulsing, practically having a pleasure-seizure from the drugs and your already oversensitive butt.   You sprawl there, wiggling and cumming your brains out for what feels like an eternity, but it does eventually end, and when it does the dildo is back to its normal size, lying in a puddle of aphrodisiacs and cum.");
+				//(+sensitivity by 3 & intellect -2 & libido +1	)
+			}
+			//Option Jojo veyeurism?
+			player.orgasmAnal();
+			flags[kFLAGS.TIMES_MASTURBATED]++;
+			doNext(camp.returnToCampUseOneHour);
+			outputText("\n");
+			player.buttChange(player.analCapacity() * 0.9, true);
+
 		}
 		
 		//onaHole use - game should already have checked if player has a cock! CHECK BEFORE CALLING
@@ -2050,7 +2148,7 @@ package classes.Scenes {
 			else if (player.gender == 3)
 				doNext(onaholeFutaContinuation);
 			else {
-				player.orgasm();
+				player.orgasmDick();
 				doNext(camp.returnToCampUseOneHour);
 			}
 		}
@@ -2061,7 +2159,7 @@ package classes.Scenes {
 				outputText("you pass out with aching, empty balls.");
 			else outputText("you pass out with " + player.multiCockDescriptLight() + " sore from exertion.");
 			dynStats("sen", -1);
-			player.orgasm();
+			player.orgasmDick();
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
@@ -2071,7 +2169,7 @@ package classes.Scenes {
 			outputText(" feet away from you. Delirious with pleasure, you continue your 'impression' of a semen volcano, covering yourself and the area with your seed. ");
 			outputText(" As your orgasms fade, you find yourself a well-fucked mess, and pass out.");
 			dynStats("sen", -1);
-			player.orgasm();
+			player.orgasmDick();
 			doNext(camp.returnToCampUseOneHour);
 		}
 				
@@ -2107,7 +2205,7 @@ package classes.Scenes {
 		
 			dynStats("lib", -1.5, "sen", .75, "cor", .5);
 			flags[kFLAGS.TIMES_MASTURBATED]++;
-			player.orgasm();
+			player.orgasmDick();
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
@@ -2121,7 +2219,7 @@ package classes.Scenes {
 					outputText("Brimming with anticipation, you wind up the small gearbox on the weird contraption. You place the machine down and strip yourself naked. Stepping through the straps of the garment, you pull it up. The dildo does not come out, so you take the time to ease the artificial phallus to rest deep in your womanhood. After nestling the false cock in your pussy, you finish pulling up the belt and you tighten the straps. You lay down and you flip the switch. The machine vibrates around and inside you vigorously. Immediately, waves and cramps of pleasure swirl around your cunt and shoot up and down your spine. The machine, free of human limitations and fatigue, ceaselessly rubs and caresses your insides at impossibly high speeds. Within minutes, you begin experiencing the tell-tale contractions of an impending orgasm. With your hands free, you are able to explore your breasts and body as the device hammers away. You squeeze your ");
 					outputText(player.breastCup(0));
 					outputText(" tits as your body convulses with multiple orgasms. Savoring every moment, you relish in the pangs of delight searing your body. Eventually, the belt moves slower and slower, until it comes to a stop, along with your fun. You realize that the gears have wound down and the box needs to be wound for your pleasure to continue. Deciding not to overwhelm yourself, you carefully remove your toy and save it for another time.");
-					player.orgasm();
+					player.orgasmVaginal();
 					dynStats("sen", -1);
 					doNext(camp.returnToCampUseOneHour);
 				}
@@ -2131,7 +2229,7 @@ package classes.Scenes {
 					outputText("Switching the belt on, it begins to immediately vibrate and rub every sensitive part of your " + player.vaginaDescript() + ". You immediately glow with pleasure as the machine works its magic on your hungry pussy. Worried about the machine winding down, you re-crank the gear box occasionally to ensure that you get worked over by the tireless device as long as you can handle it.\n\n");
 					outputText("Eventually, the machine tweaks your nerves and your " + player.clitDescript() + " just right, triggering a massive orgasm that leaves you bucking wildly like an untamed horse, screaming in mind-numbing pleasure. Your uncontrollable movement dislodges the key from the gear box and you have no choice but to wait for the machine and your still-orgasming body to wind down, and THEN find the goddamn thing. After about fifteen minutes, the machine expends the last of its energy, leaving you a twitching heap until you can move to find the meddlesome key.\n\n");
 					outputText("Fortunately, you locate the key near your feet, saving you the money of having another made for the device. You put aside your machine, your lusts slaked, for now.");
-					player.orgasm();
+					player.orgasmVaginal();
 					dynStats("sen", -1);
 					doNext(camp.returnToCampUseOneHour);
 				}
@@ -2157,7 +2255,7 @@ package classes.Scenes {
 					if (player.cor < 50) {
 						outputText("Shamed by the depths of your sexual needs, you don the abominable stimulation belt and brace for its eventual ravaging of your needy womanhood. Without waiting for you to touch the activator, the organic portion of the device, sensing your needs, engorges and buries itself in your vagina, beginning to pump with furious speed. The shock of the sudden stimulation convulses you backwards, leaving you writhing on the ground as the horrid symbiote undulates in a luridly sordid manner. You distinctly feel a nodule growing about your clitoris, shifting and changing into a sucker. The suction begins furiously working your clitoris as if it were a miniature penis, slurping, sucking and jerking away, prompting another painfully pleasurable wave of multiple orgasms.\n\n");
 						outputText("You cry in shock as the creature pushes past your cervix and begins injecting your womb with hot, thick cum... or whatever it is that it shoots inside you.  Unlike before, the very sensation of the fluid acts upon your brain and body strangely. The pain dulls and eventually filters from your mind and only the pleasure of the experience remains. The fluid continues pumping in until it overflows. The flooding of your insides leaves you paradoxically ecstatic and revolted. After an unknown amount of time, the thing stops fucking you and it releases its grip of your pelvis, leaving you a sticky, exhausted mess. A part of you wants to try the belt again, but you are too tired to bother cleaning yourself up.");
-						player.orgasm();
+						player.orgasmVaginal();
 						dynStats("lib", -1, "sen", .75, "cor", 1);
 						doNext(camp.returnToCampUseOneHour);
 					}
@@ -2165,7 +2263,7 @@ package classes.Scenes {
 					else {
 						outputText("Barely taking the time to strip yourself down, you quickly slide the belt-shaped beast onto your hips. It immediately clamps down and begins the all-too-familiar plundering of your opening. It barrels deep into your box and quickly latches on your " + player.clitDescript() + " and the relieving pleasure of its thundering movements quench your need for pleasure. The creature quickly begins streaming its fluids inside you. No longer sensing pain, as you did when you first used the belt, you lay in endless bliss as the warmth of the fluid fills you up. The creature, sensing how much of its juice is in you, stops squirting and begins stirring the jizm it left. The unique pleasure of the hot fluid literally stirring and swirling inside you coaxes a wave of orgasms from your body, which draw the milk even deeper into your womanhood. It almost feels as if your body is absorbing the milk into your deepest recesses with each pelvic contraction.\n\n");
 						outputText("The creature lets out another torrent of cum and repeats the process. Drunk with lust, you are uncertain how you are containing so much spunk without it gushing out, as before. Every time you try to think about it, another orgasm destroys any attempt at rational thought. By the time the thing is done with you, hours and hours have already passed you by. You crash from your hours-long orgasm, exhausted, and can only think of the next opportunity to have the belt about your loins.");
-						player.orgasm();
+						player.orgasmVaginal();
 						dynStats("lib", -.5, "sen", 1, "cor", 1.5);
 						//Game over if fully corrupt!
 						if (player.cor >= 100) doNext(allNaturalSelfStimulationBeltBadEnd);
@@ -2186,7 +2284,7 @@ package classes.Scenes {
 			outputText("The fiendish belt shifts again. It buries itself as deep as it can go and you feel pressure against the depths of your womanhood. You feel a hot fluid spray inside you. Reflexively, you shout, \"<b>IT'S CUMMING! IT'S CUMMING INSIDE ME!</b>\" Indeed, each push of the prodding member floods your box with juice. It cums... and cums... and cums... and cums...\n\n");
 			outputText("An eternity passes, and your pussy is sore. It is stretched and filled completely with whatever this thing shoots for cum. It retracts itself from your hole and you feel one last pang of pressure as your body now has a chance to force out all of the spunk that it cannot handle. Ooze sprays out from the sides of the belt and leaves you in a smelly, sticky mess. You feel the belt's tension ease up as it loosens. The machine has run its course. You immediately pass out.");
 			player.slimeFeed();
-			player.orgasm();
+			player.orgasmVaginal();
 			dynStats("lib", 1, "sen", (-0.5));
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -2232,7 +2330,7 @@ package classes.Scenes {
 			//Stats & next event
 			//DONE!
 			flags[kFLAGS.TIMES_MASTURBATED]++;
-			player.orgasm();
+			player.orgasmVaginal();
 			dynStats("sen", -0.5);
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -2338,7 +2436,7 @@ package classes.Scenes {
 			//Stats & next event
 			//DONE!
 			flags[kFLAGS.TIMES_MASTURBATED]++;
-			player.orgasm();
+			player.orgasmDick();
 			dynStats("sen", (-0.5));
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -2374,7 +2472,7 @@ package classes.Scenes {
 			outputText("Completely sated, you take off the belt, finding it slides off easily, and put it away in your campsite, eagerly awaiting the time you can next use it and have the suit work you over once more.");
 			dynStats("sen", -1);
 			flags[kFLAGS.TIMES_MASTURBATED]++;
-			player.orgasm();
+			player.orgasmGeneric();
 			if (player.lib < 30) dynStats("lib", .5);
 			if (player.lib < 50) dynStats("lib", .5);
 			if (player.lib < 60) dynStats("lib", .5);
@@ -2483,7 +2581,7 @@ package classes.Scenes {
 				outputText("You're a bit confused by how much you enjoyed the perverse activity.");
 			else outputText("You're horrified at what you're doing to deal with your inner perversions.");
 			//DONE!
-			player.orgasm();
+			player.orgasmNipples();
 			dynStats("sen", (-0.5));
 		}
 		
@@ -2643,7 +2741,7 @@ package classes.Scenes {
 			}
 			outputText("Sated for now, you rest for an hour or so before climbing back atop your hooves.");
 			//DONE!
-			player.orgasm();
+			player.orgasmDick();
 			dynStats("sen", (-0.5));
 		}
 		
@@ -2719,7 +2817,7 @@ package classes.Scenes {
 				outputText("Sated, you spend a few blissful minutes enjoying the warmth and tightness of the mare-like onahole until your " + player.cockDescript(x) + " is soft inside it.  You scamper off of her, dropping back to your four equine feet.  With a contented yawn, you disassemble the toy and haul it off back to your stash, leaking your cum the entire way.");
 			}
 		
-			player.orgasm();
+			player.orgasmDick();
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseOneHour);
 			player.addKeyValue("Fake Mare", 1, 1);
@@ -2750,7 +2848,7 @@ package classes.Scenes {
 			outputText("You sense your own orgasm coming as a hot, sticky fluid rushes into you.  You scream your pleasure as the statue unloads a load of hot faux-spunk into your womb, flooding your cunt with its strange seed.  So utterly and completely filled, you cannot hold back your orgasm.  You cum, your " + player.vaginaDescript() + " clamping down hard on the fake cock buried inside you, milking it for more and more of its thick, creamy spooge.\n\n");
 		
 			outputText("When your climax finally passes, you've collapsed on all fours, swaying light-headed as the statue continues to leak a steady trickle of spooge onto your " + player.buttDescript() + ".  You stagger to your legs and begin to disassemble the pole.  You drag it back to your stash, your hips making a lewd squishing noise with every step as globs of fake cum leak out of your horsecunt.");
-			player.orgasm();
+			player.orgasmVaginal();
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseOneHour);
 			player.addKeyValue("Centaur Pole", 1, 1);
@@ -2898,7 +2996,7 @@ package classes.Scenes {
 				flags[kFLAGS.DICK_EGG_INCUBATION] = 48;
 			}
 			player.dumpEggs();
-			player.orgasm();
+			player.orgasmGeneric();
 			flags[kFLAGS.TIMES_EGGED_IN_COCK]++;
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -2959,7 +3057,7 @@ package classes.Scenes {
 			
 			outputText("\n\nFeeling lighter and a bit happier than you have in a while, you pick yourself up and redress, quickly heading back to camp.\n");
 			flags[kFLAGS.DICK_EGG_INCUBATION] = 0;
-			player.orgasm();
+			player.orgasmDick();
 		}
 		
 		//I Regret Nothing/Exgartuan:
@@ -3063,7 +3161,7 @@ package classes.Scenes {
 				player.createStatusEffect(StatusEffects.Eggchest, 3 + rand(10), 1 + rand(4), 0, 0);
 				
 			}
-			player.orgasm();
+			player.orgasmGeneric();
 			dynStats("sen", 1);
 			player.dumpEggs();
 			doNext(camp.returnToCampUseOneHour);
@@ -3246,7 +3344,7 @@ package classes.Scenes {
 			if (player.countCocksOfType(CockTypesEnum.TENTACLE) > 1) outputText("s");
 			outputText(" to dribble the spent passion on the ground.  Damn, that was satisfying.");
 			//(-2 sens + 1 per tentacle dick, -100 lust)
-			player.orgasm();
+			player.orgasmVaginal();
 			dynStats("sen", (-1*(1 + player.countCocksOfType(CockTypesEnum.TENTACLE))));
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -3312,7 +3410,7 @@ package classes.Scenes {
 					else outputText("  You groan and drift into a brief catnap, your rigid erections pulsing and throbbing with continual lust.");
 				}
 			}
-			player.orgasm();
+			player.orgasmAnal();
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -3353,7 +3451,7 @@ package classes.Scenes {
 			var gems:int = midasCockJackingGemsRoll();
 		
 			outputText("\n\n<b>You have just enough wherewithal to gather up the spent " + num2Text(gems) + " gems before falling asleep for a quick nap.</b>");
-			player.orgasm();
+			player.orgasmDick();
 			dynStats("sen", -1);
 			player.gems += gems;
 			flags[kFLAGS.GILDED_JERKED]++
@@ -3396,7 +3494,7 @@ package classes.Scenes {
 				outputText("\n\nThe erotic pumping of the phallic object picks up the pace as you gently build a rhythm with the beating of your heart and tensing of your vaginal walls. Your breathing heaves, and your moans become almost as desperate as they are lustful. Soon the pleasure is rising up into unstoppable tide of phallus-induced ecstasy, and you slide from against the rock to on your side, still fucking yourself with blissful joy. The constant thrusting of the toy begins to make you shake and lose rhythm, your body wanting only to fuck as hard and fast as possible.");
 				outputText("\n\nYour orgasm arrives with supreme relief as you force the dildo to your furthest depths. Juices spurt from your genitals, and you roll onto your back to rest. When your breathing regulates, you pull the thoroughly used toy from your [vagina] and prepare to return to camp.");
 			}
-			player.orgasm();
+			player.orgasmVaginal();
 			dynStats("sen", -1.5);
 			statScreenRefresh();
 			doNext(camp.returnToCampUseOneHour);
@@ -3429,7 +3527,7 @@ package classes.Scenes {
 			else outputText("\n\n");
 			outputText("Your body shakes and rocks from the anal orgasm before slumping onto your back. Happily tightening around the toy with each beat of your hammering heart, you rest.");
 			outputText("\n\nSome time later, you gather your things and return to camp.");
-			player.orgasm();
+			player.orgasmAnal();
 			dynStats("sen", 0.5);
 			statScreenRefresh();
 			doNext(camp.returnToCampUseOneHour);
@@ -3491,6 +3589,88 @@ package classes.Scenes {
 					outputText("as multiple streams of semen erupt from your dong, creating an impressive mess about you. Soaked in your own fluids, you take a moment to clean yourself up before replacing the toy in your bag and going to sleep, happy to be relieved of your urges.");
 				}
 			}
+		}
+
+		private function fingerFuck() : void {
+			
+			//All times as a genderless person (possibly written for all genders perhaps not herm (not enough hands)) - 
+			outputText("Your " + player.assholeDescript() + " begins to twitch. It's practically crying out for attention.\n\n");
+			outputText("You lay down on your side and reach gingerly behind yourself.  The palm of your hand comes to rest on your " + player.buttDescript() + ".  You slide your finger into your crack and find your " + player.assholeDescript() + ".  You run your finger slowly around the sensitive ring of your hole and feel a tingle emanating from it. A smile creeps across your lips as you begin to imagine what is about to happen.\n\n");
+			//For all parts of scene penetration type changes based on anus size '''any (if you do not want to do more than one variable) or virgin pucker or tight/normal/loose/gaping'''-
+			//If no BioLube perk - 
+			if (player.ass.analWetness < 2) {
+				outputText("Bringing your hand up to your mouth, you coat your ");
+				if (player.ass.analLooseness <= 2)
+					outputText("middle finger");
+				else if (player.ass.analLooseness == 3)
+					outputText("first two fingers");
+				else outputText("hand");
+				outputText(" in a generous helping of saliva and head back for your " + player.assholeDescript() + ".\n\n");
+			}
+			//If BioLube or continuing from no biolube - 
+			else {
+				outputText("The lubrication you have created allows you to easily sink your finger");
+				if (player.ass.analLooseness >= 3) outputText("s"); 
+				outputText(" into your asshole. A shiver runs up your spine as you plunge ");
+				if (player.ass.analLooseness <= 2)
+					outputText("in all the way to your knuckle");
+				else if (player.ass.analLooseness == 3)
+					outputText("all the way to the first two knuckles");
+				else if (player.ass.analLooseness == 4)
+					outputText("your three knuckles");
+				else outputText("your four fingers in deep");
+				outputText(". Slowly you begin to push and pull your finger");
+				if (player.ass.analLooseness >= 3) outputText("s");
+				outputText(" in and out of your anus. A slight moan escapes you as you begin to pick up pace.\n\n");
+			}
+			//If gaping - 
+			if (player.ass.analLooseness == 5) {
+				outputText("A devilish thought crosses your mind. You have taken into yourself all manner of beasts and beings. There is only one real way to achieve the pleasure you have gotten from them on your own. You slowly force your whole hand into your " + player.assholeDescript() + " and are greeted with a fullness that you never thought you would achieve without assistance. As you move in and out you begin to slowly close your hand into a fist and open it up again over and over.\n\n");
+			}
+			//All scene types - 
+			outputText("Pleasure begins to fill your body with warmth. You deliberately start to twist your hand as you pump your pleasure hole with a deep desire. Your asshole begins to violently open and close around your invading ");
+			if (player.ass.analLooseness <= 2)
+				outputText("digit");
+			else if (player.ass.analLooseness < 5)
+				outputText("digits");
+			else outputText("hand");
+			outputText(" as your toes curl and an orgasm wracks your body.");
+			//If BioLube perk - 
+			if (player.ass.analWetness >= 2) {
+				outputText("  You withdraw your ");
+				if (player.ass.analLooseness <= 2)
+					outputText("finger");
+				else if (player.ass.analLooseness < 5)
+					outputText("fingers");
+				else outputText("hand");
+				outputText(" and see it coated in the warm lube you produce. The scent and ecstasy you are in drive you over the edge and you begin to lick what once was inside you clean. Another orgasm drills through you and your body shakes for several seconds.");
+				//Still Horny - 
+				if (player.lib >= 75)
+					outputText("\n\nRolling over, you fall to sleep while your hole drips and twitches, ensuring your dreams to be filled with the most erotic of thoughts.");
+				else outputText("\n\nRolling over, you are completely spent and fall to sleep while your well-worked hole drips.");
+			}
+			//No BioLube perk -
+			else {
+				outputText("  You withdraw your ");
+				if (player.ass.analLooseness <= 2)
+					outputText("finger");
+				else if (player.ass.analLooseness < 5)
+					outputText("fingers");
+				else outputText("hand");
+				outputText(" and dry ");
+				if (player.ass.analLooseness <= 2)
+					outputText("it");
+				else if (player.ass.analLooseness < 5)
+					outputText("them");
+				else outputText("it");
+				outputText(" off.");
+				//Still Horny - 
+				if (player.lib > 75)
+					outputText("  Satisfied, you roll over and drift off to sleep. Your hole remains warm, ready for another round.");
+				else outputText("  Satisfied, you roll over and drift off to sleep.");
+			}
+
+			player.buttChange(4 + player.ass.analLooseness * 2, true);
 		}
 	}
 }
