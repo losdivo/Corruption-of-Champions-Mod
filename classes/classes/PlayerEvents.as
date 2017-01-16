@@ -795,12 +795,6 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (getGame().bimboProgress.ableToProgress() && getGame().bimboProgress.readyToProgress()) {
-				
-				getGame().bimboProgress.progress();
-				
-				needNext = true;
-			}
 			if (flags[kFLAGS.BIKINI_ARMOR_BONUS] > 0) {
 				if (player.armorName == "lusty maiden's armor") {
 					if (getGame().model.time.hours == 0) flags[kFLAGS.BIKINI_ARMOR_BONUS]--; //Adjust for inflation
@@ -1038,6 +1032,14 @@ package classes {
 					if (player.cocks[i].cockThickness > 99.9) player.cocks[i].cockThickness = 99.9;
 				}
 			}
+			
+			//Bimbo transformation
+			if (getGame().bimboProgress.ableToProgress() && getGame().bimboProgress.readyToProgress()) {
+				
+				return getGame().bimboProgress.bimboDoProgress();
+
+			}
+			
 			//Randomly change weather post-game
 			if (flags[kFLAGS.GAME_END] > 0 && flags[kFLAGS.WEATHER_CHANGE_COOLDOWN] <= 0) {
 				var randomWeather:int = rand(100);
