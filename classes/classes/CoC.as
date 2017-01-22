@@ -189,6 +189,7 @@ the text from being too boring.
 		public var plains:Plains = new Plains();
 		public var swamp:Swamp = new Swamp();
 		public var volcanicCrag:VolcanicCrag = new VolcanicCrag();
+		public var journey:Journey = new Journey();
 		
 		public var exploration:Exploration = new Exploration(); //Goes last in order to get it working.
 		// Scenes/Combat/

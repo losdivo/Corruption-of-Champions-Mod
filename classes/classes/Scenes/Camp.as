@@ -117,6 +117,10 @@ private function doCamp():void { //Only called by playerMenu
 		getGame().prison.prisonRoom(true);
 		return;
 	}
+	if (journey.inJourney) { // Journey
+		getGame().journey.menuJourney();
+		return;
+	}
 	if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
 		getGame().dungeons.move(getGame().dungeons._currentRoom);
 		return;
@@ -2733,7 +2737,7 @@ private function updateSaveFlags():void {
 	doNext(doCamp);
 }
 
-private function updateAchievements():void {
+public  function updateAchievements():void {
 	//Story
 	awardAchievement("Newcomer", kACHIEVEMENTS.STORY_NEWCOMER);
 	if (flags[kFLAGS.MARAE_QUEST_COMPLETE] > 0) awardAchievement("Marae's Savior", kACHIEVEMENTS.STORY_MARAE_SAVIOR);

@@ -3,6 +3,7 @@
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Items.*;
+	import classes.Scenes.Areas.Journey;
 	import classes.Scenes.Camp;
 	import classes.Scenes.Combat.Combat;
 	import classes.Scenes.Places.Ingnam;
@@ -66,6 +67,9 @@
 		
 		protected function get prison():Prison {
 			return kGAMECLASS.prison;
+		}
+		protected function get journey():Journey {
+			return kGAMECLASS.journey;
 		}
 		
 		protected function get d3():D3 {

@@ -2961,8 +2961,8 @@ public static const UNKNOWN_FLAG_NUMBER_02952:int                               
 public static const UNKNOWN_FLAG_NUMBER_02953:int                                   = 2953;
 public static const UNKNOWN_FLAG_NUMBER_02954:int                                   = 2954;
 public static const UNKNOWN_FLAG_NUMBER_02955:int                                   = 2955;
-public static const UNKNOWN_FLAG_NUMBER_02956:int                                   = 2956;
-public static const UNKNOWN_FLAG_NUMBER_02957:int                                   = 2957;
+public static const JOURNEY_MODE:int                                   				= 2956; // 0 if normal, 1 if exploration, 2 if going back, 3 if rut/heat
+public static const JOURNEY_LOCATION:int                                   			= 2957;
 public static const UNKNOWN_FLAG_NUMBER_02958:int                                   = 2958;
 public static const UNKNOWN_FLAG_NUMBER_02959:int                                   = 2959;
 public static const UNKNOWN_FLAG_NUMBER_02960:int                                   = 2960;

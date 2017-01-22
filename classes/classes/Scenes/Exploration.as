@@ -64,6 +64,8 @@ package classes.Scenes
 			if (flags[kFLAGS.DISCOVERED_VOLCANO_CRAG] > 0) addButton(13, "Volcanic Crag", kGAMECLASS.volcanicCrag.exploreVolcanicCrag, null, null, null, "Visit the infernal volcanic crag. \n\nRecommended level: 20" + (debug ? "\n\nTimes explored: " + flags[kFLAGS.DISCOVERED_VOLCANO_CRAG] : ""));
 			if (debug) addButton(9, "Debug", exploreDebug.doExploreDebug);
 			//addButton(4, "Next", explorePageII);
+			
+			addButton(4,  "Journey", kGAMECLASS.journey.exploreJourney, null, null, null, "Perform spiritual journey.\n");
 			addButton(14, "Back", playerMenu);
 		}
 
