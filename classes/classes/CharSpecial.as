@@ -1218,7 +1218,7 @@ package classes
 			player.clitLength = 0.25;
 			//has a self-repairing hymen in her cunt"	"Angel
 			//(means feathered wings on her back)
-			player.wingType = WING_TYPE_HARPY;
+			player.wingType = WING_TYPE_FEATHERED_LARGE;
 			//Halo (Flaming)
 			//D-cups
 			player.createBreastRow();
@@ -1338,9 +1338,9 @@ package classes
 			inventory.createStorage();
 			player.createKeyItem("Camp - Chest",0,0,0,0);
 			player.createKeyItem("Equipment Rack - Weapons",0,0,0,0);
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00254] = 1;
+			flags[kFLAGS.TAKEN_WEAPON_RACK_DEPRECATED] = 1;
 			player.createKeyItem("Equipment Rack - Armor",0,0,0,0);
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00255] = 1;
+			flags[kFLAGS.TAKEN_ARMOUR_RACK_DEPRECATED] = 1;
 			player.createKeyItem("Equipment Storage - Jewelry Box",0,0,0,0);
 			player.createStatusEffect(StatusEffects.KnowsWhitefire, 0, 0, 0, 0);
 			
@@ -1384,7 +1384,7 @@ package classes
 			//player.createStatusEffect(StatusEffects.MetWhitney, 2, 0, 0, 0);
 			
 			// Izma
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00238] = 1;
+			flags[kFLAGS.IZMA_FOLLOWER_STATUS] = 1;
 			
 			// Vapula
 			flags[kFLAGS.VAPULA_FOLLOWER] = 1;
@@ -1396,7 +1396,7 @@ package classes
 			//flags[kFLAGS.JOJO_STATUS] = 5;
 			
 			// Bimbo Sophie
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00282] = 1;
+			//flags[kFLAGS.SOPHIE_BIMBO] = 1;
 			
 			// Isabella
 			flags[kFLAGS.ISABELLA_FOLLOWER_ACCEPTED] = 1;
@@ -1409,7 +1409,7 @@ package classes
 			flags[kFLAGS.GOO_OBEDIENCE] = 100;
 			
 			// Ceraph
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00286] = 1;
+			flags[kFLAGS.CERAPH_BELLYBUTTON_PIERCING] = 1;
 			
 			// Holli
 			flags[kFLAGS.FUCK_FLOWER_LEVEL] = 4;
@@ -1569,9 +1569,9 @@ package classes
 			inventory.createStorage();
 			player.createKeyItem("Camp - Chest",0,0,0,0);
 			player.createKeyItem("Equipment Rack - Weapons",0,0,0,0);
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00254] = 1;
+			flags[kFLAGS.TAKEN_WEAPON_RACK_DEPRECATED] = 1;
 			player.createKeyItem("Equipment Rack - Armor",0,0,0,0);
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00255] = 1;
+			flags[kFLAGS.TAKEN_ARMOUR_RACK_DEPRECATED] = 1;
 			//(Flexibility), (Incorporeality), History: Religious, Dragonfire, Brood Mother, Magical Fertility, Wet Pussy, Tough, Strong, Fast, Smart, History: Scholar, History: Slacker, Strong Back, Strong Back 2: Stronger Harder
 			player.createPerk(PerkLib.Flexibility, 0, 0, 0, 0);
 			player.createPerk(PerkLib.HistoryReligious, 0, 0, 0, 0);
@@ -1617,7 +1617,7 @@ package classes
 			player.createVagina();
 			player.vaginas[0].vaginalLooseness = 0;
 			player.vaginas[0].vaginalWetness = 2; // wet
-			player.vaginas[0].virgin = 0;			
+			player.vaginas[0].virgin = false;
 			player.createStatusEffect(StatusEffects.BonusVCapacity, 8000, 0, 0, 0); // Vag of Holding kitsune trait
 			player.clitLength = 0.3;
 			player.fertility = 5;
@@ -1689,8 +1689,8 @@ package classes
 			if (player.hasKeyItem("Camp - Chest") < 0) { player.createKeyItem("Camp - Chest", 0, 0, 0, 0); for (i = 0; i < 6; i++) inventory.createStorage(); }			
 			if (player.hasKeyItem("Camp - Murky Chest") < 0) { player.createKeyItem("Camp - Murky Chest", 0, 0, 0, 0); for (i = 0; i < 4; i++) inventory.createStorage(); }			
 			if (player.hasKeyItem("Camp - Ornate Chest") < 0) { player.createKeyItem("Camp - Ornate Chest", 0, 0, 0, 0); for (i = 0; i < 4; i++) inventory.createStorage(); }			
-			if (player.hasKeyItem("Equipment Rack - Weapons") < 0) { player.createKeyItem("Equipment Rack - Weapons", 0, 0, 0, 0); flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00254] = 1; }			
-			if (player.hasKeyItem("Equipment Rack - Armor") < 0) { player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0); flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00255] = 1; }			
+			if (player.hasKeyItem("Equipment Rack - Weapons") < 0) { player.createKeyItem("Equipment Rack - Weapons", 0, 0, 0, 0); flags[kFLAGS.TAKEN_WEAPON_RACK_DEPRECATED] = 1; }			
+			if (player.hasKeyItem("Equipment Rack - Armor") < 0) { player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0); flags[kFLAGS.TAKEN_ARMOUR_RACK_DEPRECATED] = 1; }			
 			
 			// have lots of different traits
 			if (player.findPerk(PerkLib.HistoryReligious) < 0) player.createPerk(PerkLib.HistoryReligious, 0, 0, 0, 0); // abandoned religion after obtaining nine tails and being disappointed in achieved enlightment
@@ -1753,7 +1753,7 @@ package classes
 			player.createVagina();
 			player.vaginas[0].vaginalLooseness = rand(4); // from tight to gaping
 			player.vaginas[0].vaginalWetness = rand(4)+1; // from normal to slavering
-			player.vaginas[0].virgin = 0;
+			player.vaginas[0].virgin = false;
 			
 			player.clitLength = rand(3) == 0 ? (rand(10)+1)*0.25 : 0.25; // from 0.25 to 2.5
 			player.fertility = (rand(5)+1)*5; // from 5 to 25 with 5 step

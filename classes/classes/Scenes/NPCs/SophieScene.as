@@ -22,7 +22,7 @@
 		//Implementation of TimeAwareInterface
 		public function timeChange():Boolean
 		{
-			if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00283] > 0) return false; //Nothing can happen if she's been kicked out or disappeared off into the mountains
+			if (flags[kFLAGS.SOPHIE_DISABLED_FOREVER] > 0) return false; //Nothing can happen if she's been kicked out or disappeared off into the mountains
 			var needNext:Boolean = false;
 			checkedSophie = 0;
 			pregnancy.pregnancyAdvance();
@@ -170,9 +170,9 @@ Lasts 4-8 hours.
 		}
 		
 		public function sophieAtCamp():Boolean { //Whether she's a bimbo or not
-			if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00283] > 0) return false;
+			if (flags[kFLAGS.SOPHIE_DISABLED_FOREVER] > 0) return false;
 			if (flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] != 0) return false;
-			if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00282] > 0) return true;
+			if (flags[kFLAGS.SOPHIE_BIMBO] > 0) return true;
 			if (flags[kFLAGS.SOPHIE_RECRUITED_PURE] > 0) return true;
 			return false;
 		}
@@ -255,7 +255,12 @@ public function meetSophie():void {
 	else if (player.cor < 66) outputText("Barely remembering your manners, ", false);
 	else outputText("Desiring to spread your name throughout all of this land, ", false);
 	outputText("you wrench your gaze away from her breasts and introduce yourself.  It's hard to stay focused on introduction while she's wrapping her wing-like arms around her tits and squeezing them together, amplifying her cleavage.  The matronly harpy is looking at you expectantly, and it occurs to you that she's still waiting on an answer to her question.  Why did you come here?\n\n", false);
-	
+
+	if (flags[kFLAGS.CODEX_ENTRY_HARPIES] <= 0) {
+		flags[kFLAGS.CODEX_ENTRY_HARPIES] = 1;
+		outputText("\n\n<b>New codex entry unlocked: Harpies!</b>")
+	}
+
 	//[Looking for Demons] [Sex] [Got Lost] [Foraging]
 	simpleChoices("Foraging", tellSophieYoureForagingForStuff, "Got Lost", sophieMeetingGotLost, "Look4Demons", sophieLookingForDemons, "Sex", sophieMeetingChoseSex, "", null);
 }
@@ -883,7 +888,7 @@ public function luststickApplication(hours:Number = 4):void {
 	//Immune to luststick?
 	if (player.findPerk(PerkLib.LuststickAdapted) >= 0) return;
 	//Increment luststick resistance
-	flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00285] += Math.floor(hours/2);
+	flags[kFLAGS.LUSTSTICK_RESISTANCE_PROGRESS] += Math.floor(hours/2);
 	if (!player.hasCock()) return;
 	//Max of 20.
 	if (hours > 20) hours = 20;

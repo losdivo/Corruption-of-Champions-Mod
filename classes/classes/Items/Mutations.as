@@ -36,7 +36,7 @@
 			if (player.gender == 0 && flags[kFLAGS.CERULEAN_POTION_NEUTER_ATTEMPTED] > 0) {
 				outputText("You take another sip of the Cerulean Potion.  You find it soothing and become very excited about the possibility of another visit from the succubus.", true);
 			}
-			else if (player.gender == 3 && flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00111] > 0) {
+			else if (player.gender == 3 && flags[kFLAGS.CERULEAN_SUCCUBUS_HERM_COUNTER] > 0) {
 				outputText("With anticipation, you chug down another bottle of the Cerulean Potion. A warm sensation radiates out from your stomach as you feel the potion course through your body.", true);
 			}
 			//All else
@@ -3341,10 +3341,7 @@
 				if (player.vaginas[0].vaginalLooseness < VAGINA_LOOSENESS_LOOSE && changes < changeLimit && rand(2) == 0) {
 					outputText("\n\nYou feel a relaxing sensation in your groin.  On further inspection you discover your " + player.vaginaDescript(0) + " has somehow relaxed, permanently loosening.", false);
 					player.vaginas[0].vaginalLooseness++;
-					//Cunt Stretched used to determine how long since last enlargement
-					if (player.findStatusEffect(StatusEffects.CuntStretched) < 0) player.createStatusEffect(StatusEffects.CuntStretched, 0, 0, 0, 0);
-					//Reset the timer on it to 0 when restretched.
-					else player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
+					player.vaginas[0].resetRecoveryProgress();
 					player.vaginas[0].vaginalLooseness++;
 					changes++;
 					dynStats("lus", 10);
@@ -4476,6 +4473,9 @@
 				player.hairType = HAIR_NORMAL;
 				changes++;
 			}
+			//Remove bassy hair
+			if ([HAIR_BASILISK_PLUME, HAIR_BASILISK_SPINES].indexOf(player.hairType) != -1 && changes < changeLimit && rand(4) == 0)
+				removeBassyHair();
 			//Restart hair growth
 			if (flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] > 0 && changes < changeLimit && rand(3) == 0) {
 				outputText("\n\nYou feel an itching sensation in your scalp as you realize the change. <b>Your hair is growing normally again!</b>");
@@ -5298,8 +5298,12 @@
 				outputText("\n\nTerrible agony wracks your " + player.face() + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>", false);
 				player.faceType = FACE_LIZARD;
 			}
-			//-Snake tongue
-			if (player.hasReptileFace() && rand(3) == 0) gainSnakeTongue();
+			//-Lizard tongue
+			if (player.tongueType == TONGUE_SNAKE && changes < changeLimit && rand(10) < 6) // Higher (60%) chance to be 'fixed' if old variant
+				gainLizardTongue();
+
+			if ([TONGUE_LIZARD, TONGUE_SNAKE].indexOf(player.tongueType) == -1 && player.hasReptileFace() && changes < changeLimit && rand(3) == 0)
+				gainLizardTongue();
 			//-Remove Gills
 			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 			//<mod name="Reptile eyes" author="Stadler76">

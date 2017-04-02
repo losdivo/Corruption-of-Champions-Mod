@@ -1146,7 +1146,7 @@ package classes.Scenes.Places.Bazaar
 			addButton(1, "Nevermind", nevermindToHarrySex);
 		}
 		
-		private function haveHarryFuckYou():void {
+		protected function haveHarryFuckYou():void {
 			clearOutput();
 			outputText(images.showImage("harry-sex-getfucked"));
 			const HARRY_COCK_AREA:int = 18 * 3; //54
@@ -1173,7 +1173,7 @@ package classes.Scenes.Places.Bazaar
 				}
 				else if (player.hasVagina()) { //Female
 					outputText("\n\nThe moment you think this, Harry reaches his free hand down beneath the table. When he reaches your [pussy] he dips a practiced finger into your snatch, sending tingles through your body. He begins to thrust his finger and hips at the same time, crushing you between his dick and powerful fingers in an oddly satisfying combination of sensations. He plays with your pussy, obviously quite experienced with pleasing a woman as he brings you to climax after climax using the dual sensations created by the belly of his hot dogging cock against your [asshole] and the expertise with which he plays with your [pussy]. Then his other hand travels southward and he uses both to tug at the tender lips of your vulva, gently stretching them before pushing them together. He begins to alternate hands, using one to get you off and then the other. ");
-					if (player.vaginas[0].wetness >= 4) outputText("Every time you gush fluid onto his fingers he vibrates his palm, sending uncontrollable shuddering screams into the air as the sensations intensify. ");
+					if (player.vaginas[0].vaginalWetness >= 4) outputText("Every time you gush fluid onto his fingers he vibrates his palm, sending uncontrollable shuddering screams into the air as the sensations intensify. ");
 					outputText("Once he's satisfied with the number of times you've spilled girl cum onto his kitchen floor he pulls his finger from your pleasantly tingling [pussy].");
 					outputText("\n\nThe Rhino puts a hand covered in your juices in front of your [face], \"<i>Lick it.</i>\" He commands and in your post-orgasmic state you don't even think about it, you just stick your [tongue] out and lap up a bit of your own cum. Before you finish he wraps the hand around your lips, smashing your cum into your face as his other wet hand pushes against your back. He begins hot dogging your upturned ass with brutal thrusts that send echoing claps through the room. You can't help clenching your ass cheeks as he roughly humps against you. He smacks your [ass] before the arm holding his cum scented palm to your face pulls back. With a hand now wrapped around your waist he increases the pace and when his thrusts become sloppy you know he's close.");
 				}
@@ -1850,8 +1850,6 @@ package classes.Scenes.Places.Bazaar
 			
 			// Normal TFs
 			//------------
-			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
-
 			if (rand(4) == 0 && changes < changeLimit && player.hairType != HAIR_NORMAL && player.hairType != HAIR_QUILL) {
 				outputText("\n\nYour scalp feels really strange, but the sensation is brief. You feel your hair, and you immediately notice the change. <b>It would seem that your hair is normal again!</b>");
 				player.hairType = HAIR_NORMAL;
@@ -2064,10 +2062,7 @@ package classes.Scenes.Places.Bazaar
 				changes++;
 			}
 			if (rand(4) == 0 && changes < changeLimit && player.echidnaScore() >= 3 && player.hasVagina() && player.findPerk(PerkLib.Oviposition) < 0) {
-				outputText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
-				outputText("(<b>Perk Gained: Oviposition</b>)");
-				player.createPerk(PerkLib.Oviposition, 0, 0, 0, 0);
-				changes++;
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			if (rand(3) == 0 && (rand(2) == 0 || !player.inHeat) && player.hasVagina() && player.statusEffectv2(StatusEffects.Heat) < 30) {
 				player.goIntoHeat(true);

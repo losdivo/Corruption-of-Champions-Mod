@@ -193,6 +193,15 @@ public function doThatTestingThang():void
 * 26 [if (player.isBiped) IS A BIPEDDDDD | not a biped. Wat?]
 * 27 \[if (player.isBipd) IS A BIPEDDDDD | not a biped. Wat?\]
 * 27 [if (player.isBipd) IS A BIPEDDDDD | not a biped. Wat?]
+* 28 \[if (player.tailType != 0)wagging your \[tail\]\]
+* 28 [if (player.tailType != 0)wagging your [tail]]
+* 29 \[if (player.tailType != 0)wagging your \[tail\]|\[butt\] in the air\]
+* 29 [if (player.tailType != 0)wagging your [tail]|[butt] in the air]
+* 30 \[if (tallness >= 100)tall|not very tall\]
+* 30 [if (tallness >= 100)tall|not very tall]
+* 31 you feel your \[if (tallness >= 120)frame|\[if (tallness >= 80)smaller frame|much smaller frame\]\] surrounded 
+* 31 you feel your [if (tallness >= 120)frame|[if (tallness >= 80)smaller frame|much smaller frame]] surrounded 
+
 
 
 
@@ -246,6 +255,18 @@ public function doThatTestingThang():void
 * \[arian Eir\] - [arian Eir]
 * \[arian Eirs\] - [arian Eirs]
 * \[arian Emself\] - [arian Emself]
+
+**Benoit**
+
+* \[benoit name\] - [benoit name]
+* \[benoit ey\] - [benoit ey]
+* \[benoit eir\] - [benoit eir]
+* \[benoit eirs\] - [benoit eirs]
+* \[benoit emself\] - [benoit emself]
+* \[benoit Ey\] - [benoit Ey]
+* \[benoit Eir\] - [benoit Eir]
+* \[benoit Eirs\] - [benoit Eirs]
+* \[benoit Emself\] - [benoit Emself]
 
 **NPC Aspect tests**
 

@@ -20,6 +20,7 @@ public function playerMenu():void {
 		return;
 	}
 	combat.plotFight = false; //Clear restriction on item overlaps if not in combat
+	flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID] = ""; //Clear item if stuck
 	if (inDungeon) {
 		kGAMECLASS.dungeons.checkRoom();
 		return;
@@ -36,17 +37,25 @@ public function playerMenu():void {
 
 public function gameOver(clear:Boolean = false):void { //Leaves text on screen unless clear is set to true
 	var textChoices:Number = rand(4);
+	if (silly && rand(5) == 0 && flags[kFLAGS.HARDCORE_MODE] == 0) textChoices = 4 + rand(5); //20% chance of humourous bad end texts.
 	if (clear) clearOutput();
-	outputText("\n\n<font color=\"#800000\">")
+	outputText("\n\n<font color=\"#800000\">");
+	//Standard
 	if (textChoices == 0) outputText("<b>GAME OVER</b>");
 	if (textChoices == 1) outputText("<b>Game over, man! Game over!</b>");
 	if (textChoices == 2) outputText("<b>You just got Bad-Ended!</b>");
-	if (textChoices == 3) outputText("<b>Your adventures have came to an end...</b>");
+	if (textChoices == 3) outputText("<b>Your adventures have come to an end...</b>");
+	//Silly Mode
+	if (textChoices == 4) outputText("<b>Don't lose hope... " + player.short + "! Stay determined!</b>"); //Undertale
+	if (textChoices == 5) outputText("<b>Wasted</b>"); //Grand Theft Auto V
+	if (textChoices == 6) outputText("<b>Ya dun goofed</b>"); //One of the memes
+	if (textChoices == 7) outputText("<b>Git gud</b>");	//One of the memes
+	if (textChoices == 8) outputText("<b>Oh dear, you are bad-ended!</b>");	//Runescape
 	outputText("</font>");
 	//Delete save on hardcore.
 	if (flags[kFLAGS.HARDCORE_MODE] > 0) {
 		outputText("\n\n<b>Error deleting save file.</b>");
-		/*outputText("\n\n<b>Your save file has been deleted as you are on Hardcore Mode!</b>", false);
+		/*outputText("\n\n<b>Your save file has been deleted, as you are on Hardcore Mode!</b>", false);
 		flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] = flags[kFLAGS.HARDCORE_SLOT];
 		var test:* = SharedObject.getLocal(flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION], "/");
 		if (test.data.exists)
@@ -197,7 +206,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 					needNext = true;
 				}
 				else if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && (flags[kFLAGS.SLEEP_WITH] == "Marble" || flags[kFLAGS.SLEEP_WITH] == "") && (player.inte / 5) >= rand(15)) {
-					outputText("\n<b>Your sleep is momentarily disturbed by the sound of imp hands banging against your cabin door. Fortunately, you've locked the door before you've went to sleep.</b>\n");
+					outputText("\n<b>Your sleep is momentarily disturbed by the sound of imp hands banging against your cabin door. Fortunately, you locked the door before you went to sleep.</b>\n");
 					needNext = true;
 				}
 			}
@@ -264,9 +273,9 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 			}
 		}
 		//Diapause!
-		else if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00228] > 0 && (player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0)) {
-			if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00229] == 1) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00229] = 0;
+		else if (flags[kFLAGS.DIAPAUSE_FLUID_AMOUNT] > 0 && (player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0)) {
+			if (flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] == 1) {
+				flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] = 0;
 				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.", false);
 				needNext = true;
 			}
@@ -274,7 +283,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 				flags[kFLAGS.EVENT_PARSER_ESCAPE] = 0;
 				return true;
 			}
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00228]--;
+			flags[kFLAGS.DIAPAUSE_FLUID_AMOUNT]--;
 			if (player.pregnancyAdvance()) needNext = true; //Make sure pregnancy texts aren't hidden
 			if (flags[kFLAGS.EVENT_PARSER_ESCAPE] == 1) {
 				flags[kFLAGS.EVENT_PARSER_ESCAPE] = 0;

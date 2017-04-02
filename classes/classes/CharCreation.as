@@ -31,6 +31,34 @@
 		
 		private var boxNames:ComboBox;
 		
+		private var permeablePerks:Array = [
+			//Transformation Perks
+			PerkLib.Flexibility,
+			PerkLib.Incorporeality,
+			PerkLib.SatyrSexuality,
+			PerkLib.Lustzerker,
+			PerkLib.CorruptedNinetails,
+			PerkLib.EnlightenedNinetails,
+			//Marae's Perks
+			PerkLib.MaraesGiftButtslut,
+			PerkLib.MaraesGiftFertility,
+			PerkLib.MaraesGiftProfractory,
+			PerkLib.MaraesGiftStud,
+			PerkLib.PurityBlessing,
+			//Fire Breath Perks
+			PerkLib.Hellfire,
+			PerkLib.FireLord,
+			PerkLib.Dragonfire,
+			//Other Perks
+			PerkLib.Androgyny,
+			PerkLib.MagicalFertility,
+			PerkLib.MagicalVirility,
+			PerkLib.MilkMaid,
+			PerkLib.Misdirection,
+			PerkLib.RapierTraining,
+			PerkLib.ThickSkin,
+		];
+
 		public function CharCreation() {}
 		
 		public function newGameFromScratch():void {
@@ -407,7 +435,7 @@
 				return;
 			}
 			clearOutput();
-			boxNames.visible = false;
+			if (boxNames != null) boxNames.visible = false;
 			mainView.nameBox.visible = false;
 			player.short = mainView.nameBox.text;
 			if (flags[kFLAGS.LETHICE_DEFEATED] > 0) { //Dirty checking as the NG+ flag is incremented after reincarnating.
@@ -577,6 +605,8 @@
 			player.tone = 45;
 			
 			//Genetalia
+			player.balls = 2;
+			player.ballSize = 1;
 			player.createVagina();
 			player.clitLength = .5;
 			player.createCock();
@@ -1233,7 +1263,7 @@
 			statScreenRefresh();
 			model.time.hours = 11;
 			clearOutput();
-			if (flags[kFLAGS.KAIZO_MODE] > 0) {
+			if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
 				outputText("You are prepared for what is to come. Most of the last year has been spent honing your body and mind to prepare for the challenges ahead. You are the Champion of Ingnam. The one who will journey to the demon realm and guarantee the safety of your friends and family, even though you'll never see them again. You wipe away a tear as you enter the courtyard and see Elder... Wait a minute...\n\n");
 				outputText("Something is not right. Elder Nomur is already dead. Ingnam has been mysteriously pulled into the demon realm and the surroundings look much worse than you've expected. A ruined portal frame stands in the courtyard, obviously no longer functional and instead serves as a grim reminder on the now-ceased tradition of annual sacrifice of Champions. Wooden palisades surround the town of Ingnam and outside the walls, spears are set out and angled as a mean to make the defenses more intimidating. As if that wasn't enough, some of the spears have demonic skulls impaled on them.");
 				flags[kFLAGS.IN_INGNAM] = 1;
@@ -1345,13 +1375,13 @@
 			startTheGame();
 		}
 
-		//KAIZO!
-		private function chooseModeKaizo():void {
-			outputText("You have chosen Kaizo Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?", true);
-			flags[kFLAGS.KAIZO_MODE] = 1;
+		//GRIMDARK!
+		private function chooseModeGrimdark():void {
+			outputText("You have chosen Grimdark Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?", true);
+			flags[kFLAGS.GRIMDARK_MODE] = 1;
 			flags[kFLAGS.HUNGER_ENABLED] = 1;
 			flags[kFLAGS.GAME_DIFFICULTY] = 3;
-			if (flags[kFLAGS.KAIZO_BACKGROUND_UNLOCKED] == 0) flags[kFLAGS.BACKGROUND_STYLE] = 9;
+			if (flags[kFLAGS.GRIMDARK_BACKGROUND_UNLOCKED] == 0) flags[kFLAGS.BACKGROUND_STYLE] = 9;
 			player.hunger = 80;
 			doNext(startTheGame);
 		}	
@@ -1367,7 +1397,7 @@
 			if (debug) outputText("<b>Grimdark mode:</b> (In dev) In the grimdark future, there are only rape and corruptions. Lots of things are changed and Lethice has sent out her minions to wall the borders and put up a lot of puzzles. Can you defeat her in this mode in as few bad ends as possible?\n", false);
 			
 			simpleChoices("Normal", chooseModeNormal, "Survival", chooseModeSurvival, "Realistic", chooseModeRealistic, "Hardcore", chooseModeHardcore, "Brutal HC", chooseModeBrutalHardcore);
-			if (debug) addButton(12, "Grimdark", chooseModeKaizo);
+			if (debug) addButton(12, "Grimdark", chooseModeGrimdark);
 		}
 
 		private function startTheGame():void {
@@ -1376,7 +1406,7 @@
 				trace("Hardcore save file " + flags[kFLAGS.HARDCORE_SLOT] + " created.")
 				getGame().saves.saveGame(flags[kFLAGS.HARDCORE_SLOT])
 			}
-			if (flags[kFLAGS.KAIZO_MODE] > 0) {
+			if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
 				flags[kFLAGS.BACKGROUND_STYLE] = 9;
 			}
 			kGAMECLASS.saves.loadPermObject();
@@ -1392,7 +1422,7 @@
 				else player.setUndergarment(undergarments.C_LOIN);
 				if (player.biggestTitSize() >= 2) player.setUndergarment(undergarments.C_BRA);
 			}
-			if (flags[kFLAGS.KAIZO_MODE] > 0) {
+			if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
 				arrival();
 				return;
 			}
@@ -1511,59 +1541,14 @@
 		}
 		private function permanentizeCost():int {
 			var count:int = 1;
-			//Transformation Perks
-			if (player.perkv4(PerkLib.Flexibility) > 0) count++;
-			if (player.perkv4(PerkLib.Incorporeality) > 0) count++;
-			if (player.perkv4(PerkLib.SatyrSexuality) > 0) count++;
-			if (player.perkv4(PerkLib.Lustzerker) > 0) count++;
-			if (player.perkv4(PerkLib.CorruptedNinetails) > 0) count++;
-			if (player.perkv4(PerkLib.EnlightenedNinetails) > 0) count++;
-			//Marae's Perks
-			if (player.perkv4(PerkLib.MaraesGiftButtslut) > 0) count++;
-			if (player.perkv4(PerkLib.MaraesGiftFertility) > 0) count++;
-			if (player.perkv4(PerkLib.MaraesGiftProfractory) > 0) count++;
-			if (player.perkv4(PerkLib.MaraesGiftStud) > 0) count++;
-			if (player.perkv4(PerkLib.PurityBlessing) > 0) count++;
-			//Fire Breath Perks
-			if (player.perkv4(PerkLib.Hellfire) > 0) count++;
-			if (player.perkv4(PerkLib.FireLord) > 0) count++;
-			if (player.perkv4(PerkLib.Dragonfire) > 0) count++;
-			//Other Perks
-			if (player.perkv4(PerkLib.Androgyny) > 0) count++;
-			if (player.perkv4(PerkLib.MagicalFertility) > 0) count++;
-			if (player.perkv4(PerkLib.MagicalVirility) > 0) count++;
-			if (player.perkv4(PerkLib.MilkMaid) > 0) count++;
-			if (player.perkv4(PerkLib.Misdirection) > 0) count++;
-			if (player.perkv4(PerkLib.RapierTraining) > 0) count++;
-			if (player.perkv4(PerkLib.ThickSkin) > 0) count++;
+
+			for each (var perk:PerkType in permeablePerks)
+				if (player.perkv4(perk) > 0) count++;
+
 			return count;
 		}
 		private function isPermable(perk:PerkType):Boolean {
-			//Transformation Perks
-			if (perk == PerkLib.Flexibility) return true;
-			if (perk == PerkLib.Incorporeality) return true;
-			if (perk == PerkLib.SatyrSexuality) return true;
-			if (perk == PerkLib.Lustzerker) return true;
-			if (perk == PerkLib.CorruptedNinetails) return true;
-			if (perk == PerkLib.EnlightenedNinetails) return true;
-			//Marae's Perks
-			if (perk == PerkLib.MaraesGiftButtslut) return true;
-			if (perk == PerkLib.MaraesGiftFertility) return true;
-			if (perk == PerkLib.MaraesGiftProfractory) return true;
-			if (perk == PerkLib.MaraesGiftStud) return true;
-			//Fire Breath Perks
-			if (perk == PerkLib.Hellfire) return true;
-			if (perk == PerkLib.FireLord) return true;
-			if (perk == PerkLib.Dragonfire) return true;
-			//Other Perks
-			if (perk == PerkLib.Androgyny) return true;
-			if (perk == PerkLib.PurityBlessing) return true;
-			if (perk == PerkLib.MagicalFertility) return true;
-			if (perk == PerkLib.MagicalVirility) return true;
-			if (perk == PerkLib.MilkMaid) return true;
-			if (perk == PerkLib.Misdirection) return true;
-			if (perk == PerkLib.ThickSkin) return true;
-			return false;
+			return permeablePerks.indexOf(perk) != -1;
 		}
 		//Respec
 		private function respecLevelPerks():void {
@@ -1615,7 +1600,8 @@
 			outputText("Would you like to reincarnate and start a new life as a Champion?");
 			doYesNo(reincarnate, ascensionMenu);
 		}
-		private function reincarnate():void {
+		
+		protected function reincarnate():void {
 			flags[kFLAGS.NEW_GAME_PLUS_LEVEL]++;
 			customPlayerProfile = null;
 			newGameGo();
@@ -1654,7 +1640,7 @@
 			player.genderCheck();
 			player.breastRows = [];
 			player.cocks = [];
-			player.vaginas = [];
+			player.vaginas = new Vector.<VaginaClass>();
 			doNext(routeToGenderChoiceReincarnation);
 		}
 		

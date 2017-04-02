@@ -150,7 +150,7 @@
 		{
 			//Base HP
 			var temp:Number = 50 + this.bonusHP;
-			if (flags[kFLAGS.KAIZO_MODE] > 0) {
+			if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
 				temp = (15 * level) + this.bonusHP;
 			}
 			temp += (this.tou * 2);
@@ -522,7 +522,7 @@
 		protected function initGenderless():void
 		{
 			this.cocks = [];
-			this.vaginas = [];
+			this.vaginas = new Vector.<VaginaClass>();
 			initedGenitals = true;
 			if (plural) {
 				this.pronoun1 = "they";

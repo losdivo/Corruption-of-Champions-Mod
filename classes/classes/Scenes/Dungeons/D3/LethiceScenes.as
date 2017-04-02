@@ -46,6 +46,7 @@ package classes.Scenes.Dungeons.D3
 			if (player.cor < 90)
 				goFight();
 			else {
+				outputText("Do you fight Lethice and attempt to overthrow her or join her in ruling over Mareth, spreading even more corruption?");
 				menu();
 				addButton(0,"Fight",goFight);
 				addButton(1,"Consort",joinHer);
@@ -503,13 +504,14 @@ package classes.Scenes.Dungeons.D3
 		{
 			clearOutput();
 			outputText("What name do you give the new woman you and Marae have made?");
+			menu();
+			addButton(0,"Next",redemptionIIIGoName);
 			mainView.nameBox.text = "";
 			mainView.nameBox.visible = true;
 			mainView.nameBox.width = 165;
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
-			menu();
-			addButton(0,"Next",redemptionIIIGoName);
+
 		}
 		
 		private function redemptionIIIGoName():void

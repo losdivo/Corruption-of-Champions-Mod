@@ -67,6 +67,7 @@ public static const TONGUE_SNAKE:int                                            
 public static const TONGUE_DEMONIC:int                                              =   2;
 public static const TONGUE_DRACONIC:int                                             =   3;
 public static const TONGUE_ECHIDNA:int                                              =   4;
+public static const TONGUE_LIZARD:int                                               =   5;
 
 // eyeType
 public static const EYES_HUMAN:int                                                  =   0;
@@ -174,6 +175,7 @@ public static const WING_TYPE_FEATHERED_LARGE:int                               
 public static const WING_TYPE_DRACONIC_SMALL:int                                    =  10;
 public static const WING_TYPE_DRACONIC_LARGE:int                                    =  11;
 public static const WING_TYPE_GIANT_DRAGONFLY:int                                   =  12;
+public static const WING_TYPE_IMP_LARGE:int                                         =  13;
 
 // lowerBody
 public static const LOWER_BODY_TYPE_HUMAN:int                                       =   0;

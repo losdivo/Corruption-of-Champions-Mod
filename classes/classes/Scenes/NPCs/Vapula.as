@@ -186,7 +186,7 @@ package classes.Scenes.NPCs
 					//FLAG THAT THIS SHIT WENT DOWN
 					flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] = 1;
 					//Make sure the camp warning thing is off so she never moves back in.  Bitch be mad.
-					flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00173] = 0;
+					flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] = 0;
 				}
 				//[(if PC corr > 70)
 				if (player.cor > 70 && !(jojo && flags[kFLAGS.JOJO_BIMBO_STATE] >= 3)) outputText("\n\n\"<i><i>Fine. Go fuck off then, I don't need you.  I have a much better and hotter slut now. Don't hesitate to come back if you want some sweet pussy, though.</i>\"");
@@ -199,6 +199,7 @@ package classes.Scenes.NPCs
 				outputText("moved out.");
 				outputText("\n\nMaybe it's past time you brought them around to your way of thinking?");
 				//Amily and Jojo removed from followers. Amily is encounterable again in the Village Place through the corrupted route and Jojo can still meditate with you.]
+				doNext(playerMenu);
 			}
 			else {
 				outputText("\n\nYou assure them that you'll do your best to keep her away from ");

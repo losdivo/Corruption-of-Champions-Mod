@@ -163,6 +163,39 @@ package classes.Items
 			return false;
 		}
 
+		public function removeBassyHair():Boolean
+		{
+			// Failsafe, duh
+			if ([HAIR_BASILISK_PLUME, HAIR_BASILISK_SPINES].indexOf(player.hairType) == -1) return false;
+
+			if (player.hairType == HAIR_BASILISK_PLUME) {
+				// TF blurb derived from losing feathery hair
+				//(long):
+				if (player.hairLength >= 5)
+					outputText("\n\nA lock of your feathery plume droops over your eye.  Before you can blow the offending down away,"
+					          +" you realize the feather is collapsing in on itself."
+					          +" It continues to curl inward until all that remains is a normal strand of hair.");
+				//(short)
+				else
+					outputText("\n\nYou run your fingers through your feathery plume while you await the effects of the item you just ingested."
+					          +" While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing,"
+					          +" merging down into strands of regular hair.");
+
+					outputText("\n\n<b>Your hair is no longer feathery!</b>");
+			} else {
+				outputText("\n\nYou feel a tingling on your scalp. You reach up to your basilisk spines to find out what is happening. The moment"
+					          +" your hand touches a spine, it comes loose and falls in front of you. One after another the other spines fall out,"
+					          +" until all the spines that once decorated your head now lay around you, leaving you with a bald head.");
+
+				outputText("\n\n<b>You realize, that you'll grow normal human hair again!</b>");
+				flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
+				player.hairLength = 0;
+			}
+			player.hairType = HAIR_NORMAL;
+			changes++;
+			return true;
+		}
+
 		public function newLizardSkinTone():String
 		{
 			if (rand(10) == 0) {
@@ -327,7 +360,7 @@ package classes.Items
 						player.hairColor = player.skinTone;                   // hairColor always set to player.skinTone
 						player.hairType = HAIR_BASILISK_SPINES;               // hairType set to basilisk spines
 						player.hairLength = 2;                                // hairLength set to 2 (inches, displayed as ‘short’)
-						flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0; // Hair growth stops
+						flags[kFLAGS.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 1; // Hair growth stops
 						changes++;
 						output.text("\n\n<b>Where your hair would be, you now have a crown of dull reptilian spines!</b>");
 
@@ -380,7 +413,7 @@ package classes.Items
 
 			if (changes >= changeLimit) return 0;
 
-			// Note, that we don't do the score checks anymore. That was just an unly workaround and we don't want to do that again!
+			// Note, that we don't do the score checks anymore. That was just an ugly workaround and we don't want to do that again!
 			switch(tfSource) {
 				case "EmberTFs":
 				case "snakeOil":
@@ -392,6 +425,7 @@ package classes.Items
 					return 0; // Don't change it. So we're done, yay!
 
 				case "reptilum":
+				case "echidnaTFs":
 					if (player.findPerk(PerkLib.Oviposition) >= 0) return 0;
 					outputText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly."
 					          +"  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
@@ -498,6 +532,56 @@ package classes.Items
 				dynStats("sen", 5);
 				changes++;
 				return true;
+			}
+
+			return false;
+		}
+
+		public function gainLizardTongue():Boolean
+		{
+			if (player.tongueType != TONGUE_LIZARD) {
+				outputText("\n\nYour tongue goes numb, making your surprised noise little more than a gurgle as your tongue flops comically. ");
+				switch (player.tongueType) {
+					case TONGUE_SNAKE:
+						outputText("\nSlowly your tongue swells, thickening up until it's about as thick as your thumb, while staying quite "
+					              +" flexible. You drool, your tongue lolling out of your mouth as you slowly begin to regain control of your forked"
+					              +" organ. When you retract your tongue however, you are shocked to find it is much longer than it used to be,"
+					              +" now a foot long. As you cram your newly shifted appendage back in your mouth, you feel a sudden SNAP,"
+					              +" and on inspection, find you've snapped off your fangs! Well, you suppose you needed the room anyway.");
+						break;
+
+					case TONGUE_DEMONIC:
+						outputText("\nYour tongue gently shrinks down, the thick appendage remaining flexible but getting much smaller. There's"
+					              +" little you can do but endure the weird pinching feeling as your tongue eventually settles at being a foot long."
+					              +" The pinching sensation continues as the tip of your tongue morphs, becoming a distinctly forked shape."
+					              +" As you inspect your tongue you slowly regain control, retracting it into your mouth, the forked tips picking up"
+					              +" on things you couldn't taste before.");
+						break;
+
+					case TONGUE_DRACONIC:
+						outputText("\nYour tongue rapidly shrinks down, the thick appendage remaining flexible but getting much smaller. There's"
+					              +" little you can do but endure the weird pinching feeling as your tongue eventually settles at being a foot long."
+					              +" The pinching sensation continues as the tip of your tongue morphs, becoming a distinctly forked shape."
+					              +" As you inspect your tongue you slowly regain control, retracting it into your mouth, the forked tips picking up"
+					              +" on things you couldn't taste before.");
+						break;
+
+					case TONGUE_ECHIDNA:
+						outputText("\nSlowly your tongue swells, thickening up until it’s about as thick as your thumb, while staying long."
+					              +" The tip pinches making you wince, morphing into a distinctly forked shape. As you inspect your tongue you slowly"
+					              +" regain control, retracting it into your mouth, the forked tips picking up on things you couldn't taste before.");
+						break;
+
+					default:
+						outputText("\nSlowly your tongue swells, thickening up until it’s about as thick as your thumb, filling your mouth as you"
+					              +" splutter. It begins lengthening afterwards, continuing until it hangs out your mouth, settling at 1 foot long."
+					              +" The tip pinches making you wince, morphing into a distinctly forked shape. As you inspect your tongue you slowly"
+					              +" regain control, retracting it into your mouth, the forked tips picking up on things you couldn't taste before.");
+				}
+				outputText("\n\n<b>You now have a lizard tongue!</b>");
+				player.tongueType = TONGUE_LIZARD;
+				dynStats("sen", 5); // Sensitivy gain since its forked
+				changes++;
 			}
 
 			return false;

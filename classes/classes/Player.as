@@ -881,7 +881,7 @@ use namespace kGAMECLASS;
 			if (salamanderScore() >= 4)
 			{
 				if (isTaur()) race = "salamander-taur";
-				else race = "salamander-morph";
+				else race = "salamander-" + mf("boy", "girl");
 			}
 			//<mod>
 			if (pigScore() >= 4) 
@@ -1265,7 +1265,7 @@ use namespace kGAMECLASS;
 				lizardCounter++;
 			if (tailType == TAIL_TYPE_LIZARD)
 				lizardCounter++;
-			if (tongueType == TONGUE_SNAKE)
+			if ([TONGUE_LIZARD, TONGUE_SNAKE].indexOf(tongueType) != -1)
 				lizardCounter++;
 			if (lowerBody == LOWER_BODY_TYPE_LIZARD)
 				lizardCounter++;
@@ -1580,7 +1580,7 @@ use namespace kGAMECLASS;
 				if (tailType == 2)
 					mutantCounter--;
 			}
-			return mutantCounter--;
+			return mutantCounter;
 		}
 		
 		//Salamander score
@@ -1618,7 +1618,7 @@ use namespace kGAMECLASS;
 				sirenCounter++;
 			//if (hasCock() && findFirstCockType(CockTypesEnum.ANEMONE) >= 0)
 			//	sirenCounter++;
-			return sirenCounter++;
+			return sirenCounter;
 		}
 		
 		public function pigScore():Number
@@ -1640,7 +1640,7 @@ use namespace kGAMECLASS;
 		public function satyrScore():Number
 		{
 			var satyrCounter:Number = 0;
-			if (lowerBody == LOWER_BODY_TYPE_HOOFED)
+			if (lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
 				satyrCounter++;
 			if (tailType == TAIL_TYPE_GOAT)
 				satyrCounter++;
@@ -1760,6 +1760,85 @@ use namespace kGAMECLASS;
 			if (hasFur() && catCounter >= 6)
 				catCounter++;
 			return catCounter;
+		}
+		public function bimboScore() : Number  
+		{
+			
+			var bimboCounter:Number = 0;
+			if (hasVagina()) {
+				bimboCounter += 2; 
+				if (vaginas[0].vaginalWetness >= VAGINA_WETNESS_SLICK) 
+					bimboCounter++;
+			}
+			if (hasCock()) 
+				bimboCounter -= 2;
+			if (armorName == "bimbo skirt") 
+				bimboCounter += 1;
+			if (findPerk(PerkLib.BimboBrains) >= 0) 
+				bimboCounter += 2;
+			if (findPerk(PerkLib.BimboBody) >= 0) 
+				bimboCounter += 2;
+			if (flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] > 25) 
+				bimboCounter++;
+			if (flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] > 10) 
+				bimboCounter++;				
+			if (biggestTitSize() >= 5) 
+				bimboCounter++;
+			else 
+				bimboCounter += biggestTitSize() / 5.0;
+				
+			if (biggestTitSize() >= 10) 
+				bimboCounter++;
+			else 
+				bimboCounter += biggestTitSize() / 10.0;
+				
+			if (hipRating >= 8) 
+				bimboCounter++;
+			else 
+				bimboCounter += hipRating / 8.0;
+			
+			if (buttRating > 8)
+				bimboCounter++;
+			else 
+				bimboCounter += buttRating / 8.0;
+			
+			if (tone < 15) 
+				bimboCounter++;
+			if (femininity > 80) 
+				bimboCounter++;
+			else if (femininity < 20) 
+				bimboCounter--;
+			else 
+				bimboCounter += (femininity - 50.0) / 30.0
+			
+			if (hairColor == "platinum blonde") 
+				bimboCounter++;
+			if (hairLength > 10) 
+				bimboCounter++;
+			if (inte < 20) 
+				bimboCounter++;
+			if (bimboCounter < 0)  bimboCounter = 0;
+			if (bimboCounter > 20) bimboCounter = 20;
+
+			//if (biggestTitSize() > 5) 
+				//bimboCounter++;
+			//if (biggestTitSize() > 10) 
+				//bimboCounter++;
+			//if (hipRating > 8) 
+				//bimboCounter++;
+			//if (buttRating > 8)
+				//bimboCounter++;
+			//if (tone < 15) 
+				//bimboCounter++;
+			//if (hairColor == "platinum blonde") 
+				//bimboCounter++;
+			//if (hairLength > 10) 
+				//bimboCounter++;
+			//if (inte < 20) 
+				//bimboCounter++;
+			//if (bimboCounter < 0) bimboCounter = 0;
+			//
+			return bimboCounter;
 		}
 		
 		public function lactationQ():Number
@@ -1917,15 +1996,15 @@ use namespace kGAMECLASS;
 				}
 			}
 			if (findPerk(PerkLib.Diapause) >= 0) {
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00228] += 3 + rand(3);
-				flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00229] = 1;
+				flags[kFLAGS.DIAPAUSE_FLUID_AMOUNT] += 3 + rand(3);
+				flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] = 1;
 			}
 
 		}
 
 		public function minoCumAddiction(raw:Number = 10):void {
 			//Increment minotaur cum intake count
-			flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00340]++;
+			flags[kFLAGS.MINOTAUR_CUM_INTAKE_COUNT]++;
 			//Fix if variables go out of range.
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] < 0) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] = 0;
@@ -2274,26 +2353,7 @@ use namespace kGAMECLASS;
 						if (breastRows.length > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
 						if (breastRows.length == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
 					}
-					if (biggestTitSize() >= 8.5 && nippleLength < 2)
-					{
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = 2;
-					}
-					if (biggestTitSize() >= 7 && nippleLength < 1)
-					{
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = 1;
-					}
-					if (biggestTitSize() >= 5 && nippleLength < .75)
-					{
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = .75;
-					}
-					if (biggestTitSize() >= 3 && nippleLength < .5)
-					{
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = .5;
-					}
+
 				}
 				else
 				{
@@ -2309,23 +2369,28 @@ use namespace kGAMECLASS;
 						if (breastRows.length > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
 						if (breastRows.length == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
 					}
-					if (biggestTitSize() >= 8.5 && nippleLength < 2) {
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = 2;
-					}
-					if (biggestTitSize() >= 7 && nippleLength < 1) {
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = 1;
-					}
-					if (biggestTitSize() >= 5 && nippleLength < .75) {
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = .75;
-					}
-					if (biggestTitSize() >= 3 && nippleLength < .5) {
-						outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
-						nippleLength = .5;
-					}
 				}
+			}
+			// Nipples
+			if (biggestTitSize() >= 8.5 && nippleLength < 2) 
+			{
+				if (display) outputText("  A tender ache starts at your [nipples] as they grow to match your burgeoning breast-flesh.", false);
+				nippleLength = 2;
+			}
+			if (biggestTitSize() >= 7 && nippleLength < 1)
+			{
+				if (display) outputText("  A tender ache starts at your [nipples] as they grow to match your burgeoning breast-flesh.", false);
+				nippleLength = 1;
+			}
+			if (biggestTitSize() >= 5 && nippleLength < .75)
+			{
+				if (display) outputText("  A tender ache starts at your [nipples] as they grow to match your burgeoning breast-flesh.", false);
+				nippleLength = .75;
+			}
+			if (biggestTitSize() >= 3 && nippleLength < .5)
+			{
+				if (display) outputText("  A tender ache starts at your [nipples] as they grow to match your burgeoning breast-flesh.", false);
+				nippleLength = .5;
 			}
 		}
 
@@ -2339,6 +2404,12 @@ use namespace kGAMECLASS;
 				if (min > 40) min += 10;
 				else if (min >= 20) min += 20;
 				else min += 40;
+				if (armorName == "bimbo skirt") min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 4;
+			}
+			else if (kGAMECLASS.bimboProgress.ableToProgress()) {
+				if (min > 40) min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 4;
+				else if (min >= 20 ) min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST] / 2;
+				else min += flags[kFLAGS.BIMBOSKIRT_MINIMUM_LUST];
 			}
 			//Omnibus' Gift
 			if (findPerk(PerkLib.OmnibusGift) >= 0) {

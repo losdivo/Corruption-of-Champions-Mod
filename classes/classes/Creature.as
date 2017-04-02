@@ -7,6 +7,7 @@ package classes
 	import classes.StatusEffectType;
 	import classes.Items.JewelryLib;
 	import classes.internals.Utils;
+	import classes.VaginaClass;
 	import classes.Scenes.Places.TelAdre.UmasShop;
 	import flash.display.InteractiveObject;
 
@@ -383,13 +384,33 @@ package classes
 		
 		//FEMALE STUFF
 		//TODO: Box into Female genital class?
-		public var vaginas:Array;
+		public var vaginas:Vector.<VaginaClass>;
 		//Fertility is a % out of 100. 
 		public var fertility:Number = 10;
-		public var clitLength:Number = .5;
+		private var legacyClitLength:Number = VaginaClass.DEFAULT_CLIT_LENGTH;
 		public var nippleLength:Number = .25;
 		public var breastRows:Array;
 		public var ass:AssClass = new AssClass();
+		
+		public function get clitLength():Number {
+			if(!hasVagina()) {
+				//TODO throw a error in the future
+				trace("Error: legacy get clit length without a vagina!");
+				return legacyClitLength;
+			}else{
+				return vaginas[0].clitLength;
+			}
+		}
+		
+		public function set clitLength(clitLength:Number):void {
+			if(!hasVagina()) {
+				 //TODO throw a error in the future
+				 trace("Error: legacy set clit length without a vagina!");
+				 legacyClitLength = clitLength;
+			}else{
+			 	vaginas[0].clitLength = clitLength;
+			}
+		}
 		
 		private var _femininity:Number = 50;
 		public function get femininity():Number {
@@ -497,8 +518,7 @@ package classes
 			//cocks = new Array();
 			//The world isn't ready for typed Arrays just yet.
 			cocks = [];
-			vaginas = [];
-			//vaginas: Vector.<Vagina> = new Vector.<Vagina>();
+			vaginas = new Vector.<VaginaClass>();
 			breastRows = [];
 			_perks = [];
 			statusEffects = [];
@@ -506,7 +526,7 @@ package classes
 		}
 
 		//Functions			
-		public function orgasm():void
+		public function orgasmReal():void
 		{
 			game.dynStats("lus=", 0, "res", false);
 			hoursSinceCum = 0;
@@ -518,6 +538,46 @@ package classes
 				game.outputText("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n" );
 				gems += bonusGems;
 			}
+		}
+		public function orgasm(type:String = 'Default', real:Boolean = true):void
+		{
+			switch (type) {
+				// Start with that, whats easy
+				case 'Vaginal': if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_VAGINAL] < 10) flags[kFLAGS.TIMES_ORGASM_VAGINAL]++; break;
+				case 'Anal':    if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_ANAL]    < 10) flags[kFLAGS.TIMES_ORGASM_ANAL]++;    break;
+				case 'Dick':    if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_DICK]    < 10) flags[kFLAGS.TIMES_ORGASM_DICK]++;    break;
+				case 'Lips':    if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_LIPS]    < 10) flags[kFLAGS.TIMES_ORGASM_LIPS]++;    break;
+				case 'Tits':    if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_TITS]    < 10) flags[kFLAGS.TIMES_ORGASM_TITS]++;    break;
+				case 'Nipples': if (kGAMECLASS.bimboProgress.ableToProgress() || flags[kFLAGS.TIMES_ORGASM_NIPPLES] < 10) flags[kFLAGS.TIMES_ORGASM_NIPPLES]++; break;
+				case 'Ovi':     break;
+
+				// Now to the more complex types
+				case 'VaginalAnal':
+					orgasm((hasVagina() ? 'Vaginal' : 'Anal'), real);
+					return; // Prevent calling orgasmReal() twice
+
+				case 'DickAnal':
+					orgasm((rand(2) == 0 ? 'Dick' : 'Anal'), real);
+					return;
+
+				case 'Default':
+				case 'Generic':
+				default:
+					if (!hasVagina() && !hasCock()) {
+						orgasm('Anal'); // Failsafe for genderless PCs
+						return;
+					}
+
+					if (hasVagina() && hasCock()) {
+						orgasm((rand(2) == 0 ? 'Vaginal' : 'Dick'), real);
+						return;
+					}
+
+					orgasm((hasVagina() ? 'Vaginal' : 'Dick'), real);
+					return;
+			}
+
+			if (real) orgasmReal();
 		}
 
 		public function newGamePlusMod():int
@@ -1455,20 +1515,24 @@ package classes
 			}
 		}
 		
-		public function vaginalCapacity():Number
-		{
-			//If the player has no vaginas
-			if (vaginas.length == 0)
-				return 0;
-			var total:Number;
+		/**
+		 * Get the vaginal capacity bonus based on body type, perks and the bonus capacity status.
+		 * 
+		 * @return the vaginal capacity bonus for this creature
+		 */
+		private function vaginalCapacityBonus():Number {
 			var bonus:Number = 0;
-			//Centaurs = +50 capacity
-			if (isTaur())
-				bonus = 50;
-			//Naga = +20 capacity
-			else if (lowerBody == 3)
-				bonus = 20;
-			//Wet pussy provides 20 point boost
+			
+			if (!hasVagina()) {
+				return 0;
+			}
+
+			if (isTaur()){
+				bonus += 50;
+			}else if (lowerBody == LOWER_BODY_TYPE_NAGA){
+				bonus += 20;
+			}
+
 			if (findPerk(PerkLib.WetPussy) >= 0)
 				bonus += 20;
 			if (findPerk(PerkLib.HistorySlut) >= 0)
@@ -1481,8 +1545,20 @@ package classes
 				bonus += 25;
 			if (findPerk(PerkLib.FerasBoonMilkingTwat) >= 0)
 				bonus += 40;
-			total = (bonus + statusEffectv1(StatusEffects.BonusVCapacity) + 8 * vaginas[0].vaginalLooseness * vaginas[0].vaginalLooseness) * (1 + vaginas[0].vaginalWetness / 10);
-			return total;
+				
+			bonus += statusEffectv1(StatusEffects.BonusVCapacity);	
+				
+			return bonus;
+		}
+		
+		public function vaginalCapacity():Number
+		{
+			if (!hasVagina()) {
+				return 0;
+			}
+				
+			var bonus:Number = vaginalCapacityBonus();
+			return vaginas[0].capacity(bonus);
 		}
 		
 		public function analCapacity():Number
@@ -1990,14 +2066,23 @@ package classes
 				return false;
 			return (cocks[0].cockLength >= 20);
 		}
-		
+
+		public static const canFlyWings:Array = [
+			WING_TYPE_BEE_LIKE_LARGE,
+			WING_TYPE_BAT_LIKE_LARGE,
+			WING_TYPE_FEATHERED_LARGE,
+			WING_TYPE_DRACONIC_LARGE,
+			WING_TYPE_GIANT_DRAGONFLY,
+			WING_TYPE_IMP_LARGE,
+		];
+
 		//PC can fly?
 		public function canFly():Boolean
 		{
 			//web also makes false!
 			if (findStatusEffect(StatusEffects.Web) >= 0)
 				return false;
-			return _wingType == 2 || _wingType == 7 || _wingType == 9 || _wingType == 11 || _wingType == 12;
+			return canFlyWings.indexOf(_wingType) != -1;
 
 		}
 
@@ -2310,8 +2395,7 @@ package classes
 			var stretched:Boolean = false;
 			//cArea > capacity = autostreeeeetch half the time.
 			if (cArea >= analCapacity() && rand(2) == 0) {
-				if (ass.analLooseness >= 5) {}
-				else ass.analLooseness++;
+				ass.analLooseness++;
 				stretched = true;
 				//Reset butt stretchin recovery time
 				if (findStatusEffect(StatusEffects.ButtStretched) >= 0) changeStatusValue(StatusEffects.ButtStretched,1,0);
@@ -2331,6 +2415,7 @@ package classes
 				ass.analLooseness++;
 				stretched = true;
 			}
+			if (ass.analLooseness > 5) ass.analLooseness = 5;
 			//Delay un-stretching
 			if (cArea >= .5 * analCapacity()) {
 				//Butt Stretched used to determine how long since last enlargement
@@ -2344,41 +2429,15 @@ package classes
 			return stretched;
 		}
 
-		public function cuntChangeNoDisplay(cArea:Number):Boolean{
+		public function cuntChangeNoDisplay(cArea : Number) : Boolean {
 			if (vaginas.length == 0) return false;
-			var stretched:Boolean = false;
-			if (findPerk(PerkLib.FerasBoonMilkingTwat) < 0 || vaginas[0].vaginalLooseness <= VAGINA_LOOSENESS_NORMAL) {
-			//cArea > capacity = autostreeeeetch.
-			if (cArea >= vaginalCapacity()) {
-				if (vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS_LEVEL_CLOWN_CAR) {}
-				else vaginas[0].vaginalLooseness++;
-				stretched = true;
-			}
-			//If within top 10% of capacity, 50% stretch
-			else if (cArea >= .9 * vaginalCapacity() && rand(2) == 0) {
-				vaginas[0].vaginalLooseness++;
-				stretched = true;
-			}
-			//if within 75th to 90th percentile, 25% stretch
-			else if (cArea >= .75 * vaginalCapacity() && rand(4) == 0) {
-				vaginas[0].vaginalLooseness++;
-				stretched = true;
-				}
-			}
-			//If virgin
-			if (vaginas[0].virgin) {
-				vaginas[0].virgin = false;
-			}
-			//Delay anti-stretching
+			var stretched : Boolean = vaginas[0].stretch(cArea, findPerk(PerkLib.FerasBoonMilkingTwat) < 0);
+			
+			// Delay stretch recovery
 			if (cArea >= .5 * vaginalCapacity()) {
-				//Cunt Stretched used to determine how long since last enlargement
-				if (findStatusEffect(StatusEffects.CuntStretched) < 0) createStatusEffect(StatusEffects.CuntStretched,0,0,0,0);
-				//Reset the timer on it to 0 when restretched.
-				else changeStatusValue(StatusEffects.CuntStretched,1,0);
+				vaginas[0].resetRecoveryProgress();
 			}
-			if (stretched) {
-				trace("CUNT STRETCHED TO " + (vaginas[0].vaginalLooseness) + ".");
-			}
+			
 			return stretched;
 		}
 		
@@ -3401,8 +3460,8 @@ package classes
 		}
 		
 		public function damageToughnessModifier(displayMode:Boolean = false):Number {
-			//Return 0 if Kaizo
-			if (flags[kFLAGS.KAIZO_MODE] > 0) return 0;
+			//Return 0 if Grimdark
+			if (flags[kFLAGS.GRIMDARK_MODE] > 0) return 0;
 			//Calculate
 			var temp:Number = 0;
 			if (tou < 25) temp = (tou * 0.4);

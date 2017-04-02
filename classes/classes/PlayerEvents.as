@@ -7,6 +7,11 @@ package classes {
 	public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 		//Handles all timeChange events for the player. Needed because player is not unique.
 		
+		public static const VAGINA_RECOVER_THRESHOLD_LOOSE:Number = 200;
+		public static const VAGINA_RECOVER_THRESHOLD_GAPING:Number = 100;
+		public static const VAGINA_RECOVER_THRESHOLD_GAPING_WIDE:Number = 70;
+		public static const VAGINA_RECOVER_THRESHOLD_CLOWN_CAR:Number = 50;
+		
 		public function PlayerEvents():void
 		{
 			CoC.timeAwareClassAdd(this);
@@ -81,7 +86,7 @@ package classes {
 				var multiplier:Number = 1.0
 				if (player.findPerk(PerkLib.Survivalist) >= 0) multiplier -= 0.2;
 				if (player.findPerk(PerkLib.Survivalist2) >= 0) multiplier -= 0.2;
-				if (flags[kFLAGS.KAIZO_MODE] > 0) multiplier *= 2;
+				if (flags[kFLAGS.GRIMDARK_MODE] > 0) multiplier *= 2;
 				//Hunger drain rate. If above 50, 1.5 per hour. Between 25 and 50, 1 per hour. Below 25, 0.5 per hour.
 				//So it takes 100 hours to fully starve from 100/100 to 0/100 hunger. Can be increased to 125 then 166 hours with Survivalist perks.
 				if (prison.inPrison) {
@@ -326,7 +331,7 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (player.flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00285] >= 50 && player.findPerk(PerkLib.LuststickAdapted) < 0) { //Luststick resistance unlock
+			if (player.flags[kFLAGS.LUSTSTICK_RESISTANCE_PROGRESS] >= 50 && player.findPerk(PerkLib.LuststickAdapted) < 0) { //Luststick resistance unlock
 				getGame().sophieBimbo.unlockResistance();
 				if (player.findStatusEffect(StatusEffects.Luststick) >= 0) player.removeStatusEffect(StatusEffects.Luststick);
 				needNext = true;
@@ -471,7 +476,7 @@ package classes {
 			if (getGame().mountain.minotaurScene.minoCumUpdate()) {
 				needNext = true;
 			}
-			else if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] >= 2 && getGame().model.time.hours % 13 == 0 && flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00330] == 0) { //Repeated warnings!
+			else if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] >= 2 && getGame().model.time.hours % 13 == 0 && flags[kFLAGS.MINOTAUR_SONS_CUM_REPEAT_COOLDOWN] == 0) { //Repeated warnings!
 				if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] == 2)
 					outputText("\n<b>You shiver, feeling a little cold.  Maybe you ought to get some more minotaur cum?  You just don't feel right without that pleasant buzz in the back of your mind.</b>\n");
 				else if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] == 3)
@@ -479,8 +484,8 @@ package classes {
 				needNext = true;
 			}
 			//Decrement mino withdrawal symptoms display cooldown
-			//flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00330] prevents PC getting two of the same notices overnite
-			else if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00330] > 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00330]--;
+			//flags[kFLAGS.MINOTAUR_SONS_CUM_REPEAT_COOLDOWN] prevents PC getting two of the same notices overnite
+			else if (flags[kFLAGS.MINOTAUR_SONS_CUM_REPEAT_COOLDOWN] > 0) flags[kFLAGS.MINOTAUR_SONS_CUM_REPEAT_COOLDOWN]--;
 			if (player.findPerk(PerkLib.FutaForm) >= 0) { //Futa checks
 				if (!player.hasCock()) { //(Dick regrowth)
 					player.createCock();
@@ -662,7 +667,10 @@ package classes {
 				if (player.statusEffectv1(StatusEffects.LactationReduction) >= 48) {
 					if (player.findStatusEffect(StatusEffects.LactationReduc0) < 0) {
 						player.createStatusEffect(StatusEffects.LactationReduc0, 0, 0, 0, 0);
-						if (player.biggestLactation() >= 1) outputText("\n<b>Your " + player.nippleDescript(0) + "s feel swollen and bloated, needing to be milked.</b>\n");
+						if (player.biggestLactation() >= 1) {
+							outputText("\n<b>Your " + player.nippleDescript(0) + "s feel swollen and bloated, needing to be milked.</b>\n");
+							player.orgasm('Tits',false);
+						}
 						if (player.biggestLactation() <= 2) player.createStatusEffect(StatusEffects.LactationReduc1, 0, 0, 0, 0);
 						if (player.biggestLactation() <= 1) player.createStatusEffect(StatusEffects.LactationReduc2, 0, 0, 0, 0);
 						needNext = true;
@@ -681,42 +689,49 @@ package classes {
 					if (player.biggestLactation() < 1 && player.findStatusEffect(StatusEffects.LactationReduc3) < 0) {
 						player.createStatusEffect(StatusEffects.LactationReduc3, 0, 0, 0, 0);
 						outputText("\n<b>Your body no longer produces any milk.</b>\n");
+						needNext = true;
+					}
+					if (player.biggestLactation() == 0 && player.findStatusEffect(StatusEffects.LactationReduc3) >= 0) {
 						player.removeStatusEffect(StatusEffects.LactationReduction);
 						needNext = true;
 					}
+					
 				}
 			}
-			if (player.findStatusEffect(StatusEffects.CuntStretched) >= 0) { //Cunt stretching stuff
-				player.addStatusValue(StatusEffects.CuntStretched, 1, 1);
-				if (player.vaginas.length > 0) {
-					if (player.findPerk(PerkLib.FerasBoonWideOpen) < 0) {
-						if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_LOOSE && player.statusEffectv1(StatusEffects.CuntStretched) >= 200) {
-							outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals, tightening up a bit.\n");
-							player.vaginas[0].vaginalLooseness--;
-							player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
-							needNext = true;
-						}
-						if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING && player.statusEffectv1(StatusEffects.CuntStretched) >= 100) {
-							outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals, tightening up a bit.\n");
-							player.vaginas[0].vaginalLooseness--;
-							player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
-							needNext = true;
-						}
-						if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING_WIDE && player.statusEffectv1(StatusEffects.CuntStretched) >= 70) {
-							outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals and becomes tighter.\n");
-							player.vaginas[0].vaginalLooseness--;
-							player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
-							needNext = true;
-						}
-					}
-					if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_LEVEL_CLOWN_CAR && player.statusEffectv1(StatusEffects.CuntStretched) >= 50) {
-						outputText("\nYour " + player.vaginaDescript(0) + " recovers from the brutal stretching it has received and tightens up a little bit, but not much.\n");
+			
+			
+			if (player.vaginas.length > 0) {
+				player.vaginas[0].recoveryProgress++;
+				var recoveryProgress:int = player.vaginas[0].recoveryProgress;
+				
+				if (player.findPerk(PerkLib.FerasBoonWideOpen) < 0) {
+					if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_LOOSE && recoveryProgress >= VAGINA_RECOVER_THRESHOLD_LOOSE) {
+						outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals, tightening up a bit.\n");
 						player.vaginas[0].vaginalLooseness--;
-						player.changeStatusValue(StatusEffects.CuntStretched, 1, 0);
+						player.vaginas[0].resetRecoveryProgress();
+						needNext = true;
+					}
+					if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING && recoveryProgress >= VAGINA_RECOVER_THRESHOLD_GAPING) {
+						outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals, tightening up a bit.\n");
+						player.vaginas[0].vaginalLooseness--;
+						player.vaginas[0].resetRecoveryProgress();
+						needNext = true;
+					}
+					if (player.vaginas[0].vaginalLooseness == VAGINA_LOOSENESS_GAPING_WIDE && recoveryProgress >= VAGINA_RECOVER_THRESHOLD_GAPING_WIDE) {
+						outputText("\nYour " + player.vaginaDescript(0) + " recovers from your ordeals and becomes tighter.\n");
+						player.vaginas[0].vaginalLooseness--;
+						player.vaginas[0].resetRecoveryProgress();
 						needNext = true;
 					}
 				}
+				if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS_LEVEL_CLOWN_CAR && recoveryProgress >= VAGINA_RECOVER_THRESHOLD_CLOWN_CAR) {
+					outputText("\nYour " + player.vaginaDescript(0) + " recovers from the brutal stretching it has received and tightens up a little bit, but not much.\n");
+					player.vaginas[0].vaginalLooseness--;
+					player.vaginas[0].resetRecoveryProgress();
+					needNext = true;
+				}
 			}
+			
 			if (player.findStatusEffect(StatusEffects.ButtStretched) >= 0) { //Butt stretching stuff
 				player.addStatusValue(StatusEffects.ButtStretched, 1, 1);
 				if (player.ass.analLooseness == 2 && player.statusEffectv1(StatusEffects.ButtStretched) >= 72) {
@@ -737,7 +752,7 @@ package classes {
 					player.changeStatusValue(StatusEffects.ButtStretched, 1, 0);
 					needNext = true;
 				}
-				if (player.ass.analLooseness == 5 && player.statusEffectv1(StatusEffects.ButtStretched) >= 12) {
+				if (player.ass.analLooseness >= 5 && player.statusEffectv1(StatusEffects.ButtStretched) >= 12) {
 					outputText("\n<b>Your " + player.assholeDescript() + " recovers from the brutal stretching it has received and tightens up.</b>\n");
 					player.ass.analLooseness--;
 					player.changeStatusValue(StatusEffects.ButtStretched, 1, 0);
@@ -812,12 +827,6 @@ package classes {
 					needNext = true;
 				}
 			}
-			if (getGame().model.time.hours == 6 && player.armorName == "bimbo skirt" && rand(10) == 0 && player.biggestTitSize() < 12) {
-				outputText("\n<b>As you wake up, you feel a strange tingling starting in your nipples that extends down into your breasts.  After a minute, the tingling dissipates in a soothing wave.  As you cup your tits, you realize they've gotten larger!</b>");
-				player.growTits(1, player.bRows(), false, 2);
-				getGame().dynStats("lus", 10);
-				needNext = true;
-			}
 			if (flags[kFLAGS.BIKINI_ARMOR_BONUS] > 0) {
 				if (player.armorName == "lusty maiden's armor") {
 					if (getGame().model.time.hours == 0) flags[kFLAGS.BIKINI_ARMOR_BONUS]--; //Adjust for inflation
@@ -845,10 +854,10 @@ package classes {
 				flags[kFLAGS.BENOIT_HAIRPIN_TALKED_TODAY] = 0;
 				getGame().bazaar.benoit.updateBenoitInventory();
 				flags[kFLAGS.ROGAR_FUCKED_TODAY] = 0;
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00285] > 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00285]--; //Reduce lust-stick resistance building
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00155] > 0) { //Dominika fellatrix countdown
-					flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00155]--;
-					if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00155] < 0) flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00155] = 0;
+				if (flags[kFLAGS.LUSTSTICK_RESISTANCE_PROGRESS] > 0) flags[kFLAGS.LUSTSTICK_RESISTANCE_PROGRESS]--; //Reduce lust-stick resistance building
+				if (flags[kFLAGS.DOMINIKA_LEARNING_COOLDOWN] > 0) { //Dominika fellatrix countdown
+					flags[kFLAGS.DOMINIKA_LEARNING_COOLDOWN]--;
+					if (flags[kFLAGS.DOMINIKA_LEARNING_COOLDOWN] < 0) flags[kFLAGS.DOMINIKA_LEARNING_COOLDOWN] = 0;
 				}
 				if (flags[kFLAGS.LOPPE_DENIAL_COUNTER] > 0) { //Loppe denial counter
 					flags[kFLAGS.LOPPE_DENIAL_COUNTER]--;
@@ -982,7 +991,7 @@ package classes {
 					return true;
 				}
 				var ceraph:int; //Ceraph's dreams - overlaps normal night-time dreams.
-				switch (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00218] + flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00219] + flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00220]) {
+				switch (flags[kFLAGS.CERAPH_DICKS_OWNED] + flags[kFLAGS.CERAPH_PUSSIES_OWNED] + flags[kFLAGS.CERAPH_TITS_OWNED]) {
 					case  0: ceraph =  0; break; //If you've given her no body parts then Ceraph will not cause any dreams
 					case  1: ceraph = 10; break; //Once every 10 days if 1, once every 7 days if 2, once every 5 days if 3
 					case  2: ceraph =  7; break;
@@ -994,7 +1003,7 @@ package classes {
 					getGame().ceraphScene.ceraphBodyPartDreams();
 					return true;
 				}
-				if (flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00157] > 0 && flags[kFLAGS.UNKNOWN_FLAG_NUMBER_00157] < 4) { //Dominika Dream
+				if (flags[kFLAGS.DOMINIKA_SPECIAL_FOLLOWUP] > 0 && flags[kFLAGS.DOMINIKA_SPECIAL_FOLLOWUP] < 4) { //Dominika Dream
 					outputText("\n<b>Your rest is somewhat troubled with odd dreams...</b>\n");
 					getGame().telAdre.dominika.fellatrixDream();
 					return true;
@@ -1034,6 +1043,14 @@ package classes {
 					if (player.cocks[i].cockThickness > 99.9) player.cocks[i].cockThickness = 99.9;
 				}
 			}
+			
+			//Bimbo transformation
+			if (getGame().bimboProgress.ableToProgress() && getGame().bimboProgress.readyToProgress()) {
+				
+				return getGame().bimboProgress.bimboDoProgress();
+
+			}
+			
 			//Randomly change weather post-game
 			if (flags[kFLAGS.GAME_END] > 0 && flags[kFLAGS.WEATHER_CHANGE_COOLDOWN] <= 0) {
 				var randomWeather:int = rand(100);
