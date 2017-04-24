@@ -2,10 +2,12 @@
 package classes.Scenes.Dungeons 
 {
     import classes.*;
+    import classes.Scenes.Areas.HighMountains.MinotaurMob;
     import classes.Scenes.Areas.Mountain.Minotaur;
 	import classes.GlobalFlags.kGAMECLASS;
     import classes.GlobalFlags.kFLAGS;
     import classes.Scenes.Dungeons.DungeonCore;
+    import classes.Scenes.Quests.UrtaQuest.MinotaurLord;
     
     
 	
@@ -82,6 +84,7 @@ package classes.Scenes.Dungeons
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
             outputText("You stay before an entrance to a minotaur's cavern. You decide to enter the caverns, but you know you may be lost there forever\n");
             dungeons.setDungeonButtons(null, null, null, roomMazeEast);
+            flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] = 0;
         }
         
         private function     setMazeRoom (direction:String = 'hall') : void {
@@ -117,35 +120,110 @@ package classes.Scenes.Dungeons
             }
             dungeons.setDungeonButtons(north,south,west,east);
         }
+        public  function     roomMazeDescriptionQuiet(direction:String = 'hall') : void {
+            
+            var choice : Number = rand(4);
+            if  (choice == 0) {
+                outputText("You are wandering in the dimly lit caverns. The walls are rough and cold. ");
+            }
+            else if (choice == 1) {
+                outputText("You walk past a dimly lit torch. You realize that you may be totally lost here. ");
+            }
+            else if (choice == 2) {
+                outputText("You think you see a movement in the shadows, but it is just flickering light of a torch. ");
+            }
+            else if (choice == 3) {
+                outputText("A strong feeling of deja vu raise in your head. The walls look too familiar. Have you already been here? ");
+            }
+            if (rand(4) == 0) {
+                outputText("You hear a rambling of a stones in the distance. Or maybe you are hallucinating. ");
+            }
+            
+            if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] > 0 && minoCumAddictionStrength() > 0) {
+                if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 2) outputText("You feel thin smell of minotaurs cum in the air. ");
+                else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 4) outputText("You feel a smell of minotaurs cum in the air. It is quite arousing. "); 
+                else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 6) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
+                else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 8) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
+                else outputText("The incredibly strong smell of minotaurs cum make your head drum. With a great effort you try to focus yourself on walking. ");
+            }
+            outputText("\n\n");
+            
+            choice = 0;
+            if (direction == 'east') {
+                if (rand(2) == 0) choice = 1;
+            }
+            else {
+                if (rand(4) == 0) choice = 2;
+                else if (rand(6) == 0) choice = 1;
+            }
+            if (choice == 1) {
+                if (rand(2) == 0) outputText("Under you feet you see a puddle of something white. You turn in disgust. ");
+                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] += 1;
+            }
+            else if (choice == 2) {
+                if (rand(2) == 0) outputText("You feel a gust of fresh air. ");
+                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] -= 1;
+                if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 0) flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] = 0;
+            }
+        }
+
+        
         public  function     roomMazeEast():void     {
-            clearOutput();
-            outputText("You are wondering in the maze\n\n");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ROOME;
+            clearOutput();
+            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]) + 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
+                     
+            if (rand(4) == 0) {
+                mazeMinotaurEncounter();
+                return;
+            }            
+            roomMazeDescriptionQuiet('east');
             setMazeRoom('east');
+            // fight ?
+
         }
         public function     roomMazeWest():void     {
-            clearOutput();
-            outputText("You guess you may be lost in a labirynth\n\n");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ROOMW;
+            clearOutput();
+            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]) + 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
+            if (rand(3) == 0) {
+                mazeMinotaurEncounter();
+                return;
+            }
+            roomMazeDescriptionQuiet('west');
             setMazeRoom('west');
             
         }
         public function     roomMazeNorth():void    {
-            clearOutput();
-            outputText("You think you see a movement in the shadows, but it is just flickering light of a torch.\n\n");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ROOMN;
+            clearOutput();
+            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]) + 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
+            if (rand(5) == 0) {
+                mazeMinotaurEncounter();
+                return;
+            }
+            
+            roomMazeDescriptionQuiet('north');
             setMazeRoom('north');
         }
         public function     roomMazeSouth():void    {
-            clearOutput();
-            outputText("Under you feet you see a puddle of something white. You turn in disgust.\n\n");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ROOMS;
+            clearOutput();
+            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]) + 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
+            if (rand(5) == 0) {
+                mazeMinotaurEncounter();
+                return;
+            }
+            
+            roomMazeDescriptionQuiet('south');
             setMazeRoom('south');
         }
         public function     roomMazeHall():void {
             clearOutput();
             outputText("You step into a large hall");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_HALL;
+            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]) + 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
+            
             setMazeRoom();
         }
         public function     roomMazeExit(): void {
@@ -153,6 +231,23 @@ package classes.Scenes.Dungeons
             outputText("Finally, you exit the labirynth");
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_EXIT;
             dungeons.setDungeonButtons(null,null,roomMazeWest, exitDungeon);
+        }
+        
+        
+        public function     mazeMinotaurEncounter() : void {
+            outputText("You encountered a minotaur\n\n");
+            if (rand(3) == 0) startCombat(new MinotaurLord(), false);
+            else startCombat(new Minotaur(), false);
+            monster.createStatusEffect(StatusEffects.MinoMazeFight, 0, 0, 0, 0);
+            doNext(playerMenu);
+            return;
+        }
+        
+        public function     mazeMinotaurLoss() : void {
+            doNext(playerMenu);
+        }
+        public function     mazeMinotaurWin()  : void {
+            doNext(playerMenu);
         }
         
         public function     fightMinoGuard() : void {
@@ -196,8 +291,21 @@ package classes.Scenes.Dungeons
 	        getGame().gameOver();
 	        dynStats("int", -1, "lib", 5, "sen", 30, "lus=", 100, "cor", 20);
         }
+        
+        private function    minoCumAddictionStrength () : Number {
+            if (flags[kFLAGS.MINOTAUR_CUM_INTAKE_COUNT] > 0 || flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] > 0 || player.findPerk(PerkLib.MinotaurCumAddict) >= 0 || player.findPerk(PerkLib.MinotaurCumResistance) >= 0) {
+                
+				if (player.findPerk(PerkLib.MinotaurCumAddict) < 0)
+                    return flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] / 100;
+				else if (player.findPerk(PerkLib.MinotaurCumResistance) >= 0)
+                    return 0;
+				else
+                    return 1;
+			}
+            else return 0;
+            
+        }
 	}
-    
-    
+
 
 }

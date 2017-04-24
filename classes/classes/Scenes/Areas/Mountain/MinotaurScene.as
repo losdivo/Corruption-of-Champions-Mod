@@ -1655,6 +1655,10 @@ private function minoMutualPt3(x:Number):void
                 monster.removeStatusEffect(StatusEffects.MinoTownFight);
                 getGame().dungeons.minotown.fightMinotaurWin();
             }
+            if (monster.hasStatusEffect(StatusEffects.MinoMazeFight)) {
+                monster.removeStatusEffect(StatusEffects.MinoMazeFight);
+                getGame().dungeons.minotown.mazeMinotaurWin();
+            }
             
         }
         public function playerLostToMinotaur    ():void {
@@ -1662,6 +1666,10 @@ private function minoMutualPt3(x:Number):void
             if (monster.hasStatusEffect(StatusEffects.MinoTownFight)) {
                 monster.removeStatusEffect(StatusEffects.MinoTownFight);
                 getGame().dungeons.minotown.fightMinotaurLoss();
+            }
+            if (monster.hasStatusEffect(StatusEffects.MinoMazeFight)) {
+                monster.removeStatusEffect(StatusEffects.MinoMazeFight);
+                getGame().dungeons.minotown.mazeMinotaurLoss();
             }
             
         }
