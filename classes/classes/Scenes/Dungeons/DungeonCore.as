@@ -5,6 +5,7 @@ package classes.Scenes.Dungeons
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Scenes.Dungeons.D3.D3;
+    import flash.display.InteractiveObject;
 	
 	import coc.view.MainView;
 	
@@ -74,6 +75,17 @@ package classes.Scenes.Dungeons
 		public static const DUNGEON_ANZU_ROOF:int 				= 52;
 		public static const DUNGEON_ANZU_BASEMENT:int 			= 53;
 		public static const DUNGEON_ANZU_ARMORY:int 			= 54;
+		//MinoTown 
+		public static const DUNGEON_MINO_ENTRANCE:int           = 85;
+        public static const DUNGEON_MINO_FIREPIT:int            = 86;
+        public static const DUNGEON_MINO_MAZE_ENTRANCE:int      = 87;
+        public static const DUNGEON_MINO_MAZE_ROOMN:int         = 88;
+        public static const DUNGEON_MINO_MAZE_ROOMS:int         = 89;
+        public static const DUNGEON_MINO_MAZE_ROOME:int         = 90;
+        public static const DUNGEON_MINO_MAZE_ROOMW:int         = 91;
+        public static const DUNGEON_MINO_MAZE_HALL:int          = 93;
+        public static const DUNGEON_MINO_MAZE_EXIT:int          = 94;
+        
 		
 		public function DungeonCore() {}
 		
@@ -85,6 +97,7 @@ package classes.Scenes.Dungeons
 		public var heltower:HelDungeon = new HelDungeon;
 		public var palace:AnzuPalace = new AnzuPalace;
 		public var cabin:YourCabin = new YourCabin;
+		public var minotown:MinoTown = new MinoTown;
 		
 		public var map:DungeonMap = new DungeonMap;
 		
@@ -152,6 +165,21 @@ package classes.Scenes.Dungeons
 			if (kGAMECLASS.dungeonLoc == DUNGEON_ANZU_ROOF) palace.roomRoof();
 			if (kGAMECLASS.dungeonLoc == DUNGEON_ANZU_BASEMENT) palace.roomBasement();
 			if (kGAMECLASS.dungeonLoc == DUNGEON_ANZU_ARMORY) palace.roomArmory();
+            //MinoTown
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_ENTRANCE)         minotown.roomEntrance();        
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_FIREPIT)          minotown.roomFirePit();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ENTRANCE)    minotown.roomMazeEntrance();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMN)       minotown.roomMazeNorth();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMS)       minotown.roomMazeSouth();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMW)       minotown.roomMazeWest();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOME)       minotown.roomMazeEast();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_EXIT)        minotown.roomMazeExit();            
+            
+            
+            
+            
+            
+            
 		}
 		
 		public function checkFactoryClear():Boolean {

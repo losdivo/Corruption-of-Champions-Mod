@@ -2118,6 +2118,7 @@ private function dungeons():void {
 	//Side dungeons
 	if (flags[kFLAGS.DISCOVERED_WITCH_DUNGEON] > 0) addButton(5, "Desert Cave", getGame().dungeons.desertcave.enterDungeon, null, null, null, "Visit the cave you've found in the desert." + (flags[kFLAGS.SAND_WITCHES_COWED] + flags[kFLAGS.SAND_WITCHES_FRIENDLY] > 0 ? "\n\nFrom what you've known, this is the source of the Sand Witches." : "") + (kGAMECLASS.dungeons.checkSandCaveClear() ? "\n\nCLEARED!" : ""));
 	if (kGAMECLASS.dungeons.checkPhoenixTowerClear()) addButton(6, "Phoenix Tower", getGame().dungeons.heltower.returnToHeliaDungeon, null, null, null, "Re-visit the tower you went there as part of Helia's quest." + (kGAMECLASS.dungeons.checkPhoenixTowerClear() ? "\n\nYou've helped Helia in the quest and resolved the problems. \n\nCLEARED!" : ""));
+	addButton(7, "Minotaur Town", getGame().dungeons.minotown.enterDungeon, null, null, null, "Visit the minotaurs village in the mountains.");
 		//Fetish Church?
 		//Hellhound Dungeon?
 	//Non-hostile dungeons
