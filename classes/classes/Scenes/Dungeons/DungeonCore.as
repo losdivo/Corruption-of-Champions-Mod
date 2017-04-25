@@ -79,12 +79,12 @@ package classes.Scenes.Dungeons
 		public static const DUNGEON_MINO_ENTRANCE:int           = 85;
         public static const DUNGEON_MINO_FIREPIT:int            = 86;
         public static const DUNGEON_MINO_MAZE_ENTRANCE:int      = 87;
-        public static const DUNGEON_MINO_MAZE_ROOMN:int         = 88;
-        public static const DUNGEON_MINO_MAZE_ROOMS:int         = 89;
-        public static const DUNGEON_MINO_MAZE_ROOME:int         = 90;
-        public static const DUNGEON_MINO_MAZE_ROOMW:int         = 91;
-        public static const DUNGEON_MINO_MAZE_HALL:int          = 93;
-        public static const DUNGEON_MINO_MAZE_EXIT:int          = 94;
+        public static const DUNGEON_MINO_MAZE_ROOM_NORTH:int    = 88;
+        public static const DUNGEON_MINO_MAZE_ROOM_SOUTH:int    = 89;
+        public static const DUNGEON_MINO_MAZE_ROOM_EAST:int     = 90;
+        public static const DUNGEON_MINO_MAZE_ROOM_WEST:int     = 91;
+        public static const DUNGEON_MINO_MAZE_HALL:int          = 92;
+        public static const DUNGEON_MINO_MAZE_EXIT:int          = 93;
         
 		
 		public function DungeonCore() {}
@@ -169,10 +169,11 @@ package classes.Scenes.Dungeons
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_ENTRANCE)         minotown.roomEntrance();        
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_FIREPIT)          minotown.roomFirePit();
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ENTRANCE)    minotown.roomMazeEntrance();
-            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMN)       minotown.roomMazeNorth();
-            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMS)       minotown.roomMazeSouth();
-            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOMW)       minotown.roomMazeWest();            
-            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOME)       minotown.roomMazeEast();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOM_NORTH)  minotown.roomMazeNorth();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOM_SOUTH)  minotown.roomMazeSouth();
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOM_WEST)   minotown.roomMazeWest();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOM_EAST)   minotown.roomMazeEast();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_HALL)        minotown.roomMazeHall();
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_EXIT)        minotown.roomMazeExit();            
             
             

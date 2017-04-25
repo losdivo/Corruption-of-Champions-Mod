@@ -353,14 +353,15 @@
 			}
 		}
 
-		public function minotaurCum(purified:Boolean, player:Player):void
+		public function minotaurCum(purified:Boolean, player:Player,bottled:Boolean = true):void
 		{
 			player.slimeFeed();
 			clearOutput();
 			//Minotaur cum addiction
 			if (!purified) player.minoCumAddiction(7);
-			else player.minoCumAddiction(-2);
-			outputText("As soon as you crack the seal on the bottled white fluid, a ", false);
+			else player.minoCumAddiction( -2);
+            if (bottled) outputText("As soon as you crack the seal on the bottled white fluid, a ", false);
+            else         outputText("A ", false);
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] == 0 && player.findPerk(PerkLib.MinotaurCumResistance) < 0) outputText("potent musk washes over you.", false);
 			else outputText("heavenly scent fills your nostrils.", false);
 			if (!purified) {
@@ -368,7 +369,8 @@
 				else outputText("  It makes you feel euphoric, happy, and willing to do ANYTHING to keep feeling this way.", false);
 			}
 			else outputText("  You know that the bottle is purified and you're positive you won't get any addiction from this bottle.");
-			outputText("  Unbidden, your hand brings the bottle to your lips, and the heady taste fills your mouth as you convulsively swallow the entire bottle.", false);
+            if (bottled) outputText("  Unbidden, your hand brings the bottle to your lips, and the heady taste fills your mouth as you convulsively swallow the entire bottle.", false);
+            else outputText("  The heady taste fills your mouth as you convulsively swallow.", false);
 			//-Raises lust by 10.
 			//-Raises sensitivity
 			dynStats("sen", 1, "lus", 10);
@@ -2972,11 +2974,16 @@
 			player.createPerk(PerkLib.PurityBlessing, 0, 0, 0, 0);
 		}
 		
-		public function lactaid(player:Player):void
+		public function lactaid(player:Player, bottled:Boolean = true):void
 		{
 			player.slimeFeed();
 			var i:Number = 0;
-			outputText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.", true);
+            if (bottled) {
+			    outputText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.", true);
+            }
+            else {
+                outputText("You gulp down creamy liquid.", true);
+            }
 			//Bump up size!
 			if (player.averageBreastSize() < 8) {
 				outputText("\n\n", false);
@@ -3104,7 +3111,7 @@
 		 If the player's nipples are larger than 1 inch in length, this item is guaranteed to give them quad nipples.  This applies to all their breasts; seems like it ould be a good compromise on whether or not cowgirls should have 4 breasts.
 		 Very small chance to increase fertility (normally this increase would only happen when the player forces a creature to drink their milk).
 		 */
-		public function laBova(tainted:Boolean,enhanced:Boolean,player:Player):void
+		public function laBova(tainted:Boolean,enhanced:Boolean,player:Player,fromBottle:Boolean = true):void
 		{
 			var tfSource:String = "laBova";
 			player.slimeFeed();
@@ -3125,10 +3132,13 @@
 			//LaBova:
 			//ItemDesc: "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off.  "
 			//ItemUseText:
-			outputText("You drink the ", true);
-			if (enhanced) outputText("Pro Bova", false);
-			else outputText("La Bova", false);
-			outputText(".  The drink has an odd texture, but is very sweet.  It has a slight aftertaste of milk.", false);
+            if (fromBottle) {
+			    outputText("You drink the ", true);
+			    if (enhanced) outputText("Pro Bova", false);
+			    else outputText("La Bova", false);
+                outputText(".  ");
+            }
+			outputText("The drink has an odd texture, but is very sweet.  It has a slight aftertaste of milk.", false);
 			//Possible Item Effects:
 			//STATS
 			//Increase player str:
