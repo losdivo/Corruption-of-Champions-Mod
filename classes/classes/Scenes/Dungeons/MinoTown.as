@@ -9,14 +9,15 @@ package classes.Scenes.Dungeons
     import classes.Scenes.Dungeons.DungeonCore;
     import classes.Scenes.Quests.UrtaQuest.MinotaurLord;
     import flash.display.InteractiveObject;
-    
+    import classes.Scenes.Dungeons.MinoTown.MinoMazeScene;
     
 	
 	public class MinoTown extends DungeonAbstractContent
 	{
-		
+		private var maze:MinoMazeScene = new MinoMazeScene;
         
 		public  function MinoTown() {
+            
 			
 		}
 		
@@ -80,12 +81,15 @@ package classes.Scenes.Dungeons
             }
             
         }
+        public  function    roomMaze() : void {
+            maze.enterRoom();
+        }
 		
         public  function    roomMazeEntrance() : void {
             clearOutput();
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
             outputText("You stay before an entrance to a minotaur's cavern. You decide to enter the caverns, but you know you may be lost there forever\n");
-            dungeons.setDungeonButtons(null, null, null, roomMazeEastEnter);
+            dungeons.setDungeonButtons(null, null, roomFirePit, maze.enterMaze);
             flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] = 0;
             if (!player.hasStatusEffect(StatusEffects.MinoMazeStatsBackup)) {
                 player.createStatusEffect(StatusEffects.MinoMazeStatsBackup,0,0,0,0); 
@@ -108,71 +112,12 @@ package classes.Scenes.Dungeons
                 player.createStatusEffect(StatusEffects.MinoMazeConfiguration,0,0,0,0);
             }
             
-            var north:int = 0; 
-            var south:int = 0;
-            var west:int  = 0;
-            var east:int  = 0;
-        
-            // Regular maze - random sideways + going back
-            if (rand(3) == 0 || kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST)  east  = DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST;
-            if (rand(3) == 0 || kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST)  west  = DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST;
-            if (rand(3) == 0 || kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH) south = DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH;
-            if (rand(3) == 0 || kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH) north = DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH;
+            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST) maze.goToRoom(maze.WEST);
+            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST) maze.goToRoom(maze.EAST);
+            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH) maze.goToRoom(maze.NORTH);
+            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH) maze.goToRoom(maze.SOUTH);
             
-            // Hall
-            if (rand(4) == 0 && south == 0) south = DungeonCore.DUNGEON_MINO_MAZE_HALL;
-            if (rand(4) == 0 && north == 0) north = DungeonCore.DUNGEON_MINO_MAZE_HALL;
-            if (north == 0 && south == 0 && west == 0 && east == 0) {
-                east  = DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST;
-                west  = DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST;
-            }
-
-            
-            // Exit 
-            var familiarity:int = 15 - flags[kFLAGS.MINOTOWN_MAZE_TIMES_PASSED]*2;
-            if (familiarity < 5) familiarity = 5;
-            familiarity = 20;
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST && rand(familiarity) == 0) east = DungeonCore.DUNGEON_MINO_MAZE_EXIT;
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST && rand(familiarity) == 0) west = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
-            
-            player.changeStatusValue(StatusEffects.MinoMazeConfiguration, 1, north);
-            player.changeStatusValue(StatusEffects.MinoMazeConfiguration, 2, south);
-            player.changeStatusValue(StatusEffects.MinoMazeConfiguration, 3, west);
-            player.changeStatusValue(StatusEffects.MinoMazeConfiguration, 4, east);
-            
-            // Description
-            if (!player.hasStatusEffect(StatusEffects.MinoMazeDescription)) {
-                player.createStatusEffect(StatusEffects.MinoMazeDescription,0,0,0,0);
-            }
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 1, rand(4)); // General layout of the room
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 2, rand(3) == 0 ? 1 : 0); // Comments on minotaur cum smell
-                        
-            var choice:int = 0;
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST) {
-                choice = 1;
-            }
-            else {
-                if (rand(4) == 0) choice = 2;
-                else if (rand(6) == 0) choice = 1;
-            }
-            if  (choice == 1) {
-                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] += 1;
-                if (rand(2) == 0) choice = 0;
-            }
-            else if (choice == 2) { 
-                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] -= 1;
-                if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 0) flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] = 0;
-                if (rand(2) == 0) choice = 0;
-            }
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_HALL) {
-                choice = rand(5);
-                if (choice < 3)  choice = 0;
-                if (choice == 3) choice = 1;
-                if (choice == 4) choice = 2;
-                if (rand(10) == 0) choice = 3;
-            }
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 3, choice); // Cum puddle && wind gust
-
+      
         }
         
         public  function    roomMazeFunction (location:int = 0):Function {
@@ -240,11 +185,11 @@ package classes.Scenes.Dungeons
             
         }
         public  function    roomMazeConfiguration() : void {
-            var north:Function = roomMazeFunction(player.statusEffectv1(StatusEffects.MinoMazeConfiguration));
-            var south:Function = roomMazeFunction(player.statusEffectv2(StatusEffects.MinoMazeConfiguration));
-            var west:Function  = roomMazeFunction(player.statusEffectv3(StatusEffects.MinoMazeConfiguration));
-            var east:Function  = roomMazeFunction(player.statusEffectv4(StatusEffects.MinoMazeConfiguration));
-            dungeons.setDungeonButtons(north,south,west,east);
+            //var north:Function = maze.minoMazeFunction(player.statusEffectv1(StatusEffects.MinoMazeConfiguration));
+            //var south:Function = roomMazeFunction(player.statusEffectv2(StatusEffects.MinoMazeConfiguration));
+            //var west:Function  = roomMazeFunction(player.statusEffectv3(StatusEffects.MinoMazeConfiguration));
+            //var east:Function  = roomMazeFunction(player.statusEffectv4(StatusEffects.MinoMazeConfiguration));
+            //dungeons.setDungeonButtons(north,south,west,east);
         }
            
         private function    roomMazeEastEnter() : void {
@@ -253,7 +198,7 @@ package classes.Scenes.Dungeons
             mazeStatusUpdate();
             
             generateMazeRoom();
-            if (rand(4) == 0 || player.lust >= player.maxLust()) {
+            if (rand(400) == 0 || player.lust >= player.maxLust()) {
                 mazeMinotaurEncounter();
             }
             else roomMazeEast();
@@ -264,7 +209,7 @@ package classes.Scenes.Dungeons
             mazeStatusUpdate();
             
             generateMazeRoom();
-            if (rand(3) == 0 || player.lust >= player.maxLust()) {
+            if (rand(300) == 0 || player.lust >= player.maxLust()) {
                 mazeMinotaurEncounter();
             }
             else roomMazeWest();
@@ -275,7 +220,7 @@ package classes.Scenes.Dungeons
             mazeStatusUpdate();
             
             generateMazeRoom();
-            if (rand(5) == 0 || player.lust >= player.maxLust()) {
+            if (rand(500) == 0 || player.lust >= player.maxLust()) {
                 mazeMinotaurEncounter();
             }
             else roomMazeNorth();
@@ -286,7 +231,7 @@ package classes.Scenes.Dungeons
             mazeStatusUpdate();
             
             generateMazeRoom();
-            if (rand(5) == 0 || player.lust >= player.maxLust()) {
+            if (rand(500) == 0 || player.lust >= player.maxLust()) {
                 mazeMinotaurEncounter();
             }
             else roomMazeSouth();
@@ -389,7 +334,7 @@ package classes.Scenes.Dungeons
         public function     mazeStatusUpdate():void {
             dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]));
             dynStats("lus", 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
-            dynStats("lus", rand(player.cowScore() + player.minoScore()) * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] * 0.5);
+            dynStats("lus", rand(player.cowScore() ) * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] * 0.5);
             if (flags[kFLAGS.HUNGER_ENABLED] > 0) {
                 player.damageHunger(rand(10) / 10);
                 if (player.hunger < 25) { 

@@ -85,6 +85,7 @@ package classes.Scenes.Dungeons
         public static const DUNGEON_MINO_MAZE_ROOM_WEST:int     = 91;
         public static const DUNGEON_MINO_MAZE_HALL:int          = 92;
         public static const DUNGEON_MINO_MAZE_EXIT:int          = 93;
+        public static const DUNGEON_MINO_MAZE:int               = 94;
         
 		
 		public function DungeonCore() {}
@@ -175,6 +176,7 @@ package classes.Scenes.Dungeons
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_ROOM_EAST)   minotown.roomMazeEast();            
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_HALL)        minotown.roomMazeHall();
             if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE_EXIT)        minotown.roomMazeExit();            
+            if (kGAMECLASS.dungeonLoc == DUNGEON_MINO_MAZE)             minotown.roomMaze();
             
             
             
