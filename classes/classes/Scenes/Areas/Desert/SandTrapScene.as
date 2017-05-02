@@ -39,7 +39,9 @@ public function encounterASandTarp():void {
 			if (player.inte > 65) outputText("Something about this scene puts you on edge.  How come you've never encountered quicksand in this desert before, with no water and its steady, stubborn, but not violent winds?  There's something odd about the man, too - although he probably isn't a demon, you can't quite make his features out clearly through the heat haze.  ");
 			outputText("You think you could just about reach him with your hand if you were careful.  If you're going to save him, it has to be now; even in the short time you've been here he has sunk down to his collarbone.  He stares at you with plaintive despair.");
 		}
-		simpleChoices("Save", saveTheSandTarps, "Don't Save", dontSaveTheTarps, "", null, "", null, "", null);
+		menu();
+		addButton(0, "Save", saveTheSandTarps);
+		addButton(1, "Don't Save", dontSaveTheTarps);
 	}
 	else {
 		//Standard encounter: 
@@ -48,7 +50,9 @@ public function encounterASandTarp():void {
 			outputText("\n\nMoving as quickly and lightly as you can, you manage to hop clear of the sandtrap's pitfall and claw your way up a relatively stable dune.  You turn to take the androgynous creature in, half buried in its deep hollow.");
 			outputText("\n\n\"<i>You've got quick feet, little ant!</i>\" it giggles.  It lowers its brow and leers up at you with smouldering black eyes, its hands slowly and sensuously trailing patterns in the sand.  \"<i>I bet you're good at lots of other things, too.  Why doesn't the brave little ant come down here and show me?</i>\"  If you're going to fight this creature, you will have to step into its treacherous hollow to get in range, which is surely its intention - if you try launching things at it from where you are, it will probably just hide itself.  On the other hand, it would be easy to just ignore its taunts and walk away.");
 			//Fight]/[Leave]
-			simpleChoices("Fight", startSandTarpFight, "", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
+			menu();
+			addButton(0, "Fight", startSandTarpFight);
+			addButton(14, "Leave", camp.returnToCampUseOneHour);
 		}
 		//Speed check fail: 
 		else {
@@ -111,7 +115,9 @@ private function dontSaveTheTarps():void {
 	outputText(" midriff exposed and glamour gone, the creature looks quite different; six eyes as black as its hair look at you hungrily from its beautiful androgynous face, whilst four slender arms trail patterns in the sand around its willowy, flat-chested midsection.  It wriggles its body tauntingly at you, making the sand beneath it move ponderously.  You glimpse insect chitin beneath its flat humanoid belly; the buried half of this creature must be monstrous.");
 	outputText("\n\n\"<i>You aren't as slow as you look, little ant,</i>\" it calls up to you, grinning slyly.  It speaks in a buzzing, fluttering voice which is nothing like the one it attempted to entice you into its trap with.  \"<i>Why don't you come down here and dance for me some more?  I'm sure a quick, strong traveller like you could run rings around a simple little sandtrap like me.</i>\"  If you're going to fight this creature, you will have to step into its treacherous hollow to get in range, which is surely its intention - if you try launching things at it from where you are, it will probably just hide itself.  On the other hand, it would be easy to just ignore its taunts and walk away.");
 	//[Fight]/[Leave]
-	simpleChoices("Fight", startSandTarpFight, "", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
+	menu();
+	addButton(0, "Fight", startSandTarpFight);
+	addButton(14, "Leave", camp.returnToCampUseOneHour);
 }
 
 
@@ -156,31 +162,43 @@ internal function pcBeatsATrap():void {
 	//PC lust victory: 
 	else outputText("The sand around you stops sinking.  Overpowered with lust, the sandtrap moans and gives up control over itself and its pit to desperately run one set of hands over its flat chest whilst the other pushes into the sand to masturbate... whatever it has down there.  With your foe in this state, climbing out won't be so difficult now.");
 	
-	var nagaThreeSome:Function = null;
-	var putYourDickInIt:Function = null;
-	var rideDatSantTrap:Function = null;
-	var useSandTarpsHand:Function = null;
-	var bikiniTits:Function = null;
-	if (player.hasVagina() && player.biggestTitSize() >= 4 && player.armorName == "lusty maiden's armor") bikiniTits = createCallBackFunction2((player.armor as LustyMaidensArmor).lustyMaidenPaizuri,player,monster);
-	//Requirements: Player is naga with tail and fangs, has met desert naga as naga at least once
-	if (player.isNaga() && player.hasStatusEffect(StatusEffects.Naga) && player.gender > 0 && player.faceType == FACE_SNAKE_FANGS) nagaThreeSome = nagaThreesomeWithSandTrap;
+	if (flags[kFLAGS.SFW_MODE] > 0) {
+		combat.cleanupAfterCombat();
+		return;
+	}
 	
-	//Requires: Penis and str requirement
-	if (player.hasCock() && player.str >= 60) putYourDickInIt = stickWangInSandgina;
-	
-	//\"<i>Ride</i>\" (Z)
-	if (player.hasVagina()) rideDatSantTrap = rideDatSandTarpLikeIts1999;
-	//\"<i>Hands</i>\" (Z)
-	if (player.gender > 0) useSandTarpsHand = useSandTarpsHands;
+	menu();
+	addDisabledButton(0, "Naga3Some", "This scene requires you to have naga body with genitals and another friendly naga around.", "Naga Treesome");
+	addDisabledButton(1, "UseYourCock", "This scene requires you to have cock and to be strong enough.", "Use Your Cock");
+	addDisabledButton(2, "RideVaginal", "This scene requires you to have vagina.");
+	addDisabledButton(3, "Handjob", "This scene requires you to have genitals.");
+	// Button 4 is used for Lusty Maidens Armor special scene and is hidden without it
 	
 	//additional victory sentence if PC lust over 30: 
 	if (player.lust >= 33) {
 		outputText("\n\nBefore you go, you take in the helpless body of your would-be ambusher.  What do you do?");
-		
-		choices("Naga3Some", nagaThreeSome, "UseYourCock", putYourDickInIt, "RideVaginal", rideDatSantTrap, "Handjob", useSandTarpsHand, "", null,
-			"", null, "", null, "", null, "B.Titfuck", bikiniTits, "Leave", combat.cleanupAfterCombat);
+		//Requirements: Player is naga with tail and fangs, has met desert naga as naga at least once
+		if (player.isNaga() && player.hasStatusEffect(StatusEffects.Naga) && !player.isGenderless() && player.faceType == FACE_SNAKE_FANGS) {
+			addButton(0, "Naga3Some", nagaThreesomeWithSandTrap, undefined, undefined, undefined, "Call your friend for a treesome.", "Naga Treesome");
+		}
+		//Requires: Penis and str requirement
+		if (player.hasCock() && player.str >= 60) {
+			addButton(1, "UseYourCock", stickWangInSandgina);
+		}
+		//\"<i>Ride</i>\" (Z)
+		if (player.hasVagina()) {
+			addButton(2, "RideVaginal", rideDatSandTarpLikeIts1999);
+		}
+		//\"<i>Hands</i>\" (Z)
+		if (!player.isGenderless()) {
+			addButton(3, "Handjob", useSandTarpsHands);
+		}
+		if (player.hasVagina() && player.biggestTitSize() >= 4 && player.armorName == "lusty maiden's armor") {
+			addButton(4, "B.Titfuck", (player.armor as LustyMaidensArmor).lustyMaidenPaizuri, player, monster);
+		}
 	}
-	else combat.cleanupAfterCombat();
+	
+	addButton(14, "Leave", combat.cleanupAfterCombat);
 }
 
 //Male/Herm loss (Z)

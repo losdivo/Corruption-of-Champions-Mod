@@ -80,9 +80,15 @@ package classes.Scenes.Dungeons.DeepCave
 			outputText("You search the room for a way to free the fairy from her shackles and find an ugly, iron key that looks like a promising candidate. Opening the rusted metal with a teeth-clenching screech, the girl slumps to the ground in an ungainly heap. The fall seems to have roused her, at least, because she blinks, slowly, several times before lifting her head to stare blankly at you. You try to explain that she's free, but it's clear that thoughts are travelling through a pretty thick haze of abuse, so you take a moment to let her gather herself. When she's managed to assemble what wits are left to her, she slowly curls her mouth into a hopeful smile. \"<i>How can Bitch please Master?</i>\" she asks in an innocent voice tainted by husky desire.\n\n", false);
 			outputText("You bend down to comfort the girl and offer her a shoulder to lean on as you help her to her feet. As you expected, the weight of her milky tits nearly surpasses the rest of her body. She clings to you happily, stroking and rubbing her bare skin against your body. She is adamantly ignoring your efforts to dissuade her amorous advances, merely cooing \"<i>master</i>\" and \"<i>pleasure</i>\" over and over again. If you had the right materials, you might be able to mix something to heal the damage her captors have done to the fairy's mind.\n\n", false);
 			//Choicez go here.  I can haz fucks?
-			simpleChoices("", null, "", null, "Reject", rejectFuckingVala, "", null, "", null);
+			menu();
+			
 			if (player.hasItem(consumables.PURHONY, 1) || player.hasItem(consumables.P_PEARL, 1) || player.hasItem(consumables.PPHILTR, 1)) addButton(0, "Fix Her", healVala);
+			else addDisabledButton(0, "Fix Her", "You could try to fix her with some anti-corruption potion, but you have none.");
+			
 			if (player.gender > 0) addButton(1, "Sex", ValaGetsSexed);
+			else addDisabledButton(1, "Sex", "You must have genitals in order to have sex.");
+			
+			addButton(3, "Reject", rejectFuckingVala);
 		}
 		
 		//[Heal]
@@ -242,20 +248,27 @@ package classes.Scenes.Dungeons.DeepCave
 			}
 			outputText("\n\nWhat would you like to do to her?", false);
 			//[Heal][Use][Wake][Leave]
-			var Use:* = null;
-			var Wake:* = null;
-			if (player.gender > 0) Use = useValaOHYEAHSNAPINTOASLIMJIM;
-			if (player.gender > 0) Wake = wakeValaUpBeforeYouGoGo;
-			var shouldra:Function = null;
-			if (player.lust >= 33 && kGAMECLASS.shouldraFollower.followerShouldra()) shouldra = kGAMECLASS.shouldraFollower.shouldraMeetsCorruptVala;
-			simpleChoices("Fix Her", tryToHealVala, "Use", Use, "Wake", Wake, "ShouldraVala", shouldra, "Leave", playerMenu);
+			menu();
+			addButton(0, "Fix Her", tryToHealVala);
+			addDisabledButton(1, "Use", "This scene requires you to have genitals.");
+			addDisabledButton(2, "Wake", "This scene requires you to have genitals.");
+			addDisabledButton(3, "ShouldraVala", "This scene requires you to have Shouldra follower.");
+			
+			if (!player.isGenderless()) {
+				addButton(1, "Use", useValaOHYEAHSNAPINTOASLIMJIM);
+				addButton(2, "Wake", wakeValaUpBeforeYouGoGo);
+			}
+			if (player.lust >= 33 && kGAMECLASS.shouldraFollower.followerShouldra()) {
+				addButton(3, "ShouldraVala", kGAMECLASS.shouldraFollower.shouldraMeetsCorruptVala);
+			}
+			addButton(14, "Leave", playerMenu);
 		}
 		
 		public function tryToHealVala():void {
 			spriteSelect(85);
 			clearOutput();
 			//(Without Pure Honey)
-			if (!(player.hasItem(consumables.PURHONY,1) || player.hasItem(consumables.P_PEARL,1))) {
+			if (!(player.hasItem(consumables.PURHONY,1) || player.hasItem(consumables.P_PEARL,1) || player.hasItem(consumables.PPHILTR,1))) {
 				outputText("You try your best with what you've got, but nothing seems to restore the broken fairy's mind to her sex-addled  body. You're going to have to go out and gather more materials. Surely there's something that can break the damage the imps have done to Vala.", false);
 				doNext(playerMenu);
 			}
@@ -268,6 +281,17 @@ package classes.Scenes.Dungeons.DeepCave
 				
 				//[Next]
 				doNext(tryToHealValaWHoney2);
+			}
+			else if (player.hasItem(consumables.PPHILTR,1)) {
+				player.consumeItem(consumables.PPHILTR, 1);
+				outputText("You have the hunch that Purity Philter will do the trick. You set the broken girl down and she clings onto your ", false);
+				if (player.lowerBody == LOWER_BODY_TYPE_NAGA) outputText("tail", false);
+				else outputText(player.leg(), false);
+				outputText(" as you walk, and you end up dragging her across the dungeon floor leaving a trail of her cum behind you. Before things can get too out of hand with the needy girl, you pull out the vial of Purity Philter and forcibly hold her mouth open. She makes no protestation, instead gleefully opens wide, tongue thrashing about in anticipation. You pour the entire cool liquid into her mouth. Freezing sensations surges through her as she stiffens, feeling almost frozen in place.\n\n", false);
+				outputText("The effects of your cure are more potent than you expected. The fairy lays stiffly and you wait patiently for a few minutes. Gradually, her motions slow and her breath calms to a more normal pace. When she looks back up at you, her eyes are clear at last, the pollution of lust burned away by the honey's restorative properties. She gives you a genuine smile and speaks with a voice like the rushing of wind over reeds. \"<i>Thank you. I cannot express my gratitude for what you've done. The fate you've saved me from was worse than any death these wretched creatures could have subjected me to.</i>\"", false);
+				//[Next]
+				flags[kFLAGS.FREED_VALA] = 1;
+				doNext(playerMenu);
 			}
 			else {
 				//Pure Pearl
@@ -471,7 +495,7 @@ package classes.Scenes.Dungeons.DeepCave
 
 				outputText("She needs no additional urging, and wraps her whip-thin arms around your " + player.buttDescript() + " with a grip like steel. Her corruption-strengthened dragonfly wings flutter uselessly for a moment, but as your excitement begins to drip warm fluid onto her tongue, she flaps like she means it.  ", false);
 				//(PC Has Wings: 
-				if (player.wingType > WING_TYPE_NONE) outputText("You decide to give her a hand, and flap your " + player.wingDesc + " as hard as you can, the added thrust giving her the start she needs.  ", false);
+				if (player.wingType > WING_TYPE_NONE) outputText("You decide to give her a hand, and flap your [wings] as hard as you can, the added thrust giving her the start she needs.  ", false);
 				
 				outputText("Like a hummingbird on coffee, the fairy's wings blur as she pulls the two of you into the air and a thrill of glee sends shivers down your spine as the two of you slowly circle the room, clinging to each other in a desperate 69. Under her well-practiced mouth, you can feel your " + player.vaginaDescript(0) + " drooling nearly as much as the fey girl's, your utter dominion of the fairy delighting you nearly to the verge of orgasm.\n\n", false);
 
@@ -483,7 +507,7 @@ package classes.Scenes.Dungeons.DeepCave
 				
 				outputText("She needs no additional urging, and wraps her whip-thin legs around your " + player.hipDescript() + " with a grip like steel. Her corruption-strengthened dragonfly wings flutter uselessly for a moment, but as your excitement begins to leak globs of pre-cum into her sucking box, she flaps like she means it. ", false);
 				//(PC Has Wings: 
-				if (player.wingType > WING_TYPE_NONE) outputText("You decide to give her a hand, and flap your " + player.wingDesc + " as hard as you can, the added thrust giving her the start she needs.  ", false);
+				if (player.wingType > WING_TYPE_NONE) outputText("You decide to give her a hand, and flap your [wings] as hard as you can, the added thrust giving her the start she needs.  ", false);
 				outputText("Like a hummingbird on coffee, the fairy's wings blur as she pulls the two of you into the air and a thrill of glee sends shivers down your spine as the two of you slowly circle the room, you mounting her doggy-style, hands gripping her ribs as you lean over her. The tight clenching of her overburdened flight turns her loose pussy into a tight, clenching sphincter that practically milks your shaft with every heartbeat.\n\n", false); 
 				
 				outputText("She makes a short circuit around the room, slowing enough to savor each thrust, your pounding giving her a short burst of speed as you ride the bitch through the air, every muscle in both of your bodies tense with the effort. You're still not convinced she's been sufficiently humbled, however, so you thread your arms under her wings and loop your hands around the sides of her face. You slide your forefingers into her mouth and hook the fingers to pull her cheeks wide open. Like a horse's reins, you jerk the fairy's head back and wrap your other fingers under her jaw, fully controlling her head. She tries to speak, but slurs the words, drool gushing from her wrenched mouth. You guide her head up, and she rises, descending when you yank it down. Satisfied that she understands your commands, you decide that it's time to take your mare through her paces.", false);
@@ -573,8 +597,6 @@ package classes.Scenes.Dungeons.DeepCave
 		//[Vala]
 		public function chooseValaInBar():void {
 			spriteSelect(60);
-			var cumBath:Function = null;
-			if (player.hasCock()) cumBath = valaCumBath;
 			clearOutput();
 			menu();
 			//(First meeting)
@@ -611,8 +633,14 @@ package classes.Scenes.Dungeons.DeepCave
 				}	
 			}
 			addButton(1,"You",cleansedValaRepeatBrainFucking);
-			if (cumBath != null) addButton(2, "Cum Bath", cumBath);
-			if (flags[kFLAGS.SHOULDRA_MET_VALA] > 0 && kGAMECLASS.shouldraFollower.followerShouldra()) addButton(3, "Big You", valaBigYou);
+			if (player.hasCock()) {
+				addButton(2, "Cum Bath", valaCumBath);
+			} else {
+				addDisabledButton(2, "Cum Bath", "This scene requires you to have cock.");
+			}
+			if (flags[kFLAGS.SHOULDRA_MET_VALA] > 0 && kGAMECLASS.shouldraFollower.followerShouldra()) {
+				addButton(3, "Big You", valaBigYou);
+			}
 			addButton(4,"Leave",kGAMECLASS.telAdre.barTelAdre);
 		}
 
@@ -629,7 +657,9 @@ package classes.Scenes.Dungeons.DeepCave
 
 			outputText("\"<i>I've been looking forward to this,</i>\" she whispers, flying up to steal a kiss from you, her soft, fey lips leaving a taste of pure, spring rain on the tip of your tongue. Piece by piece, she strips the clothes from your shoulders and hips, leaving warm kisses on your exposed skin with every piece she removes. When your body is laid bare before her, the pixie raises her hands to her own dress. She hesitates to expose the permanent scars the imps left on her, but sighing, she laughs and a sweet wind sweeps through the storeroom. \"<i>Silly to be bashful around you, of all people,</i>\" she chuckles, sliding out of her verdant silk, pulling pins from her bun to let long, violet tresses spill down her shoulders with a shake of her head. She bats her eyes at you over one shoulder and flashes a wry little smile. \"<i>If we can replace every hash mark on my back with one of your visits, I'll switch to backless dresses,</i>\" she teases. Flying over you, she lands her delicate legs and plump, breeder's rear in your lap, wrapping her arms around your shoulders and hugging you tightly. \"<i>So, what's on your mind, hero?</i>\"", false);
 			//[You][Leave]
-			simpleChoices("You",cleansedValaFuckHerBrainsOut,"", null,"", null,"", null,"Leave",kGAMECLASS.telAdre.barTelAdre);
+			menu();
+			addButton(0, "You", cleansedValaFuckHerBrainsOut);
+			addButton(14, "Leave", kGAMECLASS.telAdre.barTelAdre);
 		}
 
 		//[You] 
@@ -773,12 +803,20 @@ package classes.Scenes.Dungeons.DeepCave
 			outputText("You thank Vala for introducing you, but you've really got to be going, you claim. Demons to defeat, maidens to rescue, all that. The large fairy chuckles and gives you a squeeze. \"<i>You're so cute when you're flustered. Don't worry, we're not going to all jump you at once- you'd probably end up like I did! No, I asked my sisters here to help me with a little forest magic. Don't you want to see how fairies masturbate?</i>\" You're a little taken aback by the question, but you nod all the same. \"<i>All right girls, the petals please.</i>\" The cloud of fairies in front of you disperses, each winged vixen scattering to different corners of the room to retrieve hidden flower petals. Each blossom, you note, matches the hair color of the fairy holding it, creating a dizzying array of  hues as they form circles around the two of you. Vala guides you to the bed and gently removes your " + player.armorName + " before instructing you to lie down.\n\n", false);
 			flags[kFLAGS.WEEKLY_FAIRY_ORGY_COUNTDOWN] = 6;
 			//[Herm]
-			if (player.gender == 3) {
+			if (player.isHerm()) {
 				outputText("Vala folds her arms across her breast. \"<i>But which one should we use?</i>\" she ponders. \"<i>I wouldn't advise trying both- your mind wouldn't be able to take it. You'd end up worse than just mind-broken, you'd be a drooling shell. And I'd never do that to my hero,</i>\" she smiles and gives you a wink. \"<i>So, what would you prefer?</i>\"\n\n", false);
-				simpleChoices("Male",faerieOrgyFuckMaleContinue,"Female",faerieOrgyFuckFemaleContinue,"", null,"", null,"", null);
 			}
-			else if (player.gender == 2) doNext(faerieOrgyFuckFemaleContinue);
-			else if (player.gender == 1) doNext(faerieOrgyFuckMaleContinue);
+			menu();
+			if (player.hasCock()) {
+				addButton(0, "Male", faerieOrgyFuckMaleContinue);
+			} else {
+				addDisabledButton(0, "Male", "This scene requires you to have cock.");
+			}
+			if (player.hasVagina()) {
+				addButton(1, "Female", faerieOrgyFuckFemaleContinue);
+			} else {
+				addDisabledButton(0, "Male", "This scene requires you to have vagina.");
+			}
 		}
 			
 		//[Male]

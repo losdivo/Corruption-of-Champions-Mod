@@ -118,8 +118,12 @@ private function doCamp():void { //Only called by playerMenu
 		getGame().ingnam.menuIngnam();
 		return;
 	}
-	if (prison.inPrison) { //Prison
+	if (prison.inPrison && flags[kFLAGS.PRISON_ENABLED] == true) { //Prison
 		getGame().prison.prisonRoom(true);
+		return;
+	} else if (prison.inPrison && flags[kFLAGS.PRISON_ENABLED] == false) {
+		flags[kFLAGS.IN_PRISON] == 0;
+		getGame().camp.returnToCamp(0); //Just drop ya in camp I guess
 		return;
 	}
 	if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
@@ -2704,6 +2708,12 @@ private function promptSaveUpdate():void {
 		flags[kFLAGS.JOJO_STATUS] = flags[2296];
 		flags[2295] = 0; //Reclaim those flags
 		flags[2296] = 0;
+	}
+	if (flags[kFLAGS.MOD_SAVE_VERSION] == 14) {
+		flags[kFLAGS.MOD_SAVE_VERSION] = 15;
+		flags[2194] = 0; //Reclaim those flags
+		flags[254] = 0;
+		flags[255] = 0;
 	}
 	doCamp();
 }

@@ -26,15 +26,23 @@ package classes.Items.Consumables
 			var rdtBalls:Function	= (game.player.balls > 0 && game.player.ballSize > 1 ? reductoBalls : null);
 			var rdtBreasts:Function	= (game.player.breastRows.length > 0 && game.player.biggestTitSize() > 0 ? reductoBreasts : null);
 			var rdtButt:Function	= (game.player.buttRating > 1 ? reductoButt : null);
-			var rdtClit:Function	= (game.player.vaginas.length > 0 && game.player.clitLength > 0.25 ? reductoClit : null);
+			var rdtClit:Function	= (game.player.vaginas.length > 0 && game.player.getClitLength() > 0.25 ? reductoClit : null);
 			var rdtCock:Function	= (game.player.cockTotal() > 0 && game.player.biggestCockArea() > 6 ? reductoCock : null);
 			var rdtHips:Function	= (game.player.hipRating > 2 ? reductoHips : null);
 			var rdtNipples:Function	= (game.player.nippleLength > 0.25 ? reductoNipples : null);
 			var rdtHorns:Function	= (game.player.horns > 2 ? shrinkHorns : null);
 			clearOutput();
 			outputText("You ponder the paste in your hand and wonder what part of your body you would like to shrink.  What will you use it on?");
-			game.choices("Balls", rdtBalls, "Breasts", rdtBreasts, "Butt", rdtButt, "Clit", rdtClit, "Cock", rdtCock,
-				"Hips", rdtHips, "Nipples", rdtNipples, "Horns", rdtHorns, "", null, "Nevermind", reductoCancel);
+			game.menu();
+			game.addButton(0, "Balls", rdtBalls);
+			game.addButton(1, "Breasts", rdtBreasts);
+			game.addButton(2, "Butt", rdtButt);
+			game.addButton(3, "Clit", rdtClit);
+			game.addButton(4, "Cock", rdtCock);
+			game.addButton(5, "Hips", rdtHips);
+			game.addButton(6, "Nipples", rdtNipples);
+			game.addButton(7, "Horns", rdtHorns);
+			game.addButton(14, "Nevermind", reductoCancel);
 			return(true);
 		}
 		
@@ -84,9 +92,9 @@ package classes.Items.Consumables
 		private function reductoClit():void {
 			clearOutput();
 			outputText("You carefully apply the paste to your " + game.player.clitDescript() + ", being very careful to avoid getting it on your " + game.player.vaginaDescript(0) + ".  It burns with heat as it begins to make its effects known...\n\n");
-			game.player.clitLength /= 1.7;
+			game.player.setClitLength(game.player.getClitLength() / 1.7);
 			//Set clitlength down to 2 digits in length
-			game.player.clitLength = int(game.player.clitLength * 100) / 100;
+			game.player.setClitLength(int(game.player.getClitLength() * 100) / 100);
 			outputText("Your " + game.player.clitDescript() + " shrinks rapidly, dwindling down to almost half its old size before it finishes absorbing the paste.");
 			game.dynStats("sen", 2, "lus", 10);
 			game.inventory.itemGoNext();

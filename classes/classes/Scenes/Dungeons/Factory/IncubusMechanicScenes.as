@@ -45,11 +45,12 @@ package classes.Scenes.Dungeons.Factory
 			spriteSelect(30);
 			if (flags[kFLAGS.FACTORY_INCUBUS_BRIBED] > 0) {
 				outputText("\n\nThe incubus mechanic is here, thumbing through a hentai comic and laughing to himself at the absurdity of it.  That doesn't stop him from stroking his half-hard member the whole time...", false);
+				// no menu reset - you can just leave him alone
 				addButton(0, "Fight", doFightIncubus);
 			}
 			else {
-				menu();
 				outputText("\n\nA demonic mechanic lounges against the hot machinery, unperturbed by the high temperatures of the room.  He wears cut-off denim overalls, stained with grease in a few places.  They don't seem to be in good repair, and have a fair-sized hole at his groin, where a floppy foot-long member hangs free.  His skin is light purple and unblemished, as you would expect from a sexual demon.  He has a rugged handsome face and black hair tied back in a simple ponytail.  Two large curving horns protrude from his forehead, curving back along his skull and giving him a dangerous appearance.  A narrow goatee grows from his chin, about 3 inches long and braided skillfully.  He looks up and smiles, amused at your appearance.", false);
+				menu();
 				addButton(0, "Fight", doFightIncubus);
 				addButton(1, "Talk", talkIncubus);
 			}
@@ -59,11 +60,15 @@ package classes.Scenes.Dungeons.Factory
 			spriteSelect(30);
 			if (player.hasKeyItem("Hentai Comic") >= 0) {
 				outputText("The incubus speaks to you with calm deep voice, \"<i>And so the insect, heedless of it's path, stumbled directly into the spider's web.  Tiny insect... wait, what is that book you're carrying?  Is that hentai?  It IS!  Let me offer you a deal – I'm not really hungry or interested in fighting. So if you hand over the comic, I'll happily ignore your presence here. Though, I guess you could also just submit. Then I could put you to work and still get the comic.</i>\"", true);
-				simpleChoices("Fight", doFightIncubus, "Submit", doSubmitIncubus, "Trade", doTradeIncubus, "", null, "", null);
-			}
-			else {
+				menu();
+				addButton(0, "Fight", doFightIncubus);
+				addButton(1, "Submit", doSubmitIncubus);
+				addButton(2, "Trade", doTradeIncubus);
+			} else {
 				outputText("The incubus speaks to you with calm, deep voice, \"<i>And so the insect, unaware of its path, stumbles directly into the spider's web.  Tiny insect, you have little to offer me, but everything to offer our facility.  Why don't you come along quietly?</i>\"", true);
-				simpleChoices("Fight", doFightIncubus, "Submit", doSubmitIncubus, "", null, "", null, "", null);
+				menu();
+				addButton(0, "Fight", doFightIncubus);
+				addButton(1, "Submit", doSubmitIncubus);
 			}
 		}
 		
@@ -154,7 +159,7 @@ package classes.Scenes.Dungeons.Factory
 					else outputText("getting roughly fucked by the two tentacle-cocks at the same time.  Taking the tentacle-cock in your mouth with both hands, you eagerly swallow every bit of demonic pre-cum, then suckle on the huge cock-slit. \n\n", false);	
 					
 					//FemCum
-					if (player.clitLength > 3) outputText("You nearly cum on the spot when the cock fucking your pussy loops its length around your " + player.clitDescript() + ", the cum-slickened coils driving you mad with pleasure as they coil, slide, and jerk around your clit as if it was a cock.  ", false);
+					if (player.getClitLength() > 3) outputText("You nearly cum on the spot when the cock fucking your pussy loops its length around your " + player.clitDescript() + ", the cum-slickened coils driving you mad with pleasure as they coil, slide, and jerk around your clit as if it was a cock.  ", false);
 					else outputText("You nearly cum on the spot when the cock fucking your pussy curves up to rub its textured nodules against your " + player.clitDescript() + ".  ", false);
 					player.cuntChange(player.vaginalCapacity()*.8, true);
 					if (player.cor >= 80) outputText("You cum more times than you are able to count, each time causing a tightening of your fuckholes, which increases the rubbing against the demonic nodules and sends another wave of pleasure to your dazed brain.  You begin to drool freely, reveling in this most unholy mating.  ", false);
@@ -339,7 +344,7 @@ package classes.Scenes.Dungeons.Factory
 				}
 				else
 				{
-					outputText("\n\n<b>You do not have enough gems to pay the required toll!</b>");
+					addDisabledButton(0, "Pay Toll", "You do not have enough gems to pay the required toll!");
 				}
 
 				addButton(1, "Suck Dick", suckIncubusDick);
@@ -374,7 +379,7 @@ package classes.Scenes.Dungeons.Factory
 				}
 				else
 				{
-					outputText("\n\n<b>You do not have enough gems to pay the required toll!</b>");
+					addDisabledButton(0, "Pay Toll", "You do not have enough gems to pay the required toll!");
 				}
 
 				addButton(1, "Suck Dick", suckIncubusDick);
@@ -749,7 +754,7 @@ package classes.Scenes.Dungeons.Factory
 			outputText("\n\nThe demon grunts, \"<i>I... I would accept that.</i>\" His dick swells a little inside you, expanding with his ardor. \"<i>If you have any machines, I would gladly keep them working for you. Just... ung... right there, baby... uh... just let me do this with you every day.</i>\" His hips shudder slightly underneath you. They start to thrust until you push them down with your hand, holding them in place. You're in charge here, and this "+ monster.cockDescriptShort() +" is going to have to stay in your [vagina], making you feel good until you feel you've gotten your feel of pussy-pleasing pleasure.");
 
 			outputText("\n\nGods, your clit is so hard right now!");
-			if (player.clitLength >= 5) outputText(" You grab hold of it in your hand and start to stroke it to the tempo your rising and falling body is setting, pumping the oversensitive organ like a dick. Every stroke sends your walls into fits of fluttering ecstasy. It feels so good that you don't think you'll be able to stop until you're cumming and gushing all over your demonic lover.");
+			if (player.getClitLength() >= 5) outputText(" You grab hold of it in your hand and start to stroke it to the tempo your rising and falling body is setting, pumping the oversensitive organ like a dick. Every stroke sends your walls into fits of fluttering ecstasy. It feels so good that you don't think you'll be able to stop until you're cumming and gushing all over your demonic lover.");
 			else outputText(" You thumb at it, rubbing in slow circles around it. Sometimes you push on its hood. Other times you oh-so-gently squeeze at it. It feels so good that the touches drive you crazy with ecstasy, and your walls flutter excitedly around your demonic lover.");
 			outputText(" His only reaction is to gasp and groan, balls lurching in his sack.");
 
@@ -1063,7 +1068,7 @@ package classes.Scenes.Dungeons.Factory
 			outputText("\n\nThe demon must be able to read the question in your eyes, because he nods understandingly. \"<i>Yes, little mortal, this draught is going to make you wetter and hornier than you can possibly image. That cute little twat you've got is going to be my own personal lubricant-fountain. I suspect you may even manage to learn how to bring yourself off by shifting your [hips] to make your lips rub your [clit] just right.</i>\" He shrugs. \"<i>I don't really care, so long as that cunt of yours stays wet enough to shame the goo-girls at the lake.</i>\" His hand ruffles your hair once more before he steps back to watch you drink this the milky, medicinal goo.");
 
 			outputText("\n\nYou can already feel the first few swallows affecting you. Your [skin] is flushing, worse than before, and your nether-lips are getting so wonderfully slippery that you can feel your moisture beading on your mons. Your [clit] fares little better, swelling up nearly double its old size");
-			if (player.clitLength > 5) outputText(", even if that makes it truly monstrous indeed");
+			if (player.getClitLength() > 5) outputText(", even if that makes it truly monstrous indeed");
 			outputText(". It drips long, sticky strands of girlish lust as you swallow, only becoming more soaked as time passes as your body becomes even more productive. A plaintive whimper escapes around the edges of your phallic gag, but your cry falls on deaf ears. The incubus is too busy fitting pipes together beneath you to care.");
 
 			outputText("\n\nWhen you hear your pussy juices spattering against metallic funnel like torrential rain, you realize you've lost, truly and completely. You thought with your slit, and now you're nothing more than a whimpering, leaky cunt, leashed to a demon's whims. The thought rocks you to your core, and tears briefly bead at the corners of your eyes, though you aren't sure if it's due to your humiliating defeat or the knowledge that you're not going to get fucked. You drink the last of your medicine, still crying and trying to cum when the dildo goes dry.");

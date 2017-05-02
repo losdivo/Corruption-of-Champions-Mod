@@ -128,7 +128,7 @@ private function serviceLowCorruptionHighLust():void
 			//Foreplay and smearing goo about
 			outputText("Eventually your own arousal becomes unbearable and you let one of your hands slide down the creature's erection and body and up your leg, purring softly as a slight warm sensation spreads everywhere you get the green fluid the creature has been so readily leaking.  You let your hand crawl between your legs and gasp slightly as you run a hand over the lips of your " + player.vaginaDescript(0) + ", savoring the sensation before going to work on yourself.  ", false);
 			//Big clitties
-			if (player.clitLength >= 2) outputText("You moan and lean back slightly as you grip your " + player.clitDescript() + " between your thumb and forefinger, biting your lip at the intense sensations as you rub your thumb over your " + player.clitDescript() + " and shuddering in anticipation and delight.  ", false);
+			if (player.getClitLength() >= 2) outputText("You moan and lean back slightly as you grip your " + player.clitDescript() + " between your thumb and forefinger, biting your lip at the intense sensations as you rub your thumb over your " + player.clitDescript() + " and shuddering in anticipation and delight.  ", false);
 			//Small clitties
 			else outputText("You moan and lean back slightly as you start to flick your " + player.clitDescript() + ", the slime's fluid providing excellent lubrication and a luxurious warming feeling as you make small circles around your nub.  ", false);
 			//Jack off slime and make it human shapes
@@ -770,6 +770,32 @@ internal function rapeOozeWithMilk():void {
 	player.addStatusValue(StatusEffects.Feeder,1,1);
 	player.changeStatusValue(StatusEffects.Feeder,2,0);
 	combat.cleanupAfterCombat();
+}
+
+public function slimeVictory():void {
+	outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.", true);
+	//Boobfeed.
+	if (player.hasStatusEffect(StatusEffects.Feeder) && flags[kFLAGS.SFW_MODE] <= 0) {
+		//Eligable to rape
+		if (player.lust >= 33 && player.gender > 0) {
+			outputText("\n\nYou're horny enough to try and rape it, though you'd rather see how much milk you can squirt into it.  What do you do?", false);
+			menu();
+			addButton(0, "Breastfeed", rapeOozeWithMilk);
+			addButton(1, "Rape", slimeVictoryRape);
+			addButton(4, "Leave", combat.cleanupAfterCombat);
+		}
+		//Rapes not on the table.
+		else {
+			outputText("\n\nYour nipples ache with the desire to forcibly breastfeed the gelatinous beast.  Do you?", false);
+			doYesNo(rapeOozeWithMilk, combat.cleanupAfterCombat);
+		}
+	}
+	//Not a breastfeeder
+	else if (player.lust >= 33 && player.gender > 0 && flags[kFLAGS.SFW_MODE] <= 0) {
+		outputText("  Sadly you realize your own needs have not been met.  Of course, you could always play with the poor thing... Do you rape it?", false);
+		doYesNo(slimeVictoryRape, combat.cleanupAfterCombat);
+	}
+	else combat.cleanupAfterCombat();
 }
 
 		public function slimeVictoryRape():void

@@ -39,9 +39,11 @@ public function changingRoom():void {
 		outputText("You enter back into the largest of the changing rooms. Everything seems to be as it was the last time you poked your head in here. Everything somehow stays so clean in this particular place despite that so much sex and debauchery goes down in this city. You find it all rather refreshing, quite honestly.", false);
 	}
 	//[Look Around]
+	menu();
 	if (flags[kFLAGS.JASUN_NAME_LEARNED] == 0)
-		simpleChoices("Look Around", meetJasun, "", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
-	else simpleChoices("Jasun", meetJasun, "", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
+		addButton(0, "Look Around", meetJasun);
+	else addButton(0, "Jasun", meetJasun);
+	addButton(14, "Leave", camp.returnToCampUseOneHour);
 }
 
 //AT CHANGING ROOM (SELECTING TO SEE THE SHARK OR LOOK AROUND IF FIRST TIME)
@@ -173,7 +175,9 @@ private function meetJasun2():void {
 	outputText("\"<i>My name is Jasun, " + player.short + ". My people love the water, but most of them are ferocious and have lost their way. Seeing as I could no longer stay with them without risking my own life constantly, I came to Tel'Adre and set about working with the gym here to set up this wondrous pool. I spend most of my time here. Not many people get to use it, but I think you are ready.</i>\" He smiles at you without baring his teeth and you're flattered, knowing how difficult that must be for something with his jaw structure. \"<i>Come, let's swim.</i>\" He puts out his hand, palm up, literally asking for your hand for him to take you into the water.\n\n", false);
 	flags[kFLAGS.JASUN_NAME_LEARNED] = 1;
 	//[Accept] [Turn Away]
-	simpleChoices("Accept", acceptJasunsAdvances, "Turn Away", turnAwayFromAdj, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Accept", acceptJasunsAdvances);
+	addButton(1, "Turn Away", turnAwayFromAdj);
 }
 
 //IF YOU TURN AWAY

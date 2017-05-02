@@ -182,8 +182,13 @@ package classes.Scenes.Areas.Mountain
 			outputText("You barely spare a thought at the interior in your hurry to get to the master.  As you burst into the room, the master's eyes light up at the sight of you.  \"<i>Ah!  It is my favorite fan.  Have you brought me a piece of that pink crystal I asked you for?</i>\"\n\n", false);
 
 			//Player chooses to either give Merae's full Lethicite, or a regular piece of Lethicite.  Limited by what they have, of course.  They cannot choose to leave at this point.  Merae's Lethicite -> G, Regular Lethicite -> H.
-			if (player.keyItemv2("Marae's Lethicite") == 0) simpleChoices("Give All", giveALLTHELETHICITES, "Give Part", giveLethicitePiece, "", null, "", null, "", null);
-			else doNext(giveLethicitePiece);
+			menu();
+			if (player.keyItemv2("Marae's Lethicite") == 0) {
+				addButton(0, "Give All", giveALLTHELETHICITES);
+			} else {
+				addDisabledButton(0, "Give All");
+			}
+			addButton(1, "Give Part", giveLethicitePiece);
 		}
 
 //Regular Lethicite
@@ -312,9 +317,9 @@ package classes.Scenes.Areas.Mountain
 			if (monster.HP < 1) outputText("spring to life, extending rapidly from the sheath. Tentatively you give one of them a gentle lick, being rewarded with a drop of pre-cum.\n\n", false);
 			else outputText("still manage to leak plenty of hot, steamy pre-cum all over his belly. Tentatively you give one of them a gentle lick, being rewarded with a dollop of the stuff.\n\n", false);
 			//--- IF CORRUPTION < 20 ---
-			if (player.cor < 20) {
+			if (player.cor < 20 - pc.corruptionTolerance()) {
 				outputText("The corrupt juice burns on your tongue, far worse than the hottest spicy dish you have ever had. You instantly back off from his member, cursing this abomination of nature. Leaving the submissive creature as it is, you head back for your camp.", false);
-				dynStats("lus", -99);
+				dynStats("lus=", 0);
 				combat.cleanupAfterCombat();
 				return;
 			}
@@ -324,7 +329,7 @@ package classes.Scenes.Areas.Mountain
 				player.cuntChange(monster.cockArea(0), true, false, true);
 				player.buttChange(monster.cockArea(1), true, false, true);
 				// --- CORRUPTION < 40 (and not masocistic - I lost track if there is such a perk) ---
-				if (player.cor < 40 && player.findPerk(PerkLib.Masochist) < 0) {
+				if (player.cor < 40 - pc.corruptionTolerance() && player.findPerk(PerkLib.Masochist) < 0) {
 					outputText("As you bottom out on his sheath, you lean forward to engulf more of his hot cocks inside you. The hellhound enjoys the treatment you are giving him. As a result, the flames along his eyes and snout flicker back to life. Just as your hardening clit presses against the top of his ballsack, the hellhound's natural flames lick across your sex. The magical fire fills you with arousal, but also applies intense pain to your most sensitive spot. You practically jump off the corrupt creature, pulling the dicks from your holes in great speed. Nearly blacking out from the sensations, you cover your burnt button, not daring to touch it. You curse the creature, loudly swearing at the hellhound. In your fury, you barely notice that he looks disappointed and maybe even somewhat sorry.", false);
 					player.takeDamage(20);
 					dynStats("lus", -99);
@@ -373,7 +378,7 @@ package classes.Scenes.Areas.Mountain
 				player.orgasm('Vaginal');
 				player.orgasm('Anal', false);
 				//[if not corrupt]
-				if (player.cor < 40) dynStats("tou", -2, "cor", 1);
+				if (player.cor < 40 - pc.corruptionTolerance()) dynStats("tou", -2, "cor", 1);
 				//[if corrupt]
 				else dynStats("cor", 1.5);
 				//Preggers chance!

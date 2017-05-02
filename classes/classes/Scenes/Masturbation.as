@@ -69,6 +69,9 @@ package classes.Scenes {
 			if (player.canOviposit() && player.hasFuckableNipples() && player.lust >= 33 && player.biggestTitSize() >= 21) {
 				addButton(button++, "LayInTits", layEggsInYerTits);
 			}
+			if (player.hasVagina() && player.isNaga() && player.lust >= 33) {
+				addButton(button++, "Naga Tail", nagaTailsturbation);
+			}
 			if (fappingItems(false))
 				addButton(13 ,"Items", fappingItems);
 			else if (button == 1) { //If you can only masturbate or meditate the normal way then do that automatically
@@ -764,11 +767,11 @@ package classes.Scenes {
 				if (player.vaginas.length == 1) {
 					outputText("You let your hand roam over your pussy-lips, slowly teasing yourself, diving deeper into your folds to arouse and expose your clit.  ");
 					//Smaller clits
-					if (player.clitLength < 1.5) {
+					if (player.getClitLength() < 1.5) {
 						outputText("You stroke and tease around the sensitive little pleasure bud, letting your fingers plumb the depths below.  ");
 					}
 					//Big clits
-					else if (player.clitLength < 4.5) {
+					else if (player.getClitLength() < 4.5) {
 						outputText("Your large clit is already poking out from your ");
 						if (player.vaginas[0].vaginalWetness > VAGINA_WETNESS_DRY) outputText("glistening ");
 						outputText("lips.  You gently stroke and touch it until it grows as large as a tiny cock.  ");
@@ -1824,9 +1827,9 @@ package classes.Scenes {
 					if (player.gender == 3) outputText("fem");
 					outputText("sex quivers as the pleasure overwhelms you, robbing you of muscle control, your passage rippling and contracting around your fingers.  ");
 					//Big clitty bonus!
-					if (player.clitLength >= 4.5)
+					if (player.getClitLength() >= 4.5)
 						outputText("A hand finds your cock-like clit, squeezing and caressing it as the cunt-wrenching orgasm wracks your body, the over-sized joy-buzzer nearly making you black out from the sensations it generates.  ");
-					else if (player.clitLength > 1.5)
+					else if (player.getClitLength() > 1.5)
 						outputText("Every muscle-twitch seems to stretch your big oversensitive clitty larger, causing you to squeal with delight at every bump and touch against it.  ");
 					//Wet orgasms
 					if (player.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLAVERING) outputText("A veritable gush of fluid explodes from your nethers, pulsing in time with the ripples of your " + player.vaginaDescript() + ".  ");
@@ -1960,11 +1963,11 @@ package classes.Scenes {
 				//high cor
 				else outputText("You hold the fake dong, squeezing it and giggling at the realistic texture.  You can't wait to try it out.");
 				outputText("  A drop of pink aphrodisiac leaks from the tip, offering you a hint of the pleasure you're in for.   You make sure to catch it on your crotch, letting the fluid seep into your " + player.vaginaDescript() + ".  Warmth radiates outwards, spreading to your thighs as your " + player.clitDescript());
-				if (player.clitLength < .5)
+				if (player.getClitLength() < .5)
 					outputText(" becomes hard and sensitive");
-				else if (player.clitLength < 3)
+				else if (player.getClitLength() < 3)
 					outputText(" peeks through your folds");
-				else if (player.clitLength < 6)
+				else if (player.getClitLength() < 6)
 					outputText(" fills with blood, growing erect like a tiny cock");
 				else outputText(" fills with blood, twitching and pulsating like a man's cock");
 				outputText(".  You ");
@@ -3672,6 +3675,22 @@ package classes.Scenes {
 			}
 
 			player.buttChange(4 + player.ass.analLooseness * 2, true);
+		}
+		
+		private function nagaTailsturbation():void {
+			clearOutput();
+			//Naga tail go!
+			outputText("With a perverted grin, you decide to put your lengthy naga body to good use...");
+			outputText("\n\nSlithering to a safe spot away from your camp, you adjust yourself so that you can grasp the end of your tail. With your [tongue], you lick and lubricate the end of your tail, and suckling the tip with gentle enjoyment. Spreading your [vagina], you rub the saliva-slick appendage against your entrance. You use your now-free hands to massage your [chest] and rub your [nipples], moaning as you do so. Feeling adequately prepared, you focus on manoeuvring your tail for insertion. With a few searching prods, your tip finds the hole and you happily plunge it inside. ");
+			player.cuntChange(player.tallness + 12, true);
+			outputText("The position is awkward at first, however you don't quit and soon enough to manage a comfortable and gentle rhythm of pumping your wonderfully phallic extremity into your hungry depths. Having grown accustomed to the movement, you resume stimulating your body elsewhere; using a hand to lightly squeeze and caress your [breasts] while the other seeks to rub your [clit]. The stimulation forces moans and whimpers from you, and flushes your face with arousal. The combination of lustful titillation pushes you closer and closer to orgasm. Nearly losing control, you grab at your make-shift dildo with your hand and piston it wildly into your over-excited [vagina]. Tears well in your eyes and you thrust as deeply as you can, finally sending you over the edge. Your orgasm causes your entire body to shudder and your moans to burst from your lungs in ecstasy. Your muscles give out and you fall onto your back, letting your tail slide out of your [vagina] and smack the ground with a thud. As you slowly relax your breathing, you begin to shut your eyes and rest. You'll definitely try this again sometime.");
+			outputText("\n\nAfter a brief nap, you clean up and return to camp.");
+			//Stats & next event
+			//DONE!
+			flags[kFLAGS.TIMES_MASTURBATED]++;
+			player.orgasm('Vaginal');
+			dynStats("sen", -0.5);
+			doNext(camp.returnToCampUseOneHour);
 		}
 	}
 }

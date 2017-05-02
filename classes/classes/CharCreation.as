@@ -1,4 +1,4 @@
-﻿package classes 
+package classes 
 {
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -25,6 +25,8 @@
 		public const MAX_FORTUNE_LEVEL:int = -1; //No maximum level.
 		public const MAX_VIRILITY_LEVEL:int = 15;
 		public const MAX_FERTILITY_LEVEL:int = 15;
+		
+		public static const NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX : Number = 1.5;
 		
 		private var specialCharacters:CharSpecial = new CharSpecial();
 		private var customPlayerProfile:Function;
@@ -96,6 +98,7 @@
 			var silly:Boolean = flags[kFLAGS.SILLY_MODE_ENABLE_FLAG];
 			var easy:Boolean = flags[kFLAGS.EASY_MODE_ENABLE_FLAG];
 			var sprite:Boolean = flags[kFLAGS.SHOW_SPRITES_FLAG];
+			var prison:Boolean = flags[kFLAGS.PRISON_ENABLED];
 			mainView.setButtonText(0, "Newgame"); // b1Text.text = "Newgame";
 			//flags[kFLAGS.CUSTOM_PC_ENABLED] = 0;
 			
@@ -119,7 +122,6 @@
 			//mainView.mainText.autoSize = TextFieldAutoSize.LEFT;
 			menu();
 			addButton(0, "OK", chooseName);
-		//	simpleChoices("OK",10034,"",0,"",0,"",0,"",0);
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
 		
@@ -201,7 +203,6 @@
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.balls = 0;
 				player.ballSize = 0;
-				player.clitLength = 0;
 			}
 			player.hoursSinceCum = 0;
 			player.cumMultiplier = 1;
@@ -224,7 +225,6 @@
 				}
 			}
 			player.wingType = WING_TYPE_NONE;
-			player.wingDesc = "non-existant";
 			if (player.eyeType == EYES_BASILISK) player.eyeType = EYES_LIZARD; // Silently change them to be lizard eyes again. Simple and stupid ;)
 			//Default
 			player.skinTone = "light";
@@ -320,6 +320,13 @@
 			else {
 				var hadOldCock:Boolean = player.hasCock();
 				var hadOldVagina:Boolean = player.hasVagina();
+				//TODO rework this when doing better multi-vagina support
+				var oldClitLength:Number = -1;
+				
+				if (hadOldVagina) {
+					oldClitLength = player.getClitLength();
+				}
+				
 				//Clear cocks
 				while(player.cocks.length > 0)
 				{
@@ -334,10 +341,19 @@
 				}
 				//Keep gender and normalize genitals.
 				if (hadOldCock) player.createCock(5.5, 1, CockTypesEnum.HUMAN);
-				if (hadOldVagina) player.createVagina(true);
+				if (hadOldVagina) {
+					player.createVagina(true);
+					
+					if (player.hasVagina() && oldClitLength > NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX){
+						player.setClitLength(NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX);
+					}else{
+						player.setClitLength(oldClitLength);
+					}
+				}
+				
 				if (player.balls > 2) player.balls = 2;
 				if (player.ballSize > 2) player.ballSize = 2;
-				if (player.clitLength > 1.5) player.clitLength = 1.5;
+
 				while (player.breastRows.length > 1)
 				{
 					player.removeBreastRow(1, 1);
@@ -541,7 +557,6 @@
 			//Genetalia
 			player.balls = 2;
 			player.ballSize = 1;
-			player.clitLength = 0;
 			player.createCock();
 			player.cocks[0].cockLength = 5.5;
 			player.cocks[0].cockThickness = 1;
@@ -554,10 +569,14 @@
 			//Choices
 			clearOutput();
 			outputText("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
-			simpleChoices("Lean", buildLeanMale, "Average", buildAverageMale, "Thick", buildThickMale, "Girly", buildGirlyMale, "", null);
+			menu();
+			addButton(0, "Lean", buildLeanMale);
+			addButton(1, "Average", buildAverageMale);
+			addButton(2, "Thick", buildThickMale);
+			addButton(3, "Girly", buildGirlyMale);
 		}
 
-		private function isAWoman():void {
+		internal function isAWoman():void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.spe += 3;
@@ -573,7 +592,6 @@
 			player.balls = 0;
 			player.ballSize = 0;
 			player.createVagina();
-			player.clitLength = 0.5;
 			
 			//Breasts
 			player.createBreastRow();
@@ -581,10 +599,14 @@
 			//Choices
 			clearOutput();
 			outputText("You are a woman.  Your upbringing has provided you an advantage in speed and intellect.\n\nWhat type of build do you have?");
-			simpleChoices("Slender", buildSlenderFemale, "Average", buildAverageFemale, "Curvy", buildCurvyFemale, "Tomboyish", buildTomboyishFemale, "", null);
+			menu();
+			addButton(0, "Slender", buildSlenderFemale);
+			addButton(1, "Average", buildAverageFemale);
+			addButton(2, "Curvy", buildCurvyFemale);
+			addButton(3, "Tomboyish", buildTomboyishFemale);
 		}
 
-		private function isAHerm():void {
+		internal function isAHerm():void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.str+=1;
@@ -602,7 +624,6 @@
 			player.balls = 2;
 			player.ballSize = 1;
 			player.createVagina();
-			player.clitLength = .5;
 			player.createCock();
 			player.cocks[0].cockLength = 5.5;
 			player.cocks[0].cockThickness = 1;
@@ -1128,7 +1149,7 @@
 					break;
 				case PerkLib.BigClit:
 					player.femininity -= 5;
-					player.clitLength = 1;
+					player.setClitLength(1);
 					player.createPerk(PerkLib.BigClit, 1.25, 0, 0, 0);
 					break;
 				case PerkLib.Fertile:
@@ -1387,7 +1408,12 @@
 			outputText("<b>Brutal Hardcore mode:</b> Like hardcore mode, but the difficulty is locked to extreme! How long can you survive?\n", false);
 			if (debug) outputText("<b>Grimdark mode:</b> (In dev) In the grimdark future, there are only rape and corruptions. Lots of things are changed and Lethice has sent out her minions to wall the borders and put up a lot of puzzles. Can you defeat her in this mode in as few bad ends as possible?\n", false);
 			
-			simpleChoices("Normal", chooseModeNormal, "Survival", chooseModeSurvival, "Realistic", chooseModeRealistic, "Hardcore", chooseModeHardcore, "Brutal HC", chooseModeBrutalHardcore);
+			menu();
+			addButton(0, "Normal", chooseModeNormal);
+			addButton(1, "Survival", chooseModeSurvival);
+			addButton(2, "Realistic", chooseModeRealistic);
+			addButton(3, "Hardcore", chooseModeHardcore);
+			addButton(4, "Brutal HC", chooseModeBrutalHardcore);
 			if (debug) addButton(12, "Grimdark", chooseModeGrimdark);
 		}
 

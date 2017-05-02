@@ -264,8 +264,10 @@ private function sandwitchRaped():void {
 		//Not so corrupt
 		if (player.cor < 50) {
 			outputText("You smile at the sand witch, trying to seem enticing. A tiny smile plays across her face even though she supports a worried frown. She reaches up to you, and you allow her to gently pull you down to her. You marvel at her multiple breasts, each perfectly rounded. Each has a nipple approximately two inches long, enough to suck if you wanted to.  ", false);
-			outputText("Your attention wanders down to the damp sand underneath her legs, and her musky scent hits your nose. Which do you go after?\n\n", false);
-			simpleChoices("Breasts", sandwitchBewbs, "Sex", sandwitchSex, "", null, "", null, "", null);
+			outputText("Your attention wanders down to the damp sand underneath her legs, and her musky scent hits your nose. Which do you go after?\n\n", false);			
+			menu();
+			addButton(0, "Breasts", sandwitchBewbs);
+			addButton(1, "Sex", sandwitchSex);
 		}
 		//Really corrupt
 		else 
@@ -620,21 +622,34 @@ private function rapeSandwitchMultis():void {
 
 internal function beatSandwitch():void {
 	spriteSelect(50);
-	if (monster.lust >= monster.eMaxLust()) outputText("You smile in satisfaction as the " + monster.short + " drops down on all fours and begins masturbating feverishly.  Sadly you realize your own needs have not been met.  Of course you could always fuck the horny witch...\n\nDo you rape her?", true);
-	else outputText("You smile in satisfaction as the " + monster.short + " drops down on all fours and struggles to rise.  Sadly you realize your own needs have not been met.  Of course, you could always fuck the witch...", true);
-	outputText("  Of course, just taunting, teasing, and humiliating her for her arrogance would be equally amusing, <b>but it would give her plenty of time to turn the tables...</b>");
-	var temp2:Function = null;
-	var temp3:Function = null;
-	if (silly()) temp3 = missingoSex;
-	if (player.hasKeyItem("Deluxe Dildo") >= 0) temp2 = sandwitchGetsDildoed;
-	var shouldra:Function = null;
-	if (kGAMECLASS.shouldraFollower.followerShouldra() && player.gender > 0) shouldra = kGAMECLASS.shouldraFollower.sandWitchGetsGhostly;
-	//doYesNo(sandwitchRaped, combat.cleanupAfterCombat);
-	var ovi:Function = null;
-	if (player.gender > 0 && player.canOviposit()) ovi = ovipositSandWitches;
+	if (monster.lust >= monster.eMaxLust()) outputText("You smile in satisfaction as the " + monster.short + " drops down on all fours and begins masturbating feverishly.", true);
+	else outputText("You smile in satisfaction as the " + monster.short + " drops down on all fours and struggles to rise.", true);
 	
-	choices("Yes", sandwitchRaped, "Dildo Rape", temp2, "Use 3i@-", temp3, "Use Shouldra", shouldra, "Lay Eggs", ovi,
-		"Taunt Her", sandwitchSpanking, "", null, "", null, "", null, "Leave", combat.cleanupAfterCombat);
+	menu();
+	addDisabledButton(0, "Rape", "This scene requires sufficient arousal.");
+	addDisabledButton(1, "Dildo Rape", "This scene requires you to have Deluxe Dildo and sufficient arousal.");
+	addDisabledButton(2, "Taunt", "This scene requires sufficient arousal.");
+	addDisabledButton(3, "Lay Eggs", "This scene requires you to have sufficient arousal, ovipositor and some genitals.");
+	addDisabledButton(4, "Use Shouldra", "This scene requires you to have sufficient arousal, Shouldra follower and some genitals.");
+	// 5 - Use 3i@- is hidden if silly mode is not enabled
+	
+	if (player.lust >= 33) {
+		outputText("  Sadly you realize your own needs have not been met.  Of course, you could always fuck the witch...");
+		outputText("  Of course, just taunting, teasing, and humiliating her for her arrogance would be equally amusing, <b>but it would give her plenty of time to turn the tables...</b>");
+		
+		addButton(0, "Rape", sandwitchRaped);
+		if (player.hasKeyItem("Deluxe Dildo") >= 0)
+			addButton(1, "Dildo Rape");
+		addButton(2, "Taunt Her", sandwitchSpanking);
+		if (!player.isGenderless() && player.canOviposit())
+			addButton(3, "Lay Eggs", ovipositSandWitches);
+		if (kGAMECLASS.shouldraFollower.followerShouldra() && !player.isGenderless())
+			addButton(4, "Use Shouldra", kGAMECLASS.shouldraFollower.sandWitchGetsGhostly);
+		if (silly())
+			addButton(5, "Use 3i@-", missingoSex);
+	}
+	
+	addButton(14, "Leave", combat.cleanupAfterCombat);
 }
 
 //This is a bonus scene for those who are playing Corruption of Champions with Silly Mode activated and defeat the Sand Witch by dropping her hit points and have the option of having their way with her. A special third(?) option appears that begins the encounter. The idea is that it breaks the 4th wall and gives the player the impression that they've stumbled upon a glitchy, incomplete scene. As a special note to anyone who does coding: all code tags (anything like \" + player.cockDescript(0) + \" but not my usual {code brackets} for example) are meant to be printed in game exactly as they were written on this document, pushing the idea that the player \"broke the game\".
@@ -660,7 +675,8 @@ private function missingoSex():void {
 	
 	outputText("\n\n<b>Don't report this as a bug, okay dawg?</b>", false);
 	
-	simpleChoices("N*xt", missingoSex2, "", null, "", null, "", null, "", null);
+	menu();
+	addButton(0, "N*xt", missingoSex2);
 }
 //{Next Page}
 private function missingoSex2():void {
@@ -673,7 +689,8 @@ private function missingoSex2():void {
 	outputText("\"Still...\" she says, ##ok%7g at you slyly. \"Why don't you (ull b=c( and try that again....\"", false);
 	
 	//[N*xt]
-	simpleChoices("N*xt", missingoSex3, "", null, "", null, "", null, "", null);
+	menu();
+	addButton(0, "N*xt", missingoSex3);
 }
 
 //{Next Page}
@@ -687,7 +704,8 @@ private function missingoSex3():void {
 	outputText("\"@_i@_...\" s_e says, ##o@%7g @t yo_ s_@_y. \"W_@ d_n't @o_ (ull b=c( an_ @r_ _h_@ a_@in....\"\n\n", false);
 
 	//[@*xt]
-	simpleChoices("@*xt", missingoSex4, "", null, "", null, "", null, "", null);
+	menu();
+	addButton(0, "@*xt", missingoSex4);
 }
 
 //{Next Page}
@@ -700,7 +718,8 @@ private function missingoSex4():void {
 	
 	outputText("\"@_o@_...\" o_o oooo, ##o@%7o @o oo_ o_@_o. \"o_@ o_o'o @o_ (ooo o=o( oo_ @o_ _o_@ o_@oo....\"", false);
 	//[Fuck this!]
-	simpleChoices("Fuck This!", missingoSex5, "", null, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Fuck This!", missingoSex5);
 }
 
 //{Next Page}
@@ -718,7 +737,8 @@ private function missingoSex5():void {
 	outputText("Oh goddammit. You remember that your progress from before was lost, and now you have to start from the beginning. You can't help but roll your eyes and groan, though you're hardly angry enough to put a controller-shaped hole through your TV screen over this. But hey! At least you were smart enough to jot down the Champion Password. Perhaps one day video games will be sophisticated enough to have some internal means of storing progress, but at least with this, you should be able to get all of your old stuff!", false);
 	
 	//Restore]
-	simpleChoices("Restore", missingoSex6, "", null, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Restore", missingoSex6);
 }
 //{Next Page}
 private function missingoSex6():void {
@@ -780,7 +800,9 @@ private function ovipositSandWitches():void {
 	outputText(" can do to their partners and unsure if this is really what she wants.  The poor girl seems to need a little 'encouragement'... of course, you could just skip all that regardless if you really wanted.");
 	
 	//[Foreplay 1st]    [Get Fucking]
-	simpleChoices("Foreplay 1st", eggwitchForeplay, "Get Fucking", getToFuckingWithZeEggsInWitch, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Foreplay 1st", eggwitchForeplay);
+	addButton(1, "Get Fucking", getToFuckingWithZeEggsInWitch);
 }
 
 //[Foreplay 1st]

@@ -186,14 +186,6 @@
 			return kGAMECLASS.createCallBackFunction(func,arg);
 		}
 
-		/** Create a function that will pass multiple arguments. 
-		 * @deprecated	This function is deprecated.
-		 */
-		protected function createCallBackFunction2(func:Function, ...args):Function
-		{
-			return kGAMECLASS.createCallBackFunction2.apply(null,[func].concat(args));
-		}
-
 		protected function doSFWloss():Boolean {
 			return kGAMECLASS.doSFWloss();
 		}
@@ -254,10 +246,11 @@
 			kGAMECLASS.hideMenus();
 		}
 		
-		/** Creates a menu with 10 buttons. 
-		 * @deprecated	This is deprecated. Use a series of addButton instead.
+
+		//[Deprecated(replacement = "Use a series of BaseContent.addButton instead")]
+		/**[DEPRECATED] Creates a menu with 10 buttons. 
 		 */
-		protected function choices(text1:String, butt1:Function,
+		/*protected function choices(text1:String, butt1:Function,
 								text2:String, butt2:Function,
 								text3:String, butt3:Function,
 								text4:String, butt4:Function,
@@ -279,12 +272,13 @@
 					text9, butt9,
 					text0, butt0
 			);
-		}
+		}*/
 
-		/** Creates a menu with 5 buttons. 
-		 * @deprecated	This is deprecated. Use a series of addButton instead.
+		//[Deprecated(replacement = "Use a series of BaseContent.addButton instead.")]
+		/**
+		 * [DEPRECATED] Creates a menu with 5 buttons. 
 		 */
-		protected function simpleChoices(text1:String, butt1:Function,
+		/*protected function simpleChoices(text1:String, butt1:Function,
 								text2:String, butt2:Function,
 								text3:String, butt3:Function,
 								text4:String, butt4:Function,
@@ -294,7 +288,7 @@
 					text3, butt3,
 					text4, butt4,
 					text5, butt5);
-		}
+		}*/
 
 		protected function doYesNo(eventYes:Function, eventNo:Function):void { //Now typesafe
 			kGAMECLASS.doYesNo(eventYes, eventNo);
@@ -306,6 +300,11 @@
 		}
 		
 		protected function addButtonDisabled(pos:int, text:String = "", toolTipText:String = "", toolTipHeader:String = ""):void
+		{
+			kGAMECLASS.addButtonDisabled(pos, text, toolTipText, toolTipHeader);
+		}
+		
+		protected function addDisabledButton(pos:int, text:String = "", toolTipText:String = "", toolTipHeader:String = ""):void
 		{
 			kGAMECLASS.addButtonDisabled(pos, text, toolTipText, toolTipHeader);
 		}
@@ -362,6 +361,14 @@
 			return kGAMECLASS.player;
 		}
 		
+		/**
+		 * This is alias for player.
+		 */
+		protected function get pc():Player
+		{
+			return kGAMECLASS.player;
+		}
+		
 		protected function set player(val:Player):void
 		{
 			kGAMECLASS.player = val;
@@ -408,6 +415,14 @@
 		}
 		
 		protected function get monster():Monster
+		{
+			return kGAMECLASS.monster;
+		}
+		
+		/**
+		 * This is alias for monster.
+		 */
+		protected function get enemy():Monster
 		{
 			return kGAMECLASS.monster;
 		}

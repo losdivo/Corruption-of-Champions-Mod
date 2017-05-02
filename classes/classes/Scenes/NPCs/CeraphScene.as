@@ -191,7 +191,7 @@ package classes.Scenes.NPCs
 
 				outputText("As you leave, you don't bother to spare a glance at the confused omnibus; she isn't worth your time.", false);
 			}
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("lib", 3, "sen", 3, "cor", 1);
 			if (getGame().inCombat)
 				combat.cleanupAfterCombat();
@@ -247,7 +247,7 @@ package classes.Scenes.NPCs
 			else outputText("You bend over and rub your belly while whispering in her ear, \"<i>Like mother, like child.</i>\"\n\n", false);
 			outputText("As you leave, you don't bother to spare a glance at the confused omnibus; she isn't worth your time.\n\n", false);
 			player.cuntChange(monster.cockArea(0), true);
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("lib", 3, "sen", 3,"cor", 1);
 			player.knockUp(PregnancyStore.PREGNANCY_IMP, PregnancyStore.INCUBATION_IMP - 32, 61); //Ceraph causes faster pregnancies
 			if (getGame().inCombat)
@@ -373,7 +373,10 @@ package classes.Scenes.NPCs
 			outputText("Ceraph wiggles out from between the bushes, holding a bondage harness and openly eyeing your body.  She suggestively says, \"<i>Well, aren't you just a cute little slave-to-be.  Are you ready to put yourself in your slave harness and join my harem?  I've got a few more piercings I think would look great on you.  Maybe I could give you an oral fixation and a foot fetish.  Wouldn't that be nice?  Or maybe I can just keep you tied up and parade you around Mareth.  You know I'll make sure you love every minute baby, just come put this on.</i>\"\n\n", false);
 
 			outputText("It shames you to admit it, but you desperately want to be naked and restrained, paraded around to tease and amuse Ceraph's enemies.  You know the desires were forced on you by her cursed piercings, but it doesn't make it any easier to deny the feelings they've brought out in you.  The sexy demon-dom would be happy to feed you foreign desires and stoke them into a burning blaze that would burn away your doubts and worries.  Do you give in and become her bondage slave?\n\n", false);
-			simpleChoices("Yes", agreeToBecomeCeraphsFuckpetBondageToyBitchSlut, "No", finalCeraphEncounterChoiceNo, "Fight", finalCeraphEncounterStartFight, "", null, "", null);
+			menu();
+			addButton(0, "Yes", agreeToBecomeCeraphsFuckpetBondageToyBitchSlut);
+			addButton(1, "No", finalCeraphEncounterChoiceNo);
+			addButton(2, "Fight", finalCeraphEncounterStartFight);
 		}
 
 //[no]
@@ -653,34 +656,33 @@ package classes.Scenes.NPCs
 			clearOutput();
 			if (monster.HP < 1) outputText("Ceraph collapses in a beaten, bloody heap.", false);
 			else outputText("Ceraph masturbates futilely, too driven by desire to fight.", false);
-			if (player.lust >= 33 && player.gender > 0) {
+			
+			menu();
+			addDisabledButton(0, "Fuck Her");
+			addDisabledButton(1, "Ride Her");
+			addDisabledButton(2, "FuckHerAss");
+			
+			if (player.lust >= 33) {
 				outputText("  Do you have your way with her? (And if so, which of your body parts do you do it with?)", false);
-
-				var dicking:Function =null;
-				var buttsmexing:Function =null;
-				//Dickings ahoyu!
+				
 				if (player.hasCock()) {
-					dicking = maleFuckCeraphsPussy;
-					if (player.cockThatFits(monster.analCapacity()) != -1) buttsmexing = buttRapeCeraph;
-					else outputText("  <b>There's no way you could fit inside her ass - you're too big.</b>", false);
+					addButton(0, "Fuck Her", maleFuckCeraphsPussy);
+					if (player.cockThatFits(monster.analCapacity()) != -1) {
+						addButton(2, "FuckHerAss", buttRapeCeraph);
+					} else {
+						addDisabledButton(2, "FuckHerAss", "There's no way you could fit inside her ass - you're too big.");
+					}
 				}
-				var cunting:Function =null;
-				if (player.hasVagina()) cunting = rideCeraphsCockLikeaBAWSSexclamation11eleven;
-				var bikiniTits:Function = null;
-				if (player.hasVagina() && player.biggestTitSize() >= 4 && player.armorName == "lusty maiden's armor") bikiniTits = createCallBackFunction2((player.armor as LustyMaidensArmor).lustyMaidenPaizuri,player,monster);
-
-				simpleChoices("Fuck Her", dicking, "Ride Her", cunting, "FuckHerAss", buttsmexing, "B.Titfuck", bikiniTits, "Leave", leave);
-				/*
-				 if (player.gender == 1) doYesNo(maleFuckCeraphsPussy, combat.cleanupAfterCombat);
-				 if (player.gender == 2) doYesNo(rideCeraphsCockLikeaBAWSSexclamation11eleven, combat.cleanupAfterCombat);
-				 if (player.gender == 3) simpleChoices("Fuck Her",maleFuckCeraphsPussy,"Ride Her",rideCeraphsCockLikeaBAWSSexclamation11eleven,"",0,"",0,"Leave", combat.cleanupAfterCombat);
-				 */
+				
+				if (player.hasVagina()) {
+					addButton(1, "Ride Her", rideCeraphsCockLikeaBAWSSexclamation11eleven);
+					if (player.biggestTitSize() >= 4 && player.armorName == "lusty maiden's armor") {
+						addButton(3, "B.Titfuck", (player.armor as LustyMaidensArmor).lustyMaidenPaizuri, player, monster);
+					}
+				}
 			}
-			else {
-				if (getGame().inCombat)
-					combat.cleanupAfterCombat();
-				else doNext(ceraphFollowerScene.ceraphFollowerAppearance);
-			}
+			
+			addButton(14, "Leave", leave);
 		}
 
 		public function loseFUCKME():void
@@ -807,7 +809,7 @@ package classes.Scenes.NPCs
 			outputText("Ceraph gasps, \"<i>Ohhhhkay.  That felt goooooooood.</i>\"  She gathers some of your sperm from her space and swallows it with a smile before she offers, \"<i>You've shown me a good time, mortal.", false);
 			if (!getGame().inCombat) {
 				outputText("</i>\"", false);
-				player.orgasm();
+				player.orgasm('Generic');
 				dynStats("lib", 3, "sen", 3, "cor", 1);
 				doNext(camp.returnToCampUseOneHour);
 				return;
@@ -824,7 +826,7 @@ package classes.Scenes.NPCs
 			outputText("(Do you accept Ceraph's Offer?)", false);
 			//Y/N – remove 1 fetish level or +10 gems
 			doYesNo(ceraphsNiceOffer, combat.cleanupAfterCombat);
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("lib", 3, "sen", 3, "cor", 1);
 		}
 
@@ -886,7 +888,10 @@ package classes.Scenes.NPCs
 			outputText("The demoness lifts one heeled foot high onto a boulder and winks at you, letting her whip rub up and down her hard, nodule-studded shaft.  Her tail rises languidly between her perfect, lissome legs, rubbing the glistening wet delta of her sex enticingly.  The demon coos, \"<i>Oh, I do love putting on a show for my future pets.  Tell me, did you really come up here to fight?  I'd rather lie back in the sunlight, rubbing my fingers over my glistening skin and showing everyone just how wondrous sex with me would be.  You can even go if you want, or maybe you'd have something worth trading with me?</i>\"", false);
 			dynStats("lus", (5 + player.cor / 10 + player.lib / 20), "cor", 0)
 			//[Fight] [Trade] [Run]
-			simpleChoices("Fight", startAFightWithCeraph, "Trade", tradeCeraphSomething, "", null, "", null, "Run", runFromCeraphsNiceDeal);
+			menu();
+			addButton(0, "Fight", startAFightWithCeraph);
+			addButton(1, "Trade", tradeCeraphSomething);
+			addButton(2, "Run", runFromCeraphsNiceDeal);
 		}
 
 //[Fight] → Cue normal Ceraph fight
@@ -915,10 +920,11 @@ package classes.Scenes.NPCs
 		{
 			clearOutput();
 			spriteSelect(7);
-			var liqueur:Function =null;
-			var endowment:Function =null;
-			var armor:Function =null;
 			outputText("Ceraph looks you up and down like an appraiser examining an antique, never stopping her languid masturbation.  You stand there, hands on your hips, waiting for her to finish while you try not to stare too long at her beading pre-cum or dripping twat-juice.\n\n", false);
+			menu();
+			addDisabledButton(0, "Liqueur");
+			addDisabledButton(1, "Endowment");
+			addDisabledButton(2, "Armor");
 			//(BIMBO LIQUER) 
 			if (player.hasItem(consumables.BIMBOLQ)) {
 				outputText("She finishes and smiles widely.  \"<i>Is that bimbo liqueur?  That stuff is so hard to find, even for a demon like me.  I tell you what, I'll release you from ", false);
@@ -927,27 +933,29 @@ package classes.Scenes.NPCs
 				outputText(" I've placed upon you if you'll trade me that stuff.  There's a naughty boy in my harem whose quick wit I've begun to tire of.", false);
 				if (player.gender > 0 || player.biggestTitSize() > 2) outputText("  Or if you'd rather keep it, I could take one of your endowments for my own use and remove a single fetish.  It's always fun giving one of my old pets a new part to play with.", false);
 				outputText("  Maybe you just need some better equipment though?  I have this sexy armor I'd love to loan you, pet.</i>\"\n\n", false);
-				liqueur = tradeCeraphBimboLiqueur;
-				if (player.gender > 0 || player.biggestTitSize() > 2) endowment = tradeCeraphCrotchityBits;
+				addButton(0, "Liqueur", tradeCeraphBimboLiqueur);
+				if (!player.isGenderless() || player.biggestTitSize() > 2) {
+					addButton(1, "Endowment", tradeCeraphCrotchityBits);
+				}
 			}
 			//(No Bimbo Liquer) 
 			else if (player.gender > 0 || player.biggestTitSize() > 2) {
 				outputText("She finishes and perks up, leering lewdly at you.  \"<i>I tell you what.  Let me take one of your endowments to use on my pets and I'll get rid of ", false);
 				if (flags[kFLAGS.PC_FETISH] == 1) outputText("your fetish for you.</i>\"\n\n", false);
 				else outputText("one of your fetishes for you.</i>\"\n\n", false);
-				endowment = tradeCeraphCrotchityBits;
+				addButton(1, "Endowment", tradeCeraphCrotchityBits);
 			}
 			//(NO TRADE)
 			else {
 				outputText("She finishes and frowns.  \"<i>I don't think you've got a single thing worth trading.", false);
 				if (flags[kFLAGS.PC_FETISH] < 2) {
-					armor = getCeraphsArmor;
+					addButton(2, "Armor", getCeraphsArmor);
 					outputText("Don't fret your " + player.mf("pretty little head", "charming little head") + ", Mistress Ceraph is nothing if not generous to her pets.  I can give you some beautiful armor to entice your foes with, wouldn't that be lovely?", false);
 				}
 				outputText("</i>\"\n\n", false);
 			}
 			//Leave uses the run text!
-			simpleChoices("Liqueur", liqueur, "Endowment", endowment, "Armor", armor, "", null, "Leave", runFromCeraphsNiceDeal);
+			addButton(14, "Leave", runFromCeraphsNiceDeal);
 		}
 
 
@@ -1126,7 +1134,7 @@ package classes.Scenes.NPCs
 				outputText("You work your jaw in consternation, trying to dredge up a response or stop her, but before you can do anything, she pushes your old " + player.vaginaDescript(0) + " down on her throbbing demon-shaft.  It knocks the strength out of your " + player.legs() + ", and you lie there moaning while Ceraph prances off, masturbating herself with your disembodied pussy.  Eventually you cum to the feeling of demon-cum spurting inside you, but it's a strange, empty orgasm.", false);
 				player.removeVagina(0, 1);
 				//(-100 lust, -1 fetish, +1 vagina toy status)
-				player.orgasm();
+				player.orgasm('Generic');
 				dynStats("cor", 5);
 				flags[kFLAGS.PC_FETISH]--;
 				flags[kFLAGS.CERAPH_PUSSIES_OWNED]++;
@@ -1255,7 +1263,7 @@ package classes.Scenes.NPCs
 
 					outputText("Sudden warmth plasters your feet and ankles, drenching them with the inhumanly warm jizm of Ceraph's pleasure.  She sighs, relaxing her grip on your ankles while you pump away, dutifully milking every ounce of demonic juice onto your willing soles.  \"<i>Gooood pet... yes, good girl,</i>\" coos the still blissful dominatrix before she suddenly yanks the pump from your groin without warning.  Your poor pussy jiggles with pain and pleasure, orgasming hard enough to squirt all over your cock-sized clitty.  Thankfully, the swelling of your genitals immediately fades, leaving them larger but less freakish.  Ceraph presses her still-hard cock against your lips, but the mental link starts to fade as she does so, leaving you to return to your normal dreams...", false);
 					//(-3 sens, -100 lust)
-					player.orgasm();
+					player.orgasm('Vaginal');
 					dynStats("sen", -3);
 				}
 				//PUSSY FLESHLIGHT
@@ -1271,7 +1279,7 @@ package classes.Scenes.NPCs
 
 					outputText("The vision and feelings slowly fade, letting you out of their grip and leaving faint after-images of Ceraph cleaning you with her tongue.", false);
 					//(-100 lust, +2 sens, +1 cor)
-					player.orgasm();
+					player.orgasm('Vaginal');
 					dynStats("sen", 2, "cor", 1);
 				}
 				else {
@@ -1285,7 +1293,7 @@ package classes.Scenes.NPCs
 					outputText("\n\nA quim-stained crotch smacks into your lips, and explosions of warmth begin detonating deep inside your depths, the blooms of liquid heat bringing you to a cunt-clenching climax of epic proportions.  Your muscles lock and your [butt] rises from your resting place, cheeks clenched in tight pleasure.  A scream of bliss tears through the night as you cum.  Jizz froths from your entrance as you're overfilled, spilling out to roll to the ground.  It feels so good, so goddamn good.  Your wails slowly trail off to whimpers, aftershocks of enjoyment causing your body to twitch wildly beneath the blankets until the cream-spurting cock is finally removed from your jizz-glazed cavern.");
 					outputText("\n\n\"<i>I suppose I should thank [name] for giving me such an excellent fuck-toy,</i>\" the mysterious-yet-familiar voice comments.  Wait... Ceraph!");
 					outputText("\n\nYou jolt awake, sweating buckets and shivering.  Somewhere, the demoness just blew a load in your old pussy.  The thought would keep you awake, if that orgasm hadn't been so goddamn satisfying.");
-					player.orgasm();
+					player.orgasm('Vaginal');
 					dynStats("sen", 2, "cor", 1);
 				}
 			}
@@ -1363,7 +1371,7 @@ package classes.Scenes.NPCs
 
 					outputText("With the sensation and scenario fading, your confused dreams shift before resuming a more normal flow.  You've no doubt you'll feel sated in the morning, but the lingering echoes of Ceraph's pet in your mind wishes you'd go submit to her.", false);
 					//(-100 lust, +1 corruption)
-					player.orgasm();
+					player.orgasm('Dick');
 					dynStats("cor", 1);
 				}
 				//FEATHER TORTURE
@@ -1451,7 +1459,7 @@ package classes.Scenes.NPCs
 			outputText(" asshole leaks spunk everywhere. Disgusted with her", false);
 			if (player.cor < 33) outputText(" and a little bit by yourself", false);
 			outputText(", you drop her like a discarded rag.  She moans and begins masturbating, half-insensate from the rough treatment.  You ignore her, get dressed, and get out of there before the mountain's beasts show up.  Ceraph is in for a wild night!", false);
-			player.orgasm();
+			player.orgasm('Dick');
 			if (getGame().inCombat)
 				combat.cleanupAfterCombat();
 			else doNext(camp.returnToCampUseOneHour);

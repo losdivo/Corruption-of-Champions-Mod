@@ -53,7 +53,10 @@ package classes.Scenes.Areas.Swamp
 			else outputText("You go exploring in the swamp, and before you get far, a female spider-morph appears!  She's clearly different than the last one you ran into, though many of her features remain the same.  You realize she's no more than a dozen paces away and slowly approaching with a strange glint in her eye.\n\n", false);
 			//Menu for either
 			outputText("What do you do?", false);
-			simpleChoices("Fight", fightFSpiderMorph, "Try to Talk", talkToFSpiderMorph, "", null, "", null, "Leave", runFromFSpiderMorph);
+			menu();
+			addButton(0, "Fight", fightFSpiderMorph);
+			addButton(1, "Try to Talk", talkToFSpiderMorph);
+			addButton(14, "Leave", runFromFSpiderMorph);
 			//Incremement 'times encountered spider-girls'
 			flags[kFLAGS.TIMES_ENCOUNTERED_FEMALE_SPIDERMORPHS]++;
 			if (flags[kFLAGS.CODEX_ENTRY_ARACHNES] <= 0) {
@@ -105,7 +108,9 @@ package classes.Scenes.Areas.Swamp
 					}
 					outputText(" well, you're the first sane person I've had a chance to ask.  Oh fuck it, can I tie you up and fuck you? Please?</i>\"\n\n", false);
 					outputText("Do you let her fuck you?", false);
-					simpleChoices("Yes", voluntaryFemaleSpiderMorphRapesYou, "", null, "", null, "", null, "Leave", declinedCrazyFemaleSpiderMorphSexFunTimes);
+					menu();
+					addButton(0, "Yes", voluntaryFemaleSpiderMorphRapesYou);
+					addButton(14, "Leave", declinedCrazyFemaleSpiderMorphSexFunTimes);
 				}
 				//(OPTION 2 - GIFT) 
 				else {
@@ -475,24 +480,39 @@ package classes.Scenes.Areas.Swamp
 		{
 			clearOutput();
 			spriteSelect(73);
+	
+			if (flags[kFLAGS.SFW_MODE] > 0) {
+				outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.", true);
+				combat.cleanupAfterCombat();
+				return;
+			}
+			
 			outputText("The spider-girl drops to her knees and wobbles unsteadily", false);
 			if (monster.lust >= monster.eMaxLust()) outputText(", thrusting two of her carapace-covered finger-tips deep into her sloppy box as she gives into her lust.  She actually has the temerity to demand, \"<i>Fuck me, fuck me now!</i>\"", false);
 			else outputText(", too wounded to fight back or run away.", false);
-			if (player.lust >= 33 && player.gender > 0 && flags[kFLAGS.SFW_MODE] <= 0) {
-				outputText("\n\nWhat do you do to her?", false);
-				var scissor:Function =null;
-				var pussyFuck:Function =null;
-				var analFuck:Function =null;
-				if (player.hasVagina()) scissor = fSpiderMorphRape;
+			
+			menu();
+			addDisabledButton(0, "Fuck Ass", "This scene requires you to have fitting cock and sufficient arousal.");
+			addDisabledButton(1, "Fuck Pussy", "This scene requires you to have fitting cock and sufficient arousal.");
+			addDisabledButton(2, "Scissor", "This scene requires you to have vagina and sufficient arousal.");
+			
+			if (player.lust >= 33) {
+				outputText("\n\nWhat do you do to her?");
+				
 				if (player.hasCock()) {
-					if (player.cockThatFits(monster.vaginalCapacity()) != -1) pussyFuck = fSpiderMorphRapeDude;
-					else outputText("  <b>You don't have a dick small enough to fuck her vagina.</b>", false);
-					if (player.cockThatFits(monster.analCapacity()) != -1) analFuck = evilSpiderGirlVictoryAnal;
-					else outputText("  <b>Her ass is too tight for you to fit inside.</b>", false);
+					if (player.cockThatFits(monster.analCapacity()) != -1) {
+						addButton(0, "Fuck Ass", evilSpiderGirlVictoryAnal);
+					}
+					if (player.cockThatFits(monster.vaginalCapacity()) != -1) {
+						addButton(1, "Fuck Pussy", fSpiderMorphRapeDude);
+					}
 				}
-				simpleChoices("Fuck Ass", analFuck, "Fuck Pussy", pussyFuck, "Scissor", scissor, "", null, "Leave", combat.cleanupAfterCombat);
+				if (player.hasVagina()) {
+					addButton(2, "Scissor", fSpiderMorphRape);
+				}
 			}
-			else combat.cleanupAfterCombat();
+			
+			addButton(14, "Leave", combat.cleanupAfterCombat);
 		}
 
 		//*Victory Female
@@ -520,12 +540,12 @@ package classes.Scenes.Areas.Swamp
 			outputText("While the stimulation of her twitching body grinding against your " + player.vaginaDescript() + " is wonderful, you quickly tire of her thrashing.  You locate her bulky abdomen and find one of the spinnerets.  The fleshy protuberance is surprisingly quite easy to handle, and you aim it at one of the spider-girl's legs and squeeze.  A torrent of webbing splatters over her carapace-clad legs, and though it doesn't stick to her, it does completely engulf her ankle and adhere to the ground, securing her in place.  You pull back and repeat the action with her other leg, leaving her stuck fast.\n\n", false);
 
 			outputText("You thread yourself back under and around her, sliding back up against her still-quivering cunt until your slippery sex is mashing against it.  With two pairs of slippery pussy lips gliding over each other, squishing wetly from the mixed dribbles of fem-cum, the rest of the swamp fades to a barely-noticed background.  Your " + player.clitDescript() + " quickly emerges from its sheath", false);
-			if (player.clitLength < 4) outputText(", bumping and gliding against the black spider-cooch's sopping lips.", false);
+			if (player.getClitLength() < 4) outputText(", bumping and gliding against the black spider-cooch's sopping lips.", false);
 			else outputText(", slowly spearing forward to penetrate the sopping wet spider-cooch with its decidedly unladylike length and girth.", false);
 			outputText("  The pale beauty moans and screams, her bound arms pulling futilely against the restraints as you work her relentlessly, using her body as your lubricated, vibrating toy.\n\n", false);
 
 			outputText("The squishes and schlicks of your mating echo out, while both your voices rise to higher pitches from the pleasure.  The arachnid-woman cums numerous times, squirting her sweet honey over your " + player.vaginaDescript() + " enough times to leave a puddle under the joining of your waists.  Even in the humid swamp air, the splattering lady-spunk quickly soaks into the mud, but your spidery lover will keep making more; you're sure of it.  You grab one of her feet for leverage and hump harder and harder until your " + player.clitDescript() + " ", false);
-			if (player.clitLength >= 4) outputText("is seized by her velvet embrace just right, and you cum while fucking her with your 'tiny' nub.", false);
+			if (player.getClitLength() >= 4) outputText("is seized by her velvet embrace just right, and you cum while fucking her with your 'tiny' nub.", false);
 			else outputText("drags over her velvet lips just right, and you cum hard, screaming in ecstasy.", false);
 			outputText("\n\n", false);
 

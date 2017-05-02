@@ -126,7 +126,9 @@ package classes.Scenes.Areas.Desert
 			outputText("\n\nYou could watch from where you're hiding, or you could play the hero and step in.");
 			//[Keep Hidden]
 			//[Play Hero]
-			simpleChoices("Play Hero", playHero, "Keep Hidden", keepHidden, "", null, "", null, "", null);
+			menu();
+			addButton(0, "Play Hero", playHero);
+			addButton(1, "Keep Hidden", keepHidden);
 		}
 
 //►[Keep Hidden]
@@ -304,7 +306,9 @@ package classes.Scenes.Areas.Desert
 				outputText("\n\n\"<i>Oh good, you're here.  I was beginning to think you were a coward.</i>\"  Before you can respond to his insult, he cuts you off.  \"<i>We're ready to start when you are.  Let's hope you survive longer than the last guy.</i>\"");
 			}
 			//[Fight] [Leave]
-			simpleChoices("Fight", antColiseumFight, "", null, "", null, "", null, "Leave", leaveAntColony);
+			menu();
+			addButton(0, "Fight", antColiseumFight);
+			addButton(14, "Leave", leaveAntColony);
 		}
 
 //►[Leave]
@@ -493,7 +497,6 @@ package classes.Scenes.Areas.Desert
 			outputText("\n\nAs you look into her eyes and your lips lock together, you feel as if you're a single mind. It's one of the strangest feelings; you can feel... what she's feeling.  As you run your hands over her body you feel your own motions as if you were the recipient.  It's almost thrilling in a way, knowing exactly how your touch feels on another.  You smile wickedly as you lay her down on the cushioned pillows.");
 			//Use Penis - Male Continuation
 			//Use Vagina - Female Continuation
-			//simpleChoices("UseYourPenis",0,"UseYourVagina",0,"",0,"",0,"",0);
 			menu();
 			if (player.hasCock()) addButton(0, "Use Penis", gigititigitigitigitigityAntGirl);
 			if (player.hasVagina()) addButton(1, "Use Vagina", femalePhyllaFirstFuckGooooo);
@@ -1077,9 +1080,11 @@ package classes.Scenes.Areas.Desert
 			menu();
 			addButton(0, "Talk", phyllaTalkChoices);
 			if (player.lust >= 33) addButton(1, "Sex", phyllaSexMenu);
+			else addDisabledButton(1, "Sex", "You are not aroused enough.");
 			if (flags[kFLAGS.PHYLLA_EGG_LAYING] == 0) addButton(2, "Lay Eggs", phyllaLaysEggsToggle);
 			else addButton(2, "No Eggs", phyllaLaysEggsToggle);
 			if (flags[kFLAGS.ANT_KIDS] > 0) addButton(3, "Children", phyllasKidsChildren);
+			else addDisabledButton(3, "Children", "You have no children yet.");
 			addButton(4, "Appearance", phyllaPearance);
 			addButton(5, "Find Gems", phyllaDigsForGems);
 			addButton(6, "Take Stones", phyllaStones);
@@ -1091,6 +1096,13 @@ package classes.Scenes.Areas.Desert
 		private function phyllaSexMenu():void
 		{
 			menu();
+			addDisabledButton(0, "Get BJ", "This scene requires you to have cock.");
+			addDisabledButton(1, "Fuck Her", "This scene requires you to have cock.");
+			addDisabledButton(2, "Lesbian Sex", "This scene requires you to have vagina.");
+			addDisabledButton(3, "Orgy (Male)", "This scene requires you to have cock. Also requires at least 10 ant children and enough corruption.");
+			addDisabledButton(4, "Orgy (Female)", "This scene requires you to have vagina. Also requires at least 10 ant children and enough corruption.");
+			addDisabledButton(5, "Oviposit", "This scene requires you to have spider ovipositor.");
+			
 			if (player.hasCock()) {
 				addButton(0, "Get BJ", phyllaBeeeJays);
 				//\"<i>Use Dick</i>\"
@@ -1099,7 +1111,7 @@ package classes.Scenes.Areas.Desert
 				//(Note: The above option will only be available if Phylla is 'Laying Eggs.')
 				//While Giving Birth (Male) - Written
 				if (flags[kFLAGS.PHYLLA_EGG_LAYING] > 0 && flags[kFLAGS.ANT_KIDS] >= 10) addButton(1, "Fuck Her", dudesFuckEggLayingBitches);
-				if (flags[kFLAGS.ANT_KIDS] > 10 && player.cor >= 75) addButton(3, "Orgy (Male)", orgyWithDatColonyCorruptDudes);
+				if (flags[kFLAGS.ANT_KIDS] > 10 && player.cor >= 75 - pc.corruptionTolerance()) addButton(3, "Orgy (Male)", orgyWithDatColonyCorruptDudes);
 			}
 			//Straight Sex (Lesbian/Fisting) - Written
 			if (player.hasVagina()) {
@@ -1108,7 +1120,7 @@ package classes.Scenes.Areas.Desert
 				if (flags[kFLAGS.PHYLLA_EGG_LAYING] > 0 && flags[kFLAGS.ANT_KIDS] >= 10) addButton(2, "Lesbian Sex", birfingSexWithAntsForDasLadies);
 				//Orgy w/ Colony (Female)
 				//You tell Phylla you're interested in 'inspecting' your children.
-				if (flags[kFLAGS.ANT_KIDS] > 10 && player.cor >= 75) addButton(4, "Orgy (Female)", antColonyOrgy4Ladies);
+				if (flags[kFLAGS.ANT_KIDS] > 10 && player.cor >= 75 - pc.corruptionTolerance()) addButton(4, "Orgy (Female)", antColonyOrgy4Ladies);
 			}
 			//Drider/Bee impregnation scene for Phylla (universal unless otherwise specified, which will include varied intros and stuff.
 			//Sex > [Egg Phylla]

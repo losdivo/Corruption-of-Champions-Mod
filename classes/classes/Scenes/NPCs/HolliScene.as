@@ -68,26 +68,50 @@ public function treeMenu(output:Boolean = true):void {
 	}
 	else if (flags[kFLAGS.FUCK_FLOWER_LEVEL] == 1) {
 		if (output) outputText("The sprout looks about the same as when you first noticed it.  It's a simple, leafy shoot that only goes to about knee height.  It looks healthy and strong, with a few dozen branches and shiny green leaves.  If you look closely, the veins on the undersides of the leaf are purplish and pulse slightly with corruption.  You could easily destroy it.");
-		simpleChoices("Burn It", destroyDatFukkinTree, "", null, "", null, "", null, "Back", inventory.inventoryMenu);
+		menu();
+		addButton(0, "Burn It", destroyDatFukkinTree);
+		addButton(4, "Leave It", inventory.inventoryMenu);
 	}
 	else if (flags[kFLAGS.FUCK_FLOWER_LEVEL] == 2) {
 		//[Fuck It] [Ride Stamen] [Do Nothing] [Destroy It]
 		if (output) outputText("Before you is a large, waist-high plant of questionable origin.  A huge, violet bloom sits atop a strong, central stalk, and the obscene flower looks positively female in every sense, right down to a clit-shaped bump and moist, gently parted lips.  Inside that central passage, you can see a bevy of wiggling stamen surrounding a larger, flared stalk.  The scent that wafts out of that opening is sweet and floral, but undoubtedly sexual.  It looks like an organic sex toy and is clearly corrupt.  It wouldn't be hard to get rid of right now, assuming you don't let it grow larger.");
-		if (player.hasCock() && player.cockThatFits(100) >= 0 && player.lust >= 33) fuck = fuckFuckingFuckFlowerP2;
-		
-		if (player.hasVagina() && player.lust >= 33) ride = rideDatFuckingFukkFlowerP2;
-		simpleChoices("Fuck It", fuck, "Ride Stamen", ride, "", null, "Destroy It", destroyDatFuckingPlantAtP2, "Back", inventory.inventoryMenu);
+		menu();
+		if (player.hasCock() && player.cockThatFits(100) >= 0 && player.lust >= 33) {
+			addButton(0, "Fuck It", fuckFuckingFuckFlowerP2);
+		} else {
+			addDisabledButton(0, "Fuck It");
+		}
+		if (player.hasVagina() && player.lust >= 33) {
+			addButton(1, "Ride Stamen", rideDatFuckingFukkFlowerP2);
+		} else {
+			addDisabledButton(1, "Ride Stamen");
+		}
+		addButton(3, "Destroy It", destroyDatFuckingPlantAtP2);
+		addButton(4, "Leave It", inventory.inventoryMenu);
 	}
 	else if (flags[kFLAGS.FUCK_FLOWER_LEVEL] == 3) {
 		if (output) outputText("The familiar plant has blossomed into a nicely sized tree, though you doubt it has finished growing just yet.  It sports an outstretched canopy with nice, green leaves.  Unfortunately, you can still trace the corrupted veins on their undersides from below.  The vaginal flower is still there and is in full bloom, now several feet across and practically dripping with moisture.  Just up the trunk, there's a pair of small, roughly b-cup breasts bulging out of the bark.  They're exquisitely smooth and soft, and they ooze sweet-smelling sap that your tongue would love to taste.  In the canopy above, tentacle vines idly writhe about, though they show no sizes of aggression.");
-		if (player.findPerk(PerkLib.Dragonfire) >= 0 || player.findPerk(PerkLib.FireLord) >= 0 || player.findPerk(PerkLib.Hellfire) >= 0 || player.hasStatusEffect(StatusEffects.KnowsWhitefire)) {
-			if (output) outputText("\n\nIt could be burned down with your supernatural fire, but it would definitely tire you.");
-			burnIt = torchP3Tree;
-		}
-		if (player.hasCock() && player.lust >= 33) fuck = fuckTheFlower;
-		if (player.hasVagina() && player.lust >= 33) ride = rideTheWalrusP3;
 		//[Fuck flower] [Drink Sap] [Ride Tentacles] [{Torch It}] [Leave It]
-		simpleChoices("Fuck Flower", fuck, "Drink Sap", drinkThePlantGirlsSap, "Ride Tentacle", ride, "Torch It", burnIt, "Leave It", inventory.inventoryMenu);
+		menu();
+		if (player.hasCock() && player.lust >= 33) {
+			addButton(0, "Fuck Flower", fuckTheFlower);
+		} else {
+			addDisabledButton(0, "Fuck Flower");
+		}
+		addButton(1, "Drink Sap", drinkThePlantGirlsSap);
+		if (player.hasVagina() && player.lust >= 33) {
+			addButton(2, "Ride Tentacle", rideTheWalrusP3);
+		} else {
+			addDisabledButton(2, "Ride Tentacle");
+		}
+		if (player.findPerk(PerkLib.Dragonfire) >= 0 || player.findPerk(PerkLib.FireLord) >= 0 || player.findPerk(PerkLib.Hellfire) >= 0 || player.hasStatusEffect(StatusEffects.KnowsWhitefire) || player.findPerk(PerkLib.EnlightenedNinetails) >= 0 || player.findPerk(PerkLib.CorruptedNinetails) >= 0) {
+			if (output) outputText("\n\nIt could be burned down with your supernatural fire, but it would definitely tire you.");
+			addButton(3, "Torch It", torchP3Tree);
+		} else {
+			addDisabledButton(3, "Torch It", "It could be burned down only with supernatural fire.");
+		}
+		
+		addButton(4, "Leave It", inventory.inventoryMenu);
 	}
 	else {
 		//Camp Menu (edited)
@@ -119,19 +143,26 @@ public function treeMenu(output:Boolean = true):void {
 			}
 		}
 		if (flags[kFLAGS.HOLLI_SUBMISSIVE] == 0) {
-			var eat:Function = null;
-			if (flags[kFLAGS.HOLLI_FRUIT] > 0) eat = eatHolliFruit;
-			if (player.hasCock() && player.lust >= 33) fuck = fuckHolliInZeFlowerPuss;
-			if (player.hasVagina() && player.lust >= 33) ride = level4RideHollisTentacruels;
-			
-			var guardT:String = "";
-			if (flags[kFLAGS.HOLLI_DEFENSE_ON] == 1) guardT = "Stop Guarding";
-			else guardT = "Guard Camp";
-			burnIt = askHolliToWatch;
-			
 			//[Fuck Her] [Drink] [Tentacle Ride] {Guard Camp} {Threaten} [Leave]
-			choices("Fuck Holli", fuck, "Drink Sap", haveAMapleSyrupSnack, "Ride Tentacles", ride, guardT, burnIt, "Eat A Fruit", eat,
-				"", null, "", null, "", null, "", null, "Leave", inventory.inventoryMenu);
+			menu();
+			if (player.hasCock() && player.lust >= 33) {
+				addButton(0, "Fuck Holli", fuckHolliInZeFlowerPuss);
+			} else {
+				addDisabledButton(0, "Fuck Holli");
+			}
+			addButton(1, "Drink Sap", haveAMapleSyrupSnack);
+			if (player.hasVagina() && player.lust >= 33) {
+				addButton(2, "Ride Tentacles", level4RideHollisTentacruels);
+			} else {
+				addDisabledButton(2, "Ride Tentacles");
+			}
+			addButton(3, flags[kFLAGS.HOLLI_DEFENSE_ON] == 1 ? "Stop Guarding" : "Guard Camp", askHolliToWatch);
+			if (flags[kFLAGS.HOLLI_FRUIT] > 0) {
+				addButton(4, "Eat A Fruit", eatHolliFruit);
+			} else {
+				addDisabledButton(4, "Eat A Fruit");
+			}
+			addButton(14, "Leave", inventory.inventoryMenu);
 		}
 		else {
 			menu();
@@ -228,7 +259,9 @@ public function getASprout():void {
 	flags[kFLAGS.FUCK_FLOWER_LEVEL] = 1;
 	flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] = 0;
 	//[Yes] [No]
-	simpleChoices("Yes", destroyDatFukkinTree, "No", letZeFuckingSproutLive, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Yes", destroyDatFukkinTree);
+	addButton(1, "No", letZeFuckingSproutLive);
 }
 //[Yes] Destroy Tree (edited)
 private function destroyDatFukkinTree():void {
@@ -265,15 +298,20 @@ public function fuckPlantGrowsToLevel2():void {
 	if (silly()) outputText("\n\n<b>What do?</b>");
 	else outputText("\n\n<b>What do you do?</b>");
 	//[Fuck It] [Ride Stamen] [Do Nothing] [Destroy It]
-	var fuck:Function = null;
-	if (player.hasCock() && player.cockThatFits(100) >= 0 && player.lust >= 33) fuck = fuckFuckingFuckFlowerP2;
-	var ride:Function = null;
-	if (player.hasVagina() && player.lust >= 33) ride = rideDatFuckingFukkFlowerP2;
-	simpleChoices("Fuck It", fuck, "Ride Stamen", ride, "Do Nothing", playerMenu, "Destroy It", destroyDatFuckingPlantAtP2, "", null);
+	menu();
+	if (player.hasCock() && player.cockThatFits(100) >= 0 && player.lust >= 33) {
+		addButton(0, "Fuck It", fuckFuckingFuckFlowerP2);
+	} else {
+		addDisabledButton(0, "Fuck It");
+	}
+	if (player.hasVagina() && player.lust >= 33) {
+		addButton(1, "Ride Stamen", rideDatFuckingFukkFlowerP2);
+	} else {
+		addDisabledButton(1, "Ride Stamen");
+	}
+	addButton(2, "Destroy It", destroyDatFuckingPlantAtP2);
+	addButton(3, "Do Nothing", playerMenu);
 }
-
-
-
 
 //Destroy It (edited)
 private function destroyDatFuckingPlantAtP2():void {
@@ -310,7 +348,7 @@ private function fuckFuckingFuckFlowerP2():void {
 	if (player.cumQ() > 500) outputText("  You pour forth your prodigious essence without pause or fail, and the plant immediately begins to drink it down, the stem bulging with rounded balls of sperm that it carries underground.");
 	if (player.cumQ() > 1500) outputText("  Soon, the meager stem cannot swallow it all.  Spunk froths and squirts out around the base of your tool for a moment, and then a veritable tide of the stuff gushes out to soak  you.");
 	outputText("\n\nSatisfied and a little exhausted, you slump down and release your grip on the creampied fuck-flower.  It slowly, laboriously removes itself from around your orgasm-bloated shaft, cleaning the sperm from it as it goes.  There's a visible swallowing motion, and a globular bulb moves down the stalk into the ground.  Once the stalk stands fully erect, the petals bloom back into the flower, the only hint of your tryst a milky-white sheen upon the purple petals.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("cor", 1);
 	flags[kFLAGS.TIMES_FUCKED_FLOWER] = 1;
 	if (flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] < 1000) flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] += 4;
@@ -324,7 +362,7 @@ private function rideDatFuckingFukkFlowerP2():void {
 	outputText("You shuck your [armor] and slowly ease yourself towards the violet-hued creature.  As soon as you get within a few feet, the flower's bulb angles toward you, the petals wiggling slightly along with the stamen inside.  A few of them even stretch out towards you like longing fingertips, shaking slightly from the effort before sliding back inside.  The dull ache in your [vagina] grows a few degrees hotter at the display, your body growing flush with excitement for the coming copulation.  Throwing caution to the wind, you move forward with a confident sway of your [hips].  It's time to get pollinated.");
 	outputText("\n\nGrabbing hold of the plant, you tug it up against your mons and sigh.  The silky-smooth petals flatten against your thighs, the tips curling over to touch the sides of your [butt], slicking it with lubricating moisture.  You let go, and the flower holds fast to your [hips], firmly embracing you as its stamen begin to roam across your vulva.  Slowly, an intrepid tentacle ventures between your labia, into the slick passageway you're so ready to fill with wiggly delight.  A dribble of fresh fluid rushes out at those first, hesitant touches, and encouraged by its success, the stamen's brothers join in on the slippery party, plunging into your box and immediately swirling over your inner walls.");
 	outputText("\n\nDriven mercilessly by the sudden onslaught of sensation, you flop back onto the ground, but the flower comes with you, latched onto your [hips] with no sign of releasing.  The swirling tentacles twist around inside you in a tornado of ecstasy, and the pleasure, that awful, unstoppable pleasure, twists your muscles into knots.  They instinctively convulse to raise your lower lips higher, as if that would somehow propagate even deeper penetration.  One of the tentacles retracts, drawing a burst of slick cunt-lube with it.  Then, it twists around your [clit], tightening up on the over-sensitive bud until it feels like it could pop.");
-	if (player.clitLength > 4) outputText("  Your heavy buzzer is so big that the flexible plant-cock has plenty of room to curl around it, and if you could see it, your clit would look almost like a candy-cane (if one set of stripes was jerking off the cane beneath).");
+	if (player.getClitLength() > 4) outputText("  Your heavy buzzer is so big that the flexible plant-cock has plenty of room to curl around it, and if you could see it, your clit would look almost like a candy-cane (if one set of stripes was jerking off the cane beneath).");
 	if (player.cockTotal() > 0) outputText("  [EachCock] soon has its own partner twisting around it, a pussy-slicked vine to jerk and twine about its girth.");
 	outputText("\n\nWith nothing to occupy your roving hands, you let them slide up your " + player.skinFurScales() + " to your ");
 	if (player.bRows() > 1) outputText("lowest row of tits, cupping them before groping to your top row of breasts");
@@ -354,8 +392,8 @@ private function rideDatFuckingFukkFlowerP2():void {
 	else outputText("torrent");
 	outputText(".  The tentacles inside you curl in on themselves and slowly pull back from the well-creamed quim, scraping out as much fluid as possible from your oversensitive honey-pot.  The binding on your [clit] releases, which of course sets off a whole new wave of rippling pleasure-contractions in your cunt.");
 	
+	player.orgasm('VaginalAnal');
 	outputText("\n\nYou swoon from it all, your body slowly relaxing, sinking back to the ground.  The fuck-flower visibly swallows your juices, a bulge visible on the stem.  It detaches with a hungry pop, strands of its slime webbing the space between person and plant for a second before it withdraws completely.  Slowing gradually, the corrupt greenery resumes its formerly placid, open state, aimed at the sky.  You can see the tentacle-like stamen still wiggling inside, but they seem a little more lethargic now.  Your [vagina] twitches in remembrance of their caresses, and you wonder when you'll take advantage of this wondrous gift next.");
-	player.orgasm();
 	dynStats("cor", 1);
 	player.changeFatigue(5);
 	flags[kFLAGS.TIMES_RIDDEN_FLOWER] = 1;
@@ -371,20 +409,30 @@ public function flowerGrowsToP3():void {
 	outputText("  The distinct sound of wood bowing and creaking under new weight catches your ears, and well before you can get to the plant, you can see a leafy canopy stretching towards the sky.  <b>It's grown into a small tree, with bark, leaves, and everything!</b>  Warily, you round one of the ancient standing stones to get a better look.");
 	outputText("\n\nThe first thing you notice is that the vaginal tentacle flower remains, affixed at waist height to the side of the tree.  It looks bigger, the petals huge and glossy, undoubtedly far more capable of swallowing dick than ever before.  The tree isn't that thick, just yet.  Glancing further up the smooth, knotless trunk, you see the most surprising thing of all - a pair of almond-colored nipples, perched upon small, tit-like bulges in the wood.  The bark on these globular protrusion is smoother and fairer than the surrounding surface.  On one of them, a trickle of sap has formed into a heavy bead, and it smells sweet, like maple syrup.");
 	outputText("\n\nA dollop of something moist landing in your hair startles you from your visual inspection.  Gingerly, you touch your fingers to the wet spot and come away with a thick, viscous fluid that smells faintly musky... and salty...  It's cum!  You recoil, looking up in time to see a half dozen tentacles curling between the branches rubbing against each other in what can only be described as an orgy of frotting cock-lust.  Well now, your little pet plant is growing up.  There's no easy way to get rid of it now");
-	var burnIt:Function = null;
-	if (player.findPerk(PerkLib.Dragonfire) >= 0 || player.findPerk(PerkLib.FireLord) >= 0 || player.findPerk(PerkLib.Hellfire) >= 0 || player.hasStatusEffect(StatusEffects.KnowsWhitefire)) {
-		outputText(", though you suppose you could burn it down with magical fire if you set your mind to it");
-		burnIt = torchP3Tree;
-	}
 	flags[kFLAGS.FUCK_FLOWER_LEVEL] = 3;
 	flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] = 0;
-	outputText(".\n\n<b>What do you do?</b>");
-	var fuck:Function = null;
-	var ride:Function = null;
-	if (player.hasCock() && player.lust >= 33) fuck = fuckTheFlower;
-	if (player.hasVagina() && player.lust >= 33) ride = rideTheWalrusP3;
 	//[Fuck flower] [Drink Sap] [Ride Tentacles] [{Torch It}] [Leave It]
-	simpleChoices("Fuck Flower", fuck, "Drink Sap", drinkThePlantGirlsSap, "Ride Tentacle", ride, "Torch It", burnIt, "Leave It", playerMenu);
+	menu();
+	if (player.hasCock() && player.lust >= 33) {
+		addButton(0, "Fuck Flower", fuckTheFlower);
+	} else {
+		addDisabledButton(0, "Fuck Flower");
+	}
+	addButton(1, "Drink Sap", drinkThePlantGirlsSap);
+	if (player.hasVagina() && player.lust >= 33) {
+		addButton(2, "Ride Tentacle", rideTheWalrusP3);
+	} else {
+		addDisabledButton(2, "Ride Tentacle");
+	}
+	if (player.findPerk(PerkLib.Dragonfire) >= 0 || player.findPerk(PerkLib.FireLord) >= 0 || player.findPerk(PerkLib.Hellfire) >= 0 || player.hasStatusEffect(StatusEffects.KnowsWhitefire) || player.findPerk(PerkLib.EnlightenedNinetails) >= 0 || player.findPerk(PerkLib.CorruptedNinetails) >= 0) {
+		outputText(", though you suppose you could burn it down with magical fire if you set your mind to it");
+		addButton(3, "Torch It", torchP3Tree);
+	} else {
+		addDisabledButton(3, "Torch It", "You suppose you could burn it down with magical fire.");
+	}
+	
+	outputText(".\n\n<b>What do you do?</b>");
+	addButton(4, "Leave It", playerMenu);
 }
 
 //Fuck Flower (skimmed)
@@ -434,7 +482,7 @@ private function fuckTheFlower():void {
 	outputText("  After what feels like forever, the spurting seed no longer flows from your long-abused dick, and as your member softens, the tentacles swing you away, setting you down softly.");
 	
 	outputText("\n\nYou sigh, utterly exhausted and drained of sperm.  What a rush!  Your [armor] slips on easily after that ordeal, though your muscles are a bit sore.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("cor", 1);
 	player.changeFatigue(5);
 	if (flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] < 1000) flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] += 5;
@@ -475,7 +523,7 @@ private function rideTheWalrusP3():void {
 	outputText("\n\nYou endure it all with wordless pleasure, your eyes vacant and spacy.  Your brain shuts down, and you simply go weak.  The tentacles, for their part, continue to take you with unhealthy levels of ardor, your body growing more and more cum-plastered until it's hard to make out your shape beneath all the dripping jizz and undulated, snake-like shapes.  The orgasms that follow are pitiful, pathetic punctuations of pleasure  that can't even spur your laconic muscles into movement.");
 	outputText("\n\nAt some point, you are set back down on the ground and sprayed with a fresh batch of seed.  You rest there for a while, until you can catch your breath and move without pain.  When you start trying to clean up, you realize the puddle of cum is completely gone, likely swallowed back up the tree's hungry roots, and the only mess left is your sodden " + player.skinDesc + ".  You get dressed and stumble away a little drunkenly, your [vagina] raw and oozing.");
 	//{- big sensitivity loss, big libido gain, minus lust}
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("lib", 1, "sen", -5);
 	if (flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] < 1000) flags[kFLAGS.FUCK_FLOWER_GROWTH_COUNTER] += 5;
 	flags[kFLAGS.TIMES_RIDDEN_FLOWER]++;;
@@ -575,7 +623,9 @@ public function amilyHatesTreeFucking():void {
 	outputText("\n\nNo matter how you try to interrupt, Amily's not even giving you a chance to answer...");
 	
 	//[Stay Quiet][Slap Her]
-	simpleChoices("Stay Quiet", stayQuietWhileAmilyBitchesAboutFuckingArborday, "Slap Her", slapAmilysWhoreFace, "", null, "", null, "", null);
+	menu();
+	addButton(0, "Stay Quiet", stayQuietWhileAmilyBitchesAboutFuckingArborday);
+	addButton(1, "Slap Her", slapAmilysWhoreFace);
 }
 //[Stay Quiet]
 private function stayQuietWhileAmilyBitchesAboutFuckingArborday():void {
@@ -687,7 +737,7 @@ private function fuckHolliInZeFlowerPuss():void {
 	//{+1 corruption, -100 lust, -1 sensitivity.}
 	flags[kFLAGS.TIMES_FUCKED_FLOWER]++;
 	fertilizeHolli();
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1, "cor", 1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -742,7 +792,7 @@ private function level4RideHollisTentacruels():void {
 	if (!player.isBiped()) outputText("you'd be walking bowlegged for a week, if you had legs.");
 	else outputText("you'll be walking bowlegged for a week!");
 	//empty lust, boost corruption, slimefeed(), +1 cor, -3 sens, +.5 libido
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("lib", .5, "sen", 2, "cor", 1);
 	fertilizeHolli(false);
 	player.slimeFeed();
@@ -798,7 +848,6 @@ private function askHolliToWatch():void {
 		if (flags[kFLAGS.THREATENED_HOLLI] > 0) outputText("<b>  You could always just slap the cunt.</b>");
 		//choosing not to beg unlocks Threaten?
 		//[Beg][Threaten][Back]
-		//simpleChoices("Beg",begHolli4Watches,"Threaten",0,"Assert Self",domUpSomeHolli,"",0,"Back",treeMenu);
 		menu();
 		addButton(0,"Beg",begHolli4Watches);
 		if (flags[kFLAGS.THREATENED_HOLLI] == 0) addButton(1,"Threaten",threatenHolli);
@@ -932,7 +981,7 @@ private function holliGetsDickDommed():void {
 	outputText("  Holli's tentacles cum with her, spraying her seed through her canopy in aimless ropes.  Most of it sticks to her branches and leaves, but small amounts of it trickle down to spatter the ground.  One of them lands on the back of your hand.  You frown and push it up against the tree-woman's mouth.  She licks you clean without question, still dazed from her orgasm.");
 	outputText("\n\nRemoving yourself from the gaping flowerpot, you admire the fruits of your labors.  Holli breathily says, \"<i>Th-thank you, [name]...  So good...</i>\"");
 	outputText("\n\nYou crook a finger and point down at the slop of sperm and nectar glazing your [cock biggest].  Getting the idea, she leans back out and opens wide.  You get a thorough cock polishing from the much meeker plant-woman.  She swallows it all and withdraws, offering, \"<i>If you ever want another round... my flower is yours.</i>\"");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -2, "cor", 1);
 	flags[kFLAGS.TIMES_FUCKED_FLOWER]++;
 	flags[kFLAGS.HOLLI_FUCKED_TODAY] = 1;
@@ -966,7 +1015,7 @@ private function fullOnTentacleTasticGangBangForHolli():void {
 	outputText("\n\nHolli climaxes again when your load passes into her vagina, deforming the petals slightly as it goes.  Her cunt-tentacles are similarly stretched by the force of your orgasm, distended by spermy knots that erupt inside them.  Jizz and girl-cum drip from the numerous twats, all five of them.  Those pussies aren't simply idly filled either.  They hungrily massage you throughout their own moments of bliss, actually providing a modicum of suction to draw even more spunk from your [balls].  You roar in triumph and thrust all ten at once, pushing them as deep into their chosen locations as you ride out of the ecstasy, spurting and shaking.");
 	outputText("\n\nYou come to a little while later.  Your myriad tentacles have retracted back to your groin, though a goodly number of them have a distinctly feminine odor clinging to them.  Holli is sagging back in her tree, covered in a pearly shine that can only be your fertile batter.  She's panting while the cum runs out and over her unimpeded, dripping from the canopy as well.");
 	outputText("\n\nStretching the kinks from your shoulders, you walk up to the confused cum-dump and say, \"<i>That's how you sow seed, little flower.</i>\"  Holli shudders, releasing a squirt of your goo from her twat.  You laugh and get dressed before departing, feeling blessedly sated.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("lib", .4, "sen", -3, "cor", 1);
 	flags[kFLAGS.TIMES_FUCKED_FLOWER]++;
 	flags[kFLAGS.HOLLI_FUCKED_TODAY] = 1;
@@ -1003,7 +1052,7 @@ private function vaginalDomHollisTentacruels():void {
 	outputText("  A loud groan escapes your mouth, and you rock your [hips] against the undulating tendril.  Your body's eagerness for more pleasure is unparalleled, but you control yourself as efficiently as you control the dryad.");
 	outputText("\n\n\"<i>Bring two tentacles over here, Holli.  I want to see how you look with a mask of your own seed.</i>\"  Holli's pale green skin blushes darker, almost as dark as her viridian hair, but two tentacles appear beside you, as if by magic.  Their heads are flared and purplish, as wide as the shaft and a half, leaking clear trails of slick pre-sap.  You touch the tip of one and giggle when it bubbles up a fresh batch of lubricant.  It's smooth and slick on your hand, perfect for a handjob.  You begin to masturbate the two arrivals, taking care to keep them pointed directly at Holli's face.  The poor woman has her mouth full of dick, a cock deep in your twat, and two swollen heads barely a few inches away from her unprotected face.  It's a wonder she can think with all that going on.");
 	outputText("\n\nMoving quicker now, Holli's tentacle begins to pound you faster, pistoning with greater and greater enthusiasm.  You let it - you're achingly wet by this point, and a fast, fervent fuck is exactly what your [vagina] needs.  \"<i>Harder!</i>\" you urge, and your obedient tree-slut obeys.  The thick-tipped tendril smacks into your cervix, filling your channel completely with its thick length.  Its shaft arches up, grinding over your [clit]");
-	if (player.clitLength >= 3.5) outputText(" for a moment before wrapping around and jerking on it");
+	if (player.getClitLength() >= 3.5) outputText(" for a moment before wrapping around and jerking on it");
 	outputText(".");
 	outputText("\n\nHolli cries, \"<i>Hnnng...  grmmnuh... gmmmnuh mmphum!</i>\"");
 	outputText("\n\nShe's... what?  A telltale flaring deep inside you alerts you what she was trying to tell you - she's about to cum.  Well, you aren't far that yourself, and there's nothing like a show to put you over the edge.  You jerk faster on the cocks in your hands, smiling when their purplish heads distend violently, so wide you're forced to keep your hands behind the tips.  Droplets of pre-cum spatter off the ground, and Holli's cheeks bulge with the over-engorged girth inside her mouth.");
@@ -1019,7 +1068,7 @@ private function vaginalDomHollisTentacruels():void {
 	flags[kFLAGS.HOLLI_FUCKED_TODAY] = 1;
 	fertilizeHolli(false);
 	player.slimeFeed();
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("sen", -2, "cor", 1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1202,7 +1251,7 @@ internal function enjoyYourBadEndBIYAAAATCH():void {
 		outputText("\n\n\"<i>Foolish little meat,</i>\" the demon smiles down at you, \"<i>I <b>am</b> Mareth.  There is a part of me in everything born in this land.  And now, in you as well.</i>\"  Your tendril reaches for Holli's nethers at her unspoken command, dragging your [cock biggest] into her wet, lush depths as she wraps her arms around you...");
 		
 		//--Next--
-		player.orgasm();
+		player.orgasm('Dick');
 		dynStats("lib", 5, "sen", 20);
 		menu();
 		addButton(0,"Next",holliPlaysWithPenisesBadEnd);
@@ -1250,14 +1299,14 @@ internal function enjoyYourBadEndBIYAAAATCH():void {
 		outputText("\n\nThe young sapling encasing you bends toward Holli with a gesture from the demon, and she leans over you.  \"<i>Sweet little toy... you never had a chance.  I am Mareth. There is a part of me in everything of this world.  Now, in you as well.</i>\"  The verdant woman smiles darkly as vines cover your eyes, blinding you.  As something begins nosing up to your pussy, she whispers, \"<i>It won't be lonely, though...</i>\"");
 		
 		//--Next--
-		player.orgasm();
+		player.orgasm('Vaginal');
 		dynStats("lib", 5, "sen", 20);
 		menu();
 		addButton(0,"Next",girlsGetANiceManToBadEnd);
 	}
 	else {
 		//branch of nothing-having
-		player.orgasm();
+		player.orgasm('Anal');
 		dynStats("lib", 5, "sen", 20);
 		outputText("\n\nShe pulls your [armor] free without care, breaking the fastenings in her haste.  A raised eyebrow meets your bare crotch, but Holli doesn't pause for long.  \"<i>My simple little toy... if it were so easy to keep out the corruption of this land, the demons would be overthrown tomorrow.</i>\"  Revising her plans, the demon turns you around and slides a finger between your asscheeks, bending close.  ");
 		if (player.ass.analWetness > 0) outputText("Betraying your depravity, the slick crack opens wide and your greedy, wet asshole practically welcomes the demon's entire hand, sucking it up and making you shiver with repressed delight.  \"<i>Oh, mother!  It seems as though this is not a new lesson to you, is it?  My little whore, will you beg and moan as I fill you?</i>\"");
@@ -1409,7 +1458,7 @@ private function girlsGetANiceManToBadEnd():void {
 	if (player.hasCock()) outputText("With a nervous glance downward, he slides one hand to her [cock smallest].  \"<i>It's not gay if it's a chick's,</i>\" he mumbles to himself, and then begins to stroke haltingly, playing his finger along the urethra and drawing a squirt of precum from his shivering partner.  ");
 	else {
 		outputText("His hand slides to the [clit] above her wet fuck-hole; collecting some of the frothing lube from their wet sex, ");
-		if (player.clitLength < 6) outputText("he smears it over the little button and then begins to trace up and down the underside with a finger.  ");
+		if (player.getClitLength() < 6) outputText("he smears it over the little button and then begins to trace up and down the underside with a finger.  ");
 		else outputText("he coats the swollen organ with it and begins to jerk it off valiantly, like a cock.  ");
 		outputText("\"<i>Does that feel good?</i>\" he asks, upping the pace of his thrusts.  ");
 	}

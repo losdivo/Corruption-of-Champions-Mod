@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Places{
+package classes.Scenes.Places{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.Scenes.Areas.Plains.BazaarGatekeeper;
@@ -48,11 +48,17 @@ public function findBazaar():void {
 private function approachBazaarGuard():void {
 	clearOutput();
 	outputText("You step from concealment and walk up to the strange man, calling out in greeting.  He folds his arms across his chest and looks you up and down, peering at you with intense, black eyes.  They aren't solid onyx, but his irises are just as dark as the seemingly bottomless depths of his pupils.  His appraising gaze watches you, unblinking as second after second ticks by.  Just when you start to wonder if he speaks your language, he interrupts you by saying, \"<i>", false);
-	if (player.cor < 33 - player.corruptionTolerance() && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) outputText("Leave at once.  You are not yet ready for the wonders of the Bazaar.", false);
+	if (player.cor < (33 - player.corruptionTolerance()) && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) outputText("Leave at once.  You are not yet ready for the wonders of the Bazaar.", false);
 	else outputText("Welcome to the Bizarre Bazaar.  Enter, but be mindful of your actions within.", false);
 	outputText("</i>\"", false);
-	if (player.cor < 33 - player.corruptionTolerance() && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) simpleChoices("FIGHT!",initiateFightGuard, "", null, "", null, "", null, "Leave",camp.returnToCampUseOneHour);
-	else simpleChoices("Enter",enterTheBazaar, "", null, "", null, "", null, "Leave",camp.returnToCampUseOneHour);
+	menu();
+	if (player.cor < (33 - player.corruptionTolerance()) && flags[kFLAGS.MEANINGLESS_CORRUPTION] <= 0) {
+		addButton(0, "FIGHT!",initiateFightGuard);
+	} else {
+		addButton(0, "Enter",enterTheBazaar);
+	}
+	
+	addButton(14, "Leave", camp.returnToCampUseOneHour);
 }
 
 public function enterTheBazaar():void {
@@ -96,7 +102,11 @@ public function enterTheBazaarAndMenu(demons:Boolean = true):void {
 	addButton(0, "Shops", shopMenu);
 	addButton(1, (flags[kFLAGS.FAP_ARENA_RULES_EXPLAINED] > 0 ? "Fap Arena" : "Tent"), fapArena.fapArenaGOOOO);
 	addButton(2, "Food Tent", blackCock.enterTheBlackCock, null, null, null, "The incredible smell seems to come from that tent.", "The Black Cock");
-	addButton(4, "Back Alley", investigateBackAlley, null, null, null, "That back alley looks suspicious. Do you dare investigate?");
+	if (flags[kFLAGS.PRISON_ENABLED] == true) {
+		addButton(4, "Back Alley", investigateBackAlley, null, null, null, "That back alley looks suspicious. Do you dare investigate?");
+	} else {
+		addButton(4, "Back Alley", investigateBackAlleyNoPrison, null, null, null, "That back alley looks suspicious. Do you dare investigate?");
+	}
 	//Cinnabar
 	if (model.time.hours >= 15 && model.time.hours <= 20) addButton(5, (flags[kFLAGS.CINNABAR_NUMBER_ENCOUNTERS] > 0 ? "Cinnabar" : "Rat"), cinnabar.cinnabarAppearance(false));
 	//Griping Demons
@@ -186,7 +196,6 @@ private function theSlipperySqueeze():void {
 		milker = askJoeyAboutOffer;
 	//	[Joey] [Sara] [][] [Leave]
 	
-	//simpleChoices("JoeyMassage",joeyMassage,"Androgyny",androgyny,"Joey'sOffer",milker,"",0,"Leave",2855);
 	menu();
 	addButton(0,"JoeyMassage",joeyMassage);
 	addButton(1,"Adrogyny",androgyny);
@@ -230,8 +239,10 @@ private function buyCockMilker():void {
 	outputText("\n\n(<b>Key Item Acquired: Cock Milker</b>)");
 	player.gems -= 200;
 	statScreenRefresh();
-	player.createKeyItem("Cock Milker",0,0,0,0);
-	simpleChoices("JoeyMassage", joeyMassage, "Androgyny", null, "Joey'sOffer", null, "", null, "Leave", enterTheBazaar);
+	player.createKeyItem("Cock Milker", 0, 0, 0, 0);
+	menu();
+	addButton(0, "JoeyMassage", joeyMassage);
+	addButton(14, "Leave", enterTheBazaar);
 }
 
 private function joeyAndrogyny():void {
@@ -328,7 +339,7 @@ private function joeysMassageWifNoExtraJizz():void {
 		//(Female orgasm)
 		else {
 			outputText("Though his spit and cum-lubed tongue is quite skilled, deftly tasting your labia and channel, the bunny adds a pair of fingers to the mix, pulling the musky tunnel wide and letting more of his slippery seed inside you.  He uses it like lube, sliding his digits around while he sucks your " + player.clitDescript() + " ", false);
-			if (player.clitLength >= 4) outputText("like a practiced whore fellating a john.", false);
+			if (player.getClitLength() >= 4) outputText("like a practiced whore fellating a john.", false);
 			else outputText("like a professional pussy-licker.", false);
 			outputText("  You give your " + player.nippleDescript(0) + "s a hard tweak, torturing them as the building pleasure grows.  Aware of this, Joey curls a finger to press directly on a sensitive spot, deep inside you, and then you're arching your back and howling with unleashed release.\n\n", false);
 		}
@@ -421,13 +432,17 @@ private function joeyBigBalls():void {
 		if (player.cor > 70) outputText("; you won't get to watch him fountaining all that pearly spunk like a perverted statue", false);
 		outputText(".  What do you decide?", false);
 		//[SuckCumOut] [MasturbateOut]
-		simpleChoices("SuckCumOut", suckOffJoeysGardenHose, "MasturbateOut", joeyWanksItOut, "", null, "", null, "", null);
+		menu();
+		addButton(0, "SuckCumOut", suckOffJoeysGardenHose);
+		addButton(1, "MasturbateOut", joeyWanksItOut);
 	}
 	//(Sucked Joey once) 
 	else {
 		outputText("As soon as you enter The Slippery Squeeze, you know somehow that something is amiss.  Joey staggers out from a back-room, his balls once again swollen huge and round.  He looks at you and admits, \"<i>Someone's <b>got</b> to be sabotaging me... gods, this hurts!  Could you help me, or should I go in the back and jerk it out myself?</i>\"\n\n", false);
 		//[SuckCumOut] [MasturbateOut]
-		simpleChoices("SuckCumOut", suckOffJoeysGardenHose, "MasturbateOut", joeyWanksItOut, "", null, "", null, "", null);
+		menu();
+		addButton(0, "SuckCumOut", suckOffJoeysGardenHose);
+		addButton(1, "MasturbateOut", joeyWanksItOut);
 	}
 	flags[kFLAGS.JOEY_BIG_BALLS_COUNTER]++;	
 }
@@ -1044,7 +1059,7 @@ private function assaultYoRapistYo():void {
 		//open options [Leave][Abuse ass(70 or more corruption)]
 		menu();
 		addButton(4,"Leave", assaultWinAndLeave);
-		if (player.cor >= 66 - player.corruptionTolerance() || flags[kFLAGS.MEANINGLESS_CORRUPTION] > 0) addButton(0,"Abuse Ass",abuseHisAss);
+		if (player.cor >= (66 - player.corruptionTolerance()) || flags[kFLAGS.MEANINGLESS_CORRUPTION] > 0) addButton(0,"Abuse Ass",abuseHisAss);
 	}
 }
 
@@ -1322,6 +1337,13 @@ private function finalGayFinallee(road:int = 0):void {
 		clearOutput();
 		outputText("Your curiosity draws you half way down a dark alleyway between two tents. In the gloom ahead you see what appears to be a cage wagon, and hear the sounds of guttural voices engaged in boisterous conversation. Inexplicably you find yourself struck by an unwholesome sense of foreboding. <b>Even from here that cage looks like it is designed to carry people off to somewhere very unpleasant, some place where your life could be turned upside down and the rules you have become accustomed to in this world may no longer apply.</b> You take a long moment to consider turning back. Do you throw caution to the wind and investigate further?");
 		doYesNo(getGame().prison.goDirectlyToPrisonDoNotPassGoDoNotCollect200Gems, enterTheBazaarAndMenu);
+	}
+	//Nope no prison for me thank you very much
+	private function investigateBackAlleyNoPrison():void {
+		clearOutput();
+		outputText("Your curiosity draws you half way down a dark alleyway between two tents. In the gloom ahead you see what appears to be a cage wagon, and hear the sounds of guttural voices engaged in boisterous conversation. Inexplicably you find yourself struck by an unwholesome sense of foreboding. Even from here that cage looks like it is designed to carry people off to somewhere very unpleasant, some place where your life could be turned upside down and the rules you have become accustomed to in this world may no longer apply. You take the wise decision of walking away.");
+		menu();
+		addButton(0, "Next", enterTheBazaarAndMenu);
 	}
 
 }

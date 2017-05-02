@@ -653,6 +653,7 @@ package classes.Scenes.Combat
 			clearOutput();
 			outputText("You gather energy in your Talisman and unleash the spell contained within.  A pink aura washes all over you and as soon as the aura fades, you feel much less hornier.");
 			var temp:int = 30 + rand(player.inte / 5) * player.spellMod();
+			dynStats("lus", -temp);
 			outputText(" <b>(-" + temp + " lust)</b>\n\n");
 			getGame().arianScene.clearTalisman();
 			monster.doAI();
@@ -726,12 +727,6 @@ package classes.Scenes.Combat
 			addButton(14, "Back", combat.combatMenu, false);
 		}
 		
-		/*private function fireBreathMenu():void { (Doesn't seem to be used. Besides, there are 14 slots.)
-			clearOutput();
-			outputText("Which of your special fire-breath attacks would you like to use?");
-			simpleChoices("Akbal's", fireballuuuuu, "Hellfire", hellFire, "Dragonfire", dragonBreath, "", null, "Back", playerMenu);
-		}*/
-		
 		public function berzerk():void {
 			clearOutput();
 			if (player.hasStatusEffect(StatusEffects.Berzerking)) {
@@ -764,13 +759,13 @@ package classes.Scenes.Combat
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(20) > player.maxFatigue())
 			{
 				outputText("You are too tired to breathe fire.", true);
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			//Not Ready Yet:
 			if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) {
 				outputText("You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...");
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			player.changeFatigue(20, 1);
@@ -863,7 +858,7 @@ package classes.Scenes.Combat
 			clearOutput();
 			if (player.fatigue + 20 > player.maxFatigue()) {
 				outputText("You are too tired to breathe fire.", true);
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			player.changeFatigue(20);
@@ -1088,12 +1083,12 @@ package classes.Scenes.Combat
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(10) > player.maxFatigue())
 			{
 				outputText("You are too tired to focus this ability.", true);
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
 				outputText("You cannot focus to reach the enemy's mind while you're having so much difficult breathing.", true);
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			if (monster.short == "pod" || monster.inte == 0) {
@@ -2392,7 +2387,7 @@ package classes.Scenes.Combat
 			clearOutput();
 			if (player.fatigue + player.physicalCost(20) > player.maxFatigue()) {
 				outputText("You are too tired to perform a shield bash.");
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			outputText("You ready your [shield] and prepare to slam it towards " + monster.a + monster.short + ".  ");

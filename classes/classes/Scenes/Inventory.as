@@ -20,10 +20,14 @@ package classes.Scenes
 	import classes.Scenes.Dungeons.DungeonCore;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import classes.internals.LoggerFactory;
+	import mx.logging.ILogger;
 
 	use namespace kGAMECLASS;
 
 	public class Inventory extends BaseContent {
+		private static const LOGGER:ILogger = LoggerFactory.getLogger(Inventory);
+		
 		private static const inventorySlotName:Array = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
 		
 		private var itemStorage:Array;
@@ -116,10 +120,6 @@ package classes.Scenes
 		}
 		
 		public function stash():void {
-			/*Hacked in cheat to enable shit
-			flags[kFLAGS.TAKEN_WEAPON_RACK_DEPRECATED] = 1;
-			flags[kFLAGS.TAKEN_ARMOUR_RACK_DEPRECATED] = 1;*/
-			//REMOVE THE ABOVE BEFORE RELASE ()
 			hideMenus();
 			clearOutput();
 			spriteSelect(-1);
@@ -299,27 +299,34 @@ package classes.Scenes
 		//Clear storage slots
 		public function clearStorage():void {
 			//Various Errors preventing action
-			if (itemStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
+			if (itemStorage == null){
+				LOGGER.error("Cannot clear storage because it does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + itemStorage.length + " storage slots.");
+				LOGGER.debug("Attempted to remove {0} storage slots.", itemStorage.length);
 				itemStorage.splice(0, itemStorage.length);
 			}
 		}
 		
 		public function clearGearStorage():void {
 			//Various Errors preventing action
-			if (gearStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
+			if (gearStorage == null) {
+				LOGGER.error("Cannot clear gear storage because it does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + gearStorage.length + " storage slots.");
+				LOGGER.debug("Attempted to remove {0} gear storage slots.", gearStorage.length);
 				gearStorage.splice(0, gearStorage.length);
 			}
 		}
 		
 		public function initializeGearStorage():void {
 			//Completely empty storage array
-			if (gearStorage == null) trace("ERROR: Cannot clear gearStorage because storage does not exist.");
+			if (gearStorage == null) {
+				//TODO refactor this to use clearGearStorage()
+				LOGGER.error("Cannot clear gearStorage because storage does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + gearStorage.length + " gearStorage slots.");
+				LOGGER.debug("Attempted to remove {0} gear storage slots.", gearStorage.length);
 				gearStorage.splice(0, gearStorage.length);
 			}
 			//Rebuild a new one!
@@ -433,17 +440,17 @@ package classes.Scenes
 			menu();
 			for (var x:int = 0; x < 10; x++) {
 				if (player.itemSlots[x].unlocked)
-					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), createCallBackFunction2(replaceItem, itype, x));
+					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), replaceItem, itype, x);
 			}
 			if (source != null) {
 				currentItemSlot = source;
-				addButton(12, "Put Back", createCallBackFunction2(returnItemToInventory, itype, false));
+				addButton(12, "Put Back", returnItemToInventory, itype, false);
 			}
-			if (showUseNow && itype is Useable) addButton(13, "Use Now", createCallBackFunction2(useItemNow, itype as Useable, source));
+			if (showUseNow && itype is Useable) addButton(13, "Use Now", useItemNow, itype as Useable, source);
 			addButton(14, "Abandon", callOnAbandon); //Does not doNext - immediately executes the callOnAbandon function
 		}
 		
-		private function useItemNow(item:Useable, source:ItemSlotClass):void {
+		private function useItemNow(item:Useable, source:ItemSlotClass = null):void {
 			clearOutput();
 			if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
 				useItem(item, source);
@@ -707,7 +714,7 @@ package classes.Scenes
 			var button:int = 0;
 			menu();
 			for (var x:int = startSlot; x < endSlot; x++, button++) {
-				if (storage[x].quantity > 0) addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
+				if (storage[x].quantity > 0) addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), pickFrom, storage, x);
 			}
 			addButton(14, "Back", stash);
 		}

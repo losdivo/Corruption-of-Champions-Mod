@@ -262,7 +262,11 @@ public function meetSophie():void {
 	}
 
 	//[Looking for Demons] [Sex] [Got Lost] [Foraging]
-	simpleChoices("Foraging", tellSophieYoureForagingForStuff, "Got Lost", sophieMeetingGotLost, "Look4Demons", sophieLookingForDemons, "Sex", sophieMeetingChoseSex, "", null);
+	menu();
+	addButton(0, "Foraging", tellSophieYoureForagingForStuff);
+	addButton(1, "Got Lost", sophieMeetingGotLost);
+	addButton(2, "Look4Demons", sophieLookingForDemons);
+	addButton(3, "Sex", sophieMeetingChoseSex);
 }
 
 //[Repeat Meeting]
@@ -288,7 +292,9 @@ public function meetSophieRepeat():void {
 			if (player.lust < 60 || rand(3) <= 1) {
 				outputText("Her need amplifies the compulsion, making it difficult to resist.  It looks like if you turned her down now she'd probably try to force herself on you anyway.  Do you give in to her demand?", false);
 				//[Yes-Consentual sex] [No - fight]
-				simpleChoices("Yes", consensualSexSelector, "No", fightSophie, "", null, "", null, "", null);
+				menu();
+				addButton(0, "Yes", consensualSexSelector);
+				addButton(1, "No", fightSophie);
 			}
 			//(high lust?)
 			else {
@@ -315,7 +321,10 @@ public function meetSophieRepeat():void {
 		outputText("(Her words sink into you, and a desire to go with her threatens to overcome your self-control.  You take a deep breath and clear your head.  Do you go with her, turn her down, or try to take control and be the dominant one?  You'll probably have to fight her in order to dominate her...)", false);
 		dynStats("lus", 20);
 		//[Yes – consentacle sex] [No – sad harpy]
-		simpleChoices("Yes", consensualSexSelector, "No", shootDownSophieSex, "Dominate", fightSophie, "", null, "", null);
+		menu();
+		addButton(0, "Yes", consensualSexSelector);
+		addButton(1, "No", shootDownSophieSex);
+		addButton(2, "Dominate", fightSophie);
 		return;
 	}
 	//(NO DICK)
@@ -325,14 +334,20 @@ public function meetSophieRepeat():void {
 			outputText("Your climb manages to take you back into the harpy nests again.  Sophie flutters down next to you and warns, \"<i>Cutey, a " + player.mf("neuter","girl") + " like you doesn't belong up here.  The younger harpies don't really get the idea of conversation and see you as competition.</i>\"\n\n", false);
 			
 			outputText("Do you see the wisdom of her words and climb back down the mountain, fight Sophie, or keep climbing?", false);
-			simpleChoices("Fight Sophie", FirstTimeSophieForceSex, "Keep Climbing", PCIgnoresSophieAndHarpyIsFought, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
+			menu();
+			addButton(0, "Fight Sophie", FirstTimeSophieForceSex);
+			addButton(1, "Keep Climbing", PCIgnoresSophieAndHarpyIsFought);
+			addButton(14, "Leave", camp.returnToCampUseOneHour);
 			return;
 		}
 		//(LACTATE)
 		else {
 			outputText("Your climb manages to take you back into the harpy nests again.  Sophie flutters down next to you and licks her lips hungrily.  She asks, \"<i>Would you mind coming up to my nest and sharing some of your milk?  I've worked up quite a craving for cute girl-milk.</i>\"\n\n", false);
 			outputText("Do you agree to breastfeed the hungry harpy?", false);
-			simpleChoices("Yes", cramANippleInIt, "No", shootDownSophieSex, "Fight Her", FirstTimeSophieForceSex, "", null, "", null);
+			menu();
+			addButton(0, "Yes", cramANippleInIt);
+			addButton(1, "No", shootDownSophieSex);
+			addButton(2, "Fight Her", FirstTimeSophieForceSex);
 			//No(cramANippleInIt,shootDownSophieSex);
 			//[Yes][No]
 			return;
@@ -419,7 +434,9 @@ private function sophieMeetingChoseSex():void {
 		if (player.hasVagina()) {
 			outputText("  What do you do?", false);
 			//[Stay&Sex] [Leave]
-			simpleChoices("Force Sex", FirstTimeSophieForceSex, "Leave", camp.returnToCampUseOneHour, "", null, "", null, "", null);
+			menu();
+			addButton(0, "Force Sex", FirstTimeSophieForceSex);
+			addButton(14, "Leave", camp.returnToCampUseOneHour);
 			return;
 		}
 		doNext(camp.returnToCampUseOneHour);
@@ -589,6 +606,7 @@ private function cramANippleInIt():void {
 	dynStats("lus", -50);
 	//increment times bfed.
 	flags[kFLAGS.BREASTFEAD_SOPHIE_COUNTER]++;
+	player.orgasm('Tits');
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
 	else doNext(camp.returnToCampUseOneHour);
@@ -725,7 +743,7 @@ private function consensualHotSophieDickings():void {
 	outputText("</i>\"\n\n", false);
 	//Apply harpy status.
 	luststickApplication(4);
-	player.orgasm();
+	player.orgasm('Dick');
 	//Sophiepreg
 	sophieFucked();
 	outputText("Do you take her up on her offer?", false);
@@ -856,7 +874,7 @@ private function consensualSophieSexNoFit():void {
 	outputText("</i>\"\n\n", false);
 	//Apply harpy status.
 	luststickApplication(4);
-	player.orgasm();
+	player.orgasm('Dick');
 	//Sophiepreg
 	sophieFucked();
 	outputText("Do you take her up on her offer?", false);
@@ -921,32 +939,33 @@ internal function sophieLostCombat():void {
 	if (monster.HP < 1) outputText("She's too wounded to fight, and she lies in a miserable heap in the nest.", false);
 	else outputText("She's too turned on to be a threat and is happily masturbating.", false);
 	//RAEP OPTIONS
-	if (player.gender != 0) {
-		var dickRape:Function = null;
-		var clitFuck:Function = null;
-		var cuntFuck:Function = null;
-		var bimbo:Function = null;
-		if (player.lust >= 33 && player.totalCocks() > 0) {
-			//Set dick rape to correct scene.
-			//Too big
-			if (player.cockThatFits(232) == -1) {dickRape = maleVictorySophieRapeHUGE;}
-			//Fits
-			else dickRape = maleVictorySophieRape;
+	menu();
+	addDisabledButton(0, "Use Dick");
+	addDisabledButton(1, "Scissor");
+	addDisabledButton(2, "Fuck wClit");
+	addDisabledButton(3, "Bimbo Her");
+	if (player.lust >= 33 && player.hasCock()) {
+		//Set dick rape to correct scene.
+		if (player.cockThatFits(232) == -1) {
+			addButton(0, "Use Dick", maleVictorySophieRapeHUGE); //Too big
+		} else {
+			addButton(0, "Use Dick", maleVictorySophieRape); //Fits
 		}
-		//Girl options!
-		if (player.lust >= 33 && player.hasVagina()) {
-			//All girls get cuntfuck
-			cuntFuck = sophieVictoryPussyGrind;
-			//big clit girls
-			if (player.clitLength >= 5) clitFuck = fuckDatClit;
+	}
+	//Girl options!
+	if (player.lust >= 33 && player.hasVagina()) {
+		//All girls get cuntfuck
+		addButton(1, "Scissor", sophieVictoryPussyGrind);
+		//big clit girls
+		if (player.getClitLength() >= 5) {
+			addButton(2, "Fuck wClit", fuckDatClit);
 		}
-		if (player.hasItem(consumables.BIMBOLQ)) bimbo = sophieBimbo.bimbotizeMeCaptainSophie;
 	}
-	if (dickRape != null || cuntFuck != null || clitFuck != null || bimbo != null) {
-		outputText("  What do you do to her?", false);
-		simpleChoices("Use Dick", dickRape, "Scissor", cuntFuck, "Fuck wClit", clitFuck, "Bimbo Her", bimbo, "Leave", combat.cleanupAfterCombat);
+	if (player.hasItem(consumables.BIMBOLQ)) {
+		addButton(3, "Bimbo Her", sophieBimbo.bimbotizeMeCaptainSophie);
 	}
-	else combat.cleanupAfterCombat();
+	
+	addButton(14, "Leave", combat.cleanupAfterCombat);
 }
 internal function sophieWonCombat():void {
 	sophieBimbo.sophieSprite();
@@ -989,7 +1008,7 @@ private function maleVictorySophieRape():void {
 	outputText("  Sophie's well-fucked slit gapes and drools whiteness once you pull out.  It won't be long until she has an egg at this rate.", false);
 	
 	//Victory - lust decrease, sensitivity decrease
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1);
 	//Fuck & Preg counter
 	sophieFucked();
@@ -1046,7 +1065,7 @@ private function maleVictorySophieRapeHUGE():void {
 	luststickApplication(8);
 	
 	//Victory - lust decrease, sensitivity decrease
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1);
 	//Fuck & Preg counter
 	sophieFucked();
@@ -1070,9 +1089,9 @@ private function sophieVictoryPussyGrind():void {
 	outputText("  You shift closer until you can feel the heat of her sex wafting against your own.  With erotic precision, you lower your " + player.vaginaDescript(0) + " until Sophie's large, puffy folds contact your own.  Both of you gasp with pleasure, but it's clear from her tone that the bird-matron isn't into it.\n\n", false);
 	
 	//(small clit)
-	if (player.clitLength < 2) outputText("Your " + player.clitDescript() + " puffs up inside your folds, turning into a hard little bump of pleasure.  Moaning happily, you start to drag your " + player.vaginaDescript(0) + " back and forth against Sophie's wet gash, shivering each time you bump into her own rapidly engorging clitoris.  ", false);
+	if (player.getClitLength() < 2) outputText("Your " + player.clitDescript() + " puffs up inside your folds, turning into a hard little bump of pleasure.  Moaning happily, you start to drag your " + player.vaginaDescript(0) + " back and forth against Sophie's wet gash, shivering each time you bump into her own rapidly engorging clitoris.  ", false);
 	//(large clit) 
-	else if (player.clitLength < 5) outputText("Your " + player.clitDescript() + " puffs up, protruding from your folds like a miniature cock.  Moaning happily, you start to pump your " + player.vaginaDescript(0) + " back and forth across Sophie's wet gash, shivering as your " + player.clitDescript() + " continually slips in and out of it.  The harpy's own nub quickly grows hard, and you feel it bumping against you pleasantly while your hips gyrate against her.  ", false);
+	else if (player.getClitLength() < 5) outputText("Your " + player.clitDescript() + " puffs up, protruding from your folds like a miniature cock.  Moaning happily, you start to pump your " + player.vaginaDescript(0) + " back and forth across Sophie's wet gash, shivering as your " + player.clitDescript() + " continually slips in and out of it.  The harpy's own nub quickly grows hard, and you feel it bumping against you pleasantly while your hips gyrate against her.  ", false);
 	//(cock-clit)
 	else outputText("Your " + player.clitDescript() + " puffs up, growing to an obscene, cock-like size.  You moan happily and begin to stroke the incredibly sensitive protrusion.   The whole time your hips continue to force your " + player.vaginaDescript(0) + " against the harpy's pussy, and you feel her own clitty budding up and getting hard.   It rubs between your girl-cum-slicked bodies, making your hips shake and twitch with delightful sensations.  ", false);
 	outputText("Loud squishes and fluid noises fill the air as the scissoring intensifies, and in no time Sophie's body is covered in a thin sheen of sweat and blushing hard.  ", false);
@@ -1105,7 +1124,7 @@ private function sophieVictoryPussyGrind():void {
 	outputText("\"<i>Don't think I've given up on you yet.  One of these times you'll come around,</i>\" you declare as you get dressed.  Finished and refreshed, you slap her feathery ass and hop out of her nest to climb back down the mountain.", false);
 
 	//Victory - lust decrease, sensitivity decrease
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("sen", -1);
 	//Fuck & Piss-off counter
 	sophieFucked(false);
@@ -1151,7 +1170,7 @@ private function fuckDatClit():void {
 	player.lust = player.maxLust();
 	flags[kFLAGS.COMBAT_BONUS_XP_VALUE] = monster.XP;
 	combat.cleanupAfterCombat();
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("sen", 1);
 }
 	
@@ -1201,7 +1220,7 @@ private function tinyDickSupremeSophieLoss():void {
 	
 	//END
 	//(0 libido-0 sensitivity and mino-blood numb-parts acknowledgements would be funny here; like, she can't get the PC off with the heat alone because he's so frigid and/or numb and has to employ the drugs in frustration. Almost like turning the tables on the tentacle monster. -Z)
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", 5);
 	sophieFucked();
 	luststickApplication(8);
@@ -1247,7 +1266,7 @@ private function normalLossRapuuuuSophie():void {
 	}
 	
 	outputText("  Sophie's hips pull you in more tightly as you spend the last of your white goo within her depths.   She murmurs, \"<i>Not bad for your first shot.</i>\"  Her voice shifts and buzzes as she suggests, \"<i>You're getting even harder now, little " + player.mf("boy","girl") + ".  Mhmmm, you'll cum again soon.</i>\"  The words burrow inside you and seem to squeeze more blood into your " + player.cockDescript(x) + ".  It gets so hard it's painful, and the tightness of her walls is almost too much to bear.  The bird-woman's face gives a tender, but knowing smile when you cum the second time, and the third time, and the fourth...", false);
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", 5);
 	sophieFucked();
 	luststickApplication(8);
@@ -1263,7 +1282,7 @@ private function tooBigForOwnGoodSophieLossRape():void {
 	outputText("Sophie reaches forwards with a clawed foot to pull down your armor, but your " + player.cockDescript(x) + " bursts free on its own.  She recoils in shock, nearly falling onto her feathery ass.   Sophie screeches, \"<i>How did you even hide that monster!?  I CAN'T TAKE THAT!</i>\"   She lashes and batters your head with her wings and kicks.  A particularly powerful hit lands just above your ears and things go black...\n\n", false);
 	
 	outputText("Hours later, you wake with an agonizing headache.   You sit up and fresh stabs of pain rock your world, nearly dropping you flat on your back again.  That harpy... she left you at the bottom of the mountain, and didn't even bother to cover your crotch back up!  Your " + player.cockDescript(x) + " is trembling, hard, and dripping pre-cum.  Its entire surface is covered in yellowish lip-prints, and judging from how tired you feel, Sophie found a way to make you cum numerous times.  With that many kisses covering you, you'll be hard for hours.  You get on your " + player.feet() + " and head back to camp.", false);
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", 5);
 	sophieFucked();
 	luststickApplication(16);

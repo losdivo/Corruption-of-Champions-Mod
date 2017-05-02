@@ -12,6 +12,7 @@ package classes
 	import classes.VaginaClass;
 	import classes.Scenes.Places.TelAdre.UmasShop;
 	import flash.display.InteractiveObject;
+	import flash.errors.IllegalOperationError;
 
 	public class Creature extends Utils
 	{
@@ -380,7 +381,7 @@ package classes
 		//MALE STUFF
 		//public var cocks:Array;
 		//TODO: Tuck away into Male genital class?
-		public var cocks:Array;
+		public var cocks:/*Cock*/Array;
 		//balls
 		public var balls:Number = 0;
 		public var cumMultiplier:Number = 1;
@@ -401,29 +402,62 @@ package classes
 		public var vaginas:Vector.<VaginaClass>;
 		//Fertility is a % out of 100. 
 		public var fertility:Number = 10;
-		private var legacyClitLength:Number = VaginaClass.DEFAULT_CLIT_LENGTH;
 		public var nippleLength:Number = .25;
-		public var breastRows:Array;
+		public var breastRows:/*BreastRowClass*/Array;
 		public var ass:AssClass = new AssClass();
 		
-		public function get clitLength():Number {
-			if(!hasVagina()) {
-				//TODO throw a error in the future
-				trace("Error: legacy get clit length without a vagina!");
-				return legacyClitLength;
-			}else{
-				return vaginas[0].clitLength;
+		/**
+		 * Check if the Creature has a vagina. If not, throw an informative Error.
+		 * This should be more informative than the usual RangeError (Out of bounds).
+		 * @throws IllegalOperationError if no vagina is present
+		 */
+		private function checkVaginaPresent():void {
+			if (!hasVagina()) {
+				throw new IllegalOperationError("Creature does not have vagina.")
 			}
 		}
 		
-		public function set clitLength(clitLength:Number):void {
-			if(!hasVagina()) {
-				 //TODO throw a error in the future
-				 trace("Error: legacy set clit length without a vagina!");
-				 legacyClitLength = clitLength;
-			}else{
-			 	vaginas[0].clitLength = clitLength;
-			}
+		/**
+		 * Get the clit length for the selected vagina (defaults to the first vagina).
+		 * @param	vaginaIndex the vagina to query for the clit length
+		 * @return the clit length of the vagina
+		 * @throws IllegalOperationError if the Creature does not have a vagina
+		 * @throws IllegalOperationError if the Creature does not have a vagina
+		 * @throws RangeError if the selected vagina cannot be found
+		 */
+		public function getClitLength(vaginaIndex : int = 0) : Number {
+			checkVaginaPresent();
+			
+			return vaginas[vaginaIndex].clitLength;
+		}
+		
+		/**
+		 * Set the clit length for the selected vagina (defaults to the first vagina).
+		 * @param clitLength the clit length to set for the vagina
+		 * @param vaginaIndex the vagina on witch to set the clit length
+		 * @return the clit length of the vagina
+		 * @throws IllegalOperationError if the Creature does not have a vagina
+		 * @throws RangeError if the selected vagina cannot be found
+		 */
+		public function setClitLength(clitLength:Number, vaginaIndex : int = 0) : Number {
+			checkVaginaPresent();
+			
+			vaginas[vaginaIndex].clitLength = clitLength;
+			return getClitLength(vaginaIndex);
+		}
+		
+		/**
+		 * Change the clit length by the given amount. If the resulting length drops below 0, it will be set to 0 instead.
+		 * @param	delta the amount to change, can be positive or negative
+		 * @param	vaginaIndex the vagina whose clit will be changed
+		 * @return the updated clit length
+		 * @throws IllegalOperationError if the Creature does not have a vagina
+		 * @throws RangeError if the selected vagina cannot be found
+		 */
+		public function changeClitLength(delta:Number, vaginaIndex:int = 0):Number {
+			checkVaginaPresent();
+			var newClitLength:Number = vaginas[vaginaIndex].clitLength += delta;
+			return newClitLength < 0 ? 0 : newClitLength;
 		}
 		
 		private var _femininity:Number = 50;
@@ -869,9 +903,7 @@ package classes
 			return -1;
 		}
 
-		/**
-		 * @deprecated Replace with indexOfStatusEffect(), statusEffectByType(), or hasStatusEffect()
-		 */
+		[Deprecated(replacement="indexOfStatusEffect(), statusEffectByType(), or hasStatusEffect() instead")]
 		public function findStatusEffect(stype:StatusEffectType):int {
 			return indexOfStatusEffect(stype);
 		}
@@ -1947,6 +1979,11 @@ package classes
 			return countCocksOfType(CockTypesEnum.DOG) + countCocksOfType(CockTypesEnum.FOX);
 		}
 		
+		public function wolfCocks():int {
+			if (cocks.length == 0) return 0;
+			return countCocksOfType(CockTypesEnum.WOLF);
+		}
+		
 		public function findFirstCockType(ctype:CockTypesEnum):Number
 		{
 			var index:Number = 0;
@@ -1991,6 +2028,12 @@ package classes
 				}
 				//Dog - > horse
 				if (cocks[counter].cockType == CockTypesEnum.DOG)
+				{
+					cocks[counter].cockType = CockTypesEnum.HORSE;
+					return counter;
+				}
+				//Wolf - > horse
+				if (cocks[counter].cockType == CockTypesEnum.WOLF)
 				{
 					cocks[counter].cockType = CockTypesEnum.HORSE;
 					return counter;
@@ -2049,7 +2092,6 @@ package classes
 			return false
 		}
 		
-		// Deprecated
 		public function hasSock(arg:String = ""):Boolean
 		{
 			var index:int = cocks.length;
@@ -2203,11 +2245,59 @@ package classes
 		{
 			switch (gender) {
 				case GENDER_NONE:   return caps ? mf("Genderless", "Fem-genderless") : mf("genderless", "fem-genderless");
-				case GENDER_MALE:   return caps ? mf("Male", "Dickgirl")             : mf("male", "dickgirl");
+				case GENDER_MALE:   return caps ? mf("Male", biggestTitSize() > BREAST_CUP_A ? "Shemale" : "Femboy")             : mf("male", biggestTitSize() > BREAST_CUP_A ? "shemale" : "femboy");
 				case GENDER_FEMALE: return caps ? mf("Cuntboy", "Female")            : mf("cuntboy", "female");
 				case GENDER_HERM:   return caps ? mf("Maleherm", "Hermaphrodite")    : mf("maleherm", "hermaphrodite");
 				default: return "<b>Gender error!</b>";
 			}
+		}
+		
+		/**
+		 * Checks if the creature is technically male: has cock but not vagina.
+		 */
+		public function isMale():Boolean
+		{
+			return gender == GENDER_MALE;
+		}
+		
+		/**
+		 * Checks if the creature is technically female: has vagina but not cock.
+		 */
+		public function isFemale():Boolean
+		{
+			return gender == GENDER_FEMALE;
+		}
+		
+		/**
+		 * Checks if the creature is technically herm: has both cock and vagina.
+		 */
+		public function isHerm():Boolean
+		{
+			return gender == GENDER_HERM;
+		}
+		
+		/**
+		 * Checks if the creature is technically genderless: has neither cock nor vagina.
+		 */
+		public function isGenderless():Boolean
+		{
+			return gender == GENDER_NONE;
+		}
+
+		/**
+		 * Checks if the creature is technically male or herm: has at least a cock.
+		 */
+		public function isMaleOrHerm():Boolean
+		{
+			return (gender & GENDER_MALE) != 0;
+		}
+
+		/**
+		 * Checks if the creature is technically female or herm: has at least a vagina.
+		 */
+		public function isFemaleOrHerm():Boolean
+		{
+			return (gender & GENDER_FEMALE) != 0;
 		}
 		
 		//Create a cock. Default type is HUMAN
@@ -3171,6 +3261,7 @@ package classes
 			}
 			switch (cocks[0].cockType) { //With multiple cocks only use the descriptions for specific cock types if all cocks are of a single type
 				case CockTypesEnum.ANEMONE:
+				case CockTypesEnum.WOLF:
 				case CockTypesEnum.CAT:
 				case CockTypesEnum.DEMON:
 				case CockTypesEnum.DISPLACER:
@@ -3197,6 +3288,7 @@ package classes
 					case CockTypesEnum.CAT:
 					case CockTypesEnum.DISPLACER:
 					case CockTypesEnum.DOG:
+					case CockTypesEnum.WOLF:
 					case CockTypesEnum.FOX:
 					case CockTypesEnum.HORSE:
 					case CockTypesEnum.KANGAROO:
@@ -3279,6 +3371,7 @@ package classes
 						default: return "bizarre head";
 					}
 				case CockTypesEnum.DOG:
+				case CockTypesEnum.WOLF:
 				case CockTypesEnum.FOX:
 					if (rand(2) == 0) return "pointed tip";
 					return "narrow tip";

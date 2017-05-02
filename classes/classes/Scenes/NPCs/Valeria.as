@@ -7,6 +7,10 @@
 
 	public class Valeria extends NPCAwareContent implements TimeAwareInterface {
 
+		public static const GOOSTUFFED_EFFECT_MIN_DURATION:int = 10;
+		public static const GOOSTUFFED_EFFECT_MAX_DURATION_DELTA:int = 300;
+		public static const GOOSTUFFED_PREGNANCY_DURATION:int = int.MAX_VALUE;
+		
 		public function Valeria()
 		{
 			CoC.timeAwareClassAdd(this);
@@ -134,19 +138,6 @@ private function followersValeriaSex(display:Boolean = true):void {
 		outputText(".");
 		outputText("\n\n\"<i>Hmm... I suppose that could be arranged. What did you have in mind, partner?</i>\"");
 	}
-	//(Display Options: \"<i>[Penetrate Her](Cockwielder PC Only)  [Get Fucked]  [Gooflation] 
-	//[Get Dominated](Must have a gender)  [Dick/No Dick])
-	/*var penetrate:Function = null;
-	if (player.hasCock()) penetrate = penetrateValeria;
-	var getFucked:Function = valeriaGetFucked;
-	var gooFlation:Function = gooFlation;
-	var dominated:Function = null;
-	if (player.gender > 0) dominated = valeriaSexDominated;
-	var dickToggle:Function = valeriaDickToggle;
-	var dickText:String = "Grow Dick";
-	if (flags[kFLAGS.VELARIA_FUTA] == 1) {
-		dickText = "Lose Dick";
-	}*/
 	menu();
 	if (player.hasCock()) addButton(0, "PenetrateHer", penetrateValeria, null, null, null, "Fuck the goo girl with your penis!");
 	addButton(1, "Get Fucked", valeriaGetFucked, null, null, null, player.hasVagina() ? "Have her penetrate you vaginally.": "Have her penetrate you anally.");
@@ -154,7 +145,6 @@ private function followersValeriaSex(display:Boolean = true):void {
 	if (player.gender > 0) addButton(3, "GetDominated", valeriaSexDominated, null, null, null, "Submit to the armor-goo and have her take charge.");
 	if (flags[kFLAGS.VELARIA_FUTA] == 1) addButton(4, "Lose Dick", valeriaDickToggle, null, null, null, "Ask her to hide that gooey cock of hers.");
 	else addButton(4, "Grow Dick", valeriaDickToggle, null, null, null, "Ask her to grow a gooey cock.");
-	//choices("PenetrateHer",penetrate,"Get Fucked",getFucked,"Gooflation",gooFlation,"GetDominated",dominated,dickText,dickToggle,"",0,"",0,"",0,"",0,"Back",valeriaFollower);
 	addButton(14, "Back", valeriaFollower);
 }
 
@@ -283,7 +273,7 @@ public function valeriaGetFucked():void {
 	}
 	outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, all right?</i>\"");
 
-	player.orgasm();
+	player.orgasm('VaginalAnal');
 	dynStats("sen", -1);
 	HPChange(25 + (player.newGamePlusMod() * 15),false);
 	doNext(camp.returnToCampUseOneHour);
@@ -314,7 +304,7 @@ public function gooFlation(clearText:Boolean = true):void {
 		outputText("\n\nYou collapse, goop flowing freely from your abused body.  Laughing, Valeria pours out of your lap, ");
 		if (player.gender > 0) outputText("patting her belly full of your juices, ");
 		outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, alright?</i>\"");
-		player.orgasm();
+		player.orgasm('Generic');
 		dynStats("sen", 1);
 		HPChange(25 + (player.newGamePlusMod() * 15),false);
 		doNext(camp.returnToCampUseOneHour);
@@ -340,7 +330,7 @@ public function penetrateValeria():void {
 	outputText("\n\nWith a relieved, exhausted sigh, you collapse backwards, popping out of Valeria's body with a wet squelch.  As you lie on your back, panting from the rough sex, you notice Valeria reconstituting her body into her normal human form, a mist of cum rolling happily in her full belly.  She makes a show of rubbing her tummy before coming over and plopping down on top of you, her gropable bum pressing lightly on your gut.");
 	outputText("\n\n\"<i>That was fun, partner,</i>\" she laughs.  \"<i>Tasty, too,</i>\" she adds, reaching into her belly to pull out a strand of your cum.  She slurps it back down, giving you a little wink.");
 	outputText("\n\nYou run your hand along her curves as she digests her meal, but eventually you know you need to get on with your duties.  You roll Valeria off of you and start to redress.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", 1);
 	HPChange(25 + (player.newGamePlusMod() * 15), false);
 	feedValeria(Math.sqrt(player.cumQ()) + 5);
@@ -406,7 +396,7 @@ public function valeriaSexDominated(offCamp:Boolean = false):void {
 	}
 	HPChange(25 + (player.newGamePlusMod() * 15), false);
 	feedValeria(Math.sqrt(player.cumQ()) + 5 + (player.averageVaginalWetness() * 5));
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", 1);
 	if (offCamp || !getGame().inCombat)
 		doNext(camp.returnToCampUseOneHour);
@@ -678,16 +668,16 @@ private function valeriaGooRapeII():void {
 	//Prevent pregnancy if has a vagina when it happens.
 	//Be sure to track what holes get filled, as body parts may change before birth!
 	flags[kFLAGS.TIMES_VALERIA_GOO_THREESOMED]++;
-	player.orgasm();
+	player.orgasm('Anal');
 	//v1 = time till birth.
 	//v2 = cock fill = 1, balls fill = 2
 	//v3 = cunt fill?
 	//v4 = tit fill?
-	player.createStatusEffect(StatusEffects.GooStuffed, 10 + rand(300), 0, 0, 0);
-	player.buttKnockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, 500); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+	player.createStatusEffect(StatusEffects.GooStuffed, GOOSTUFFED_EFFECT_MIN_DURATION + rand(GOOSTUFFED_EFFECT_MAX_DURATION_DELTA), 0, 0, 0);
+	player.buttKnockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, GOOSTUFFED_PREGNANCY_DURATION); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
 	if (player.hasVagina()) {
 		player.changeStatusValue(StatusEffects.GooStuffed, 3, 1);
-		player.knockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, 500); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+		player.knockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, GOOSTUFFED_PREGNANCY_DURATION); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
 	}
 	if (player.hasCock()) {
 		if (player.balls > 0) player.changeStatusValue(StatusEffects.GooStuffed,2,2);

@@ -75,7 +75,11 @@ public function meetMinotaurSons():void {
 	
 			outputText("You can't help but laugh with a mixture of maternal pride and rational worry.  What do your offspring have planned for you?  Judging by the three stiffening loincloths, they won't hold back much longer.  What will you do?", false);
 			//[Fight] [Submit] [Negotiate] [Run]
-			simpleChoices("Fight", fightOTaurs, "Submit", submitToMinotaurMob, "Negotiate", negotiate, "", null, "Leave", runFromMinotaurs);
+			menu();
+			addButton(0, "Fight", fightOTaurs);
+			addButton(1, "Submit", submitToMinotaurMob);
+			addButton(2, "Negotiate", negotiate);
+			addButton(3, "Run", runFromMinotaurs);
 		}
 		//(Addicted) 
 		else {
@@ -100,7 +104,10 @@ public function meetMinotaurSons():void {
 			else if (player.cor < 66) outputText("You're not sure how to feel about this morally, but you can't keep from licking your lips, fantasizing about the fix these wonderful kids of yours are so willing to give you.", false);
 			else outputText("Who cares if they're your offspring?  They're all grown up and they smell so... appetizing.", false);
 			//[Fight] [Submit] [Run]
-			simpleChoices("Fight", fightOTaurs, "Submit", submitToMinotaurMob, "Negotiate", negotiate, "", null, "Leave", runFromMinotaurs);
+			menu();
+			addButton(0, "Fight", fightOTaurs);
+			addButton(1, "Submit", submitToMinotaurMob);
+			addButton(3, "Run", runFromMinotaurs);
 		}
 	}
 	//Repeat meetings
@@ -155,7 +162,10 @@ public function meetMinotaurSons():void {
 				outputText("Your mind is fogging from the scent in the air, but thankfully, you aren't in withdrawal right now.  You can try to resist and maybe even turn the tables on your brood, or you can run.", false);
 			}
 			//[Fight] [Submit] [Run]
-			simpleChoices("Fight", fightOTaurs, "Submit", submitToMinotaurMob, "", null, "", null, "Run", runFromMinotaurs);
+			menu();
+			addButton(0, "Fight", fightOTaurs);
+			addButton(1, "Submit", submitToMinotaurMob);
+			addButton(2, "Run", runFromMinotaurs);
 		}
 		//Tribe sized
 		else {
@@ -208,7 +218,9 @@ public function meetMinotaurSons():void {
 				outputText("This is glorious – so many horny, willing boys, all here for you to squeeze dry.  Even if you wanted to leave, you'd have to fight them to make an opening.  It'd be better to just beat them into submission and take your time savoring their wondrous spunk.", false);
 			}
 			//[Fight] [Submit]
-			simpleChoices("Fight", fightOTaurs, "Submit", submitToMinotaurMob, "", null, "", null, "", null);
+			menu();
+			addButton(0, "Fight", fightOTaurs);
+			addButton(1, "Submit", submitToMinotaurMob);
 		}
 	}
 }
@@ -227,7 +239,10 @@ private function negotiate():void {
 	
 	outputText("Looks like they're only interested in one thing.", false);
 	//[Fight] [Submit] [Run]
-	simpleChoices("Fight", fightOTaurs, "Submit", submitToMinotaurMob, "", null, "", null, "Run", runFromMinotaurs);
+	menu();
+	addButton(0, "Fight", fightOTaurs);
+	addButton(1, "Submit", submitToMinotaurMob);
+	addButton(2, "Run", runFromMinotaurs);
 }
 
 //[Run] 
@@ -602,26 +617,45 @@ private function analSpearSemiPregMinotaurGangbang():void {
 internal function victoryMinotaurGang():void {
 	clearOutput();
 	spriteSelect(94);
+	
+	if (flags[kFLAGS.SFW_MODE] > 0) {
+		outputText("You smile in satisfaction as the last minotaur collapses, unable to continue fighting.", true);
+		combat.cleanupAfterCombat();
+		return;
+	}
+	
 	//(HP) 
 	if (monster.HP < 1) outputText("The last minotaur sinks to his knees, wobbling back and forth while fighting to stay upright. He gives up and slumps down onto his back, mooing in pain.  You exult in your victory as you look across the defeated beast-men.  Though they're strong and aided by potent natural aphrodisiacs, they were no match for you.  Amusingly enough, they're still hard, even in their semi-conscious state. The horse-like mino-cocks lift their loincloths to stab at the sky, dripping moisture.\n\n", false);
 	//(Lust) 
 	else outputText("The last minotaur sinks to his knees, pulling aside his loincloth with thread-rending strength to expose the pulsating, needy shaft to the air.  He begins to masturbate himself just like his brother, spilling his pre-seed over the ground into the messy, growing puddle.  The smell hangs thick in the air, but you've won and kept enough of your wits about you to walk away if you want.\n\n", false);
 	//+lust regardless 
-	if (player.lust < 33) player.lust = 33;
+	if (player.lust < 33) dynStats("lus=", 33, "resisted", false);
 	else dynStats("lus", 20);
-	dynStats("lus", 1);
+	
 	outputText("Your body is burning up, buzzing with growing lust from the obscenity going on a few feet away from you.  What do you do?", false);
 	//	[win options]
-	var getSuck:Function = null;
-	if (player.hasCock()) getSuck = createCallBackFunction(forceMinitaurToGiveOral,1);
-	var nipFuck:Function = null;
-	if (player.hasFuckableNipples()) nipFuck = victoryBJNippleFuckMinotaurGang;
-	var titFuck:Function = null;
-	if (player.biggestTitSize() >= 6) titFuck = victoryMinotaurGangTitFuck;
-	choices("Gangbang", victoryAllThePenetrationsMinotaurGangBang,
-			"Tit-Fuck", titFuck, "Nipple-Fuck", nipFuck,
-			"Get Licked", createCallBackFunction(forceMinitaurToGiveOral, 0),
-			"Get Sucked", getSuck, "Discipline", disciplineEldestMinotaurSon, "", null, "", null, "", null, "Leave", combat.cleanupAfterCombat);
+	// Logic assumes that you are either female or herm, since encounter requires vagina to happen.
+	menu();
+	// 0 - Gangbang always available
+	addDisabledButton(1, "Tit-Fuck", "This scene requires you to have big enough breasts.");
+	addDisabledButton(2, "Nipple-Fuck", "This scene requires you to have fuckable nipples.");
+	// 3 - Get Licked always available
+	addDisabledButton(4, "Get Sucked", "This scene requires you to have cock.");
+	// 5 - Discipline always available
+	
+	addButton(0, "Gangbang", victoryAllThePenetrationsMinotaurGangBang);
+	if (player.biggestTitSize() >= 6) {
+		addButton(1, "Tit-Fuck", victoryMinotaurGangTitFuck);
+	}
+	if (player.hasFuckableNipples()) {
+		addButton(2, "Nipple-Fuck", victoryBJNippleFuckMinotaurGang);
+	}
+	addButton(3, "Get Licked", createCallBackFunction(forceMinitaurToGiveOral, 0));
+	if (player.hasCock()) {
+		addButton(4, "Get Sucked", createCallBackFunction(forceMinitaurToGiveOral,1));
+	}
+	addButton(5, "Discipline", disciplineEldestMinotaurSon);
+	addButton(14, "Leave", combat.cleanupAfterCombat);
 }
 //*[Victory Tit-Fuck] (for only the fattest of fat bitch titties) 
 private function victoryMinotaurGangTitFuck():void {
@@ -857,9 +891,9 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 			outputText("spread your " + player.vaginaDescript() + " wide with your fingers, exposing the glistening pinkness of your womanhood.", false);
 		}
 		outputText("  Your " + player.clitDescript() + " slowly peeks out from its hood", false);
-		if (player.clitLength >= 8) outputText(", until the huge size of it is revealed.", false);
-		else if (player.clitLength >= 3) outputText(", until the cock-like length of your feminine organ is revealed.", false);
-		else if (player.clitLength >= 1) outputText(", until the large, womanly organ is revealed.", false);
+		if (player.getClitLength() >= 8) outputText(", until the huge size of it is revealed.", false);
+		else if (player.getClitLength() >= 3) outputText(", until the cock-like length of your feminine organ is revealed.", false);
+		else if (player.getClitLength() >= 1) outputText(", until the large, womanly organ is revealed.", false);
 		else outputText(", revealing its cute button self.", false);
 		outputText("\n\n", false);
 	
@@ -869,11 +903,11 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 		outputText("  He opens his mouth and hesitantly extends his tongue towards your womanhood.  It's clear he doesn't have much experience providing oral to the fairer sex.  Since you don't have much intention of staying in the mountains long, you grab him by his short little horns and pull him against your gash.\n\n", false);
 		
 		outputText("Extending outward defensively, the minitaur's tongue slides into your vaginal opening with ease.  It's very, very long and extraordinarily wet.  His hot breath washes over your " + player.clitDescript() + ", fogging the surrounding air as you press his bovine nose against your folds.  The difference in temperature between the coolness of his moist nose and the heat of his breath and tongue drives you wild.  The feminine beast-man adapts to his task with enthusiasm, hungrily lapping and sucking at your " + player.vaginaDescript(), false);
-		if (player.clitLength < 3) outputText(", even sucking your clit into his mouth and running his tongue along its length.", false);
+		if (player.getClitLength() < 3) outputText(", even sucking your clit into his mouth and running his tongue along its length.", false);
 		else outputText(", even stroking your clit in his hand in time with his licks.", false);
 		
 		outputText("You begin to undulate your " + player.hipDescript() + " into the minitaur's bestial muzzle, grinding and groaning in joy at the forced cunnilingus.  ", false);
-		if (player.clitLength >= 6) outputText("He jacks your huge clit like a cock, and the incredible stimulation is too much for you to take.", false);
+		if (player.getClitLength() >= 6) outputText("He jacks your huge clit like a cock, and the incredible stimulation is too much for you to take.", false);
 		else outputText("He sucks and licks your pussy and clit simultaneously, displaying hidden talent with his bovine tongue.  It's just too much for you to take!", false);
 		outputText("  You cum - hard, into the cow-boy's muzzle.  He laps at your juices enthusiastically - a natural born cunt-licker.", false);
 		if (player.wetness() >= 5) outputText("  The wave of squirting fluids drips from his shaggy chin and runs down his chest.", false);

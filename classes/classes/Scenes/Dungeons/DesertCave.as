@@ -232,7 +232,7 @@ package classes.Scenes.Dungeons
 			if (!player.hasVagina()) {
 				outputText("Amazingly, as the oil spreads over your crotch, the flesh splits, revealing a small, wet entrance with a little clit.");
 				player.createVagina();
-				player.clitLength = 0.25;
+				player.setClitLength(0.25);
 			}
 			outputText("Their warm streams run all over your form: down your [chest], off your [hips] and teasingly around your [vagina].  At this point, you want it so badly that you squeeze your chest, pinch your nipples and stroke your [clit].");
 
@@ -560,9 +560,9 @@ package classes.Scenes.Dungeons
 			
 			outputText("\n\nGrabbing the taller of the two, you pull her down towards your [clit], hedonistically chasing the seemingly unquenchable lust within.  ");
 			//Normal/biggish clit
-			if (player.clitLength < 3) outputText("She slurps it right into her mouth with aplomb.  Dancing across the incredibly sensitive surface of your feminine organ, her salacious salivations have an extraordinary level of skill behind them.  You'd be surprised if this was her first time engaging in such an act.  The way she's slobbering at you is making her spit froth, and you smile when her lips meet her quim-bound sisters.  They exchange a happy slurp and muffled moan, half on your [vagina] and half on the other's mouth before returning to their respective tasks.  A pleased hum shivers through your most tender place, and you realize that you're going to cream yourself all over these exotic women.");
+			if (player.getClitLength() < 3) outputText("She slurps it right into her mouth with aplomb.  Dancing across the incredibly sensitive surface of your feminine organ, her salacious salivations have an extraordinary level of skill behind them.  You'd be surprised if this was her first time engaging in such an act.  The way she's slobbering at you is making her spit froth, and you smile when her lips meet her quim-bound sisters.  They exchange a happy slurp and muffled moan, half on your [vagina] and half on the other's mouth before returning to their respective tasks.  A pleased hum shivers through your most tender place, and you realize that you're going to cream yourself all over these exotic women.");
 			//cock-sized clitty
-			else if (player.clitLength < 12) outputText("She slurps it right into her mouth with aplomb, even though it's big and thick enough to give most male's cocks a run for their money.  The way that she salaciously salivates across the surface of your none-too-feminine female organ hints at some practice with someone a little less than female, but you doubt any of these ladies could have given her such training.  Taking it all the way to your cooch, she lets her lips meet her quim-bound sister's, and they share a tender kiss whilst half-engaged with your anatomy.  The pleased hums vibrate all the way through your swollen she-cock, making you realize that you're going to cream yourself all over these exotic women.");
+			else if (player.getClitLength() < 12) outputText("She slurps it right into her mouth with aplomb, even though it's big and thick enough to give most male's cocks a run for their money.  The way that she salaciously salivates across the surface of your none-too-feminine female organ hints at some practice with someone a little less than female, but you doubt any of these ladies could have given her such training.  Taking it all the way to your cooch, she lets her lips meet her quim-bound sister's, and they share a tender kiss whilst half-engaged with your anatomy.  The pleased hums vibrate all the way through your swollen she-cock, making you realize that you're going to cream yourself all over these exotic women.");
 			//big ol clitty
 			else outputText("She dives down onto it as best she can, even though it's a gigantic, throbbing button so large that most men would be shamed to lay eyes on it.  The way she's salaciously salivating over your 'crown' indicates she's no stranger to sucking cocks, but you're sure she couldn't have gotten such practice with these other sluts.  Regardless, she plunges down on your sensitive clit-cock, taking as much of the immense nerve-bundle into her mouth as she can.  Her head bobs tenderly along the length while her hand pumps it fast enough to make her drooling spit froth.  Idly, you realize that you're going to cream yourself all over her and her sister.");
 			
@@ -626,7 +626,7 @@ package classes.Scenes.Dungeons
 			if (!player.hasVagina()) {
 				outputText("\n\nShe gestures towards you and releases a flow of salmon-hued light in your direction.  As soon as it touches you, you moan out loud and begin to lift your [hips] into the air, humping against an unseen but clearly felt pressure on your loins.  A slowly spreading, vertical slit opens there, glistening with moisture as it parts to reveal a fresh clit.  <b>You've grown a cunt!</b>");
 				player.createVagina();
-				player.clitLength = .25;
+				player.setClitLength(.25);
 			}
 			
 			outputText("\n\nThe dark-skinned futanari strokes");
@@ -1093,6 +1093,11 @@ package classes.Scenes.Dungeons
 			else outputText("The chocolate-skinned witch collapses down onto her hands and knees, shredding her robes as she goes.  Her throbbing-hard cock drips with precum above her quaking testes while her equally enticing pussy looks positively soaked with feminine lubricants.  She rolls onto her back, tits jiggling wildly, and jams both her hands into her groin, masturbating furiously.  Panting, the witch moans, \"<i>You win... ooooohhh...  Come over here and fuck me!  Please!</i>\"\n\nWell, she did ask nicely...");
 			flags[kFLAGS.CUM_WITCH_DEFEATED] = 1;
 			menu();
+			addDisabledButton(0, "Too Big Fuck", "This scene requires you to have an overly large cock.");
+			addDisabledButton(1, "Fuck Her", "This scene requires you to have fitting cock.");
+			addDisabledButton(2, "Tentacles", "This scene requires you to have at least three tentacles.");
+			addDisabledButton(3, "Ladysex", "This scene requires you to have vagina.");
+			
 			if (player.hasCock()) {
 				//*Male "Too Big" Victory Sex
 				if (player.biggestCockArea() > monster.vaginalCapacity()) addButton(0,"Too Big Fuck",maleTooBigVictorySex);
@@ -1806,14 +1811,16 @@ package classes.Scenes.Dungeons
 			//Male Options: [Get Blown] [Pawjob]
 			//Female Options: [Force Dildos]
 			menu();
+			addDisabledButton(0, "Fuck Her", "This scene requires you to have cock.");
+			addDisabledButton(1, "Get Blown", "This scene requires you to have cock.");
+			addDisabledButton(2, "Pawjob", "This scene requires you to have cock.");
 			//Req Cock
 			if (player.hasCock()) {
 				addButton(0,"Fuck Her",fuckDatLionPussah);
 				addButton(1,"Get Blown",getBlown,false);
 				addButton(2,"Pawjob",lionpaws,false);
 			}
-			//Cunts & NoDicks
-			if (player.hasVagina() || !player.hasCock()) addButton(3,"Magic Dildos",forceDildos);
+			addButton(3,"Magic Dildos",forceDildos);
 		}
 
 		//Get Blown (Males & Herms)
@@ -1996,6 +2003,9 @@ package classes.Scenes.Dungeons
 			flags[kFLAGS.TIMES_SUBMITTED_TO_SANURA]++;
 			outputText("Having lost the Riddle Game, you do as the sphinx-girl commands: you pull off your [armor], leaving yourself bare under the desert sun. \"<i>Now then, my dull little pet, what shall I do with you...</i>\"");
 			menu();
+			// 0 - always available
+			addDisabledButton(1, "Get Blown", "This scene requires you to have cock.");
+			addDisabledButton(2, "Pawjob", "This scene requires you to have cock.");
 			//SUBMISSION:
 			addButton(0,"Get Pegged",fenPutsHisShittyFetishInYoSphinx);
 			//Reqs Penis
@@ -2115,7 +2125,8 @@ package classes.Scenes.Dungeons
 			}
 			if ((flags[kFLAGS.ESSY_MET_IN_DUNGEON] > 0 && flags[kFLAGS.TOLD_MOTHER_TO_RELEASE_ESSY] == 0) || (flags[kFLAGS.MET_MILK_SLAVE] > 0 && flags[kFLAGS.MILK_NAME] is Number))
 				addButton(7,"Free Slaves",slavesDiscussion, null, null, null, "Request the Sand Mother to release a slave.");
-			if (player.lust >= 33) addButton(8,"Sex",sexWithFriendlySandMother, null, null, null, "Have some sexy time with the Sand Mother.");
+			if (player.lust >= 33) addButton(8, "Sex", sexWithFriendlySandMother, null, null, null, "Have some sexy time with the Sand Mother.");
+			else addDisabledButton(8, "Sex", "You are not aroused enough.");
 			
 			addButton(14,"Leave",playerMenu);
 		}
@@ -2228,11 +2239,11 @@ package classes.Scenes.Dungeons
 		public function sexWithFriendlySandMother():void {
 			menu();
 			//friendly cunt fuck:
-			if (player.hasVagina() && player.lust >= 33) addButton(0, "GetMilkFill", lesboMilkFilling, null, null, null, "Get into female sex with the Sand Mother and get your vagina stuffed with milk!", "Get Milk Fill");
+			if (player.hasVagina()) addButton(0, "GetMilkFill", lesboMilkFilling, null, null, null, "Get into female sex with the Sand Mother and get your vagina stuffed with milk!", "Get Milk Fill");
+			else addDisabledButton(0, "GetMilkFill", "This scene requires you to have vagina.");
 			//dick fucking, must fit!
-			if (player.hasCock() && player.lust >= 33) {
-				if (player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(1, "Fuck Her", friendlySandMotherFuck, null, null, null, "Fuck the Sand Mother's cunt with your penis.");
-			}
+			if (player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(1, "Fuck Her", friendlySandMotherFuck, null, null, null, "Fuck the Sand Mother's cunt with your penis.");
+			else addDisabledButton(1, "Fuck Her", "This scene requires you to have fitting cock.");
 			addButton(4,"Back",sandWitchMotherFriendlyMenu);
 		}
 
@@ -2245,13 +2256,15 @@ package classes.Scenes.Dungeons
 			menu();
 			//toggle withc attacking
 			if (flags[kFLAGS.SAND_WITCH_LEAVE_ME_ALONE] == 0) addButton(0,"StopAttacking",unfriendlyWitchToggle, null, null, null, "You've had enough with the Sand Witches. They should leave you alone.", "Talk: Stop Attacking");
-			else addButton(0,"StartAttacking",unfriendlyWitchToggle, null, null, null, "Tell the Sand Mother that you want to encounter the Sand Witches again.", "Talk: Start Attacking");
+			else addButton(0, "StartAttacking", unfriendlyWitchToggle, null, null, null, "Tell the Sand Mother that you want to encounter the Sand Witches again.", "Talk: Start Attacking");
+			
+			addDisabledButton(1, "Scissor", "This scene requires you to have vagina and sufficient arousal.");
+			addDisabledButton(2, "TentacleBang", "This scene requires you to have at least 5 tentacle cocks and sufficient arousal.");
+			addDisabledButton(3, "Fuck Her", "This scene requires you to have fitting cock and sufficient arousal.");
 			if (player.lust >= 33) {
 				if (player.hasVagina()) addButton(1,"Scissor",scissorAndDrink, null, null, null, "Get into some female-on-female action and drink some milk.");
 				if (player.countCocksOfType(CockTypesEnum.TENTACLE) >= 5) addButton(2,"TentacleBang",tentacleGangBang, null, null, null, "Fuck the Sand Mother with your tentacle cocks.", "Tentacle Bang");
-				if (player.hasCock()) {
-					if (player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(3,"Fuck Her",fuckTheSandMothersCunt, "Fuck the Sand Mother's cunt with your cock.");
-				}
+				if (player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(3,"Fuck Her",fuckTheSandMothersCunt, "Fuck the Sand Mother's cunt with your cock.");
 			}
 			if (flags[kFLAGS.SAND_WITCH_LOOT_TAKEN] < 5) {
 				addButton(5,"Get LaBova",takeLaBovaOrLactaid, false, null, null, consumables.LABOVA_.description);
@@ -2353,6 +2366,9 @@ package classes.Scenes.Dungeons
 			//[Fuck Her Cunt] [ScissorAnDrink] [Talk Her Down]
 			menu();
 			addButton(0,"TalkHerDown",talkDownTheMother, null, null, null, "Talk the Sand Mother down. Convince her that you're not a demon.", "Talk Her Down");
+			addDisabledButton(1, "Scissor", "This scene requires you to have vagina.");
+			addDisabledButton(2, "Fuck Her", "This scene requires you to have fitting cock.");
+			addDisabledButton(3, "TentacleBang", "This scene requires you to have at least 5 tentacle cocks.");
 			if (player.hasVagina()) addButton(1,"Scissor",scissorAndDrink, null, null, null, "Get into female sex and drink your fill.");
 			if (player.hasCock() && player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(2,"Fuck Her",fuckTheSandMothersCunt, null, null, null, "Fuck the Sand Mother's cunt with your cock.");
 			if (player.countCocksOfType(CockTypesEnum.TENTACLE) >= 5) addButton(3,"TentacleFuck",tentacleGangBang, null, null, null, "Fuck the Sand Mother with your tentacle cocks.", "Tentacle Fuck");
@@ -2686,7 +2702,7 @@ package classes.Scenes.Dungeons
 			if (!player.hasVagina()) {
 				outputText("Remarkably, a divot appears on your groin, slowly dividing into two puffy lips with a moist crease between.  The fresh mons of your new pussy glistens with immediate arousal as the Sand Mother's magic molds your flesh with a simple spell.  ");
 				player.createVagina();
-				player.clitLength = 0.25;
+				player.setClitLength(0.25);
 			}
 			outputText("Your [vagina] is eyed momentarily as it ");
 			if (player.wetness() <= 2) outputText("grows moist.");
@@ -3313,15 +3329,19 @@ package classes.Scenes.Dungeons
 			outputText("\n\n\"<i>Oh my, you are eager, aren't you?</i>\"  The dusky sorceress circles you as she takes off her hat, shaking her almost platinum-white tresses sensually as she frees them from constriction.  \"<i>Well, I could give you my blessing, but you have to truly want it.  My 'magic wand' will need to be charged up before it can gift you with its power.</i>\" She sheds her robes, exposing her long, ebony phallus, already beading with pre.  It doesn't look like it would need much encouragement to 'bless' you, but perhaps this woman's unceasing sexual conquests have given her stamina beyond your expectations.");
 			
 			//{M:}
-			if (player.gender == 1) outputText("\n\nThe cum witch says, \"<i>Since you're being so nice about this, I can bless you with enhanced volume and virility.  All you have to do is help me release some of mine onto you...</i>\"");
+			if (player.isMale()) outputText("\n\nThe cum witch says, \"<i>Since you're being so nice about this, I can bless you with enhanced volume and virility.  All you have to do is help me release some of mine onto you...</i>\"");
 			//{F:}
-			else if (player.hasVagina()) outputText("\n\nThe cum witch says, \"<i>Since you're being so nice about this, I can bless you with superhuman fertility.  Just a little seed inside you and you'll be swelling with babies.  Doesn't that sound nice?</i>\"");
-			else if (player.gender == 3) outputText("\n\nThe cum witch says, \"<i>Ohhh, a fellow hermaphrodite.  Tell me, would you rather I gift you with unceasing virility or the fertility of a slut in heat?  I can only give you one.</i>\"");
+			else if (player.isFemale()) outputText("\n\nThe cum witch says, \"<i>Since you're being so nice about this, I can bless you with superhuman fertility.  Just a little seed inside you and you'll be swelling with babies.  Doesn't that sound nice?</i>\"");
+			else if (player.isHerm()) outputText("\n\nThe cum witch says, \"<i>Ohhh, a fellow hermaphrodite.  Tell me, would you rather I gift you with unceasing virility or the fertility of a slut in heat?  I can only give you one.</i>\"");
 			else outputText("\n\nThe cum witch says, \"<i>Oh, you lack a gender.  Why don't you pick up some sexual equipment and come back for some real fun.</i>\"");
 			//[Virility] [Fertility] [Nevermind]
 			menu();
-			if (player.hasCock()) addButton(0,"Virility",cumWitchBlessed, true, null, null, "Receive the blessing of virility. This will increase your cum production and virility rating.");
-			if (player.hasVagina()) addButton(1,"Fertility",cumWitchBlessed,false, null, null, "Receive the blessing of fertility. This will increase your pregnancy speed and fertility rating.");
+			if (player.findPerk(PerkLib.MagicalVirility)) addButtonDisabled(1, "Virility", "You already posess this blessing.");
+			else if (player.hasCock()) addButton(0,"Virility",cumWitchBlessed, true, null, null, "Receive the blessing of virility. This will increase your cum production and virility rating.");
+			else addButtonDisabled(0, "Virility", "This scene requires you to have cock.");
+			if (player.findPerk(PerkLib.MagicalFertility)) addButtonDisabled(1, "Fertility", "You already posess this blessing.");
+			else if (player.hasVagina()) addButton(1, "Fertility", cumWitchBlessed, false, null, null, "Receive the blessing of fertility. This will increase your pregnancy speed and fertility rating.");
+			else addButtonDisabled(1, "Fertility", "This scene requires you to have vagina.");
 			addButton(4,"Nevermind",changeMindAboutBlessings, null, null, null, "Nevermind that! Drop the subject. You'll be able to come back if you want.");
 		}
 		//*Nevermind ✓Kirbu
@@ -3785,7 +3805,8 @@ package classes.Scenes.Dungeons
 			player.changeFatigue(-10);
 			menu();
 			addButton(0,"Next",finishMilkBath);
-			if (player.gender > 0) addButton(1,"DrinkNFap",drinkNFap, null, null, null, "Drink some milk and masturbate.", "Drink & Masturbate");
+			if (!player.isGenderless()) addButton(1, "DrinkNFap", drinkNFap, null, null, null, "Drink some milk and masturbate.", "Drink & Masturbate");
+			else addDisabledButton(1, "DrinkNFap", "This scene requires you to have genitals.", "Drink & Masturbate");
 			addButton(2,"Milk Girl", grabTheMilkGirl, null, null, null, "Pull the milk girl into.");
 		}
 
@@ -4139,6 +4160,7 @@ package classes.Scenes.Dungeons
 			outputText("This room is surprisingly large - big enough to hold the " + num2Text(rand(6) + 5) + " heavily pregnant women inside plus perhaps a dozen more.  Like the outer tunnel, this room is lit by magic, though its contents are equally mundane, if a great deal more... interesting.  There's female sex-toys of every variety on almost every surface.  They sit in piles on the floor, they hang from the walls, and there are even some mounted on the wall, to be fucked in place.  Many such toys have multiple shafts and come in shapes from standard to canine to obscenely equine.  All of the witches are presently engaged in coitus with each other or their 'marital aids', but once you enter, they glance at you with hungry, lust-filled eyes.");
 			if (silly()) outputText("  Clearly, if you wanted to, you could put some extra meat in a sand witch.");
 			dungeons.setDungeonButtons(roomWestHall1, null, null, null);
+			addDisabledButton(0, "Fuck Witches", "This scene requires you to have cock and sufficient arousal.");
 			if (player.hasCock() && player.lust >= 33) {
 				addButton(0, "Fuck Witches", knockUpSomeDoubleStuffedSandWitches, null, null, null, "Use the sand witches to get off.");
 			}
