@@ -112,10 +112,10 @@ package classes.Scenes.Dungeons
                 player.createStatusEffect(StatusEffects.MinoMazeConfiguration,0,0,0,0);
             }
             
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST) maze.goToRoom(maze.WEST);
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST) maze.goToRoom(maze.EAST);
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH) maze.goToRoom(maze.NORTH);
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH) maze.goToRoom(maze.SOUTH);
+            //if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST)  maze.goToRoom(maze.WEST);
+            //if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST)  maze.goToRoom(maze.EAST);
+            //if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH) maze.goToRoom(maze.NORTH);
+            //if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH) maze.goToRoom(maze.SOUTH);
             
       
         }

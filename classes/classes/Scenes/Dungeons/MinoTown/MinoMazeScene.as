@@ -7,6 +7,7 @@ package classes.Scenes.Dungeons.MinoTown
     import classes.Scenes.Dungeons.DungeonCore;
     import classes.Scenes.Dungeons.DungeonAbstractContent;
     import classes.Scenes.Areas.Mountain.Minotaur;
+    import classes.Scenes.Quests.UrtaQuest.MinotaurLord;
 
 	/**
      * ...
@@ -27,15 +28,28 @@ package classes.Scenes.Dungeons.MinoTown
          *          4 - exit
          *     + 10*A,  where A encodes possible paths [0 = no path, 1 = path]:
          *          A  = north? + 2*south? + 4*west? + 8*east?
-         *    +1000*B,  where B encodes additional stuff:
-         *          B  = visited? + 
+         *    +1000*B,  where B encodes the direction to backtrace
+         *          0 - from nowhere
+         *          1 - from north
+         *          2 - from south
+         *          3 - from west
+         *          4 - from east
+         *   +10000*C,  where C encodes additional stuff
+         *          C  = lost + 2*minotaur + 4*visited + 8*description
          */
+        
+        
         private var mazeMap:Array;
-        public  var WEST:   int;
-        public  var EAST:   int;
-        public  var NORTH:  int;
-        public  var SOUTH:  int;
-        public  var CENTER: int;
+        private var mazePos:int;
+        
+        
+        
+        
+        public static const NORTH:  int             = 1;
+        public static const SOUTH:  int             = 2;
+        public static const EAST:   int             = 3;
+        public static const WEST:   int             = 4;
+
         
         public static const ROOM_UNDEFINED:int      = 0;
         public static const ROOM_GENERIC:int        = 1;
@@ -44,109 +58,39 @@ package classes.Scenes.Dungeons.MinoTown
         public static const ROOM_EXIT:int           = 4;
         
         
-        private var north:  int;
-        private var south:  int;
-        private var east:   int;
-        private var west:   int;
+        private var north:      Boolean;
+        private var south:      Boolean;
+        private var east:       Boolean;
+        private var west:       Boolean;
+        private var playerLost: Boolean;
+        
+        private var description1: int;
+        private var description2: int;
+        private var description3: int;
+        private var cumStench:    int;
         
         public function MinoMazeScene() {
-            mazeMap = [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0];
-            WEST   = getRoomIndex( -1, 0);
-            EAST   = getRoomIndex(  1, 0);
-            NORTH  = getRoomIndex(  0, 1);
-            SOUTH  = getRoomIndex(  0, -1);
-            CENTER = getRoomIndex(  0, 0);
+            mazePos = 0;
+            mazeMap = [0];
         }
         
         //{region Access to Rooms
-        private function getRoomIndex   (x:int, y:int) : int {
-            return 5 * (y + 2) + x + 2;
+        
+        private function getRoomType    () : int { 
+            return mazeMap[mazePos] % 10;
         }
-        private function ndxWest        () : int {
-            return getRoomIndex ( -1, 0);
+        private function setRoomType    (newType: int) : void {
+            mazeMap[mazePos] = int(mazeMap[mazePos] / 10) * 10 + newType;
         }
-        private function ndxEast        () : int {
-            return getRoomIndex (  1, 0);
+
+        
+        private function getRoomExits   () : int {
+            return (mazeMap[mazePos] / 10) % 100; 
         }
-        private function ndxSouth       () : int {
-            return getRoomIndex (  0, -1);
+        private function setRoomExits   (newExits:int) : void {
+            mazeMap[mazePos] = int (mazeMap[mazePos] / 1000) * 1000 + 10 * newExits + mazeMap[mazePos] % 10;
         }
-        private function ndxNorth       () : int {
-            return getRoomIndex (  0, 1);
-        }        
-        private function getRoomXY      (x:int, y:int) : int {
-            if (x < -2 || x > 2 || y < -2 || y > 2) return 0;
-            return mazeMap[ getRoomIndex(x,y) ]; 
-        }
-        private function getRoom        (ndx:int) : int {
-            return mazeMap[ndx];
-        }
-        private function setRoomXY      (x:int, y:int, newRoom:int) : void {
-            if (x < -2 || x > 2 || y < -2 || y > 2) { 
-                trace("incorrect room index " + x + " - " + y);
-                return;
-            }
-            mazeMap[ getRoomIndex(x,y) ] = newRoom; 
-        }
-        private function setRoom        (ndx:int, newRoom:int) : void {
-            mazeMap[ndx] = newRoom;
-        }
-        private function getRoomTypeXY  (x:int, y:int) : int {
-            if (x < -2 || x > 2 || y < -2 || y > 2) return 0;
-            return mazeMap[ getRoomIndex(x,y) ] % 10;
-        }
-        private function getRoomType    (ndx : int) : int { 
-            return mazeMap[ndx] % 10;
-        }
-        private function setRoomTypeXY  (x:int, y:int, newType:int) : void {
-            if (x < -2 || x > 2 || y < -2 || y > 2) { 
-                trace("incorrect room index " + x + " - " + y);
-                return;
-            }
-            var ndx:int = getRoomIndex(x,y);
-            mazeMap[ndx] = int(mazeMap[ndx] / 10) * 10 + newType;
-        }
-        private function setRoomType    (ndx : int, newType: int) : void {
-            mazeMap[ndx] = int(mazeMap[ndx] / 10) * 10 + newType;
-        }
-        private function getRoomExitsXY (x:int, y:int) : int {
-            if (x < -2 || x > 2 || y < -2 || y > 2) return 0;
-            var ndx:int = getRoomIndex(x,y);
-            return (mazeMap[ndx] / 10) % 100; 
-        }
-        private function getRoomExits   (ndx : int) : int {
-            return (mazeMap[ndx] / 10) % 100; 
-        }
-        private function setRoomExitsXY (x:int, y:int, newExits:int) : void {
-            if (x < -2 || x > 2 || y < -2 || y > 2) { 
-                trace("incorrect room index " + x + " - " + y);
-                return;
-            }
-            var ndx:int = getRoomIndex(x, y);
-            mazeMap[ndx] = int (mazeMap[ndx] / 1000) * 1000 + 10 * newExits + mazeMap[ndx] % 10;
-        }
-        private function setRoomExits   (ndx:int, newExits:int) : void {
-            mazeMap[ndx] = int (mazeMap[ndx] / 1000) * 1000 + 10 * newExits + mazeMap[ndx] % 10;
-        }
-        private function getRoomStuff   (x:int, y:int) : int {
-            if (x < -2 || x > 2 || y < -2 || y > 2) return 0;
-            return mazeMap[ getRoomIndex(x, y) ] / 1000;
-        }
-        private function setRoomStuff   (x:int, y:int, newStuff:int) : void {
-            if (x < -2 || x > 2 || y < -2 || y > 2) { 
-                trace("incorrect room index " + x + " - " + y);
-            }
-            var ndx:int = getRoomIndex(x, y);
-            mazeMap[ndx] = newStuff * 1000 + mazeMap[ndx] % 1000;
-        }
-        private function hasPath        (ndx:int, direction:int) : Boolean {
-            var exits:int = getRoomExits(ndx);
-            if (direction == NORTH) return (exits % 2 >= 1);
-            if (direction == SOUTH) return (exits % 4 >= 2);
-            if (direction == WEST)  return (exits % 8 >= 4);
-            if (direction == EAST)  return (exits >= 8);
-            return false;
-        }
+
         private function encodeExits    (inorth:Boolean, isouth:Boolean, iwest:Boolean, ieast:Boolean) : int {
             var exits:int = 0; 
             if (inorth) exits += 1;
@@ -155,125 +99,173 @@ package classes.Scenes.Dungeons.MinoTown
             if (ieast)  exits += 8;
             return exits;
         }
+        private function encodeCurrentExits() : int {
+            var exits:int = 0; 
+            if (north) exits += 1;
+            if (south) exits += 2;
+            if (west)  exits += 4;
+            if (east)  exits += 8;
+            return exits;
+        }
+
+        
+        private function setDirectionFrom(direction:int) : void { 
+            mazeMap[mazePos] = 10000*int(mazeMap[mazePos] / 10000) + direction*1000 + mazeMap[mazePos] % 1000;
+        }
+        private function getDirectionFrom() : int {
+            return int(mazeMap[mazePos] / 1000) % 10;
+        }
+        private function getRevertDirection(direction:int) : int  {
+            if (direction == NORTH) return SOUTH;
+            if (direction == SOUTH) return NORTH;
+            if (direction == WEST)  return EAST;
+            if (direction == EAST)  return WEST;
+            return 0;
+        }
+        
+        private function setStuff        (stuff:int) : void {
+            mazeMap[mazePos] = mazeMap[mazePos] % 10000 + 10000 * stuff;
+        }
+        private function getStuff        () : int {
+            return int(mazeMap[mazePos] / 10000);
+        }
+        
+        private function setFirstTimeLoss(firstTimeLoss:Boolean) : void {
+            var stuff:int = 2 * int(getStuff() / 2);
+            if (firstTimeLoss) stuff += 1;
+            setStuff(stuff);
+        }
+        private function getFirstTimeLoss() : Boolean {
+            return (getStuff() % 2 == 1);
+        }
+        
+        private function setMinotaur(mino:Boolean) : void {
+            var stuff:int = getStuff();
+            stuff = (stuff % 2) + 4 * int(stuff / 4) + 2 * (mino ? 1 : 0);
+            setStuff(stuff);
+        }
+        private function getMinotaur() : Boolean {
+            return (getStuff() % 4 >= 2);
+        }
+        
+        private function setVisited(visited:Boolean) : void {
+            var stuff:int = getStuff();
+            stuff = (stuff % 4) + 8 * int(stuff / 8) + 4 * (visited ? 1 : 0); 
+            setStuff(stuff);
+        }
+        private function getVisited() : Boolean {
+            return (getStuff() % 8 >= 4);
+        }
+
+        private function setDescription (desc1:int, desc2:int, desc3:int) : void {
+            var stuff:int = getStuff() % 8 + (desc3*100 + desc2*10 + desc1)* 8;
+            setStuff(stuff);
+        }
+        
+        
+        private function restoreExits() : void {
+            var exits:int = getRoomExits();
+            north = (exits % 2 >= 1);
+            south = (exits % 4 >= 2);
+            west  = (exits % 8 >= 4);
+            east  = (exits >= 8);
+        }
+        private function restoreDescription() : void {
+            var stuff:int = getStuff() / 8;
+            description1 = stuff % 10;
+            stuff = int (stuff / 10);
+            description2 = stuff % 10;
+            stuff = int (stuff / 10);
+            description3 = stuff % 10;
+        }
+        
         //}endregion
         
         public function goToRoom            (direction: int): void {
-            var y: int;
-            var x: int;
             
-            // scroll map
-            switch (direction) {
-                case NORTH:
-                    for (y = -2; y <= 2; y++) for (x = -2; x <= 2; x++) setRoomXY(x, y, getRoomXY(x, y + 1));
-                    break;   
-                case SOUTH:
-                    for (y =  2; y >=-2; y--) for (x = -2; x <= 2; x++) setRoomXY(x, y, getRoomXY(x, y - 1));
-                    break;
-                case EAST:
-                    for (x = -2; x <= 2; x++) for (y = -2; y <= 2; y++) setRoomXY(x, y, getRoomXY(x + 1, y));
-                    break;
-                case WEST:
-                    for (x =  2; x >=-2; x--) for (y = -2; y <= 2; y++) setRoomXY(x, y, getRoomXY(x - 1, y));
-                    break;
-            }
-
-            north = getRoomType(NORTH);
-            south = getRoomType(SOUTH);
-            west  = getRoomType(WEST);
-            east  = getRoomType(EAST);
-            
-            if (getRoomType (CENTER) == 0) setRoomType(CENTER, 1);
-            if (getRoomExits(CENTER) == 0) {
-                
-                if ( east == 0 && (rand(2) == 0  || direction == WEST))  east = 1;
-                if ( west == 0 && (rand(2) == 0  || direction == EAST))  west = 1;
-                if ( south== 0 && (rand(3) == 0  || direction == NORTH)) south = 1;
-                if ( north== 0 && (rand(3) == 0  || direction == SOUTH)) north = 1;
-                
-                if (rand(4) == 0 && south == 0) south = 2;
-                if (rand(4) == 0 && north == 0) north = 2;
-                
-                if (north == 0 && south == 0 && west == 0 && east == 0) {
-                    east = 1;
-                    west = 1;
-                }
-                
-                var familiarity: int = 15 - flags[kFLAGS.MINOTOWN_MAZE_TIMES_PASSED] * 2;
-                if (familiarity < 5) familiarity = 5;
-                familiarity = 20;
-                
-                if (direction == EAST && rand(familiarity) == 0 && east == 0) east = 4;
-                if (direction == WEST && rand(familiarity) == 0 && west == 0) west = 3;
-                
-                setRoomType(WEST,  west);
-                setRoomType(EAST,  east);
-                setRoomType(NORTH, north);
-                setRoomType(SOUTH, south);
-                
-                // Decoupling rooms from accessible rooms
-                
-                if (west  > 0 && getRoomExits(WEST) > 0   && !hasPath(WEST, EAST)) west = 0;
-                if (east  > 0 && getRoomExits(EAST) > 0   && !hasPath(EAST, WEST)) east = 0;
-                if (north > 0 && getRoomExits(NORTH) > 0  && !hasPath(NORTH, SOUTH)) north = 0;
-                if (south > 0 && getRoomExits(SOUTH) > 0  && !hasPath(SOUTH, NORTH)) south = 0;
-                
-                // north? + 2*south? + 4*west? + 8*east?
-                var paths:int = 0;
-                if (north > 0) paths += 1;
-                if (south > 0) paths += 2;
-                if (west  > 0) paths += 4;
-                if (east  > 0) paths += 8;
-                setRoomExits(CENTER, paths);
+            // Return or not?
+            if (mazePos > 0 && getDirectionFrom() == direction) {
+                mazePos--;
+                restoreExits();
+                restoreDescription();
+                return;
             }
             
-            north = hasPath(CENTER, NORTH) ? getRoomType(NORTH) : 0;
-            south = hasPath(CENTER, SOUTH) ? getRoomType(SOUTH) : 0; 
-            west  = hasPath(CENTER, WEST)  ? getRoomType(WEST)  : 0;
-            east  = hasPath(CENTER, EAST)  ? getRoomType(EAST)  : 0;
-
-            var eff:Array = [north, south, west, east];
-            var eff2:Array = [DungeonCore.DUNGEON_MINO_MAZE_ROOM_NORTH, DungeonCore.DUNGEON_MINO_MAZE_ROOM_SOUTH, DungeonCore.DUNGEON_MINO_MAZE_ROOM_WEST, DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST];
-            for (var i:int = 0; i < 4; i++) {
-                if (eff[i] == 1) eff[i] = eff2[i];
-                else if (eff[i] == 2) eff[i] = DungeonCore.DUNGEON_MINO_MAZE_HALL;
-                else if (eff[i] == 3) eff[i] = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
-                else if (eff[i] == 4) eff[i] = DungeonCore.DUNGEON_MINO_MAZE_EXIT;
-                player.changeStatusValue(StatusEffects.MinoMazeConfiguration, i+1, eff[i]);
-            }
+            var maxPos:int = player.inte / 10 + 1;
+            mazePos++;
             
+            var firstTimeLoss:Boolean = false;
+            if (mazePos > maxPos) {
+                var deltaPos:int = mazePos - maxPos;
+                for (var i:int = 0; i <= maxPos; i++) mazeMap[i] = mazeMap[i + deltaPos];
+                if (!playerLost) firstTimeLoss = true;
+                playerLost = true;
+            }
+            mazeMap[mazePos] = 0;
+            setDirectionFrom(getRevertDirection(direction));
+            
+            // Room neighbors
+            north = south = west = east = false;
+            if ( rand(2) == 0  || direction == WEST)  east  = true;
+            if ( rand(2) == 0  || direction == EAST)  west  = true;
+            if ( rand(2) == 0  || direction == NORTH) south = true;
+            if ( rand(2) == 0  || direction == SOUTH) north = true;
+            setRoomExits(encodeCurrentExits());
+            
+            
+            // Room type
+            var roomType:int = ROOM_GENERIC;
+            if ( (direction == NORTH || direction == SOUTH) && rand(4) == 0)  roomType = ROOM_HALL;
+            
+            var familiarity: int = 15 - flags[kFLAGS.MINOTOWN_MAZE_TIMES_PASSED] * 2;
+            if (familiarity < 5) familiarity = 5;
+            familiarity = 20;
+            
+            if (direction == EAST && rand(familiarity) == 0) roomType = ROOM_EXIT;
+            if (direction == WEST && rand(familiarity) == 0) roomType = ROOM_ENTRANCE;
+            setRoomType(roomType);
+            
+            // Minotaur
+            setMinotaur(false);
+            if (roomType == ROOM_GENERIC) {
+                if (direction != WEST && rand(5) == 0) setMinotaur(true);
+                if (direction == WEST && rand(3) == 0) setMinotaur(true);
+            }
             
             // Description
-            if (!player.hasStatusEffect(StatusEffects.MinoMazeDescription)) {
-                player.createStatusEffect(StatusEffects.MinoMazeDescription,0,0,0,0);
-            }
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 1, rand(4)); // General layout of the room
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 2, rand(3) == 0 ? 1 : 0); // Comments on minotaur cum smell
+            description1 = rand(4);                 // General layout of the room
+            description2 = rand(3) == 0 ? 1 : 0;    // Comments on minotaur cum smell
             
             var choice:int = 0;
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_ROOM_EAST) {
+            if (direction == EAST) {
                 choice = 1;
             }
             else {
                 if (rand(4) == 0) choice = 2;
                 else if (rand(6) == 0) choice = 1;
             }
+            
             if  (choice == 1) {
-                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] += 1;
+                cumStench += 1;
                 if (rand(2) == 0) choice = 0;
             }
             else if (choice == 2) { 
-                flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] -= 1;
-                if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 0) flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] = 0;
+                cumStench  -= 1;
+                if (cumStench < 0) cumStench = 0;
                 if (rand(2) == 0) choice = 0;
             }
-            if (kGAMECLASS.dungeonLoc == DungeonCore.DUNGEON_MINO_MAZE_HALL) {
+            if (roomType == ROOM_HALL) {
                 choice = rand(5);
                 if (choice < 3)  choice = 0;
                 if (choice == 3) choice = 1;
                 if (choice == 4) choice = 2;
                 if (rand(10) == 0) choice = 3;
             }
-            player.changeStatusValue(StatusEffects.MinoMazeDescription, 3, choice); // Cum puddle && wind gust
+            description3 = choice;  // Cum puddle && wind gust
+            
+            setFirstTimeLoss(firstTimeLoss);
+            setDescription(description1, description2, description3);
+            
         }
         
         public  function    roomMazeConfiguration() : void {
@@ -302,46 +294,70 @@ package classes.Scenes.Dungeons.MinoTown
         public function enterRoom() : void {
             clearOutput();
             mazeStatusUpdate();
-            roomMazeConfiguration();
-            var type:int = getRoomType(CENTER);
+            var type:int = getRoomType();
             switch (type) {
                 case ROOM_ENTRANCE: roomEntrance(); break;
                 case ROOM_EXIT:     roomExit(); break;
                 case ROOM_HALL:     roomHall(); break;
-                
+                case ROOM_GENERIC:  roomGeneric(); break;
             }
             
         }
+        
+        
+        
+        
         public function enterMaze(): void {
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE;
+            mazePos = 0;
+            setRoomType (ROOM_ENTRANCE);
+            setRoomExits(encodeExits(false, false, false, true));
+            playerLost = false;
             
-            setRoomExits(CENTER, encodeExits(false, false, false, true));
-            setRoomType (CENTER, ROOM_ENTRANCE);
             goToRoom(EAST);
             enterRoom();
         }
         
+        public function roomGeneric(): void {
+            roomMazeDescription();
+            
+            if (getMinotaur() || player.lust >= player.maxLust()) {
+                mazeMinotaurEncounter();
+                return;
+            }
+            
+            roomMazeConfiguration();
+            
+        }
         public function roomHall() : void {
-            clearOutput();
             outputText("You step into a large hall. You see the fountain in front of you. You may rest in alcove.");
+            
+            roomMazeConfiguration();
+            
             addButton(0,  "Drink",  minoHallDrink);
             addButton(14, "Rest",   minoHallRest);
         }
         public function roomExit() : void {
-            
+            outputText("You are standing at the exit of the labirynth\n");
+            cumStench = 0;
+            kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_EXIT;
+            doNext(playerMenu);
         }
         public function roomEntrance(): void {
             clearOutput();
             outputText("You are standing at the entrance of the labirynth\n");
+            cumStench = 0;
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
             doNext(playerMenu);
         }
+        
+        
         
         public function     minoHallDrink():void {
             clearOutput();
             outputText("You drink from the fountain.\n\n");
             
-            var choice : int =  player.statusEffectv3(StatusEffects.MinoMazeDescription);
+            var choice : int =  description3;
             
             if (choice == 0) {
                 outputText("Strangely enough, you feel nothing happened to you\n\n");
@@ -365,6 +381,7 @@ package classes.Scenes.Dungeons.MinoTown
             doNext(playerMenu);
             
         }
+        
         public function     minoHallRest():void {
             clearOutput();
             outputText("You are being violently raped by a gang of vicious Minotaurs.\n\n");
@@ -375,9 +392,10 @@ package classes.Scenes.Dungeons.MinoTown
         }
         
         public function     mazeStatusUpdate():void {
-            dynStats("lus", rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]));
-            dynStats("lus", 10 * minoCumAddictionStrength() * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]);
-            dynStats("lus", rand(player.cowScore() ) * flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] * 0.5);
+            outputText("<i>Your current position is " + mazePos + ", current map value is " + mazeMap[mazePos] + ". Cum stench level is " + cumStench + ".</i>\n\n");
+            dynStats("lus", rand(cumStench));
+            dynStats("lus", 10 * minoCumAddictionStrength() * cumStench);
+            dynStats("lus", rand(player.cowScore() ) * cumStench * 0.5);
             if (flags[kFLAGS.HUNGER_ENABLED] > 0) {
                 player.damageHunger(rand(10) / 10);
                 if (player.hunger < 25) { 
@@ -405,46 +423,51 @@ package classes.Scenes.Dungeons.MinoTown
 					player.modTone(1, 0.3);
 				}
             }
-            dynStats("tou", -0.3 * rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]));
-            dynStats("str", -0.3 * rand(flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH]));
+            dynStats("tou", -0.3 * rand(cumStench));
+            dynStats("str", -0.3 * rand(cumStench));
+            if (getFirstTimeLoss()) {
+                outputText("<b>You realize that you are totally lost in the dungeons. You have no other hope but to press forward.</b>");
+                setFirstTimeLoss(false);
+            }
+            
             getGame().mountain.minotaurScene.minoCumUpdate();
+            
+
         }
         
         public  function    roomMazeDescription() : void {
             
-            var choice : int = player.statusEffectv1(StatusEffects.MinoMazeDescription);
-            if  (choice == 0) {
-                outputText("You are wandering in the dimly lit caverns. The walls are rough and cold. ");
+            if (description1 == 0) {
+                
+                outputText("You follow a track of hooved markings on a ground and enter a cavern. The cavern is dimly lit by a flickering torch. The walls are crudely carved from a rock, the floor is uneven and the ceiling is very low. You feel the pressure of a mountain above you, hoping that soon you get out of the maze.\n\n");
+                
             }
-            else if (choice == 1) {
+            else if (description1 == 1) {
                 outputText("You walk past a dimly lit torch. You realize that you may be totally lost here. ");
             }
-            else if (choice == 2) {
+            else if (description1 == 2) {
                 outputText("You think you see a movement in the shadows, but it is just flickering light of a torch. ");
             }
-            else if (choice == 3) {
+            else if (description1 == 3) {
                 outputText("A strong feeling of deja vu raise in your head. The walls look too familiar. Have you already been here? ");
             }
-            if (rand(4) == 0) {
-                outputText("You hear a rambling of a stones in the distance. Or maybe you are hallucinating. ");
-            }
-            choice = player.statusEffectv2(StatusEffects.MinoMazeDescription);
-            if (choice == 0) { 
-                if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] > 0 && minoCumAddictionStrength() > 0) {
-                    if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 2) outputText("You feel thin smell of minotaurs cum in the air. ");
-                    else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 4) outputText("You feel a smell of minotaurs cum in the air. It is quite arousing. "); 
-                    else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 6) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
-                    else if (flags[kFLAGS.MINOTOWN_MAZE_CUMSTENCH] < 8) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
+            
+
+            if (description2 == 0) { 
+                if (cumStench > 0 && minoCumAddictionStrength() > 0) {
+                    if (cumStench < 2) outputText("You feel thin smell of minotaurs cum in the air. ");
+                    else if (cumStench < 4) outputText("You feel a smell of minotaurs cum in the air. It is quite arousing. "); 
+                    else if (cumStench < 6) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
+                    else if (cumStench < 8) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
                     else outputText("The incredibly strong smell of minotaurs cum make your head drum. With a great effort you try to focus yourself on walking. ");
                 }
             }
             outputText("\n\n");
             
-            choice = player.statusEffectv3(StatusEffects.MinoMazeDescription);
-            if (choice == 1) {
+            if (description3 == 1) {
                 outputText("Under you feet you see a puddle of something white. You turn in disgust. ");
             }
-            else if (choice == 2) {
+            else if (description3 == 2) {
                 outputText("You feel a gust of fresh air. ");
             }
             
@@ -466,7 +489,15 @@ package classes.Scenes.Dungeons.MinoTown
             
         }
         
-        
+        public function     mazeMinotaurEncounter() : void {
+            outputText("You encountered a minotaur\n\n");
+            if (rand(3) == 0) startCombat(new MinotaurLord(), false);
+            else startCombat(new Minotaur(), false);
+            monster.createStatusEffect(StatusEffects.MinoMazeFight, 0, 0, 0, 0);
+            setMinotaur(false);
+            doNext(playerMenu);
+            return;
+        }
         
     }
 
