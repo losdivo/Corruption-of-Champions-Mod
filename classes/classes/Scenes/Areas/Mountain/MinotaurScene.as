@@ -1654,7 +1654,7 @@ private function minoMutualPt3(x:Number):void
             }
             if (monster.hasStatusEffect(StatusEffects.MinoMazeFight)) {
                 monster.removeStatusEffect(StatusEffects.MinoMazeFight);
-                getGame().dungeons.minotown.mazeMinotaurWin();
+                getGame().dungeons.minotown.maze.mazeMinotaurVictory();
             }
             
         }
@@ -1666,7 +1666,7 @@ private function minoMutualPt3(x:Number):void
             }
             if (monster.hasStatusEffect(StatusEffects.MinoMazeFight)) {
                 monster.removeStatusEffect(StatusEffects.MinoMazeFight);
-                getGame().dungeons.minotown.mazeMinotaurLoss();
+                getGame().dungeons.minotown.maze.mazeMinotaurLoss();
             }
             
         }

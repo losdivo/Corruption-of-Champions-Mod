@@ -14,7 +14,7 @@ package classes.Scenes.Dungeons
 	
 	public class MinoTown extends DungeonAbstractContent
 	{
-		private var maze:MinoMazeScene = new MinoMazeScene;
+		public var maze:MinoMazeScene = new MinoMazeScene;
         
 		public  function MinoTown() {
             
@@ -185,11 +185,6 @@ package classes.Scenes.Dungeons
             
         }
         public  function    roomMazeConfiguration() : void {
-            //var north:Function = maze.minoMazeFunction(player.statusEffectv1(StatusEffects.MinoMazeConfiguration));
-            //var south:Function = roomMazeFunction(player.statusEffectv2(StatusEffects.MinoMazeConfiguration));
-            //var west:Function  = roomMazeFunction(player.statusEffectv3(StatusEffects.MinoMazeConfiguration));
-            //var east:Function  = roomMazeFunction(player.statusEffectv4(StatusEffects.MinoMazeConfiguration));
-            //dungeons.setDungeonButtons(north,south,west,east);
         }
            
         private function    roomMazeEastEnter() : void {

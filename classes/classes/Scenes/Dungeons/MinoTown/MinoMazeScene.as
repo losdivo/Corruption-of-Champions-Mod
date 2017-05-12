@@ -68,6 +68,7 @@ package classes.Scenes.Dungeons.MinoTown
         private var description2: int;
         private var description3: int;
         private var cumStench:    int;
+        private var numLosses:    int;
         
         public function MinoMazeScene() {
             mazePos = 0;
@@ -439,37 +440,37 @@ package classes.Scenes.Dungeons.MinoTown
             
             if (description1 == 0) {
                 
-                outputText("You follow a track of hooved markings on a ground and enter a cavern. The cavern is dimly lit by a flickering torch. The walls are crudely carved from a rock, the floor is uneven and the ceiling is very low. You feel the pressure of a mountain above you, hoping that soon you get out of the maze.\n\n");
+                outputText("You follow a track of hooved markings on a ground and enter a cavern. The cavern is dimly lit by a flickering torch. The walls are crudely carved from a rock, the floor is uneven and the ceiling is very low. You feel the pressure of a mountain above you, hoping that soon you get out of the maze.");
                 
             }
             else if (description1 == 1) {
-                outputText("You walk past a dimly lit torch. You realize that you may be totally lost here. ");
+                outputText("A cavern is lit by uneven light of a torch. You stand on a gravel floor of what looks like a large cavern. The ceiling is high above your head, hidden in the darkness. Some liquid is dripping from above, you are not sure if it is just water or something else. You see a rusty chain on the floor, and a couple of hooved tracks.");
             }
             else if (description1 == 2) {
-                outputText("You think you see a movement in the shadows, but it is just flickering light of a torch. ");
+                outputText("For a moment, you think you see a movement in the shadows, but it is just flickering light of a torch. Plain rocks gives way to a brick walls, gravel paths lit by dim lights. The maze looks the same in all directions, and you feel that you are completely lost here.");
             }
             else if (description1 == 3) {
-                outputText("A strong feeling of deja vu raise in your head. The walls look too familiar. Have you already been here? ");
+                outputText("A strong feeling of deja vu raise in your head. The walls look too familiar. Have you already been here? You hear some distant cracking noises, and some moans. Or is it a wind? The brick walls are closing on you, the ceiling is too high to see in weak lights of a torch.");
             }
             
 
             if (description2 == 0) { 
-                if (cumStench > 0 && minoCumAddictionStrength() > 0) {
-                    if (cumStench < 2) outputText("You feel thin smell of minotaurs cum in the air. ");
-                    else if (cumStench < 4) outputText("You feel a smell of minotaurs cum in the air. It is quite arousing. "); 
-                    else if (cumStench < 6) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
-                    else if (cumStench < 8) outputText("You feel a stench of minotaurs cum. It is hard to think of anything but the cum. ");
+                if (cumStench > 2 && minoCumAddictionStrength() > 0) {
+                    if (cumStench < 4) outputText(" A thin smell of minotaurs cum permeates the air.");
+                    else if (cumStench < 8) outputText(" You feel a smell of minotaurs cum in the air. You find it somewhat arousing."); 
+                    else if (cumStench < 12) outputText(" You feel a strong smell of minotaurs cum. Your thoughts are constantly returning to the dwellers of the caverns. ");
+                    else if (cumStench < 16) outputText("You feel a stench of minotaurs cum, the smell is so arousing that it becomes hard to thing anything but the cum. ");
                     else outputText("The incredibly strong smell of minotaurs cum make your head drum. With a great effort you try to focus yourself on walking. ");
                 }
             }
-            outputText("\n\n");
             
             if (description3 == 1) {
-                outputText("Under you feet you see a puddle of something white. You turn in disgust. ");
+                outputText("\n\nUnder you feet you see a puddle of something white. You turn in disgust.");
             }
             else if (description3 == 2) {
-                outputText("You feel a gust of fresh air. ");
+                outputText("\n\nYou feel a gust of fresh air. For a moment the smell of minotaurs cum becomes less strong, and you breathe with a relief.");
             }
+            outputText("\n\n");
             
 
             
@@ -490,13 +491,55 @@ package classes.Scenes.Dungeons.MinoTown
         }
         
         public function     mazeMinotaurEncounter() : void {
-            outputText("You encountered a minotaur\n\n");
+            
+            if (player.lust < player.maxLust()) {
+                
+                var choice:int = rand(3);
+                if (choice == 0) {
+                    outputText("The shadows from a torch move, but to your horror, you see a shadow that don't go away. A large beast is hiding in the darkness. It's a fight!\n\n");
+                }
+                else if (choice == 1) {
+                    outputText("You look around you and pause, breathing heavily. You hear a light noise just behind you, as if someone is trying to hide. You turn back and your heart skips a bit - its a large minotaur!\n"); 
+                }
+                else if (choice == 2) {
+                    outputText("Suddenly you hear a loud battlecry. This time you are ready for a fight!");
+                }
+
+            }
             if (rand(3) == 0) startCombat(new MinotaurLord(), false);
             else startCombat(new Minotaur(), false);
             monster.createStatusEffect(StatusEffects.MinoMazeFight, 0, 0, 0, 0);
             setMinotaur(false);
-            doNext(playerMenu);
+            doNext(playerMenu);            
             return;
+            
+            
+        }
+        private function    mazeMinotaurLossManyTimes() : void {
+            dynStats("int", -20, "lib", 5, "sen", 15, "lus", 50, "cor", 10);
+            player.refillHunger(50);
+            player.minoCumAddiction(20);
+        }
+        public function     mazeMinotaurLoss() : void {
+            if (!player.hasStatusEffect(StatusEffects.MinoMazeJustFought)) {
+                player.createStatusEffect(StatusEffects.MinoMazeJustFought, 5, 0, 0, 0);
+            }
+            else player.changeStatusValue(StatusEffects.MinoMazeJustFought, 1, 5);
+            // Text about stuff
+            numLosses++;
+            if (numLosses > 5) {
+                mazeMinotaurLossManyTimes();
+            }
+            doNext(playerMenu);
+        }
+        public function     mazeMinotaurVictory() : void {
+            if (!player.hasStatusEffect(StatusEffects.MinoMazeJustFought)) {
+                player.createStatusEffect(StatusEffects.MinoMazeJustFought, 5, 0, 0, 0);
+            }
+            else player.changeStatusValue(StatusEffects.MinoMazeJustFought, 1, 5);
+            // Text about winning 
+            numLosses = 0;
+            doNext(playerMenu);
         }
         
     }
