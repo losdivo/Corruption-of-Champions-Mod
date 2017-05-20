@@ -869,7 +869,7 @@ package classes.Scenes.Places.Farm
 			{
 				if (player.hasStatusEffect(StatusEffects.Milked))
 				{
-					outputText("\n\n<b>Your " + player.nippleDescript(0) + "s are currently too sore to be milked.  You'll have to wait a while.</b>", false);
+					outputText("\n\n<b>Your " + player.nippleDescript(0) + "s are currently too sore to be milked.  You'll have to wait a while.</b>");
 				}
 				
 				addButton(3,"Get Milked", farm.getMilked);

@@ -133,20 +133,20 @@ package classes.Scenes.Places
 				{
 					outputText("\n<b>Your self-esteem is now extremely low. Your ability to recover your willpower is greatly diminished, your complete lack of self-worth makes you easily swayed by the criticisms and demands of others, and your ",false);
 					if (player.cor < 20) outputText("rare");
-					else if (player.cor >= 20 && player.cor < 40) outputText("occasional", false);
-					else if (player.cor >= 40 && player.cor < 60) outputText("frequent", false);
-					else if (player.cor >= 60 && player.cor < 80) outputText("near constant", false);
-					else if (player.cor >= 80) outputText("constant", false);
+					else if (player.cor >= 20 && player.cor < 40) outputText("occasional");
+					else if (player.cor >= 40 && player.cor < 60) outputText("frequent");
+					else if (player.cor >= 60 && player.cor < 80) outputText("near constant");
+					else if (player.cor >= 80) outputText("constant");
 					outputText(" corrupt thoughts inspire you to give up your pride and be more subservient to those who would dominate you.</b>\n",false);
 				}
 				if (oldEsteem >= 40 && player.esteem < 40 || oldEsteem < 15 && player.esteem >= 15)
 				{
 					outputText("\n<b>Your self-esteem is now low. Your ability to recover your willpower is somewhat diminished, your crumbling sense of self-worth makes you more susceptible to the criticisms and demands of others, and your ",false);
 					if (player.cor < 20) outputText("rare");
-					else if (player.cor >= 20 && player.cor < 40) outputText("occasional", false);
-					else if (player.cor >= 40 && player.cor < 60) outputText("frequent", false);
-					else if (player.cor >= 60 && player.cor < 80) outputText("near constant", false);
-					else if (player.cor >= 80) outputText("constant", false);
+					else if (player.cor >= 20 && player.cor < 40) outputText("occasional");
+					else if (player.cor >= 40 && player.cor < 60) outputText("frequent");
+					else if (player.cor >= 60 && player.cor < 80) outputText("near constant");
+					else if (player.cor >= 80) outputText("constant");
 					outputText(" corrupt thoughts increasingly linger on how good it feels to obey the directions of those who would dominate you.</b>\n",false);
 				}
 				if (oldEsteem >= 60 && player.esteem < 60 || oldEsteem < 40 && player.esteem >= 40)
@@ -320,7 +320,7 @@ package classes.Scenes.Places
 		
 		public function prisonRestraintText(longOutput:Boolean = false):void
 		{
-			//outputText("\n\n", false);
+			//outputText("\n\n");
 			/*if (prisonCaptor.restraintDescriptionsV1[player.statusEffectv1(StatusEffects.PrisonRestraints)])
 			{
 				outputText(prisonCaptor.restraintDescriptionsV1[player.statusEffectv1(StatusEffects.PrisonRestraints)],false);
@@ -344,7 +344,7 @@ package classes.Scenes.Places
 					if (longOutput) {
 						outputText(" You find this demoralizing and fatiguing");
 						if (player.cor > 40 || player.obey > 45) outputText(", but also arousing",false);
-						outputText(".", false);
+						outputText(".");
 					}
 				}
 			}
@@ -1002,7 +1002,7 @@ package classes.Scenes.Places
 					return false;
 				}
 				outputText("\n\nShortly after you wake, the door opens and a captivating omnibus enters the room. While her physique is impressive -- long, shapely legs in laced, thigh-high, spike-heeled leather boots; a powerful, athletic but curvy frame; a pair of perky C-cups spilling out of a tight-fitting leather corset -- your eyes focus on her charismatic face. She is possessed of exotic and delicate features, enticingly framed by side swept bangs that have escaped the loosely bound ponytail atop her head. The striking contrast of her fire red hair against her smooth olive skin completes the effect, suggesting that her countenance could shift from intoxicatingly arousing to overwhelmingly intimidating to soft and comforting at any moment.",false);
-				outputText("\n\nShe carries little evidence of demonic taint besides a pair of cute, curled horns sprouting from her temples and an agile, spade-tipped tail that flicks about above her muscular, heart-shaped ass. Her preternatural aura of poise, charm, and command, however, betray that she must be a very powerful demon indeed. She looks you over appraisingly while absentmindedly trailing her lithe fingers up and down her semi-erect but rather imposing cock. You notice that she wears long, laced leather sleeves, covering her shoulder to wrist. They strap around her middle fingers, but leave her hands conspicuously ungloved. It would seem that she prefers her subjects to feel her soft, silky skin when she touches them.", false);
+				outputText("\n\nShe carries little evidence of demonic taint besides a pair of cute, curled horns sprouting from her temples and an agile, spade-tipped tail that flicks about above her muscular, heart-shaped ass. Her preternatural aura of poise, charm, and command, however, betray that she must be a very powerful demon indeed. She looks you over appraisingly while absentmindedly trailing her lithe fingers up and down her semi-erect but rather imposing cock. You notice that she wears long, laced leather sleeves, covering her shoulder to wrist. They strap around her middle fingers, but leave her hands conspicuously ungloved. It would seem that she prefers her subjects to feel her soft, silky skin when she touches them.");
 			}
 			else {
 				outputText("You make your journey back to the prison. The guards give you a nod of approval as you walk into the prison entrance.");
@@ -1181,7 +1181,7 @@ package classes.Scenes.Places
 			{
 				/*if (!kGAMECLASS.campQ)
 				{
-					outputText("More time passes...\n", true);
+					outputText("More time passes...\n");
 					goNext(kGAMECLASS.timeQ, false);
 					return;
 				}*/
@@ -1292,7 +1292,7 @@ package classes.Scenes.Places
 			//Check lust
 			if (player.lust >= 30) {
 				if (player.lust >= player.maxLust()) {
-					outputText("\n\n<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>", false);
+					outputText("\n\n<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>");
 					removeButton(0);
 					removeButton(4);
 				}
@@ -1364,12 +1364,12 @@ package classes.Scenes.Places
 			}
 			if (player.fatigue > player.maxFatigue() - 25)
 			{
-				outputText("<b>There's no way you could exercise right now - you're exhausted!</b>  ", false);
+				outputText("<b>There's no way you could exercise right now - you're exhausted!</b>  ");
 				doNext(playerMenu);
 				return;
 			}
 			player.changeFatigue(25);
-			outputText("You decide to pass the time with a workout regimen of pushups, situps, makeshift pull ups and other activities to improve your strength and endurance. ", false);
+			outputText("You decide to pass the time with a workout regimen of pushups, situps, makeshift pull ups and other activities to improve your strength and endurance. ");
 			if (player.str < 25)
 			{
 				outputText("You only manage a few reps of each, but even so, you manage to work up a good burn and a modest sweat.",false);
@@ -1422,7 +1422,7 @@ package classes.Scenes.Places
 			}
 			if (player.fatigue > player.maxFatigue() - 30)
 			{
-				outputText("<b>There's no way you could exercise right now - you're exhausted!</b>  ", false);
+				outputText("<b>There's no way you could exercise right now - you're exhausted!</b>  ");
 				doNext(playerMenu);
 				return;
 			}
@@ -1641,7 +1641,7 @@ package classes.Scenes.Places
 			var run:Function = doPrisonEscapeRun;
 			var quest:Function = doPrisonEscapeQuestRun;
 			clearOutput();
-			outputText("You look around you and think about how you might be able to free yourself from captivity.\n\n", false);
+			outputText("You look around you and think about how you might be able to free yourself from captivity.\n\n");
 			if (player.gems < 500) {
 				bribe = null;
 			}
@@ -1688,7 +1688,7 @@ package classes.Scenes.Places
 			
 			//if (choiceFound)
 			//{
-				outputText("\n\nWill you make an escape attempt?", false);
+				outputText("\n\nWill you make an escape attempt?");
 				menu();
 				addButton(0, "Fight", fight);
 				addButton(1, "Seduce", seduce);
@@ -1732,7 +1732,7 @@ package classes.Scenes.Places
 		
 		public function doPrisonEscapeFightWin():void
 		{
-			outputText("\n\nYou step over the unconscious body of your former guard and head towards the door.\n", false);
+			outputText("\n\nYou step over the unconscious body of your former guard and head towards the door.\n");
 			changeEsteem(1,inPrison);
 			changeObey(-3,inPrison);
 			prisonEscapeSuccessText();
@@ -2101,7 +2101,7 @@ package classes.Scenes.Places
 		//Conclusion
 		public function captorChanceChoose():void {
 			clearOutput();
-			outputText("As you make your way back to camp, you can't help but think about how easy it is to find yourself knocked unconscious and left helpless in the wilderness of Mareth. While slave hunters have never plucked you off the ground in such a state before, now that you've bumbled into being captured by them you consider that they might come hunting for you now that you've escaped. You give it a moment's thought. Are you now in danger of being recaptured should you be defeated in combat?", false);
+			outputText("As you make your way back to camp, you can't help but think about how easy it is to find yourself knocked unconscious and left helpless in the wilderness of Mareth. While slave hunters have never plucked you off the ground in such a state before, now that you've bumbled into being captured by them you consider that they might come hunting for you now that you've escaped. You give it a moment's thought. Are you now in danger of being recaptured should you be defeated in combat?");
 			menu();
 			addButton(0, "Likely", chooseLikelyChance);
 			addButton(1, "Maybe", chooseMaybeChance);
@@ -2508,7 +2508,7 @@ package classes.Scenes.Places
 			if (flags[kFLAGS.PRISON_DIRT_ENABLED] == 0)
 			{
 				outputText("\"<i>A worthless piece of meat such as yourself has no reason to care if they live in filth -- you should simply be grateful to have a roof over your head and a " + prisonCaptor.captorTitle + " to give you a purpose in life. However, you should certainly be concerned with offending your " + prisonCaptor.captorTitle + " with that filth.</i>\" As the words fill the room, " + prisonCaptor.captorPronoun3 + " displeasure is almost palpable.",false);
-				outputText("\n\n\"<i>Mark my words, slave: you <b>will</b> keep this room clean.</i>\" Nothing more needs to be said for you to understand that there will be consequences if you don't.", false);
+				outputText("\n\n\"<i>Mark my words, slave: you <b>will</b> keep this room clean.</i>\" Nothing more needs to be said for you to understand that there will be consequences if you don't.");
 				outputText("\n\n<b>From now on, Elly will check your cell every day at 4pm.</b>");
 				flags[kFLAGS.PRISON_DIRT_ENABLED] = 1;
 				prisonCaptorTrainingStatusUpdate();
@@ -2943,7 +2943,7 @@ package classes.Scenes.Places
 			}
 			else
 			{
-				outputText("You eat the stale, flavorless brick of bread. It satisfies your hunger, but not much else.", false);
+				outputText("You eat the stale, flavorless brick of bread. It satisfies your hunger, but not much else.");
 				player.refillHunger(40);
 			}
 			doNext(inventory.inventoryMenu);
@@ -2968,7 +2968,7 @@ package classes.Scenes.Places
 						}
 						if (!player.hasStatusEffect(StatusEffects.Heat))
 						{
-							outputText("Your mind clouds as your " + player.vaginaDescript(0) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as you realize <b>you have gone into heat</b>!", false);
+							outputText("Your mind clouds as your " + player.vaginaDescript(0) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as you realize <b>you have gone into heat</b>!");
 							player.createStatusEffect(StatusEffects.Heat, 20, 20, 96, 0);
 							dynStats("sens", 10);
 						}
@@ -3099,7 +3099,7 @@ package classes.Scenes.Places
 					outputText("Very High");
 				}
 				outputText(")\n",false);
-				outputText("<b>Obedience:</b> " + Math.round(player.obey) + " / " + (player.obeySoftCap ? 50 : 100) + " (", false);
+				outputText("<b>Obedience:</b> " + Math.round(player.obey) + " / " + (player.obeySoftCap ? 50 : 100) + " (");
 				if (player.obey < 10)
 				{
 					outputText("Strong Willed");

@@ -5,7 +5,6 @@ package classes.Scenes.Dungeons
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Scenes.Dungeons.D3.D3;
-    import flash.display.InteractiveObject;
 	
 	import coc.view.MainView;
 	

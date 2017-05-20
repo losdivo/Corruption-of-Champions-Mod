@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Quests{
+package classes.Scenes.Quests{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -1179,21 +1179,21 @@ private function urtaComboAttack():void {
 	}
 	//Blind
 	if (player.hasStatusEffect(StatusEffects.Blind)) {
-		outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+		outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
 	}
 	var damage:Number;
 	//Determine if dodged!
 	if (!monster.hasStatusEffect(StatusEffects.Blind) && (rand(3) == 0 || (player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4) +80)) > 80))) {
-		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!", false);
-		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!", false);
-		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.", false);
-		outputText("\n", false);
+		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!");
+		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!");
+		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.");
+		outputText("\n");
 		if (player.hasStatusEffect(StatusEffects.Attacks)) {
 			urtaComboAttack();
 			return;
 		}
 		else {
-			outputText("\n", false);
+			outputText("\n");
 			monster.doAI();
 			return;
 		}
@@ -1247,10 +1247,10 @@ private function urtaComboAttack():void {
 	}
 	if (damage <= 0) {
 		damage = 0;
-		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".", false);
+		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".");
 	}
 	else {
-		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")", false);
+		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")");
 		if (crit) outputText(" <b>*CRIT*</b>");
 	}
 	if (player.findPerk(PerkLib.BrutalBlows) >= 0 && player.str > 75) {
@@ -1258,7 +1258,7 @@ private function urtaComboAttack():void {
 		if (monster.armorDef - 10 > 0) monster.armorDef -= 10;
 		else monster.armorDef = 0;
 	}
-	outputText("\n", false);
+	outputText("\n");
 	//Kick back to main if no damage occured!
 	if (monster.HP >= 1 && monster.lust <= 99) {
 		if (player.hasStatusEffect(StatusEffects.Attacks)) {
@@ -1267,7 +1267,7 @@ private function urtaComboAttack():void {
 			return;
 		}
 		trace("DONE ATTACK");
-		outputText("\n", false);
+		outputText("\n");
 		monster.doAI();
 	}
 	else {
@@ -1290,7 +1290,7 @@ private function urtaDirtKick():void {
 	player.changeFatigue(5);
 	//Blind
 	if (player.hasStatusEffect(StatusEffects.Blind)) {
-		outputText("You attempt to dirt kick, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+		outputText("You attempt to dirt kick, but as blinded as you are right now, you doubt you'll have much luck!  ");
 	}
 	else outputText("Spinning about, you drag your footpaw through the dirt, kicking a wave of debris towards " + monster.a + monster.short + "!  ");
 	//Dodged!
@@ -1323,16 +1323,16 @@ private function urtaSidewinder():void {
 	player.changeFatigue(10);
 	//Blind
 	if (player.hasStatusEffect(StatusEffects.Blind)) {
-		outputText("You attempt to hit with a vicious blow to the side, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+		outputText("You attempt to hit with a vicious blow to the side, but as blinded as you are right now, you doubt you'll have much luck!  ");
 	}
 	else outputText("You make a wide swing to the side, hoping to stun your foe!  ");
 	var damage:Number;
 	//Determine if dodged!
 	if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4) +80)) > 80)) {
-		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!", false);
-		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!", false);
-		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.", false);
-		outputText("\n\n", false);
+		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!");
+		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!");
+		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.");
+		outputText("\n\n");
 		monster.doAI();
 		return;
 	}
@@ -1387,10 +1387,10 @@ private function urtaSidewinder():void {
 	}
 	if (damage <= 0) {
 		damage = 0;
-		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".", false);
+		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".");
 	}
 	else {
-		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")", false);
+		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")");
 		if (crit) outputText(" <b>*CRIT*</b>");
 	}
 	if (player.findPerk(PerkLib.BrutalBlows) >= 0 && player.str > 75) {
@@ -1407,14 +1407,14 @@ private function urtaSidewinder():void {
 	else if (monster.findPerk(PerkLib.Resolute) >= 0) {
 		outputText("\nWhile it should have some chance of stunning, your foe seems far too resolute to be affected by such an ailment.");
 	}
-	outputText("\n", false);
+	outputText("\n");
 	//Kick back to main if no damage occured!
 	if (monster.HP >= 1 && monster.lust <= 99) {
 		if (player.hasStatusEffect(StatusEffects.FirstAttack)) {
 			combat.attack();
 			return;
 		}
-		outputText("\n", false);
+		outputText("\n");
 		monster.doAI();
 	}
 	else {
@@ -1437,27 +1437,27 @@ private function urtaVaultAttack():void {
 	}
 	player.changeFatigue(20);
 	if (player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 0) {
-		outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The seals have made normal attack impossible!  Maybe you could try something else?\n\n", false);
+		outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The seals have made normal attack impossible!  Maybe you could try something else?\n\n");
 		monster.doAI();
 		return;
 	}
 	//Blind
 	if (player.hasStatusEffect(StatusEffects.Blind)) {
-		outputText("You attempt to make a high, vaulting attack, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+		outputText("You attempt to make a high, vaulting attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
 	}
 	else outputText("You leap into the air, intent on slamming your " + player.weaponName + " into your foe!  ");
 	var damage:Number;
 	//Determine if dodged!
 	if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4) +80)) > 80)) {
-		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!", false);
-		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!", false);
-		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.", false);
-		outputText("\n", false);
+		if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!");
+		if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!");
+		if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.");
+		outputText("\n");
 		if (player.hasStatusEffect(StatusEffects.FirstAttack)) {
 			combat.attack();
 			return;
 		}
-		else outputText("\n", false);
+		else outputText("\n");
 		monster.doAI();
 		return;
 	}
@@ -1512,10 +1512,10 @@ private function urtaVaultAttack():void {
 	}
 	if (damage <= 0) {
 		damage = 0;
-		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".", false);
+		outputText("Your attacks are deflected or blocked by " + monster.a + monster.short + ".");
 	}
 	else {
-		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")", false);
+		outputText("You hit " + monster.a + monster.short + "! (" + damage + ")");
 		if (crit) outputText(" <b>*CRIT*</b>");
 	}
 	if (player.findPerk(PerkLib.BrutalBlows) >= 0 && player.str > 75) {
@@ -1523,14 +1523,14 @@ private function urtaVaultAttack():void {
 		if (monster.armorDef - 10 > 0) monster.armorDef -= 10;
 		else monster.armorDef = 0;
 	}
-	outputText("\n", false);
+	outputText("\n");
 	//Kick back to main if no damage occured!
 	if (monster.HP >= 1 && monster.lust <= 99) {
 		if (player.hasStatusEffect(StatusEffects.FirstAttack)) {
 			combat.attack();
 			return;
 		}
-		outputText("\n", false);
+		outputText("\n");
 		monster.doAI();
 	}
 	else {

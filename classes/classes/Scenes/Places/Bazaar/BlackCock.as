@@ -344,7 +344,7 @@ package classes.Scenes.Places.Bazaar
 					outputText("\n\nThe songbird's dirty blond wings spread, each flap sending an undulation through her soft tits and enticing ass as she takes to the air, wings beating hard as she hovers in place while spinning around. The place explodes into applause and wolf whistles as the Anita shows that those sexy wings aren't just for show.");
 					outputText("\n\n\"<i>She'll be squirtin' like a fountain when she cuuuums \nShe'll be squirtin' like a fountain when she cuuuums \nShe'll be squirtin' like a fountain \nShe'll be squirtin' like a fountain \nShe'll be squirtin' like a fountain when she cuuuuuuuuuuuuuuuuuuuuuums.</i>\"");
 					outputText("\n\nExplosive applause rips through the tent and you find yourself clapping and hollering along with the crowd. Despite the repetitive, simplistic nature of the song you have to admit you enjoyed yourself. As the applause dies down you realize that you feel a little riled up now.");
-					dynStats("lus", 10, "resisted", false);
+					dynStats("lus", 10, "resisted");
 					dynStats("lus", (player.lib / 5) + (player.cor / 10));
 					break;
 				case 1: //Rockin Robin
@@ -359,7 +359,7 @@ package classes.Scenes.Places.Bazaar
 					outputText("\n\nShe rocks in the tree tops all night long \npurty lips wrapped around daddy's big schlong \nAll the little birdies on JayBird street \nLove that lil robin ‘cause she tastes so sweet");
 					outputText("\n\nRockin Robin, tweet tweet tweetleelee \nRockin Robin, tweet tweet tweetleelee \nWith that rockin robin you know ya really gonna rock tonight</i>\"");
 					outputText("\n\nExplosive applause rips through the tent and you find yourself clapping and hollering along with the crowd. Despite the repetitive, simplistic nature of the song you have to admit you enjoyed yourself. As the applause dies down you realize that you feel a little riled up now.");
-					dynStats("lus", 10, "resisted", false);
+					dynStats("lus", 10, "resisted");
 					dynStats("lus", (player.lib / 5) + (player.cor / 10));
 					break;
 				default:
@@ -616,7 +616,7 @@ package classes.Scenes.Places.Bazaar
 			else {
 				outputText("You hold your hand out for the pipe. Andy scoots closer to you and passes it, leaning back against the barrels. As you take your hit the warm happy heat blooms in your [fullChest] and you hand the pipe back with a giant smile.");
 			}
-			dynStats("lus", 10, "resisted", false);
+			dynStats("lus", 10, "resisted");
 			dynStats("lus", 10 + (player.lib / 5) + (player.cor / 10));
 			switch(rand(2)) {
 				case 0:
@@ -660,7 +660,7 @@ package classes.Scenes.Places.Bazaar
 			outputText("\n\nThis makes you laugh again. Suddenly everything is funny and the world is beautiful beyond words. Every star in the sky seems to be vying for your attention. Every blade of grass seems to dance beneath your [feet]. You don't feel like a stranger invading some strange land. You don't feel anything but joy for being here in this alien world with a lung full of happy smoke and this friendly satyr sitting next to you.");
 			outputText("\n\n\"<i>In my defense,</i>\" Andy says as he takes the pipe, \"<i>When I wear pants everyone calls me George and I love my dad but I don't like that shit. I'm Andy damnit, Andy fucking Mathis</i>\"");
 			outputText("\n\nYou can't help the guffaws of laughter erupting from your face. The two of you continue to smoke, chat and laugh until the happiness inducing drug is gone. Once the two of you have finished Andy says something about getting back to work and you find yourself feeling a little hungry.");
-			dynStats("lus", 10, "resisted", false);
+			dynStats("lus", 10, "resisted");
 			dynStats("lus", 10 + (player.lib / 5) + (player.cor / 10));
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -740,7 +740,7 @@ package classes.Scenes.Places.Bazaar
 			}
 			outputText("\n\n\"<i>Asses are nice too. I like knowing how people react to having my tongue pressed against their rear door. It's one of those little pleasures people don't expect to like. There's something about having a nice hot ass grinding into my lips, bouncing on my tongue. Eating ass is an art my dad used to say. It's something that can be easily done with just a swirl of the tongue but only a master can bring someone to orgasm with just a rimjob. I used to practice on this tiger guy somewhere around here. He was pretty rough, shoving and pushing against my tongue. He would talk shit and curse and complain… but he loved it. We only stopped when he started playing poker with these other guys; he's a bit of a bitch nowadays. He doesn't let anyone near those gorgeous globes from what I hear. It's a pity too, that was one nice ass.</i>\"");
 			outputText("\n\nHe looks up at you expectantly and you have to admit you got a little horny listening to his stories and his past. What do you want him to do now?");
-			dynStats("lus", 20, "resisted", false);
+			dynStats("lus", 20, "resisted");
 			menu();
 			if (player.hasCock()) addButton(0, "Suck my Cock", haveAndySuckYouOff, null, null, null, "Have Andy suck you off.");
 			else addButtonDisabled(0, "Suck my Cock", "You'll need a cock to have Andy do this.");
@@ -1569,7 +1569,7 @@ package classes.Scenes.Places.Bazaar
 				dynStats("spe", -1);
 			}
 			if (rand(3) == 0 && player.tou < 50 && changes < changeLimit) {
-				outputText("\n\nYour skin feels clammy and a little rubbery. You touch yourself experimentally and notice that you can barely feel the pressure from your fingertips. Consumed with curiosity, you punch yourself lightly in the arm; the most you feel is a dull throb!", false);
+				outputText("\n\nYour skin feels clammy and a little rubbery. You touch yourself experimentally and notice that you can barely feel the pressure from your fingertips. Consumed with curiosity, you punch yourself lightly in the arm; the most you feel is a dull throb!");
 				dynStats("sen", -1);
 			}
 			if (rand(3) == 0 && player.inte > 15 && player.faceType == FACE_RHINO && player.horns == 2) {
@@ -1597,8 +1597,8 @@ package classes.Scenes.Places.Bazaar
 			//------------
 			//Removes wings
 			if (rand(4) == 0 && changes < changeLimit && player.wingType > WING_TYPE_NONE) {
-				if (player.wingType == WING_TYPE_SHARK_FIN) outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine. After a moment the pain passes, though your fin is gone!", false);
-				else outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades. After a moment the pain passes, though your wings are gone!", false);
+				if (player.wingType == WING_TYPE_SHARK_FIN) outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine. After a moment the pain passes, though your fin is gone!");
+				else outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades. After a moment the pain passes, though your wings are gone!");
 				player.wingType = WING_TYPE_NONE;
 				changes++;
 			}
@@ -1655,7 +1655,7 @@ package classes.Scenes.Places.Bazaar
 			}
 			//Removes antennaes!
 			if (rand(3) == 0 && changes < changeLimit && player.antennae > ANTENNAE_NONE) {
-				outputText("\n\nYour " + player.hairDescript() + " itches so you give it a scratch, only to have your antennae fall to the ground. What a relief. <b>You've lost your antennae!</b>", false);
+				outputText("\n\nYour " + player.hairDescript() + " itches so you give it a scratch, only to have your antennae fall to the ground. What a relief. <b>You've lost your antennae!</b>");
 				changes++;
 				player.antennae = ANTENNAE_NONE;
 			}
@@ -1663,8 +1663,8 @@ package classes.Scenes.Places.Bazaar
 			if (rand(4) == 0 && changes < changeLimit && player.hairType != HAIR_NORMAL) {
 				switch(player.hairType) {
 					case HAIR_FEATHER:
-						if (player.hairLength >= 6) outputText("\n\nA lock of your downy-soft feather-hair droops over your eye. Before you can blow the offending down away, you realize the feather is collapsing in on itself. It continues to curl inward until all that remains is a normal strand of hair. <b>Your hair is no longer feathery!</b>", false);
-						else outputText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested. While your hand is up there, it detects a change in the texture of your feathers. They're completely disappearing, merging down into strands of regular hair. <b>Your hair is no longer feathery!</b>", false);
+						if (player.hairLength >= 6) outputText("\n\nA lock of your downy-soft feather-hair droops over your eye. Before you can blow the offending down away, you realize the feather is collapsing in on itself. It continues to curl inward until all that remains is a normal strand of hair. <b>Your hair is no longer feathery!</b>");
+						else outputText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested. While your hand is up there, it detects a change in the texture of your feathers. They're completely disappearing, merging down into strands of regular hair. <b>Your hair is no longer feathery!</b>");
 						break;
 					case HAIR_GOO:
 						outputText("\n\nYour gooey hair begins to fall out in globs, eventually leaving you with a bald head. Your head is not left bald for long, though. Within moments, a full head of hair sprouts from the skin of your scalp. <b>Your hair is normal again!</b>");
@@ -1800,7 +1800,7 @@ package classes.Scenes.Places.Bazaar
 				if (player.statusEffectv1(StatusEffects.BonusACapacity) < 60) {
 					if (!player.hasStatusEffect(StatusEffects.BonusACapacity)) player.createStatusEffect(StatusEffects.BonusACapacity, 0, 0, 0, 0);
 					player.addStatusValue(StatusEffects.BonusACapacity, 1, 5);
-					outputText("\n\nYou feel... more accommodating somehow. Your " + player.assholeDescript() + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.", false);
+					outputText("\n\nYou feel... more accommodating somehow. Your " + player.assholeDescript() + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
 					changes++;
 				}
 			}
@@ -2051,9 +2051,9 @@ package classes.Scenes.Places.Bazaar
 				temp *= 0.1;
 				player.cumMultiplier += temp;
 				//Flavor text
-				if (player.balls == 0) outputText("\n\nYou feel a churning inside your gut as something inside you changes.", false);
-				if (player.balls > 0) outputText("\n\nYou feel a churning in your " + player.ballsDescriptLight() + ". It quickly settles, leaving them feeling somewhat more dense.", false);
-				outputText(" A bit of milky pre dribbles from your " + player.multiCockDescriptLight() + ", pushed out by the change.", false);
+				if (player.balls == 0) outputText("\n\nYou feel a churning inside your gut as something inside you changes.");
+				if (player.balls > 0) outputText("\n\nYou feel a churning in your " + player.ballsDescriptLight() + ". It quickly settles, leaving them feeling somewhat more dense.");
+				outputText(" A bit of milky pre dribbles from your " + player.multiCockDescriptLight() + ", pushed out by the change.");
 				changes++;
 			}
 			if (rand(3) == 0 && changes < changeLimit && player.gender == GENDER_MALE && player.averageBreastSize() > 2 && flags[kFLAGS.HYPER_HAPPY] == 0) {

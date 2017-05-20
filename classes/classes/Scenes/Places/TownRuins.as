@@ -42,8 +42,8 @@ package classes.Scenes.Places
 		//[Exploring the Lake]
 		public function discoverAmilyVillage():void {
 			clearOutput();
-			outputText("As you roam the shores of the lake, you find your footsteps echoing as though you were stepping on wood rather than squishing in the sandy mud of the shore. Curious, you squat down and brush the soil away, revealing the rotting form of a wooden plank. Looking carefully at the ground underfoot, you realize that it is part of a pathway - the kind that villages make to provide easier access to and from muddy rivers, lakes and beaches. You believe you can make out the rest of the path clearly enough to follow it to its end.\n\n", false);
-			outputText("Do you follow the pathway?", false);
+			outputText("As you roam the shores of the lake, you find your footsteps echoing as though you were stepping on wood rather than squishing in the sandy mud of the shore. Curious, you squat down and brush the soil away, revealing the rotting form of a wooden plank. Looking carefully at the ground underfoot, you realize that it is part of a pathway - the kind that villages make to provide easier access to and from muddy rivers, lakes and beaches. You believe you can make out the rest of the path clearly enough to follow it to its end.\n\n");
+			outputText("Do you follow the pathway?");
 			//Yes / No
 			doYesNo(exploreAmilyVillage,dontExploreAmilyVillage);
 		}
@@ -51,15 +51,15 @@ package classes.Scenes.Places
 		//[No]
 		private function dontExploreAmilyVillage():void {
 			clearOutput();
-			outputText("Standing up, you turn and walk away. You presume from the state of the pathway that the village at the other end must either be in dire straits, abandoned, or overwhelmed by demons. In other words, it's no safe place for a traveler like you.\n\n", false);
+			outputText("Standing up, you turn and walk away. You presume from the state of the pathway that the village at the other end must either be in dire straits, abandoned, or overwhelmed by demons. In other words, it's no safe place for a traveler like you.\n\n");
 			doNext(camp.returnToCampUseOneHour);
 		}
 
 		//[Yes]
 		private function exploreAmilyVillage():void {
 			clearOutput();
-			outputText("You follow the overgrown path inland, away from the shore of the lake. You pass through thick trees, struggling not to lose the path, before finally reaching what is clearly the end.  In front of you lie crumbling walls, broken and scattered by the wind and rain... and by other forces entirely. Beyond them are houses that have been torn apart, burned or collapsed. This was clearly once a village, but it was devastated at some point in the past. Demon attack is the first possibility that leaps into your mind. You examine the ruins for a time, and then decide to head back to camp. You don't think it would be wise to investigate here without preparing first.\n\n", false);
-			outputText("(<b>\"TownRuins\" added to Places menu.</b>)", false);
+			outputText("You follow the overgrown path inland, away from the shore of the lake. You pass through thick trees, struggling not to lose the path, before finally reaching what is clearly the end.  In front of you lie crumbling walls, broken and scattered by the wind and rain... and by other forces entirely. Beyond them are houses that have been torn apart, burned or collapsed. This was clearly once a village, but it was devastated at some point in the past. Demon attack is the first possibility that leaps into your mind. You examine the ruins for a time, and then decide to head back to camp. You don't think it would be wise to investigate here without preparing first.\n\n");
+			outputText("(<b>\"TownRuins\" added to Places menu.</b>)");
 			//set village unlock flag
 			flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE] = 1;
 			doNext(camp.returnToCampUseOneHour);
@@ -112,7 +112,7 @@ package classes.Scenes.Places
 			if (player.hasKeyItem("Equipment Rack - Weapons") < 0) rackArray[rackArray.length] = 1;
 			if (player.hasKeyItem("Equipment Rack - Shields") < 0) rackArray[rackArray.length] = 2;
 			rack = rackArray[rand(rackArray.length)];
-			outputText("While picking through the ruined houses and abandoned structures of this dilapidated village, you manage to find something useful!  There's an intact but empty ", false);
+			outputText("While picking through the ruined houses and abandoned structures of this dilapidated village, you manage to find something useful!  There's an intact but empty ");
 			switch(rack) {
 				case 0:
 					outputText("armor");
@@ -126,7 +126,7 @@ package classes.Scenes.Places
 				default:
 					outputText("undefined");
 			}
-			outputText(" rack here.  It looks like it could hold nine different ", false);
+			outputText(" rack here.  It looks like it could hold nine different ");
 			switch(rack) {
 				case 0:
 					outputText("armors");
@@ -140,7 +140,7 @@ package classes.Scenes.Places
 				default:
 					outputText("undefined");
 			}
-			outputText(".  You check it over and spot an easy way to fold it up for transport.  This would be a fine addition to your camp, so you pack it up and haul it back.", false);
+			outputText(".  You check it over and spot an easy way to fold it up for transport.  This would be a fine addition to your camp, so you pack it up and haul it back.");
 			switch(rack) {
 				case 0:
 					player.createKeyItem("Equipment Rack - Armor",0,0,0,0);

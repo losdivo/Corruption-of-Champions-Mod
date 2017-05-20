@@ -1,4 +1,4 @@
-﻿package classes.Scenes.NPCs {
+package classes.Scenes.NPCs {
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -42,7 +42,7 @@ private function nameZeMilkBath():void
 	if (mainView.nameBox.text == "" || mainView.nameBox.text is Number) 
 	{
 		clearOutput();
-		outputText("<b>You must give her a name.</b>", false);
+		outputText("<b>You must give her a name.</b>");
 		menu();
 		addButton(0,"Next",nameZeMilkBath);
 		mainView.nameBox.visible = true;

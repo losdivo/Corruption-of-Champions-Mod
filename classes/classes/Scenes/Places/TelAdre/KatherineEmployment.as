@@ -356,11 +356,12 @@ package classes.Scenes.Places.TelAdre{
 			addDisabledButton(0, "Fuck Her", "This scene requires you to have fitting cock.");
 			addDisabledButton(1, "Give Anal", "This scene requires you to have fitting cock.");
 			addDisabledButton(2, "Give Both", "This scene requires you to have two fitting cocks.");
-			addDisabledButton(4, "Bath", "This scene is only available after her training is over.");
+			// bath always available
 			addDisabledButton(5, "Mount Her", "This scene requires you to have vagina. You should be able to pull out her knot - this is not the best place to be in such vulnerable state.");
 			addDisabledButton(6, "Take Anal", "Her knot should not be overly large.");
 			addDisabledButton(7, "Take Both", "This scene requires you to have vagina. Her knot should not be overly large. You should be able to pull out her knot - this is not the best place to be in such vulnerable state.");
 			
+			addButton(4, "Bath", katherine.bathTime);
 			if (player.cockThatFits(70) > -1) {
 				addButton(0, "Fuck Her", katherine.penetrateKatsVag);
 				addButton(1, "Give Anal", katherine.pcPenetratesKatAnally);
