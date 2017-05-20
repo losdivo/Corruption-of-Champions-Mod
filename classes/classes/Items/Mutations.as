@@ -3367,7 +3367,7 @@ public function wolfPepper(type: Number, player: Player): void {
 			    outputText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.", true);
             }
             else {
-                outputText("You gulp down creamy liquid.", true);
+                outputText("You gulp down creamy liquid.", false);
             }
 			//Bump up size!
 			if (player.averageBreastSize() < 8) {

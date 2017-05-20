@@ -638,7 +638,7 @@ public function getRapedByMinotaur(autoRape:Boolean = false):void {
 }
 
 
-private function getOralRapedByMinotaur():void {
+public function getOralRapedByMinotaur():void {
 	spriteSelect(44);
 	clearOutput();
 	outputText("The huge bull-man grabs you around the waist with one hand and flips you over. You hang upside down in his grip, your " + player.legs() + " splayed in the air.  The minotaur rubs your face across his sweat-slick balls, smearing his musk into your skin. Each of the minotaur's testicles is bigger than a man's head, and the skin of his sack is pulled taut over his cum-filled balls.\n\n", false);
@@ -1072,7 +1072,7 @@ private function layBeeEggsInCowbutt():void {
 //((This would be a Minotaur Loss Rape if the PC fulfills either of the following conditions.))
 //{CHECK: If male PC with big butt (Over... I have no idea what butt numbers are), use this}
 //{CHECK: If female or herm PC with big butt and vagina too small to fit minotaur cock, use this}
-private function getMinoHawtDawged():void {
+public function getMinoHawtDawged():void {
 	clearOutput();
 	if (player.lust >= player.maxLust()) {
 		outputText("You collapse to your knees, hands racing to your crotch and your ");

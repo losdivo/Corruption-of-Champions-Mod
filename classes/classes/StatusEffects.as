@@ -255,7 +255,6 @@ package classes
         //Minotown
         public static const MinoTownFight:StatusEffectType = mk("MinoTownFight");
         public static const MinoMazeFight:StatusEffectType = mk("MinoMazeFight");
-        public static const MinoMazeJustFought:StatusEffectType = mk("MinoMazeJustFought");
         public static const MinoMazeDescription:StatusEffectType = mk("MinoMazeDescription");
         public static const MinoMazeConfiguration:StatusEffectType = mk("MinoMazeConfiguration");
         public static const MinoMazeStatsBackup:StatusEffectType = mk("MinoMazeStatsBackup");

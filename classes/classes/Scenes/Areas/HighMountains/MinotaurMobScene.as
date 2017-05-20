@@ -1096,7 +1096,7 @@ private function minotaurGangBadEnd():void {
 }
 	
 //[Next]
-private function minotaurGangBadEnd2():void {
+public function minotaurGangBadEnd2():void {
 	clearOutput();
 	spriteSelect(94);
 	outputText("<b>Some time later...\n</b>", false);

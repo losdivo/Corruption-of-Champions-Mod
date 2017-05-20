@@ -372,28 +372,15 @@ package classes.Scenes.Dungeons
         }
         
         public function     minoEncounterDecrement() : void {
-            if (!player.hasStatusEffect(StatusEffects.MinoMazeJustFought)) return;
-            if (player.statusEffectv1(StatusEffects.MinoMazeJustFought) >= 1) {
-                player.addStatusValue(StatusEffects.MinoMazeJustFought, 1, -1);
-            }
         }
         
         public function     mazeMinotaurLoss() : void {
-            if (!player.hasStatusEffect(StatusEffects.MinoMazeJustFought)) {
-                player.createStatusEffect(StatusEffects.MinoMazeJustFought, 5, 0, 0, 0);
-            }
-            else player.changeStatusValue(StatusEffects.MinoMazeJustFought, 1, 5);
             // Text about stuff
             
             doNext(playerMenu);
         }
         
         public function     mazeMinotaurWin()  : void {
-            if (!player.hasStatusEffect(StatusEffects.MinoMazeJustFought)) {
-                player.createStatusEffect(StatusEffects.MinoMazeJustFought, 5, 0, 0, 0);
-            }
-            else player.changeStatusValue(StatusEffects.MinoMazeJustFought, 1, 5);
-            // Text about winning 
             
             doNext(playerMenu);
         }
