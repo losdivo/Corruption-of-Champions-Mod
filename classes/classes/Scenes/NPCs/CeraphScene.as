@@ -423,7 +423,7 @@ package classes.Scenes.NPCs
 
 			outputText("The whip is uncurled from around your neck, and you look up, unsure of what to do.  Ceraph coos, \"<i>Good pet.  Just stay like that and pout for me.</i>\"\n\n", false);
 
-			outputText("Not seeing the harm and seeking to endear yourself to your mistress, you thrust your lower lip out.  Your obediance is rewarded by a sharp snap of dazzling pain.  Licking experimentally, you feel the smooth band that loops over the center of your lip. ", false);
+			outputText("Not seeing the harm and seeking to endear yourself to your mistress, you thrust your lower lip out.  Your obedience is rewarded by a sharp snap of dazzling pain.  Licking experimentally, you feel the smooth band that loops over the center of your lip. ", false);
 			//if pierced there
 			if (player.lipPierced > 0) outputText("The previous piercing has vanished!  ", false);
 			outputText("Mistress is so kind to give you such a pretty piercing!  The ease you find yourself calling her mistress shocks you, but that's what she is, isn't she?  She's your mistress and owner, and you are her pet.  You catch her looking at you expectantly and you realize she's waiting for something.\n\n", false);

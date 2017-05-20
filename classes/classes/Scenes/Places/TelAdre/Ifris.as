@@ -155,7 +155,7 @@ private function showOffForIfris():void {
 		return;
 	}
 	//4b5-PC masculinity > 60, corruption > 75, has cow features-
-	if (player.isGenderless() || (player.femininity < 40 && player.cor > 75 + player.corruptionTolerance() && player.faceType == FACE_COW_MINOTAUR)) {
+	if (player.isGenderless() || (player.femininity < 40 && player.cor > (75 + player.corruptionTolerance()) && player.faceType == FACE_COW_MINOTAUR)) {
 		outputText("Ifris watches you for a moment as you move down to the bench, but her eyes clearly wander elsewhere now and then. The pleasant smile never leaves her pretty face, but it's clear she's distracted or even disinterested for some reason. Soon enough she turns to leave, a bored little sigh leaving her. Her hips sway with a sexy gait as though it were natural, though nothing about her seems particularly excited at the moment...", false);
 		//Stat changes HERE!
 		if (player.str < 90) dynStats("str", .5);
@@ -255,7 +255,7 @@ private function showOffForIfris():void {
 	//Stat changes HERE!
 	if (player.str < 90) dynStats("str", .5);
 	if (player.tou < 40) dynStats("tou", .3);
-	player.orgasm();
+	player.orgasm('Generic');
 	//Body changes here
 	//Muscleness boost!
 	outputText(player.modTone(85,5+rand(5)), false);
@@ -337,7 +337,7 @@ private function ifrisDP():void {
 	//Stat changes HERE!
 	if (player.str < 90) dynStats("str", .75);
 	if (player.tou < 40) dynStats("tou", .5);
-	player.orgasm();
+	player.orgasm('Generic');
 	//Body changes here
 	//Muscleness boost!
 	outputText(player.modTone(85,5+rand(5)), false);

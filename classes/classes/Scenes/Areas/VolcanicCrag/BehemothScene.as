@@ -131,7 +131,7 @@ package classes.Scenes.Areas.VolcanicCrag
 			outputText("You ask him if he has anything else he wants to share, and he starts to shake his head, before slicking his hair back and nodding, resolute.\n\n");
 			//Sad story.
 			outputText("\"<i>This ain't a happy story,</i>\" he warns you, but you're interested in hearing anyway and he continues. \"<i>Even though I gave up on heading back home after a few weeks, I still kept checking the portal time and again, you know?  Habit, I guess.  For ages it was locked, but one day ... one day I try and get back through, but there's nothing there.  Nothing living, anyway: just destruction and the burnt-out remains of where my village used to be, and a lot of corpses.  Most of who I can't identify by this time, mind, us growing up pretty quick and it being a while since I was there.  I gave everybody proper burials, and I think I know which one was my old pa, and then I did the only thing I could do: pack up all the stuff I could salvage, move back to Mareth, and lock away the portal.</i>\"\n\n");
-			outputText("You let him finish, and you know he's not the only one this could happen to.  You're a champion, too, after all.\n\nYou move up close to him and then pull him into a hug, his fur and body noticably warmer than your own, and even with the tent being too warm for two people, he needs this.  \"<i>Thanks for listening,</i>\" he says eventually, and you shrug.  Anytime, you assure him, and you ask him if there's anything else he wants to share.\n\n");
+			outputText("You let him finish, and you know he's not the only one this could happen to.  You're a champion, too, after all.\n\nYou move up close to him and then pull him into a hug, his fur and body noticeably warmer than your own, and even with the tent being too warm for two people, he needs this.  \"<i>Thanks for listening,</i>\" he says eventually, and you shrug.  Anytime, you assure him, and you ask him if there's anything else he wants to share.\n\n");
 			outputText("\"<i>I'm kinda lonely,</i>\" he admits, and he gives you a considering look before shaking his head and dismissing the thought.  \"<i>You ever meet anybody pure who wants to help me start a whole family of behemoths, you let me know, okay?</i>\"\n\nYou assure him you will, and the both of you make your farewells before you return to your own camp.");
 			if (flags[kFLAGS.BEHEMOTH_TALK_LEVEL] <= 2) flags[kFLAGS.BEHEMOTH_TALK_LEVEL]++;
 			doNext(camp.returnToCampUseOneHour);
@@ -389,7 +389,7 @@ package classes.Scenes.Areas.VolcanicCrag
 			outputText("\n\nYou wake up from your nap refreshed and invigorated and give the Behemoth a kiss before you " + player.clothedOrNaked("redress yourself in your [armor], and ") + "make your way back to your camp.");
 			player.orgasm('Vaginal');
 			player.slimeFeed();
-			if (flags[kFLAGS.BEHEMOTH_CHILDREN] < 3 && player.cor < 25 + player.corruptionTolerance()) player.knockUp(PregnancyStore.PREGNANCY_BEHEMOTH, PregnancyStore.INCUBATION_BEHEMOTH, 50 + (flags[kFLAGS.BEHEMOTH_CHILDREN] * 15) + player.cor);
+			if (flags[kFLAGS.BEHEMOTH_CHILDREN] < 3 && player.cor < (25 + player.corruptionTolerance())) player.knockUp(PregnancyStore.PREGNANCY_BEHEMOTH, PregnancyStore.INCUBATION_BEHEMOTH, 50 + (flags[kFLAGS.BEHEMOTH_CHILDREN] * 15) + player.cor);
 			flags[kFLAGS.BEHEMOTH_VAGINAL_CATCH]++;
 			dynStats("str", 0.5, "tou", 0.5);
 			HPChange(50 + (player.maxHP() / 5), false);

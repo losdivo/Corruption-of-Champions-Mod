@@ -761,7 +761,7 @@ package classes.Scenes.NPCs
 			if (!player.isTaur()) {
 				addButton(1, "Hotdog", hotdogTheAnemone);
 			} else {
-				addDisabledButton(1, "Hotdog", "This scene does not accomodate taurs.");
+				addDisabledButton(1, "Hotdog", "This scene does not accommodate taurs.");
 			}
 			addButton(2, "Fuck Off", fuckingAssholelessAnemoneeeez);
 		}
@@ -1209,11 +1209,11 @@ package classes.Scenes.NPCs
 			if (kidAXP() == 0) itype = consumables.DRYTENT;
 			else if (kidAXP() < 50) {
 				///[IncubusDraft/SuccubusMilk/ImpFood/MinoBlood/LargeAxe]
-				itype = randomChoice(consumables.INCUBID, consumables.SUCMILK, consumables.IMPFOOD, consumables.GOB_ALE, consumables.WETCLTH, consumables.L_DRAFT, consumables.W_FRUIT, consumables.EQUINUM);
+				itype = randomChoice(consumables.INCUBID, consumables.SUCMILK, consumables.IMPFOOD, consumables.GOB_ALE, consumables.WETCLTH, consumables.L_DRAFT, consumables.W_FRUIT, consumables.EQUINUM, useables.GREENGL);
 			}
 			else if (kidAXP() < 75) {
 				//White Book/Bee Honey/Ovi Elixir/Shark Tooth/S. Swimwear/Lust Draft/Bimbo Liqueur(same odds as player drop)
-				itype = randomChoice(consumables.W__BOOK,consumables.BEEHONY,consumables.OVIELIX,consumables.SHARK_T, armors.S_SWMWR, consumables.L_DRAFT);
+				itype = randomChoice(consumables.W__BOOK,consumables.BEEHONY,consumables.OVIELIX,consumables.SHARK_T, armors.S_SWMWR, consumables.L_DRAFT, useables.B_CHITN);
 				if (rand(100) == 0) itype = consumables.BIMBOLQ;
 			}
 			else if (kidAXP() < 100) {
@@ -1227,7 +1227,7 @@ package classes.Scenes.NPCs
 				if (choice == 0) itype = consumables.BROBREW;
 				else if (choice == 1) itype = consumables.BIMBOLQ;
 				else
-					itype = randomChoice(consumables.TSTOOTH, consumables.S_GOSSR,consumables.B_GOSSR,consumables.REPTLUM);
+					itype = randomChoice(consumables.TSTOOTH, consumables.S_GOSSR,consumables.B_GOSSR,useables.T_SSILK,consumables.REPTLUM);
 			}
 			outputText(itype.longName + ".");
 			if (itype == weapons.L__AXE) outputText("  Holy... how did she drag this thing home!?");

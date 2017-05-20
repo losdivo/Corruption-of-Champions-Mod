@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Areas.Plains{
+package classes.Scenes.Areas.Plains{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.Items.Armors.LustyMaidensArmor;
@@ -250,7 +250,7 @@ internal function defeatASatyr():void {
 	spriteSelect(98);
 	
 	if (flags[kFLAGS.SFW_MODE] > 0) {
-		outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.", true);
+		outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.");
 		combat.cleanupAfterCombat();
 		return;
 	}

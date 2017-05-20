@@ -2,12 +2,39 @@
 	
 	import classes.*;
 	import classes.GlobalFlags.*;
-	
+import classes.Scenes.API.Encounter;
+
 	//const PUMPKIN_FUCK_YEAR_DONE:int = 522;
 	
-	public class Fera extends BaseContent 
+	public class Fera extends BaseContent implements Encounter
 	{
 		public function Fera() {}
+
+
+		public function encounterName():String {
+			return "Fera";
+		}
+
+		public function encounterChance():Number {
+			return isItHalloween() ? 1 : 0;
+		}
+
+		public function execEncounter():void {
+			//If Fera isn't free yet...
+			if (player.findPerk(PerkLib.FerasBoonBreedingBitch) < 0 && player.findPerk(PerkLib.FerasBoonAlpha) < 0) {
+				if (date.fullYear > flags[kFLAGS.PUMPKIN_FUCK_YEAR_DONE]) {
+					kGAMECLASS.fera.pumpkinFuckEncounter();
+				}
+			}
+			//Fera is free!
+			else {
+				if (flags[kFLAGS.FERAS_TRAP_SPRUNG_YEAR] == 0) {
+					if (date.fullYear > flags[kFLAGS.FERAS_GLADE_EXPLORED_YEAR]) {
+						kGAMECLASS.fera.feraSceneTwoIntroduction();
+					}
+				}
+			}
+		}
 
 		public function isItHalloween():Boolean {
 			return ((date.date >= 28 && date.month == 9) || (date.date < 2 && date.month == 10) || flags[kFLAGS.ITS_EVERY_DAY] > 0);
@@ -95,7 +122,7 @@
 		public function pumpkinFuckPartII():void {
 			clearOutput();
 			outputText("The titanic rent shivers, flaps of fruit-flesh smacking wetly for a second before splitting along their length.  The crack goes up the height of the six-foot pumpkin until it looks on the verge of splitting in two.  Suddenly, the gap widens, strings of orangey-purple goo hanging wetly between them for a moment.  Soon, the bisected fruit falls apart, at last revealing the corrupt core.  No trace of your mammoth insemination remains.");
-			outputText("\n\nStanding in the middle of the vegetational carnage is a human figure, shrouded in slime and pumpkin, but clearly alive.  Her waist-length hair shimmers, orange as the goop that drips from it as she turns to face you.  She casually brushes a wash of the filth from her head, revealing a achingly beautiful visage - pale skin, a button nose, and full, blood-red lips that glitter in the suddenly-dim light.  Burning crimson eyes lock onto you, and a voice as smooth as a razor's edge intones, \"<i>So... YOU are my savior, hrmmm?</i>\"");
+			outputText("\n\nStanding in the middle of the vegetational carnage is a human figure, shrouded in slime and pumpkin, but clearly alive.  Her waist-length hair shimmers, orange as the goop that drips from it as she turns to face you.  She casually brushes a wash of the filth from her head, revealing an achingly beautiful visage - pale skin, a button nose, and full, blood-red lips that glitter in the suddenly-dim light.  Burning crimson eyes lock onto you, and a voice as smooth as a razor's edge intones, \"<i>So... YOU are my savior, hrmmm?</i>\"");
 			outputText("\n\nAwestruck by the sudden development, you nod mutely, not really sure if you're going to have to fight this new demon, or if this woman was righteous and somehow imprisoned in the oh-so-fuckable pumpkin.  She reads the unasked questions in your eyes and begins to answer, stepping forward with hips slowly swaying.  \"<i>I, my creamy little meal, am Fera, Goddess of Predation.</i>\"");
 			outputText("\n\nThe goddess circles you, idly tracing black, claw-like nails over your exposed [skin].  When did she get so close?  She drops her hand low, the dagger-sharp protrusions tenderly cupping your ");
 			if (player.balls > 0) outputText("[balls]");
@@ -193,7 +220,7 @@
 		public function pumpkinMountingLevelII():void {
 			clearOutput();
 			outputText("The pumpkin's titanic stem shivers, the mighty shaft trembling immensely before the pumpkin splits from the top causing it to topple.  The crack goes around the rind in multiple directions, causing it to split open like a flower as strings of orangey-purple goo hang wetly between the pieces for a moment.  A moment later, the sectioned fruit falls apart, at last revealing the corrupt core.  No trace of the mammoth copulation remains.");
-			outputText("\n\nStanding in the middle of the vegetational carnage is a human figure, shrouded in slime and pumpkin, but clearly alive.  Her waist-length hair shimmers, orange as the goop that drips from it as she turns to face you.  She casually brushes a wash of the filth from her head, revealing a achingly beautiful visage - pale skin, a button nose, and full, blood-red lips that glitter in the suddenly-dim light.  Burning crimson eyes lock onto you, and a voice as smooth as a razor's edge intones, <i>\"So... YOU are my savior, hmmm?\"</i>");
+			outputText("\n\nStanding in the middle of the vegetational carnage is a human figure, shrouded in slime and pumpkin, but clearly alive.  Her waist-length hair shimmers, orange as the goop that drips from it as she turns to face you.  She casually brushes a wash of the filth from her head, revealing an achingly beautiful visage - pale skin, a button nose, and full, blood-red lips that glitter in the suddenly-dim light.  Burning crimson eyes lock onto you, and a voice as smooth as a razor's edge intones, <i>\"So... YOU are my savior, hmmm?\"</i>");
 			
 			outputText("\n\nAwestruck by the sudden development, you nod mutely, not really sure if you're going to have to fight this new demon, or if this woman was righteous and somehow imprisoned in the oh-so-fuckable pumpkin.  She reads the unasked questions in your eyes and begins to answer, stepping forward with hips slowly swaying.  <i>\"I, my creamy little meal, am Fera, Goddess of Predation.\"</i>");
 			

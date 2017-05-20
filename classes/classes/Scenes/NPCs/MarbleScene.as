@@ -79,7 +79,7 @@ Special abilities: A lightly corrupted creature with most of the corruption cent
 					if (flags[kFLAGS.MARBLE_TIME_SINCE_NURSED_IN_HOURS] > 1000) flags[kFLAGS.MARBLE_TIME_SINCE_NURSED_IN_HOURS] = 1000;
 				}
 				//Reset Marble corruption warning
-				if (flags[kFLAGS.MARBLE_WARNED_ABOUT_CORRUPTION] == 1 && player.cor < 50) flags[kFLAGS.MARBLE_WARNED_ABOUT_CORRUPTION] = 0;
+				if (flags[kFLAGS.MARBLE_WARNED_ABOUT_CORRUPTION] == 1 && player.cor < (50 + player.corruptionTolerance())) flags[kFLAGS.MARBLE_WARNED_ABOUT_CORRUPTION] = 0;
 				//Lactation whoopie!
 				if (flags[kFLAGS.MARBLE_TIME_SINCE_NURSED_IN_HOURS] < 100) flags[kFLAGS.MARBLE_TIME_SINCE_NURSED_IN_HOURS]++;
 				//Increment Marble's Lust
@@ -672,7 +672,7 @@ private function rapeMarbleInHerRoom():void {
 	else {
 		outputText("Your lack of genitals makes it difficult to actually rape Marble, but there are other things you can do.  With your free hand, you push one of your fingers into her womanhood, causing Marble to squeal as you start wriggling it around.  Of course, that's just the beginning, as soon there are two fingers in there, and then three.  As each one goes in, there is another gasp from Marble.  You pinch her nipples as your fourth goes in, pulling out a rather interesting gasp of both pain and pleasure.\n\n", false);
 		//is the player corrupt enough to get the fantasy?
-		if (player.cor >= 33) 
+		if (player.cor >= (33 - player.corruptionTolerance())) 
 			marbleRapeCorruptFantasy();
 		outputText("With just one more thing to do, you laugh at Marble before shoving your full fist inside her.  The act results in that familiar gasp of pain and pleasure.  Playing with her is indeed quite satisfying.  ", false);
 		//Reduce player lust by 20
@@ -1483,8 +1483,8 @@ public function postAddictionFarmMornings():void {
 	//(increase player corr by 2 if corr is under 30, otherwise increase corr by 1 up to a max of 40)
 	player.refillHunger(20);
 	player.slimeFeed();
-	if (player.cor < 40) {
-		if (player.cor < 30) dynStats("cor", 1);
+	if (player.cor < (40 + player.corruptionTolerance())) {
+		if (player.cor < (30 + player.corruptionTolerance())) dynStats("cor", 1);
 		dynStats("cor", 1);
 	}
 	//(event takes an hour)
@@ -1655,8 +1655,8 @@ public function postAddictionCampMornings(extra:Boolean = true):void {
 	//(if player is completely addicted, do this event at the start of every day)
 	outputText("\nAs you are getting up, you are greeted by the smell of fresh milk.  You smile as Marble raises your head to her breast and gives you your morning milk.\n", false);
 	//(increase player corr by 2 if corr is under 30, otherwise increase corr by 1 up to a max of 40)
-	if (player.cor < 40) {
-		if (player.cor < 30) dynStats("cor", 1);
+	if (player.cor < (40 + player.corruptionTolerance())) {
+		if (player.cor < (30 + player.corruptionTolerance())) dynStats("cor", 1);
 		dynStats("cor", 1);
 	}
 	if (player.lib < 40) dynStats("lib", .1);
@@ -2080,7 +2080,7 @@ private function marbleTalkOverhaul():void {
 		outputText( "[pg]<b>Marble is fidgeting around uncomfortably, perhaps she needs to be milked?</b>" );
 		addButton( 2, "Milking", milkMarble );
 	}
-	if (player.cor < 50 && player.statusEffectv4(StatusEffects.Marble) < 60) addButton(1, "Just Talk", talkWithMarbleAtCamp);
+	if (player.cor < (50 + player.corruptionTolerance()) && player.statusEffectv4(StatusEffects.Marble) < 60) addButton(1, "Just Talk", talkWithMarbleAtCamp);
 	//if (player.level >= 10) addButton(3, "Her Hammer", hammerQuest); //Start hammer quest
 	addButton(14,"Back",interactWithMarbleAtCamp);
 	if (flags[kFLAGS.SLEEP_WITH] != "Marble") addButton(4,"Sleep With",marbleSleepToggle);
@@ -2887,7 +2887,7 @@ private function rapeDAHMARBLEZ():void {
 		else {
 			outputText("Your lack of genitals makes it difficult to actually rape Marble, but there are other things you can do.  With your free hand, you push one of your fingers into her womanhood, causing Marble to squeal as you start wriggling it around.  Of course, that's just the beginning, as soon there are two fingers in there, and then three.  As each one goes in, there is another gasp from Marble.  You pinch her nipples as your fourth goes in, pulling out a rather interesting gasp of both pain and pleasure.\n\n", false);
 			//is the player corrupt enough to get the fantasy?
-			if (player.cor >= 33) 
+			if (player.cor >= (33 - player.corruptionTolerance())) 
 				marbleRapeCorruptFantasy();
 			outputText("With just one more thing to do, you laugh at Marble before shoving your full fist inside her.  The act results in that familiar gasp of pain and pleasure.  Playing with her is indeed quite satisfying.  ", false);
 			//Reduce player lust by 20
@@ -3886,7 +3886,7 @@ private function giveMarbleTailjobRelease():void {
 	outputText("\n\nMarble stops moaning soon after and looks at you warmly, stroking your tail again with affection.");
 	//{ OPTIONAL
 	//([Corruption 70+] 
-	if (player.cor > 70) {
+	if (player.cor > (70 - player.corruptionTolerance())) {
 		outputText("\n\nYou certainly don't mind the proof of your prowess marking your lower body like this, but you can think of something better to do with it.  In fact, you slowly move the tail towards your lips.");
 		//(Normal or Snake tongue) 
 		if (player.tongueType == TONGUE_SNAKE || player.hasLongTongue()) outputText("  Your tongue runs along the length of the end of your tail, tasting both Marble's feminine secretions and her semen.  She gives you a smoldering gaze as you lick her juices up.  You grin at her.");
@@ -4073,7 +4073,7 @@ private function milkMarbleFuckDatCowPussy():void
 		dynStats( "lus", 20 );
 		flags[kFLAGS.MARBLE_LUST] = 15;
 		dynStats( "lib", .3 );
-		if ( player.cor < player.statusEffectv4(StatusEffects.Marble) ) dynStats( "cor", 1 );
+		if ((player.cor + player.corruptionTolerance()) < player.statusEffectv4(StatusEffects.Marble)) dynStats( "cor", 1 );
 		dynStats( "tou", .1 );
 		dynStats( "str", .1 );
 		dynStats( "sen", -2 );

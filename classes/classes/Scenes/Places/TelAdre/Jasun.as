@@ -234,7 +234,7 @@ private function jasunSecks():void {
 		outputText("When you wake back up, you find that your bikini is next to you and that everything else seems to be fine. You put your bikini back on and look around, unable to see Jasun anywhere. You walk toward the gym's exit and reminisce of your experience today, ready for whatever your next escapade will bring.", false);
 	}
 	flags[kFLAGS.JASUN_FUCKED_COUNTER]++;
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("sen", -1);
 	doNext(camp.returnToCampUseOneHour);
 }

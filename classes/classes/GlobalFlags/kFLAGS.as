@@ -2982,7 +2982,7 @@ public static const UNKNOWN_FLAG_NUMBER_02973:int                               
 public static const UNKNOWN_FLAG_NUMBER_02974:int                                   = 2974;
 public static const UNKNOWN_FLAG_NUMBER_02975:int                                   = 2975;
 public static const UNKNOWN_FLAG_NUMBER_02976:int                                   = 2976;
-public static const UNKNOWN_FLAG_NUMBER_02977:int                                   = 2977;
+public static const DELETE_ITEMS:int                                                = 2977; // Inventory deletion toggle, 0=no, 1=one at a time, 2=stacks
 public static const PRISON_ENABLED:int                                              = 2978; // Is the prison enabled? true/false value, should be false by default
 public static const NEW_GAME_PLUS_LEVEL:int                                         = 2979; // Current intensity of New Game+. Each ascension increments this counter by 1.
 public static const NEW_GAME_PLUS_BONUS_UNLOCKED_HERM:int                           = 2980; // Unlocked hermaphrodite.

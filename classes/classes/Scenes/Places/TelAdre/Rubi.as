@@ -691,7 +691,7 @@ public function rubisFuckingHouseYouPervert():void {
 		else outputText("\n\nRubi nods towards the bottles and box in the corner and gives you a sly wink.  \"<i>Want another massage?</i>\"");
 		addButton(4,"Massage",chocoRubiMassage);
 	}
-	if (player.isNaga() && flags[kFLAGS.RUBI_BIMBO] == 0 && flags[kFLAGS.RUBI_COCK_SIZE] < player.biggestCockLength() && player.hasCock() && flags[kFLAGS.RUBI_SHE] == 0 && player.cor >= 85 && flags[kFLAGS.RUBI_BREAST_SIZE] <= 2)
+	if (player.isNaga() && flags[kFLAGS.RUBI_BIMBO] == 0 && flags[kFLAGS.RUBI_COCK_SIZE] < player.biggestCockLength() && player.hasCock() && flags[kFLAGS.RUBI_SHE] == 0 && player.cor >= (85 - player.corruptionTolerance()) && flags[kFLAGS.RUBI_BREAST_SIZE] <= 2)
 	{
 		outputText("\n\n<b>You could use your snake-like motions to hypnotize Rubi and turn [rubi em] into a more complacent, eager slut. Doing so is likely irreversible.</b>")
 		addButton(5,"Hypno",hypnoBimboficationForRubiSloots);
@@ -707,7 +707,7 @@ private function rubiSexMenu():void {
 	// 2 - always on
 	addDisabledButton(3, "Release", "This scene requires Rubi to be pent up.");
 	addDisabledButton(4, "Train", "This scene requires you to have overly large cock and high enough Rubi affection.");
-	addDisabledButton(5, "Train", "This scene requires Rubi to have decently sized cock and high enough affection.");
+	addDisabledButton(5, "Get Fucked", "This scene requires Rubi to have decently sized cock and high enough affection.");
 	addDisabledButton(6, "Hotdogging", "This scene requires you to have cock.");
 	
 	if (player.lust >= 33) {
@@ -927,7 +927,7 @@ public function fuckRubi():void {
 	outputText("fantastic babe,</i>\" [rubi ey] murmurs before drifting off into a sex-filled dreamland.");
 
 	outputText("\n\nYou're tempted to drift off as well, but as they say, you've got things to see and people to do.  So you peel yourself away from Rubi, grab a quick shower, and head off back to camp.");
-	player.orgasm();
+	player.orgasm('Generic');
 	doNext(camp.returnToCampUseOneHour);
 	rubiAffection(1);
 	if (flags[kFLAGS.RUBI_ORGASM_DENIAL] > 0) flags[kFLAGS.RUBI_BLU_BALLS]++;
@@ -1032,7 +1032,7 @@ public function dildoFuckRubi():void {
 	outputText(" with a slight smile on [rubi eir] face, and says, \"<i>Well, that was interesting.</i>\"  You laugh at the understatement of the century, and stand, helping Rubi up off the couch as well.");
 
 	outputText("\n\nThe two of you head to the bathroom, leaking pink cum as you go, and share a quick shower, before getting to the task of cleaning up the evidence of your playtime.  Once it's been satisfactorily cleaned, you give Rubi a little kiss and head off back to camp, supremely sated.");
-	player.orgasm();
+	player.orgasm('Generic');
 	rubiAffection(1);
 	if (flags[kFLAGS.RUBI_ORGASM_DENIAL] > 0) flags[kFLAGS.RUBI_BLU_BALLS] += 2;
 	doNext(camp.returnToCampUseOneHour);
@@ -1505,7 +1505,7 @@ private function rubiAppearance():void {
 
 	outputText("\n\nBetween [rubi eir] legs is a ");
 	if (flags[kFLAGS.RUBI_COCK_SIZE] > 0) {
-		outputText(rubiCock() + ", which starts to perk up under your scrutiny. From experience, you know it can reach a impressive " + flags[kFLAGS.RUBI_COCK_SIZE] + " inches when erect.  ");
+		outputText(rubiCock() + ", which starts to perk up under your scrutiny. From experience, you know it can reach an impressive " + flags[kFLAGS.RUBI_COCK_SIZE] + " inches when erect.  ");
 		outputText("Under [rubi eir] cock swings a set of ");
 		if (flags[kFLAGS.RUBI_BLU_BALLS] >= 4 && flags[kFLAGS.RUBI_BLU_BALLS] < 9) outputText("cum-swollen ");
 		else if (flags[kFLAGS.RUBI_BLU_BALLS] >= 9) outputText("engorged, blue-tinged ");
@@ -2424,7 +2424,7 @@ private function anallyTrainYourBitchBoySlutHowToBeAnalForDCL():void {
 		else outputText("feathered ear");
 		outputText(" that [rubi ey] should keep that in for a few hours, just to make sure this training takes hold.  Rubi gives you a small smile in response along with a small peck on the cheek before slipping under the sheets for a quick nap.");
 		outputText("\n\nYou decide this is the best time to head out as well, and make your way out of the apartment and back to camp.");
-		player.orgasm();
+		player.orgasm('Dick');
 	}
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -2529,7 +2529,7 @@ private function getFuckedByRubi():void {
 	outputText("Rubi doesn't stop there, however; [rubi ey] continues to assail your [vagOrAss], bringing you to several more miniature, body-shaking orgasms, until [rubi ey] just can't handle any more, and [rubi ey] pulls out, [rubi eir] cock still rather erect and looking cozy in its jacket-like foreskin.");
 
 	outputText("\n\nYou waggle a finger at [rubi em] hazily, and [rubi ey] climbs up onto the bed next to you.  You wrap your arms around [rubi em] and kiss [rubi em] passionately before pulling [rubi em] into a cuddling hug.  The two of you drift off into a short nap, contentedly wrapped up in each other's arms.");
-	player.orgasm();
+	player.orgasm('VaginalAnal');
 	dynStats("sen", 2);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -2632,7 +2632,7 @@ private function teaseButtjobs():void {
 	outputText("\n\n\"<i>No, babe, I'm lucky to have found you,</i>\" [rubi ey] says, snuggling [rubi eir] naked body up against yours as the two of you drift off into a lazy, sex-induced nap.");
 	flags[kFLAGS.RUBI_BLU_BALLS]++;
 	flags[kFLAGS.RUBI_ORGASM_DENIAL] = 1;
-	player.orgasm();
+	player.orgasm('Generic');
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -2682,7 +2682,7 @@ private function popButtjobs():void {
 	outputText("You laugh and give the demon-" + rubiMF("boy","girl") + " a kiss, remarking how lucky you are to be with [rubi em].");
 
 	outputText("\n\n\"<i>No, babe, I'm lucky to have found you,</i>\" [rubi ey] says, snuggling [rubi eir] naked body up against yours as the two of you drift off into a lazy, sex-induced nap.");
-	player.orgasm();
+	player.orgasm('Generic');
 	flags[kFLAGS.RUBI_BLU_BALLS] = 0; //Since he just came so he should be cured of blue balls
 	doNext(camp.returnToCampUseOneHour);
 }

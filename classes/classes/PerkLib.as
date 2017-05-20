@@ -189,8 +189,8 @@ package classes
 				"Reduces the fatigue cost of physical specials by 50%.",
 				"You choose the 'Iron Man' perk, reducing the fatigue cost of physical special attacks by 50%");
 		public static const Juggernaut:PerkType = mk("Juggernaut", "Juggernaut",
-				"When wearing heavy armor, you have extra 10% damage resistance and are immune to damage from being constricted/squeezed.",
-				"You choose the 'Juggernaut' perk, granting extra 10% damage resistance when wearing heavy armor and immunity to damage from been constricted/squeezed.");
+				"When wearing heavy armor, you have extra 10 armor points and are immune to damage from being constricted/squeezed.",
+				"You choose the 'Juggernaut' perk, granting extra 10 armor points when wearing heavy armor and immunity to damage from been constricted/squeezed.");
 		public static const LightningStrikes:PerkType = mk("Lightning Strikes", "Lightning Strikes",
 				"[if (player.spe>=60)" +
 						"Increases the attack damage for non-heavy weapons.</b>" +
@@ -352,6 +352,8 @@ package classes
 				"Spellcasting now consumes health instead of fatigue!",null,true);
 		public static const SluttySeduction:SluttySeductionPerk = new SluttySeductionPerk();
 		public static const WizardsEndurance:WizardsEndurancePerk = new WizardsEndurancePerk();
+		public static const WellspringOfLust:PerkType = mk("Wellspring of Lust", "Wellspring of Lust",
+				"At the beginning of combat, lust raises to black magic threshold if lust is below black magic threshold.");
 
 		// Weapon perks
 		public static const WizardsFocus:WizardsFocusPerk = new WizardsFocusPerk();

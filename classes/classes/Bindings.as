@@ -19,10 +19,12 @@ package classes
 		public function execQuickSave(slot:int):void
 		{
 			if (game.mainView.menuButtonIsVisible(MainView.MENU_DATA) && game.player.str > 0) {
+				var slotX:String = "CoC_" + slot;
+				if (flags[kFLAGS.HARDCORE_MODE] > 0) slotX = flags[kFLAGS.HARDCORE_SLOT];
 				var doQuickSave:Function = function():void {
 					game.mainView.nameBox.text = "";
-					game.saves.saveGame("CoC_" + slot);
-					game.outputText("Game saved to slot " + slot + "!", true);
+					game.saves.saveGame(slotX);
+					game.outputText("Game saved to " + slotX + "!", true);
 					game.doNext(game.playerMenu);
 				};
 				if (flags[kFLAGS.DISABLE_QUICKSAVE_CONFIRM] != 0) {
@@ -30,7 +32,7 @@ package classes
 					return;
 				}
 				game.clearOutput();
-				game.outputText("You are about to quicksave the current game to slot <b>" + slot + "</b>\n\nAre you sure?");
+				game.outputText("You are about to quicksave the current game to <b>" + slotX + "</b>\n\nAre you sure?");
 				game.menu();
 				game.addButton(0, "No", game.playerMenu);
 				game.addButton(1, "Yes", doQuickSave);

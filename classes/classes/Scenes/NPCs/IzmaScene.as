@@ -2,9 +2,9 @@
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
+import classes.Scenes.API.Encounter;
 
-	public class IzmaScene extends NPCAwareContent implements TimeAwareInterface
-	{
+public class IzmaScene extends NPCAwareContent implements TimeAwareInterface, Encounter {
 
 //const IZMA_NO_COCK:int = 439;
 //const ASKED_IZMA_ABOUT_WANG_REMOVAL:int = 440;
@@ -77,7 +77,19 @@ public function totalIzmaChildren():int {
 	return (flags[kFLAGS.IZMA_CHILDREN_SHARKGIRLS] + flags[kFLAGS.IZMA_CHILDREN_TIGERSHARKS]);
 }
 
-public function meetIzmaAtLake():void {
+	public function encounterChance():Number {
+		return flags[kFLAGS.IZMA_ENCOUNTER_COUNTER] > 0
+			   && flags[kFLAGS.TIMES_EXPLORED_LAKE] >= 10
+			   && (flags[kFLAGS.IZMA_WORMS_SCARED] == 0 || !player.hasStatusEffect(StatusEffects.Infested))
+			   && flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0
+				? 0.2 : 0;
+	}
+
+	public function encounterName():String {
+		return "izma";
+	}
+
+	public function execEncounter():void {
 	spriteSelect(32);
 	clearOutput();
 	//(PC scared Izma off with worms) (Izmacounter = 0)
@@ -212,7 +224,7 @@ private function sharkBookMenus(free:Boolean = false):void {
 		addButton(1, "E.Guide", sharkEdgingGuideLOL, null, null, null, "This book will teach you how to be a better person. This should reduce your libido and corruption.");
 		addButton(2, "Porn", sharkgirlPronz, null, null, null, "Exactly what it says on the tin. For the perverted, of course. This should definitely make you horny.");
 	}
-	addButton(4, "Back", flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0 ? meetIzmaAtLake : izmaFollowerMenu);	
+	addButton(4, "Back", flags[kFLAGS.IZMA_FOLLOWER_STATUS] <= 0 ? execEncounter : izmaFollowerMenu);
 }
 
 //[C.Manual]
@@ -1365,7 +1377,7 @@ private function izmaLakeTurnedDownCampSex():void {
 	addButton(0, "Equals", izmaLakeSexAsEquals);
 	addButton(1, "Dominate", izmaLakeDominate);
 	addButton(2, "Submit", submitToLakeIzma);
-	addButton(14, "Back", meetIzmaAtLake);
+	addButton(14, "Back", execEncounter);
 }
 
 //[Equals]
@@ -1377,7 +1389,7 @@ private function izmaLakeSexAsEquals():void {
 	if (player.gender == 0) {
 		outputText("Izma looks you over, and then shakes her head sadly. \"<i>I'm sorry, " + player.short + ", but... you still don't really have anything for me to play with.  If you want us to do it as equals, you'll need to grow a cock or a pussy.  How about you have one of us take charge, instead?</i>\"\n\n", false);
 		//[dom/sub])
-		doNext(meetIzmaAtLake);
+		doNext(execEncounter);
 	}
 	//otherwise route to current no-fight sex choices
 	else chooseYourIzmaWeapon();
@@ -1652,7 +1664,7 @@ private function submitToLakeIzma():void {
 		outputText("  Pulling her fingers free, Izma quickly flips your nude body over, leaving you on your back and staring up at her.  Izma's hands are resting on her hips and she seems to be puffing her large chest out proudly. Her foot-long cock is fully erect, hot beads of pre-cum occasionally dripping onto the sands.  She takes the time to examine your own cock, grinning with her fangs bared.  \"<i>Let's see what you've got, weakling.</i>\"\n\n", false);
 		var x:Number = player.biggestCockIndex();
 		//(1-10 inch penis)
-		if (player.cocks[x].cockLength <= 10) outputText("Izma manages to supress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"", false);
+		if (player.cocks[x].cockLength <= 10) outputText("Izma manages to suppress a snort of laughter at the sight of your cock.  \"<i>Um... wow?  It's simply... heh, huge...</i>\"", false);
 		//(10-19 inches)
 		else if (player.cocks[x].cockLength <= 19) outputText("\"<i>Not bad, I'm actually impressed,</i>\" Izma says, nodding slightly in approval.", false);
 		//(20+ inches)
@@ -3269,7 +3281,7 @@ private function radarFucksIzmasAss():void {
 
 	//(If non tentacle dicked)
 	if (player.cocks[x].cockType != CockTypesEnum.TENTACLE) {
-		outputText("\n\nNot one to keep a lover waiting, you take your " + player.cockDescript(x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + player.cockDescript(x) + ", provoking a ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide an clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
+		outputText("\n\nNot one to keep a lover waiting, you take your " + player.cockDescript(x) + " and edge it along the smooth crevice of her ass checks, taking the time to enjoy the hypersensitive feeling of your soft cock head against her rough skin before pressing your prick against her little asshole.  With a surprised look over her shoulder, your ample Beta sports a fiendish grin at where you intent to sex her.  \"<i>Ohhhh... back door?  You pervert...</i>\" she teases.  You shoot an annoyed look back, physically reminding her that she isn't deciding how she's getting fucked here.  Giggling softly, Izma responds in a sultry manner, \"<i>I'm not complaining.</i>\"  Well, we'll just see about that, you muse to yourself as you painfully breeze past her boiling hot anus with your " + player.cockDescript(x) + ", provoking an ear screeching howl.  Condescendingly, you inquire to your wailing lover if there is a certain... \"problem\" she's having; her pained flash of teeth and grunting seems to provide a clear answer for you.  Slapping her rump mockingly, you comment on how perhaps Izma spoke too soon.  The concussive force of her buttocks against your [hips] seems to disprove your take on this situation.  With an earnest laugh, you toy with Izma and comment on how the \"little girl\" still has some fight in her, eager and hungry for a good anal fuck.");
 
 		outputText("\n\nOn that note, the domination of Izma's tight, humid ass begins; starting off shallow, you thrust violently against your submissive lover, ceasing your " + player.cockDescript(x) + "'s unbearably hot descent into her sphincter to briefly pull out, only to savagely force your way back into her and surpass your previous self-imposed threshold.  Recoiling with every gyration, the hermaphroditic shark tries to brace herself for a bottoming out that never materializes, only stopping her reactionary movements forward when she deciphers your pattern.  Throwing her for a loop, you decide to push past the threshold you've been gradually increasing, slowly retreating out of her tight fitting anus");
 		if (y >= 0) outputText(" as you gently place your other dick against her labia");
@@ -3299,7 +3311,7 @@ private function radarFucksIzmasAss():void {
 		//(PC has one TD: 
 		if (player.countCocksOfType(CockTypesEnum.TENTACLE) == 1) outputText("begins to slowly caress her pussy in tandem with your thrusts, bringing an expression of intense bliss to her face as her eyes clamp shut and her mouth opens wide to let out a deep moan.");
 		//(PC has 2 TD's and 30 INT: 
-		if (player.countCocksOfType(CockTypesEnum.TENTACLE) >= 2) outputText("tries to finger her pussy; the thought of her neglecting one of your rock hard cocks earns your ire, and with some degree of focus and concentration, you jut your tentacle cock out and suddenly slap her soft hand away from her clit; a gasp full of frustration rings out from your partner as you do so... deciding that she needs something substantial to moan about. Before she can react, your direct your thoughts to the tentacle cock that blocks her clit, and in a dizzying array of twists and bends, pulls back a few inches from her pussy before diving into her with lightning speed.  The way she thrusts her head upwards in the air is a pretty clear indicator of her discomfort at the act; whether it being painful or pleasurable isn't clear, but the howl she lets loose seems to point to the former.  The hermaphrodite shark morph claws fiercely at the ground as she grits her teeth, spasming like an crippled junebug caught in the burning rays of the sun.  You tauntingly ask the submissive tigershark if that hurt; something your lover can only answer with passionate groans as you resume your dual fucking of her back side.  You arrogantly respond by telling her THAT was the correct answer.");
+		if (player.countCocksOfType(CockTypesEnum.TENTACLE) >= 2) outputText("tries to finger her pussy; the thought of her neglecting one of your rock hard cocks earns your ire, and with some degree of focus and concentration, you jut your tentacle cock out and suddenly slap her soft hand away from her clit; a gasp full of frustration rings out from your partner as you do so... deciding that she needs something substantial to moan about. Before she can react, your direct your thoughts to the tentacle cock that blocks her clit, and in a dizzying array of twists and bends, pulls back a few inches from her pussy before diving into her with lightning speed.  The way she thrusts her head upwards in the air is a pretty clear indicator of her discomfort at the act; whether it being painful or pleasurable isn't clear, but the howl she lets loose seems to point to the former.  The hermaphrodite shark morph claws fiercely at the ground as she grits her teeth, spasming like a crippled junebug caught in the burning rays of the sun.  You tauntingly ask the submissive tigershark if that hurt; something your lover can only answer with passionate groans as you resume your dual fucking of her back side.  You arrogantly respond by telling her THAT was the correct answer.");
 		//(Subsequent scenes require TD's to have 4 feet of length)
 		//(PC has three TD's, and 40 INT: 
 		if (player.countCocksOfType(CockTypesEnum.TENTACLE) >= 3) outputText("\n\nAmused at how lost in sexual pleasure Izma is, you mockingly ask her if she can handle another one of your dicks.  By now, Izma seemingly knows to hold her tongue and rely on inferring your meaning, the realization dawning on her as she visibly braces herself for another tentacle dicked assault on her now sweat drenched body.  You don't disappoint her, as you snake your lengthy appendage past her thigh and up her stomach, coming to a sudden rest between her breasts before beginning to brutally tit fuck her.");
@@ -3453,7 +3465,7 @@ private function backJizzShot():void {
 	else if (player.cumQ() <= 1000) outputText("streaming forth like fierce rain down a tree, repeatedly striking Izma across the face and breasts as your orgasm continues unabated for several moments.");
 	//(Cum volume very high: 
 	else {
-		outputText("creating a earthquake like seizure in [eachCock] as you painfully ejaculate a torrent of sperm all over Izma, drowning that bright red body out with a thick layer of clear white goop.  Your abundant release is so large that you, quite literally, cover Izma head to toe with sticky, sloppy cum.");
+		outputText("creating an earthquake like seizure in [eachCock] as you painfully ejaculate a torrent of sperm all over Izma, drowning that bright red body out with a thick layer of clear white goop.  Your abundant release is so large that you, quite literally, cover Izma head to toe with sticky, sloppy cum.");
 		//(leads to Izma cleanup end scene)
 	}
 }

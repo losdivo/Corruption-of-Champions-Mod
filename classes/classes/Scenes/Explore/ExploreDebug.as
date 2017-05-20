@@ -59,6 +59,7 @@ package classes.Scenes.Explore
 			function ():Monster {return new FetishCultist();},
 			function ():Monster {return new FetishZealot();},
 			function ():Monster {return new FrostGiant();},
+			function ():Monster {return new Ghoul();},
 			function ():Monster {return new Gnoll();},
 			function ():Monster {return new GnollSpearThrower();},
 			function ():Monster {return new Goblin();},
@@ -86,7 +87,8 @@ package classes.Scenes.Explore
 			function ():Monster {return new TentacleBeast();},
 			function ():Monster {return new Valkyrie();},
 			function ():Monster {return new WormMass();},
-			function ():Monster {return new Yeti();},
+			function ():Monster {return new Yeti(); },
+			function ():Monster {return new Ghoul(); },
 			// ...NPCs, quest, and named monsters second, ...
 			function ():Monster {return new Akbal();},
 			function ():Monster {return new Amily();},

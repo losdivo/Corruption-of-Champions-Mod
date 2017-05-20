@@ -350,7 +350,7 @@ private function acceptFellatrixOral():void {
 
 			outputText("Dominika turns back to the window, a hiss of distaste in her voice.  \"<i>But the tools I need to map the stars of this land and truly unlock my power – to give me such strength that I could free myself from this prison... I was not permitted to keep them.  The Covenant confiscated them from me.  The sky clouds itself and hides the movement of the constellations and I am forced to lay here in this city of cowards, imprisoned by the status quo!</i>\"  Her voice finds more passion as she continues.  The grip she has on the frame of the window tightens.  \"<i>No one fights this.  No one dares to try to free themselves!  They remain locked in these hovels, scurrying out of sight like a roach in the light.  The demons feast upon the land because Tel'Adre has already surrendered it, and they delude themselves into thinking they have not surrendered themselves.  But time and magic march on.  They will drink, and fuck, and fall, because this is not a game of survival.  The demons move forward, the demons hunt, and Tel'Adre hides.  They play a game that only ends when they are found.</i>\"\n\n", false);
 
-			outputText("The aggressiveness of her speech has had a clear effect on Dominika.  Her tattooes have a subtle fading light to them, vanishing as she regains her composure.  When she turns back to you her expression is solemn, and cold.  \"<i>I am ready to leave this city to the fate it has resigned itself to.</i>\"  The words come quietly, but hold more weight than all the dialogue you two have shared.  \"<i>But with it actively choosing to oppress me rather than fight, I cannot do it alone. You, champion – you are strong. Regardless of what this land has done to you, you fight.</i>\"\n\n", false);
+			outputText("The aggressiveness of her speech has had a clear effect on Dominika.  Her tattoos have a subtle fading light to them, vanishing as she regains her composure.  When she turns back to you her expression is solemn, and cold.  \"<i>I am ready to leave this city to the fate it has resigned itself to.</i>\"  The words come quietly, but hold more weight than all the dialogue you two have shared.  \"<i>But with it actively choosing to oppress me rather than fight, I cannot do it alone. You, champion – you are strong. Regardless of what this land has done to you, you fight.</i>\"\n\n", false);
 
 			outputText("She crosses the room to return to you, resting a hand on your chest.  \"<i>I want my freedom back, and I do not care anymore what I have to destroy to get it.  Help me.</i>\"", false);
 			menu();
@@ -358,7 +358,7 @@ private function acceptFellatrixOral():void {
 			addButton(1, "Ehhh", ehhhhDominika);
 			addButton(2, "Disagree", disagreeDominika);
 		}
-		player.orgasm();
+		player.orgasm('Generic');
 		dynStats("lib", -1, "sen", 1);
 		return;
 	}
@@ -576,7 +576,7 @@ private function acceptFellatrixOral():void {
 		}
 		flags[kFLAGS.DOMINIKA_SUCKED_OFF_SMALL_COCKS]++;
 	}
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("lib", -1, "sen", 1);
 
 	if (timesFellatrixSucked() >= 4 && flags[kFLAGS.DOMINIKA_DRAMA] == 0) doNext(dominidrama);
@@ -684,7 +684,7 @@ private function dominidrama():void {
 
 	outputText("\"<i>Yes, hello,</i>\" she says once she's regained your attention, smiling politely. \"<i>Apologies for interrupting but there's a matter of some concern among us and any help is appreciated.</i>\" You blink and ask her who 'us' is. \"<i>Us. Tel'Adre. The Covenant.</i>\" She smiles again, glancing up at the sky. There's a slight glow to her eyes, almost reflecting the growing night.\n\n", false);
 
-	outputText("\"<i>We think that there may be someone in Tel'Adre who... is not supposed to be,</i>\" she continues. \"<i>She looks rather human, blonde, dark lips. As far as I'm aware, she goes by 'Dominika'.</i>\" Hearing the name brings her to mind, her pale body covered in tattooes, and those dark lips, leaning towards you. You can almost imagine them pursing in a gentle shush.\n\n", false);
+	outputText("\"<i>We think that there may be someone in Tel'Adre who... is not supposed to be,</i>\" she continues. \"<i>She looks rather human, blonde, dark lips. As far as I'm aware, she goes by 'Dominika'.</i>\" Hearing the name brings her to mind, her pale body covered in tattoos, and those dark lips, leaning towards you. You can almost imagine them pursing in a gentle shush.\n\n", false);
 
 	outputText("\"<i>Have you heard of anyone fitting that description?</i>\"\n\n", false);
 
@@ -734,7 +734,7 @@ private function dominikaBlowjobs():void {
 
 	outputText("You try to pull yourself up but an incredible weight seems to keep your limbs down.  Glancing to your hand you see no such weight, but glowing marks illuminate your palm.  The luminescent markings about your limbs would suggest that you lay within one of the room's circles, but without the ability to sit up you cannot say for certain.\n\n", false);
 
-	outputText("Before you can demand an explanation she appears before you, so suddenly it's as though the shadows themselves conjured her.  Dominika steps out of nothingness before you, clothing discarded.  Her tattooes glow in the absence of light, curling about her body in familiar ways.  Previously unseen symbols wrap about one leg, below the uncovered chest.  The abnormal lighting sparks an unusual reflection in her eyes, like the glimmer of stars.  \"<i>Little lamb,</i>\" she says slowly.  You can see her lips move in the darkness.  Despite the light their gloss barely reflects, sitting as a deep void even in shadow.  \"<i>Little lamb of Ingnam, what do you champion now?</i>\"\n\n", false);
+	outputText("Before you can demand an explanation she appears before you, so suddenly it's as though the shadows themselves conjured her.  Dominika steps out of nothingness before you, clothing discarded.  Her tattoos glow in the absence of light, curling about her body in familiar ways.  Previously unseen symbols wrap about one leg, below the uncovered chest.  The abnormal lighting sparks an unusual reflection in her eyes, like the glimmer of stars.  \"<i>Little lamb,</i>\" she says slowly.  You can see her lips move in the darkness.  Despite the light their gloss barely reflects, sitting as a deep void even in shadow.  \"<i>Little lamb of Ingnam, what do you champion now?</i>\"\n\n", false);
 
 	outputText("You respond in the way expected of one who wakes up restrained, attempting to break the mysterious and likely magical bonds that contain you.  Dominika makes a small unreadable noise in the back of her throat.  Taking a breath the world seems to race away from you while she draws nearer, and her lips dominate your vision.  \"<i><b>Relax.</b></i>\"  She speaks the word authoritatively and precisely, carefully forming the word with her dark and full puckers.  This process continues as she speaks, pulling your vision further into the depth of her ebony mouth.  \"<i><b>You trust me. Right?</b></i>\"  ", false);
 	//(Corruption less than 50)
@@ -862,7 +862,7 @@ private function dominikaBlowjobs():void {
 
 		outputText("Her hand trails over your belly, down to your crotch. \"<i><b>Again.</b></i>\"\n\n", false);
 	}
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("lib", 5, "sen", -15);
 	//[Next]
 	doNext(dominikaBlowjobs2);

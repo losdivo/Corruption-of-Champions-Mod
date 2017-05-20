@@ -2680,7 +2680,7 @@ package classes.Scenes.Places
 						outputText(" abdomen is wracked with spasms of pleasure as a fountain of clear, viscous fluid erupts from your [cunt] and coats your Mistress' head and torso. She allows herself to indulge in a moment of ecstasy, rubbing your juices into her firm, shapely tits with her left hand while using them to massage her dick with her right. Despite being lost in your own pleasure, you cannot help but feel gratified watching her face, eyes closed, head tilted back, mouth agape, fiery red bangs haphazardly scattered across her face in sticky strands. Then the moment passes, and she speaks.");
 					}
 					outputText("\"<i>Do you understand now, slave? Your body craves my abuse. Embrace it -- once you do, your life will become an unending river of pleasure</i>\"");
-					player.orgasm();
+					player.orgasm('Generic');
 					//buttChange(12,true,true,false); //Doesn't count as it would be a waste of virginity.
 					break;
 				case 3:
@@ -2765,7 +2765,7 @@ package classes.Scenes.Places
 					{
 						outputText("Eventually she squeezes her entire hand inside. She holds it still, and begins to push your body back and forth so that the swinging motion forces her fist in and out of your sphincter, all the while continuing to expertly hold you at the edge of orgasm. Only after minutes of this agonizing treatment does she allow you to orgasm.");
 						//buttChange(20,true,true,false); //Must have phallus for anal virginity! Therefore this doesn't count.
-						player.orgasm();
+						player.orgasm('Generic');
 					}
 					if (player.hasCock())
 					{

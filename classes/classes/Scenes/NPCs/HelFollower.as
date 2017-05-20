@@ -481,7 +481,10 @@ public function heliaFollowerMenu(display:Boolean = true):void {
 	if (display) 
 	{
 		clearOutput();
-		spriteSelect(68);
+		if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] >= 1 && flags[kFLAGS.HEL_BONUS_POINTS] < 150) spriteSelect(110); //bandanna, no pale flame
+		else if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] == 0 && flags[kFLAGS.HEL_BONUS_POINTS] >= 150) spriteSelect(111); //no bandanna, pale flame
+		else if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] >= 1 && flags[kFLAGS.HEL_BONUS_POINTS] >= 150) spriteSelect(112); //bandanna, pale flame
+		else spriteSelect(68); //no bandanna, no pale flame
 	}
 	if (flags[kFLAGS.HEL_FOLLOWER_LEVEL] == 2) {
 		if (flags[kFLAGS.HELIA_ANAL_TRAINING_OFFERED] == 0 && display && player.biggestCockArea() > heliaAnalCapacity()) {
@@ -531,6 +534,7 @@ public function heliaFollowerMenu(display:Boolean = true):void {
 				if (display) outputText("\n\n<b>You are in Hardcore Mode. Are you sure you want to embark on the quest? You cannot return until you defeat the opponents and if you get defeated, your save file is permanently deleted.</b>");
 			}
 			//(Display Options: [Dungeon] [Not Yet])
+			menu();
 			addButton(0, "Dungeon", kGAMECLASS.dungeons.heltower.goToHeliaDungeon);
 			addButton(1, "Not Yet", kGAMECLASS.dungeons.heltower.notYet);
 		}

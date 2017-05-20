@@ -1,9 +1,11 @@
 ﻿package classes.Scenes.Places.Bazaar{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
+	import mx.logging.ILogger;
+	import classes.internals.LoggerFactory;
 
 	public class Roxanne extends BazaarAbstractContent implements TimeAwareInterface {
-
+		private static const LOGGER:ILogger = LoggerFactory.getLogger(Roxanne);
 //Roxanne Poisontail
 //-no hair, 
 //-stand roughly 5'11\" in height, 
@@ -179,7 +181,7 @@ private function roxanneDrinkingContestLoseDeliberately():void {
 	roxanneDrinkingContest();
 }
 
-private function roxanneDrinkingContest():void {
+protected function roxanneDrinkingContest():void {
 	spriteSelect(78);
 	clearOutput();
 	outputText("Roxanne ", false);
@@ -235,6 +237,7 @@ private function roxanneDrinkingContest():void {
 	//If score is less than 30-50 (Strahza is inconsistant!)
 	//[Lose!] 
 	if (score < (45 + rand(20))) {
+		LOGGER.debug("Lost to Roxanne with a score of {0}", score);
 		//Increment loss count!
 		flags[kFLAGS.ROXANNE_DRINING_CONTEST_LOST]++;
 		//Set who won contast last
@@ -242,20 +245,31 @@ private function roxanneDrinkingContest():void {
 		//Gain big bonus
 		flags[kFLAGS.ROXANNE_DRINKING_CONTEST_BONUS_SCORE] += 10;
 		outputText("Giggling and nearly tripping up on your own " + player.feet() + ", you stumble up to the corrupted deer-taur.  He looks at your wobbling stance, nearly-vacant eyes, and dopey grin before he shakes his head from side to side and says, \"<i>No.</i>\"  ", false);
-		if (flags[kFLAGS.ROXANNE_DRINKING_CONTEST_LOSE_ON_PURPOSE] == 0) outputText("Nooooo! You're cut off! That means Roxanne won...", false);
-		else outputText("Yessss!  You finally got so drunk that Roxanne has no excuse not to pack your drunk ass full of lizan-spoo!", false);
+		
+		if (flags[kFLAGS.ROXANNE_DRINKING_CONTEST_LOSE_ON_PURPOSE] == 0) {
+			outputText("Nooooo! You're cut off! That means Roxanne won...", false);
+		}else{
+			outputText("Yessss!  You finally got so drunk that Roxanne has no excuse not to pack your drunk ass full of lizan-spoo!", false);
+		}
+		
 		outputText("  A scaled hand slaps your " + player.buttDescript() + " spinning you around to fall drunkenly into the pirate's soft, cushy chest.  \"<i>Don't worry, I'll be gentle,</i>\" she whispers, hooking an arm around your sagging frame.", false);
 		//CHOOSE SEX SCENE
 		//Chance of big booty butt loss!
-		if (player.buttRating > 12 && player.tone <= 50 && flags[kFLAGS.ROXANNE_DRINING_CONTEST_LOST] > 1 && rand(2) == 0) doNext(bigBootyRoxanneContestLoss);
-		//TO huge or regular anal
-		else if (flags[kFLAGS.ROXANNE_TIME_WITHOUT_SEX] >= 200) doNext(roxanneFucksYourAssOHGODITSHUGE);
-		else doNext(roxanneReamsYouNormal);
-		//Reset roxanne's cock
-		flags[kFLAGS.ROXANNE_TIME_WITHOUT_SEX] = 1;
+		if (player.buttRating > 12 && player.tone <= 50 && flags[kFLAGS.ROXANNE_DRINING_CONTEST_LOST] > 1 && rand(2) == 0){
+			LOGGER.debug("Starting loss scene: Big booty");
+			doNext(bigBootyRoxanneContestLoss);
+		} else if (flags[kFLAGS.ROXANNE_TIME_WITHOUT_SEX] >= 200) {
+			//TO huge or regular anal
+			LOGGER.debug("Starting loss scene: Huge");
+			doNext(roxanneFucksYourAssOHGODITSHUGE);
+		} else {
+			LOGGER.debug("Starting loss scene: Normal");
+			doNext(roxanneReamsYouNormal);
+		}
 	}
 	//[WIN]
 	else {
+		LOGGER.debug("Won against Roxanne with a score of {0}", score);
 		//Increment win count!
 		flags[kFLAGS.ROXANNE_DRINING_CONTEST_WON]++;
 		//Set who won contest last
@@ -321,7 +335,7 @@ private function roxanneGivesABlowjob():void {
 	if (player.cumQ() >= 1500) outputText(" and body", false);
 	outputText(".  \"<i>Jeeze, pent up much?</i>\" she laughs, struggling to stand while giggling at her own supposed cleverness.  Happy with how the contest worked out, you slip " + player.sMultiCockDesc() + " into your " + player.armorName + " and wobble off back to camp.", false);
 	//(-100 lust, -1 int)
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("int", -1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -367,7 +381,7 @@ private function roxanneCunnilingus():void {
 	
 	outputText("You smirk back, slowly putting your clothes back on.  Roxanne can do little to prevent you from noting the massive, unmistakable cock-outline in her pre-cum-soaked pants.  She gives you a smoky glare filled with lust and aggression, but she won't be getting her prize this time!", false);
 	//(-100 lust, -1 int)
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("int", -1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -420,7 +434,7 @@ private function roxanneRimjob():void {
 	
 	outputText("Completely finished, you can do naught but tremble while Roxanne disentangles her tongue from your rectum, popping from your backside with a noisy slurp.  She immediately falls over and giggles, completely drunk, but she somehow staggers back up to give your ass a smack.  You follow her example and pull yourself to your feet, tired from the anal orgasm but feeling quite relaxed.  Once you've readied yourself, you realize that Roxanne's crew are arranged in a semi-circle around you.  You note a number of demons are on the prowl beyond that protective ring, though they seem to be dispersing now that the act has finished.  You make your way back to check on camp once it looks safe.", false);
 	//(-100 lust, -1 int
-	player.orgasm();
+	player.orgasm('Anal');
 	dynStats("int", -1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -501,9 +515,10 @@ private function roxanneReamsYouNormal():void {
 	outputText("<b>LATER...</b>\n", false);
 	outputText("You wake in the lizan's bed<b> with a nasty hangover</b>, her arm curled around your gurgling belly.  From how sore your rear feels, she kept 'winning' at least two or three more times.  Your head is pounding, your " + player.legs() + " are weak, and you dribble cum with every movement.  It takes some doing to extricate yourself from Roxanne's slumbering form, but you find your equipment and leave, hanging your head in shame under the leering eyes of the caravan-goers.", false);
 	//(-100 lust, -1 int, hangover effect)
-	player.orgasm();
+	player.orgasm('Anal');
 	dynStats("int", -1);
 	applyHangover();
+	resetRoxanneSexTimeCounter();
 	doNext(camp.returnToCampUseFourHours);
 }
 
@@ -565,9 +580,10 @@ private function roxanneFucksYourAssOHGODITSHUGE():void {
 	outputText(".", false);
 	outputText("  <b>You'll wake and head back to camp with a massive hangover.</b>", false);
 	//(-100 lust, -1 int, hangover effect)
-	player.orgasm();
+	player.orgasm('Anal');
 	dynStats("int", -1);
 	applyHangover();
+	resetRoxanneSexTimeCounter();
 	doNext(camp.returnToCampUseFourHours);
 }
 	
@@ -655,10 +671,15 @@ private function bigBootyRoxanneContestLoss():void {
 	outputText("\n\n<b>LATER...</b>\n");
 	outputText("You wake in the lizan's bed, her arm curled around your gurgling belly.  From how sore your rear feels, she probably kept 'winning' at least two or three more times.  Your head is pounding, your " + player.legs() + " are weak, and you dribble cum from your ass with every movement.  It takes some doing to extricate yourself from Roxanne's slumbering form, but you find your equipment and leave, hanging your head in shame under the leering eyes of the caravan-goers.");
 	//(-100 lust, -1 int, hangover effect)
-	player.orgasm();
+	player.orgasm('Anal');
 	dynStats("int", -1);
 	applyHangover();
+	resetRoxanneSexTimeCounter();
 	doNext(camp.returnToCampUseFourHours);
+}
+
+private function resetRoxanneSexTimeCounter():void {
+	flags[kFLAGS.ROXANNE_TIME_WITHOUT_SEX] = 1;
 }
 }
 }

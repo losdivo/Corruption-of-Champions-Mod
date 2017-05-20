@@ -125,12 +125,12 @@ package classes.Scenes.NPCs
 			}
 			if (model.time.hours == 6) {
 				//Pure amily flips her shit and moves out!
-				if (flags[kFLAGS.AMILY_FOLLOWER] == 1 && player.cor >= 66 + player.corruptionTolerance() && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0) {
+				if (flags[kFLAGS.AMILY_FOLLOWER] == 1 && player.cor >= (66 + player.corruptionTolerance()) && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0) {
 					amilyScene.farewellNote();
 					needNext = true;
 				}
 				//Amily moves back in once uncorrupt.
-				if (flags[kFLAGS.AMILY_TREE_FLIPOUT] == 0 && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0 && player.cor <= 25 + player.corruptionTolerance() && flags[kFLAGS.AMILY_FOLLOWER] == 0) {
+				if (flags[kFLAGS.AMILY_TREE_FLIPOUT] == 0 && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0 && player.cor <= (25 + player.corruptionTolerance()) && flags[kFLAGS.AMILY_FOLLOWER] == 0) {
 					amilyScene.amilyReturns();
 					needNext = true;
 				}
@@ -193,12 +193,12 @@ package classes.Scenes.NPCs
 				if (!player.hasStatusEffect(StatusEffects.Infested)) flags[kFLAGS.AMILY_GROSSED_OUT_BY_WORMS] = 0;
 			}
 			//Corrupt blow up! - requires you've met Amily
-			if (flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] == 0 && flags[kFLAGS.AMILY_MET] > 0 && (player.cor > 25 + player.corruptionTolerance() || player.cor > 75)) {
+			if (flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] == 0 && flags[kFLAGS.AMILY_MET] > 0 && (player.cor > (25 + player.corruptionTolerance()) || player.cor > (75 + player.corruptionTolerance()))) {
 				meetAmilyAsACorruptAsshat();
 				return;
 			}
 			//CORRUPTIONZ
-			if (flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] > 0 && player.cor > 25) {
+			if (flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] > 0 && player.cor > (25 + player.corruptionTolerance())) {
 				//Cook amily a snack if player doesnt have key item for it.
 				if (player.hasKeyItem("Potent Mixture") < 0 && flags[kFLAGS.AMILY_CORRUPTION] < 3) {
 					cookAmilyASnack();
@@ -214,7 +214,7 @@ package classes.Scenes.NPCs
 				}
 			}
 			//Amily Un-encounterable (worms):
-			if (flags[kFLAGS.AMILY_GROSSED_OUT_BY_WORMS] == 1 || player.cor > 25 + player.corruptionTolerance() || flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] > 0) {
+			if (flags[kFLAGS.AMILY_GROSSED_OUT_BY_WORMS] == 1 || player.cor > (25 + player.corruptionTolerance()) || flags[kFLAGS.AMILY_CORRUPT_FLIPOUT] > 0) {
 				outputText("You enter the ruined village cautiously. There are burnt-down houses, smashed-in doorways, ripped-off roofs... everything is covered with dust and grime. For hours you explore, but you cannot find any sign of another living being, or anything of value. The occasional footprint from an imp or a goblin turns up in the dirt, but you don't see any of the creatures themselves. It looks like time and passing demons have stripped the place bare since it was originally abandoned. Finally, you give up and leave. You feel much easier when you're outside of the village - you had the strangest sensation of being watched while you were in there.", false);
 				doNext(camp.returnToCampUseOneHour);
 				return;
@@ -606,25 +606,8 @@ package classes.Scenes.NPCs
 						outputText("suggests that it's no joking matter.\n\n", false);
 					}
 			}
-			//Sex / Talk / Talk then sex
-			var sex:Function = determineAmilySexEvent();
-			menu();
-			if (sex != null) {
-				addButton(0, "Sex", sex);
-				addButton(2, "Both", (sex == null ? null : talkThenSexWithAmily));
-			} else {
-				addDisabledButton(0, "Sex");
-				addDisabledButton(2, "Both");
-			}
-			addButton(1, "Talk", talkToAmily);
-			//Amily is not a herm but is ok with herm-daddying!
-			if (player.hasItem(consumables.P_DRAFT) && flags[kFLAGS.AMILY_WANG_LENGTH] == 0 && flags[kFLAGS.AMILY_HERM_QUEST] == 2 && flags[kFLAGS.AMILY_AFFECTION] >= 40 && player.gender == 3) {
-				outputText("You could probably bring up the efficiency of having two hermaphrodite mothers, particularly since you have this purified incubi draft handy.\n\n", false);
-				addButton(3, "Efficiency", makeAmilyAHerm);
-			} else {
-				addDisabledButton(3, "Efficiency", "You could probably bring up the efficiency of having two hermaphrodite mothers, should you find a bottle of purified incubi draft.");
-			}
-			addButton(14, "Leave", camp.returnToCampUseOneHour);
+			
+			amilyVillageMenu();
 			
 			//Set flag for 'last gender met as'
 			flags[kFLAGS.AMILY_PC_GENDER] = player.gender;
@@ -633,6 +616,34 @@ package classes.Scenes.NPCs
 			outputText("You enter the ruined village cautiously. There are burnt-down houses, smashed-in doorways, ripped-off roofs... everything is covered with dust and grime. You explore for an hour, but you cannot find any sign of another living being, or anything of value. The occasional footprint from an imp or a goblin turns up in the dirt, but you don't see any of the creatures themselves. It looks like time and passing demons have stripped the place bare since it was originally abandoned. Finally, you give up and leave. You feel much easier when you're outside of the village - you had the strangest sensation of being watched while you were in there.", false);
 			doNext(13);
 			return;*/
+		}
+		
+		/**
+		 * Generic encounter menu.
+		 */
+		private function amilyVillageMenu():void
+		{
+			//Sex / Talk / Talk then sex
+			var sex:Function = determineAmilySexEvent();
+			menu();
+			if (sex != null) {
+				addButton(0, "Sex", sex);
+				addButton(2, "Both", talkThenSexWithAmily);
+			} else {
+				addDisabledButton(0, "Sex");
+				addDisabledButton(2, "Both");
+			}
+			addButton(1, "Talk", talkToAmily);
+			//Amily is not a herm but is ok with herm-daddying!
+			if (flags[kFLAGS.AMILY_WANG_LENGTH] == 0) {
+				if (player.hasItem(consumables.P_DRAFT) && flags[kFLAGS.AMILY_WANG_LENGTH] == 0 && flags[kFLAGS.AMILY_HERM_QUEST] == 2 && flags[kFLAGS.AMILY_AFFECTION] >= 40 && player.gender == 3) {
+					outputText("You could probably bring up the efficiency of having two hermaphrodite mothers, particularly since you have this purified incubi draft handy.\n\n", false);
+					addButton(3, "Efficiency", makeAmilyAHerm);
+				} else {
+					addDisabledButton(3, "Efficiency", "You could probably bring up the efficiency of having two hermaphrodite mothers, should you find a bottle of purified incubi draft.");
+				}
+			}
+			addButton(14, "Leave", camp.returnToCampUseOneHour);
 		}
 
 		private function determineAmilySexEvent(forced:Boolean = false):Function {
@@ -2523,12 +2534,12 @@ package classes.Scenes.NPCs
 			amilySprite();
 			if (flags[kFLAGS.AMILY_CLOTHING] == 0) flags[kFLAGS.AMILY_CLOTHING] = "rags";
 			//Amily freakout
-			if (player.cor >= 50 + player.corruptionTolerance() && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] == 0 && flags[kFLAGS.AMILY_FOLLOWER] == 1) {
+			if (player.cor >= (50 + player.corruptionTolerance()) && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] == 0 && flags[kFLAGS.AMILY_FOLLOWER] == 1) {
 				amilyTaintWarning();
 				return;
 			}
 			//Clear warning if PC is good!
-			if (player.cor < 50 + player.corruptionTolerance() && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0) flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] = 0;
+			if (player.cor < (50 + player.corruptionTolerance()) && flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] > 0) flags[kFLAGS.AMILY_CAMP_CORRUPTION_FREAKED] = 0;
 			//Preggo birthing!
 			if (pregnancy.isPregnant && pregnancy.incubation == 0 && flags[kFLAGS.AMILY_FOLLOWER] == 2) {
 				clearOutput();
@@ -4633,7 +4644,7 @@ package classes.Scenes.NPCs
 			else outputText("  The babies need their cum, " + player.mf("Master","Mistress") + ". They won't grow strong and healthy and slutty if you don't flood their womb with your hot baby-making juice! Please, cum and fill me with cum, for their sake?", false);
 			outputText("</i>\"\n\n", false);
 
-			outputText("It pleases you to see how much of a eager bitch she really is. You step close and take hold of her hip, then further tease her by rubbing your shaft along her slit, slickening it with her juices.", false);
+			outputText("It pleases you to see how much of an eager bitch she really is. You step close and take hold of her hip, then further tease her by rubbing your shaft along her slit, slickening it with her juices.", false);
 			//[(if Amily has balls)
 			if (flags[kFLAGS.AMILY_HAS_BALLS_AND_SIZE] > 0) outputText("  Her balls do get in the way, but they form a nice cushion to rub your " + player.cockDescript(0) + " on, further stimulating you.", false);
 			outputText("  Amily squeals in glee and wraps her legs around your " + player.hipDescript() + ". She is too well-trained to use them to slam you into her crotch, but you can feel the muscles in them quivering with the urge to pull you into proper penetrative position. You smile wickedly; as much as you want to plow her depths and fuck her raw, you also want to see just how far you can go before she breaks... \"<i>" + player.mf("Master","Mistress") + "... please... why are you torturing yourself? Give yourself over to your loving mousy slut; lose yourself between my legs, let my needy cunt swallow your " + player.cockDescript(0) + " and milk you as only I can. No two-bit whore of a succubus will ever bring you the pleasure I will...</i>\" Amily moans pleadingly, her tail rising up to caress your " + player.assDescript() + ", her hands playing with her " + amilyTits() + ".\n\n", false);
@@ -5159,6 +5170,8 @@ package classes.Scenes.NPCs
 						outputText("\"<i>I...</i>\" She swallows hard. \"<i>This is a great shock, I must confess, but... But I care too much to lose you. I don't care if you've got a pussy of your own, now. I still want to be with you.</i>\" She smiles at you, feebly. \"<i>So, as I was saying, what do you want to talk about?</i>\"\n\n", false);
 						//(The player is considered as having completed the herm-specific part of Amily's quest.)
 						flags[kFLAGS.AMILY_HERM_QUEST] = 2;
+						amilyVillageMenu();
+						return;
 					}
 				}
 				//[Any to Genderless]
@@ -5171,11 +5184,15 @@ package classes.Scenes.NPCs
 					else if (flags[kFLAGS.AMILY_AFFECTION] < 40) {
 						outputText("She shakes her head sadly. \"<i>I guess this kind of puts a kink in our relationship, doesn't it? Still, I'll always be willing to talk with you.</i>\"\n\n", false);
 						//(The player can only Talk with Amily on each remeeting until they have become a gender other than Genderless.)
+						amilyVillageMenu();
+						return;
 					}
 					//High Affection:
 					else {
 						outputText("She looks upset and concerned - but for your sake, not hers. \"<i>I can't imagine what catastrophe robbed you like this. Please, find a way to change yourself back? Man, woman, even herm, I can't bear to see you like this... but I'll give you all the support I can.</i>\"\n\n", false);
 						//(The player can only Talk with Amily on each remeeting until they have become a gender other than Genderless.)
+						amilyVillageMenu();
+						return;
 					}
 				}
 			}
@@ -5190,7 +5207,11 @@ package classes.Scenes.NPCs
 						//FEN: Increase affection!
 						flags[kFLAGS.AMILY_AFFECTION] += 15;
 						//FEN: If PC has had any kids with her, set as good to go!
-						if (flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] > 0) flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
+						if (flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] > 0) {
+							flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
+							amilyVillageMenu();
+							return;
+						} // otherwise leave and proceed next time
 					}
 					//Medium Affection:
 					else if (flags[kFLAGS.AMILY_AFFECTION] < 40) {
@@ -5199,7 +5220,11 @@ package classes.Scenes.NPCs
 						//FEN: Increase affection!
 						flags[kFLAGS.AMILY_AFFECTION] += 5;
 						//FEN: If PC has had any kids with her, set as good to go!
-						if (flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] > 0) flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
+						if (flags[kFLAGS.PC_TIMES_BIRTHED_AMILYKIDS] > 0) {
+							flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
+							amilyVillageMenu();
+							return;
+						} // otherwise leave and proceed next time
 					}
 					//High Affection:
 					else {
@@ -5230,13 +5255,16 @@ package classes.Scenes.NPCs
 							outputText("She looks you up and down, swallows forcefully, then looks determined. \"<i>I... I never dreamed I would say this to a hermaphrodite, but... but I know you, and I love you. If you still want to be with me, I'll stay with you.</i>\" She gives you wry grin. \"<i>Besides, I guess this means that now you and I can have children, anyway.</i>\"", false);
 							//(Player counts as having finished the herm variant of Amily's quest.)
 							flags[kFLAGS.AMILY_HERM_QUEST] = 2;
+							amilyVillageMenu();
+							return;
 						}
 					}
 					//Amily grew a dick for you.
 					else {
 						outputText("Amily looks you up and down, blushes and says, \"<i>Did you get a little jealous of me and decide to have some fun for yourself?  I-I didn't want it to be this way, but I guess we can both repopulate my race now.  How wonderful.</i>\"", false);
 						flags[kFLAGS.AMILY_HERM_QUEST] = 2;
-
+						amilyVillageMenu();
+						return;
 					}
 				}
 				//[Any to Genderless]
@@ -5276,15 +5304,7 @@ package classes.Scenes.NPCs
 						//mark as agreed to preg-quest!
 						flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
 						//(Use the Remeeting scene options.)
-						menu();
-						addDisabledButton(0, "Sex");
-						addDisabledButton(2, "Both");
-						
-						addButton(1, "Talk", talkToAmily);
-						if (player.lust >= 33) {
-							addButton(0, "Sex", sexWithAmily);
-							addButton(2, "Both", talkThenSexWithAmily);
-						}
+						amilyVillageMenu();
 						return;
 					}
 					//High Affection:
@@ -5295,15 +5315,7 @@ package classes.Scenes.NPCs
 						//mark as agreed to preg-quest!
 						flags[kFLAGS.AMILY_OFFER_ACCEPTED] = 1;
 						//(Use the Remeeting scene options.)
-						menu();
-						addDisabledButton(0, "Sex");
-						addDisabledButton(2, "Both");
-						
-						addButton(1, "Talk", talkToAmily);
-						if (player.lust >= 33) {
-							addButton(0, "Sex", sexWithAmily);
-							addButton(2, "Both", talkThenSexWithAmily);
-						}
+						amilyVillageMenu();
 						return;
 					}
 				}
@@ -5314,19 +5326,23 @@ package classes.Scenes.NPCs
 						outputText("\"<i>Well, I guess it's nice to see another woman around... though I could have used you as all male. So, do you want to talk?</i>\" Amily asks.\n\n", false);
 						//(Amily gains a small amount of Affection, begin the Female variant of Amily's quest.)
 						flags[kFLAGS.AMILY_AFFECTION] += 2;
-						doNext(talkToAmily);
+						amilyVillageMenu();
 						return;
 					}
 					//Medium Affection:
 					else if (flags[kFLAGS.AMILY_AFFECTION] < 40) {
 						outputText("\"<i>You didn't need to change yourself for my sake... but, I do like having somebody who can really understand what life in this world is like.</i>\" Amily notes.", false);
 						//(Amily's affection remains unchanged, but the quest switches to the female variant.)
+						amilyVillageMenu();
+						return;
 					}
 					//High Affection:
 					else {
 						outputText("Amily looks kind of disappointed. \"<i>I will always love you no matter who you are, but... I was kind of used to that nice cock of yours, love.</i>\" She shakes her head. \"<i>Ah, well, if it's you, then sex is sex to me.</i>\" She smiles.", false);
 						//Set love confession to: GO!
 						flags[kFLAGS.AMILY_CONFESSED_LESBIAN] = 2;
+						amilyVillageMenu();
+						return;
 					}
 				}
 				//[Any to Genderless]
@@ -5339,11 +5355,15 @@ package classes.Scenes.NPCs
 					else if (flags[kFLAGS.AMILY_AFFECTION] < 40) {
 						outputText("She shakes her head sadly. \"<i>I guess this kind of puts a kink in our relationship, doesn't it? Still, I'll always be willing to talk with you.</i>\"\n\n", false);
 						//(The player can only Talk with Amily on each remeeting until they have become a gender other than Genderless.)
+						amilyVillageMenu();
+						return;
 					}
 					//High Affection:
 					else {
 						outputText("She looks upset and concerned - but for your sake, not hers. \"<i>I can't imagine what catastrophe robbed you like this. Please, find a way to change yourself back? Man, woman, even herm, I can't bear to see you like this... but I'll give you all the support I can.</i>\"\n\n", false);
 						//(The player can only Talk with Amily on each remeeting until they have become a gender other than Genderless.)
+						amilyVillageMenu();
+						return;
 					}
 				}
 			}
@@ -5759,7 +5779,7 @@ package classes.Scenes.NPCs
 					outputText("You pick up a bowl and carefully pour the contents of the ", false);
 					if (player.hasItem(consumables.L_DRAFT)) outputText("Lust Draft ", false);
 					else outputText("Fuck Draft ", false);
-					outputText("and Goblin Ale inside, then you produce a wooden branch and begin stirring the contents until they are mixed together. Slowly you dip a finger and take a experimental lick; you're almost knocked back by the strong taste, your ", false);
+					outputText("and Goblin Ale inside, then you produce a wooden branch and begin stirring the contents until they are mixed together. Slowly you dip a finger and take an experimental lick; you're almost knocked back by the strong taste, your ", false);
 					if (player.hasCock()) outputText(player.cockDescript(0) + " jumps up to attention", false);
 					if (player.hasCock() && player.hasVagina()) outputText(", and your ", false);
 					if (player.hasVagina()) outputText(player.vaginaDescript() + " nearly juices itself", false);
@@ -7275,7 +7295,7 @@ package classes.Scenes.NPCs
 
 			outputText("You wiggle underneath Amily, positioning your " + player.vaginaDescript() + " right underneath Urta's thrusting horse-cock, letting the tingle of her shaft sliding across your lower lips bide you as Amily begins to gasp and moan.  You can see - and feel - the mouse-girl's stomach bulging and shifting with the mass of Urta's huge cock, doubling the strange sensation of Urta's cock running across your cunt's hole.  Amily lets out a shriek, and you can feel her cumming, contracting hard on Urta's dick, making the fox grunt with effort not to shoot her load on the spot.\n\n", false);
 
-			outputText("Before you can truly get used to the sensation, it ceases completely.  You look up at Urta questioningly, only to see her massive cock suddenly withdraw from Amily and shoved into your gaping mouth.  You gag and struggle, but Amily, barely concious after her hard fucking, prevents you from going anywhere.  Urta grins, \"<i>Go on, lick the mouse's juices off me.  I want to be clean for you, lover.</i>\"\n\n", false);
+			outputText("Before you can truly get used to the sensation, it ceases completely.  You look up at Urta questioningly, only to see her massive cock suddenly withdraw from Amily and shoved into your gaping mouth.  You gag and struggle, but Amily, barely conscious after her hard fucking, prevents you from going anywhere.  Urta grins, \"<i>Go on, lick the mouse's juices off me.  I want to be clean for you, lover.</i>\"\n\n", false);
 
 			outputText("You are forced to suck Urta's cock or suffocate on it.  She shudders as your tongue rolls across her shaft, playing with the head and tickling her urethra.  You can still taste Amily all over her, a wonderful taste mixed with Urta's own sweat and musk.  You practically drink it up until Urta yanks her shaft out of your mouth.  You're almost giddy with anticipation as she runs it down your thigh and lines her horse-cock up with your " + player.vaginaDescript() + ".\n\n", false);
 

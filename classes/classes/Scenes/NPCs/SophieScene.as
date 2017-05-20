@@ -233,7 +233,10 @@ Lasts 4-8 hours.
 				dynStats("lus", 5);
 			}
 		}
-		
+public function sophieRouter():void {
+	if (flags[kFLAGS.MET_SOPHIE_COUNTER] == 0) meetSophie();
+	else meetSophieRepeat();
+}
 //[Discovery]
 public function meetSophie():void {
 	sophieBimbo.sophieSprite();
@@ -393,7 +396,7 @@ private function sophieLookingForDemons():void {
 	outputText("Sophie throws her head back and laughs. \"<i>Don't worry about any demons here.  Any time a demon is dumb enough to wander too close to our nests, we give him a 'foot-job' he won't forget.</i>\"  To illustrate, the busty harpy lifts her leg and proudly displays her razor-sharp talons.", false);
 	//Check her out if you're in the mood or dirty-minded
 	//Requires wang
-	if ((player.cor > 60 || player.lust > 60 || player.lib > 70) && player.hasCock()) {
+	if ((player.cor > (60 - player.corruptionTolerance()) || player.lust > 60 || player.lib > 70) && player.hasCock()) {
 		outputText("  In spite of the danger of the situation, your gaze drops between her legs to her completely exposed sex.  You nod in agreement with her, buying a few extra seconds to inspect her vagina.  Tinged pink, it's much larger than a human's; perhaps due to the size of the eggs she lays?\n\n", false);
 	}
 	//Otherwise leave.
@@ -556,7 +559,7 @@ private function cramANippleInIt():void {
 	}
 	//(High PG) 
 	else {
-		outputText("She suckles hard for a moment, and winds up sputtering at the flood of milk that you produce.  Breast-milk gushes over her face, and she can only look on with a ecstatic pleasure at what she's started.  Sophie leans forward and latches back on, her throat swallowing visibly and often as she struggles to keep up with your milk-flow.  Her arms close around your back and lock together in an effort to hold onto you, even as your milk squirts out from the corners of her mouth.  Her blissful expression makes you wonder just what would make a harpy love milk so much.  Her eyelids droop while she relaxes against the " + player.nippleDescript(0) + ".  The suckling goes on and on, until your milk slows to a reasonable trickle.  Content to have drained one milk-spout, Sophie moves on to the ", false);
+		outputText("She suckles hard for a moment, and winds up sputtering at the flood of milk that you produce.  Breast-milk gushes over her face, and she can only look on with an ecstatic pleasure at what she's started.  Sophie leans forward and latches back on, her throat swallowing visibly and often as she struggles to keep up with your milk-flow.  Her arms close around your back and lock together in an effort to hold onto you, even as your milk squirts out from the corners of her mouth.  Her blissful expression makes you wonder just what would make a harpy love milk so much.  Her eyelids droop while she relaxes against the " + player.nippleDescript(0) + ".  The suckling goes on and on, until your milk slows to a reasonable trickle.  Content to have drained one milk-spout, Sophie moves on to the ", false);
 		if (player.totalNipples()) outputText("other ", false);
 		else outputText("next ", false);
 		outputText("one and begins the cycle anew.", false);

@@ -6,7 +6,10 @@ package classes.Scenes.Places
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
-	import classes.Scenes.Areas.Lake.*;
+import classes.Scenes.API.Encounter;
+import classes.Scenes.API.Encounters;
+import classes.Scenes.API.FnHelpers;
+import classes.Scenes.Areas.Lake.*;
 	import classes.Scenes.Places.Boat.*;
 
 	public class Boat extends AbstractLakeContent
@@ -14,7 +17,12 @@ package classes.Scenes.Places
 		public var sharkGirlScene:SharkGirlScene = new SharkGirlScene();
 		public var marae:MaraeScene = new MaraeScene();
 		
-		public function Boat() { }
+	public function Boat() {
+	}
+
+	public function isDiscovered():Boolean {
+		return player.hasStatusEffect(StatusEffects.BoatDiscovery);
+	}
 		
 		public function discoverBoat():void {
 			player.createStatusEffect(StatusEffects.BoatDiscovery,0,0,0,0);
@@ -24,79 +32,57 @@ package classes.Scenes.Places
 			outputText("<b>You have discovered the lake boat!</b>\n(You may return and use the boat to explore the lake's interior by using the 'places' menu.)", false);
 			doNext(camp.returnToCampUseOneHour);
 		}
-		public function boatExplore():void
-		{
+
+	private var _explorationEncounter:Encounter = null;
+	public function get explorationEncounter():Encounter {
+		return _explorationEncounter ||= Encounters.group(kGAMECLASS.commonEncounters, {
+			name  : "izmakids",
+			chance: 0.1,
+			when  : function ():Boolean {
+				return flags[kFLAGS.IZMA_KIDS_IN_WILD] > 0 && kGAMECLASS.izmaScene.izmaFollower();
+			},
+			call  : kGAMECLASS.izmaScene.findLostIzmaKids
+		}, marae.encounterObject, {
+			name: "nothing",
+			call: nothingSpecial
+		}, {
+			name: "sharkgirl",
+			call: curry(sharkGirlScene.sharkGirlEncounter, 1)
+		}, {
+			name  : "zealot",
+			chance: 0.5,
+			mods  : [FnHelpers.FN.ifLevelMin(2)],
+			when  : function():Boolean {
+				return flags[kFLAGS.FACTORY_SHUTDOWN] > 0;
+			},
+			call  : lake.fetishZealotScene.zealotBoat
+		}, {
+			name: "anemone",
+			call: kGAMECLASS.anemoneScene.mortalAnemoneeeeee
+		});
+	}
+
+	public function boatExplore():void {
+			// XXX: This is supposed to be displayed for all encounters except Fetish Zealot. I guess new system doesn't allow this without putting it to every other encounter. Or removing clearOutput() from them.
+			clearOutput();
 			player.addStatusValue(StatusEffects.BoatDiscovery, 1, 1);
-			//Helia monogamy fucks
-			if (flags[kFLAGS.PC_PROMISED_HEL_MONOGAMY_FUCKS] == 1 && flags[kFLAGS.HEL_RAPED_TODAY] == 0 && rand(10) == 0 && player.gender > 0 && !kGAMECLASS.helScene.followerHel()) {
-				kGAMECLASS.helScene.helSexualAmbush();
-				return;
-			}
 			outputText("You reach the dock without any incident and board the small rowboat.  The water is calm and placid, perfect for rowing.  ", true);
 			if (flags[kFLAGS.FACTORY_SHUTDOWN] == 2) {
 				outputText("The water appears somewhat muddy and has a faint pungent odor.  ", false);
 				if (player.inte > 40) outputText("You realize what it smells like – sex.  ", false);
 			}
-			//3% chance of finding lost daughters
-			if (rand(100) <= 3 && flags[kFLAGS.IZMA_KIDS_IN_WILD] > 0 && kGAMECLASS.izmaScene.izmaFollower()) {
-				kGAMECLASS.izmaScene.findLostIzmaKids();
-				return;
-			}
 			outputText("You set out, wondering if you'll find any strange islands or creatures in the lake.\n\n", false);
-			//20% chance if not done with marae of meeting her.
-			if (rand(10) <= 2 && flags[kFLAGS.MARAE_QUEST_COMPLETE] <= 0 && flags[kFLAGS.MET_MARAE_CORRUPTED] <= 0) {
-				marae.encounterMarae();
-				return;
-			}
-			if (rand(10) <= 2 && flags[kFLAGS.FACTORY_SHUTDOWN] == 1 && flags[kFLAGS.MARAE_QUEST_COMPLETE] >= 1 && flags[kFLAGS.MINERVA_PURIFICATION_MARAE_TALKED] == 1) {
-				marae.talkToMaraeAboutMinervaPurification();
-				return;
-			}
-			if (rand(10) <= 2 && flags[kFLAGS.FACTORY_SHUTDOWN] == 1 && flags[kFLAGS.MARAE_QUEST_COMPLETE] >= 1 && flags[kFLAGS.MINERVA_PURIFICATION_MARAE_TALKED] != 1 && flags[kFLAGS.LETHICE_DEFEATED] > 0 && flags[kFLAGS.PURE_MARAE_ENDGAME] < 2 && player.level >= 30) {
-				marae.encounterPureMaraeEndgame();
-				return;
-			}
-			//10% chance of corrupt Marae followups
-			if ((debug || rand(10) == 0) && flags[kFLAGS.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] == 0 && flags[kFLAGS.MET_MARAE_CORRUPTED] > 0 && player.gender > 0 && flags[kFLAGS.CORRUPTED_MARAE_KILLED] <= 0) {
-				marae.level2MaraeEncounter();
-				return;
-			}
-			//Done to allow player who has both perks to fight Marae.
-			if ((debug || rand(10) == 0) && flags[kFLAGS.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] == 2 && flags[kFLAGS.MET_MARAE_CORRUPTED] > 0 && player.gender > 0 && flags[kFLAGS.CORRUPTED_MARAE_KILLED] <= 0) {
-				marae.level3MaraeEncounter();
-				return;
-			}
-			//BUILD LIST OF CHOICES
-			var choice:Array = [0, 1, 2, 3];
-			if (flags[kFLAGS.FACTORY_SHUTDOWN] > 0 && player.level > 2)
-				choice[choice.length] = 4;
-			choice[choice.length] = 5;
-			//MAKE YOUR CHOICE
-			var selector:Number = choice[rand(choice.length)];
-			//RUN CHOSEN EVENT
-			switch (selector) {
-				case 0:
-					outputText("You row for nearly an hour, until your arms practically burn with exhaustion from all the rowing.", false);
-					doNext(camp.returnToCampUseOneHour);
-					return;
-				case 1:
-					outputText("You give up on finding anything interesting, and decide to go check up on your camp.", false);
-					doNext(camp.returnToCampUseOneHour);
-					return;
-				case 2:
-					sharkGirlScene.sharkGirlEncounter(1);
-					return;
-				case 3:
-					sharkGirlScene.sharkGirlEncounter(1);
-					return;
-				case 4:
-					lake.fetishZealotScene.zealotBoat();
-					return;
-				case 5:
-					kGAMECLASS.anemoneScene.mortalAnemoneeeeee();
-					return;
-			}
+			
+			explorationEncounter.execEncounter();
+		}
 
+		private function nothingSpecial():void {
+			if (rand(2) == 0) {
+				outputText("You row for nearly an hour, until your arms practically burn with exhaustion from all the rowing.", false);
+			} else {
+				outputText("You give up on finding anything interesting, and decide to go check up on your camp.", false);
+			}
+			doNext(camp.returnToCampUseOneHour);
 		}
 	}
 }

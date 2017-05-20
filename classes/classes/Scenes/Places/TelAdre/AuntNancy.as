@@ -354,7 +354,7 @@ private function auntNancyPoonPartII():void {
 
 		outputText("Aunt Nancy climbs back atop you as you moan at the welcome new sensation, licking at your chest as she does.  \"<i>Bet you didn't think I could do it,</i>\" she purrs to you, as you enjoy the many, many sensations working at you.\n\n", false);
 
-		outputText("Suddenly, you realize that your left hand is now free, courtesy of one of Aunt Nancy's smooth, gentle arm.  She whispers, quietly, \"<i>A little for me too, please.</i>\"  Realizing exactly what she means, you press the " + player.skinFurScales() + " of your hand against her pussy.  Its entrance, two parted shell-plates dripping wet fluid, would almost be scary if you weren't so very relaxed.  Gently, your press your ingers into her body, and hear her moan, loudly, feel her own hands scrabbling inside of your " + player.assholeDescript() + ", pawing your chest and " + player.buttDescript() + ", trailing through your " + player.hairDescript() + ".\n\n", false);
+		outputText("Suddenly, you realize that your left hand is now free, courtesy of one of Aunt Nancy's smooth, gentle arm.  She whispers, quietly, \"<i>A little for me too, please.</i>\"  Realizing exactly what she means, you press the " + player.skinFurScales() + " of your hand against her pussy.  Its entrance, two parted shell-plates dripping wet fluid, would almost be scary if you weren't so very relaxed.  Gently, your press your fingers into her body, and hear her moan, loudly, feel her own hands scrabbling inside of your " + player.assholeDescript() + ", pawing your chest and " + player.buttDescript() + ", trailing through your " + player.hairDescript() + ".\n\n", false);
 
 		outputText("It feels wonderful.  You lie back and moan, enjoying the smooth, silky insides of her pussy, feeling tiny feelers occasionally caress and pull at your fingers inside of her.\n\n", false);
 
@@ -435,7 +435,7 @@ private function auntNancyPoonPartIII():void {
 		if (player.hasVagina()) outputText(player.vaginaDescript(0) + " and ", false);
 		outputText(player.assholeDescript() + ".\n\n", false);
 
-		outputText("You howl in pleasure, feeling the orgasm coursing through you like hot metal up and down your spine.  You let out a exclamation of pleasure of your own, as you feel her hands tighten on your " + player.chestDesc() + ", and soon you too are luxuriating in the feeling of her body against yours, inside of you, pressing all your most vulnerable places.", false);
+		outputText("You howl in pleasure, feeling the orgasm coursing through you like hot metal up and down your spine.  You let out an exclamation of pleasure of your own, as you feel her hands tighten on your " + player.chestDesc() + ", and soon you too are luxuriating in the feeling of her body against yours, inside of you, pressing all your most vulnerable places.", false);
 		//[If PC has a vagina and is a squirter and/or is lactating:] 
 		if (player.wetness() >= 5 || player.biggestLactation() >= 1)
 			outputText("  Her hands are soon drenched in your body's wonderful secretions, just as your", false);
@@ -464,7 +464,7 @@ private function auntNancyPoonPartIV():void {
 	outputText("<b>Two passionate, sticky hours pass...</b>\n\n", false);
 	
 	//[70 % for Toughness, Strength to increase 2-6 points]
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("str", .3,"tou", .3);
 	//[+35 Fatigue]
 	player.changeFatigue(35);

@@ -35,7 +35,7 @@ public function encounterKiha():void {
 		return;
 	}
 	//kihaUnBitchesOutCorruptPCs()
-	if (player.cor < 66 && flags[kFLAGS.KIHA_CORRUPTION_BITCH] == 1) {
+	if (player.cor < (66 + player.corruptionTolerance()) && flags[kFLAGS.KIHA_CORRUPTION_BITCH] == 1) {
 		kihaFollower.kihaUnbitchesUncorruptedFolks();
 		return;
 	}
@@ -56,7 +56,7 @@ public function encounterKiha():void {
 	//Count meetings
 	flags[kFLAGS.TIMES_MET_KIHA]++;
 	//PLOT FIGHT TIME!
-	if (player.cor < 66 && flags[kFLAGS.KIHA_AFFECTION_LEVEL] == 0 && flags[kFLAGS.KIHA_TALK_STAGE] >= 3 && player.gender > 0) {
+	if (player.cor < (66 + player.corruptionTolerance()) && flags[kFLAGS.KIHA_AFFECTION_LEVEL] == 0 && flags[kFLAGS.KIHA_TALK_STAGE] >= 3 && player.gender > 0) {
 		kihaFollower.kihaSpiderEventIntro();
 		return;
 	}
@@ -264,7 +264,7 @@ internal function kihaVictoryIntroduction():void {
 	if (player.cockThatFits(monster.analCapacity()) >= 0 && player.lust >= 33) { //Buttfuck 20 or less
 		addButton(3, "FuckHerAss", analRapuzulaKiha, null, null, null, "Penetrate Kiha anally.");
 	}
-	if (player.cor < 40 || flags[kFLAGS.MEANINGLESS_CORRUPTION] > 0) { //Conversation Only - Emotional Rape! (40- Corruption!)
+	if (player.cor < (40 + player.corruptionTolerance()) || flags[kFLAGS.MEANINGLESS_CORRUPTION] > 0) { //Conversation Only - Emotional Rape! (40- Corruption!)
 		outputText("\n\nNow that she's a captive audience, you could always talk to her.", false);
 		addButton(4, "Talk", rapeKihaWithWORDS, null, null, null, "Talk with Kiha and try to make progress.");
 	}

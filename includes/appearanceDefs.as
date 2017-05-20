@@ -1,4 +1,4 @@
-﻿// The comment structure in the following section is very specific, as the comment contents
+// The comment structure in the following section is very specific, as the comment contents
 // are actually parsed into regexes that are used by my refactoring tool to refactor
 // the relevant descriptions.
 
@@ -18,6 +18,7 @@ public static const SKIN_TYPE_GOO:int                                           
 public static const SKIN_TYPE_UNDEFINED:int                                         =    4; // DEPRECATED, silently discarded upon loading a saved game
 public static const SKIN_TYPE_DRAGON_SCALES:int                                     =    5;
 public static const SKIN_TYPE_FISH_SCALES:int                                       =    6; // NYI, for future use
+public static const SKIN_TYPE_WOOL:int                                              =    7;
 
 // hairType
 public static const HAIR_NORMAL:int                                                =     0;
@@ -28,6 +29,7 @@ public static const HAIR_ANEMONE:int                                            
 public static const HAIR_QUILL:int                                                 =     5;
 public static const HAIR_BASILISK_SPINES:int                                       =     6;
 public static const HAIR_BASILISK_PLUME:int                                        =     7;
+public static const HAIR_WOOL:int                                                  =     8;
 
 // beardType
 public static const BEARD_NORMAL:int                                               =     0;
@@ -99,6 +101,8 @@ public static const EARS_RHINO:int                                              
 public static const EARS_ECHIDNA:int                                                =  16;
 public static const EARS_DEER:int                                                   =  17;
 public static const EARS_WOLF:int                                                   =  18;
+public static const EARS_SHEEP:int                                                  =  19;
+public static const EARS_IMP:int                                                    =  20;
 
 // hornType
 public static const HORNS_NONE:int                                                  =   0;
@@ -110,6 +114,9 @@ public static const HORNS_ANTLERS:int                                           
 public static const HORNS_GOAT:int                                                  =   6;
 public static const HORNS_UNICORN:int                                               =   7;
 public static const HORNS_RHINO:int                                                 =   8;
+public static const HORNS_SHEEP:int                                                 =   9;
+public static const HORNS_RAM:int                                                   =  10;
+public static const HORNS_IMP:int                                                   =  11;
 
 // antennae
 public static const ANTENNAE_NONE:int                                               =   0;
@@ -137,6 +144,7 @@ public static const CLAW_TYPE_CAT:int                                           
 public static const CLAW_TYPE_DOG:int                                               =   5; // NYI! Placeholder for now!! (See http://tiny.cc/coc-revamp-claws)
 public static const CLAW_TYPE_RAPTOR:int                                            =   6; // NYI! Placeholder for now!! (See http://tiny.cc/coc-revamp-claws) Giev teh Rapturs :-)
 public static const CLAW_TYPE_MANTIS:int                                            =   7; // NYI! Placeholder for Xianxia mod (See http://tiny.cc/coc-xianxia-mod)
+public static const CLAW_TYPE_IMP:int                                               =   8;
 
 // tailType
 public static const TAIL_TYPE_NONE:int                                              =   0;
@@ -166,6 +174,8 @@ public static const TAIL_TYPE_ECHIDNA:int                                       
 public static const TAIL_TYPE_DEER:int                                              =  24;
 public static const TAIL_TYPE_SALAMANDER:int                                        =  25;
 public static const TAIL_TYPE_WOLF:int                                              =  26;
+public static const TAIL_TYPE_SHEEP:int                                             =  27;
+public static const TAIL_TYPE_IMP:int                                               =  28;
 
 // wingType
 public static const WING_TYPE_NONE:int                                              =   0;
@@ -210,6 +220,7 @@ public static const LOWER_BODY_TYPE_ECHIDNA:int                                 
 public static const LOWER_BODY_TYPE_DEERTAUR:int                                    =  24; // DEPRECATED, use LOWER_BODY_TYPE_CLOVEN_HOOFED and legCount=4
 public static const LOWER_BODY_TYPE_SALAMANDER:int                                  =  25;
 public static const LOWER_BODY_TYPE_WOLF:int                                        =  26;
+public static const LOWER_BODY_TYPE_IMP:int                                         =  27;
 
 // underBody
 public static const UNDER_BODY_TYPE_NONE:int                                        =   0;
@@ -217,6 +228,7 @@ public static const UNDER_BODY_TYPE_LIZARD:int                                  
 public static const UNDER_BODY_TYPE_DRAGON:int                                      =   2;
 public static const UNDER_BODY_TYPE_FUR:int                                         =   3;
 public static const UNDER_BODY_TYPE_NAGA:int                                        =   4;
+public static const UNDER_BODY_TYPE_WOOL:int                                        =   5;
 
 // piercingtypesNOPEDISABLED
 public static const PIERCING_TYPE_NONE:int                                          =   0;
@@ -486,4 +498,3 @@ public static const BREAST_CUP_HYPER_ZZZ_LARGE:int									= 198;
 public static const BREAST_CUP_JACQUES00:int										= 199; // <-- Jacques00-cup
 
 // End Description constants
-

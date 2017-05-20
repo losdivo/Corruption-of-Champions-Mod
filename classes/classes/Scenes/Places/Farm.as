@@ -1036,7 +1036,7 @@ public function cockPumping():void {
 	//Medium Scene – output less than 250 mLs
 	else if (cumQ < 333) {
 		if (player.cockTotal() == 1) {
-			outputText("An orgasm hits you like a an ocean wave, shutting down any remaining conscious thoughts and replacing them with one overriding emotion: relief.   You spurt helplessly into the tube, wracked with pleasure as your ", false);
+			outputText("An orgasm hits you like an ocean wave, shutting down any remaining conscious thoughts and replacing them with one overriding emotion: relief.   You spurt helplessly into the tube, wracked with pleasure as your ", false);
 			if (player.balls > 0) outputText("bloated " + player.ballsDescriptLight() + " are", false);
 			else outputText("sensitive " + player.cockDescript(0) + " is", false);
 			outputText(" finally relieved of ", false);
@@ -1045,7 +1045,7 @@ public function cockPumping():void {
 			outputText("pent up seed.  The machine suckles noisily, visibly turning some of the tubes in the wall solid white as the machinery works hard to keep up with your impressive output.  Eventually it does come to an end.  Your jets of jism taper off and your dick starts going soft inside the squirming machinery.  In response you feel it slip off you, retracting into the wall as the harness gently drops you back to the ground.\n\n", false);
 		}
 		else {
-			outputText("An orgasm hits you like a an ocean wave, shutting down any remaining conscious thoughts and replacing them with one overriding emotion: relief.   You spurt helplessly into the tube, wracked with pleasure as your ", false);
+			outputText("An orgasm hits you like an ocean wave, shutting down any remaining conscious thoughts and replacing them with one overriding emotion: relief.   You spurt helplessly into the tube, wracked with pleasure as your ", false);
 			if (player.balls > 0) outputText("bloated " + player.ballsDescriptLight() + " are", false);
 			else outputText("sensitive " + player.multiCockDescriptLight() + " are", false);
 			outputText(" finally relieved of their pent up seed.  The machine suckles noisily, visibly turning some of the tubes in the wall solid white as the cock-pump's motors work hard to keep up with your impressive output.  Eventually it does come to an end.  Your jets of jism taper off and your dicks start to go soft inside the squirming machinery.  In response you feel it slip off you, retracting into the wall as the harness gently drops you back to the ground.\n\n", false);			
@@ -1139,7 +1139,7 @@ public function cockPumping():void {
 		outputText("\n\nYou go", false);
 	}
 	outputText(" on your way, whistling happily and feeling like taking a nap.", false);
-	player.orgasm();
+	player.orgasm('Dick');
 	doNext(camp.returnToCampUseOneHour);
 }
 

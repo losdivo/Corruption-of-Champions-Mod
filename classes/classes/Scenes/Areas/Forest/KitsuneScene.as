@@ -6,10 +6,26 @@ package classes.Scenes.Areas.Forest
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.Items.Armors.LustyMaidensArmor;
+import classes.Scenes.API.Encounter;
 	import classes.Scenes.Monsters.Imp;
 
-	public class KitsuneScene extends BaseContent
+	public class KitsuneScene extends BaseContent implements Encounter
 	{
+
+
+		public function encounterChance():Number {
+			return 1;
+		}
+
+		public function encounterName():String {
+			return "kitsune";
+		}
+
+		public function execEncounter():void {
+			if (rand(3) == 0) kitsuneShrine();
+			else enterTheTrickster();
+		}
+
 		public function KitsuneScene()
 		{
 		}

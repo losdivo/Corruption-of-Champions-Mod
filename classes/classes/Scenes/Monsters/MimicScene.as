@@ -5,6 +5,7 @@ package classes.Scenes.Monsters
 	import classes.PerkLib;
 	import classes.GlobalFlags.*;
 	import classes.Scenes.Monsters.Mimic;
+	import classes.StatusEffects;
 	
 	public class MimicScene extends BaseContent
 	{
@@ -18,9 +19,9 @@ package classes.Scenes.Monsters
 			mimicAppearance = rand(4);
 			//lead in based on where the event occurs
 			//desert = 1, mountain = 2, forest = anything else, 
-			if (loc == 1) outputText("The wind howls through the tall pillars of rock that thrust out of the sand on both sides ", true);
-			else if (loc == 2) outputText("Thunder rumbles overhead ", true);
-			else if (loc == 3) outputText("The peaceful sounds of nature are everywhere ", true);
+			if (loc == 1) outputText("The wind howls through the tall pillars of rock that thrust out of the sand on both sides ");
+			else if (loc == 2) outputText("Thunder rumbles overhead ");
+			else if (loc == 3) outputText("The peaceful sounds of nature are everywhere ");
 			outputText("as you explore deeper into this strange land. The relative monotony of your journey is interrupted as you see ");
 			//1 = giant rock, 2 = giant boob, 3 = giant dick, everything else = a treasure chest
 			if (mimicAppearance == 1) outputText("a huge block of grey stone covered in bizarre runes and symbols ");
@@ -50,7 +51,8 @@ package classes.Scenes.Monsters
 
 		public function mimicTentacle1():void
 		{
-			outputText("You approach within a few feet of the ", true);
+			clearOutput();
+			outputText("You approach within a few feet of the ");
 			if (mimicAppearance == 1) outputText("stone ");
 			else if (mimicAppearance == 2) outputText("huge tit ");
 			else if (mimicAppearance == 3) outputText("giant dick ");
@@ -79,8 +81,13 @@ package classes.Scenes.Monsters
 					return;
 				} 
 				else { //you just escape, no fancy item!
-					outputText("and slowly reach towards it with one hand. As your fingers hover within inches of touching it, you feel a sudden sense of danger, and leap back just as dozens of tentacles sprout from the thing's surface. The strange creature lunges for you again, but you have already escaped its reach and, to your great relief, it appears to be immobile. ");
-					doNext(camp.returnToCampUseOneHour); //main screen
+					outputText("and slowly reach towards it with one hand. As your fingers hover within inches of touching it, you feel a sudden sense of danger, and leap back just as dozens of tentacles sprout from the thing's surface. The strange creature lunges for you again, but you have already escaped its reach and, to your great relief, it appears to be immobile.  Do you want to fight this creature? You can try to attack from a safe distance, but it would have the first strike should you try to approach for a melee strike.");
+					menu();
+					addButton(0, "Fight", function():*{
+						player.createStatusEffect(StatusEffects.KnockedBack, 0, 0, 0, 0);
+						startCombat(new Mimic(mimicAppearance));
+					});
+					addButton(14, "Leave", camp.returnToCampUseOneHour);
 					return;
 				}
 			}
@@ -95,7 +102,7 @@ package classes.Scenes.Monsters
 				//It grabs you!
 				if (mimicAppearance == 1) outputText("An enormous maw opens in front of you, lined with huge rocky teeth. Dozens of tentacles shoot out of the things gaping mouth, and you scream with terror as they begin to drag you into its rocky gullet. ");
 				else if (mimicAppearance == 2) outputText("The enormous nipple opens wide to reveal a lamprey like mouth lined with hundreds of tiny pointy teeth and thin, whippy tongues shoot out and splatter milky saliva everywhere as they flail back and forth. Dozens of tentacles sprout from its quivering bulk and wrap around your limbs and waist, lifting you into the air. ");
-				else if (mimicAppearance == 3) outputText("The monstrous cock rears up like a snake and a emits a horrible hissing garble as what would be its urethral opening splits open to reveal row after row of tiny, pointy teeth. Thin, whippy tongues shoot out and splatter gooey cum-spit everywhere as they flail back and forth. Dozens of tentacles sprout from its shaft and wrap around your limbs and waist, lifting you into the air. ");
+				else if (mimicAppearance == 3) outputText("The monstrous cock rears up like a snake and emits a horrible hissing garble as what would be its urethral opening splits open to reveal row after row of tiny, pointy teeth. Thin, whippy tongues shoot out and splatter gooey cum-spit everywhere as they flail back and forth. Dozens of tentacles sprout from its shaft and wrap around your limbs and waist, lifting you into the air. ");
 				else outputText("The lid of the chest opens to reveal a giant mouth, filled with hundreds of tiny pointy teeth and a huge slavering tongue that lashes about wildly. Dozens of tentacles shoot out of the thing's gaping jaws, and you scream with terror as they begin to drag you into its gullet. ");
 				outputText("\n\nYou shake and break free from the tentacles. It's a fight!");
 				//Start the FIGHT!
@@ -107,11 +114,12 @@ package classes.Scenes.Monsters
 		//If you lose to Mimic.
 		public function mimicTentacle2():void
 		{
+			clearOutput();
 			if (player.hasCock()) var tempSize:Number = Math.round((player.averageNippleLength() + player.cocks[0].cockLength / 2) * 100) / 100;
 			var nippleCockDescript:String = player.nippleDescript(0);
 			//If its a box or a rock, it swallows you whole!
 			if (mimicAppearance != 2 && mimicAppearance != 3) outputText("\n\nWith you collapsing from being unable to put up any further fight, you are unable to prevent yourself from being dragged into the thing’s enormous maw. You are pulled deeper and deeper into the monster’s surprisingly vast innards, and the light streaming in through its jaws grows more and more faint, until with a final <i>*snap*</i>, the light is cut off completely. Surrounded by total darkness and gripped by what must be hundreds of tentacles, you let loose an involuntary moan of terror as the finality of your fate sinks home. ");
-			outputText("You feel hundreds of tiny tendrils begin gently stroking and teasing your whole body. They seem to seek out every erogenous zone you have with unnatural precision. In a matter of minutes, you are quaking with arousal, ", true);
+			outputText("You feel hundreds of tiny tendrils begin gently stroking and teasing your whole body. They seem to seek out every erogenous zone you have with unnatural precision. In a matter of minutes, you are quaking with arousal, ");
 			//no parts!
 			if (player.gender == 0)
 			{

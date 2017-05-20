@@ -1,7 +1,12 @@
 package classes.Scenes.Places 
 {
 	import classes.BaseContent;
+	import classes.CoC;
 	import classes.GlobalFlags.*;
+	import classes.Scenes.API.Encounter;
+	import classes.Scenes.API.Encounters;
+	import classes.Scenes.API.FnHelpers;
+
 	/**
 	 * ...
 	 * @author ...
@@ -28,6 +33,10 @@ package classes.Scenes.Places
 		
 		private var furnitureFoundToday:String = "";
 		
+		public function isDiscovered():Boolean {
+			return flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE] > 0;
+		}
+
 		//Encounters
 		//[Ruined Village]
 		//[Exploring the Lake]
@@ -55,72 +64,99 @@ package classes.Scenes.Places
 			flags[kFLAGS.AMILY_VILLAGE_ACCESSIBLE] = 1;
 			doNext(camp.returnToCampUseOneHour);
 		}
-		
+		private var _explorationEncounter:Encounter = null;
+		public function get explorationEncounter():Encounter {
+			const game:CoC     = kGAMECLASS;
+			const fn:FnHelpers = Encounters.fn;
+			return _explorationEncounter ||= Encounters.group({
+				name:"shouldra",
+				chance:0.5,
+				when: function ():Boolean {
+					return flags[kFLAGS.SHOULDRA_PALADIN_MAIDEN_COUNTDOWN] == 0
+						   && rackCount() >= 2
+						   && !game.shouldraFollower.followerShouldra()
+						   && flags[kFLAGS.SHOULDRA_FOLLOWER_STATE] != .5;
+				},
+				call: getGame().shouldraScene.shouldraGreeting
+			},{
+				name:"rack",
+				chance:0.2,
+				when:function ():Boolean {
+					return rackCount()<3;
+				},
+				call: findRack
+			},{
+				name: "amily",
+				when: function():Boolean {
+					return flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] != 1;
+				},
+				call: game.amilyScene.encounterAmily
+			},{
+				name:"scavenge",
+				when: function():Boolean {
+					return flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] == 1;
+				},
+				call: scavengeTownRuinsOption
+			});
+		}
 		public function exploreVillageRuin():void {
 			flags[kFLAGS.AMILY_VILLAGE_EXPLORED]++;
 			clearOutput();
-			//50% chance of ghost-girl
-			if ((flags[kFLAGS.SHOULDRA_PALADIN_MAIDEN_COUNTDOWN] == 0 && rackCount() >= 2 && rand(10) <= 3) && !kGAMECLASS.shouldraFollower.followerShouldra() && flags[kFLAGS.SHOULDRA_FOLLOWER_STATE] != .5) {
-				getGame().shouldraScene.shouldraGreeting();
-				return;
-			}
-			//20% chance of playing with a rack
-			if (rand(5) == 0 && rackCount() < 3) {
-				var rack:Number = 0;
-				var rackArray:Array = [];
-				if (player.hasKeyItem("Equipment Rack - Armor") < 0) rackArray[rackArray.length] = 0;
-				if (player.hasKeyItem("Equipment Rack - Weapons") < 0) rackArray[rackArray.length] = 1;
-				if (player.hasKeyItem("Equipment Rack - Shields") < 0) rackArray[rackArray.length] = 2;
-				rack = rackArray[rand(rackArray.length)];
-				outputText("While picking through the ruined houses and abandoned structures of this dilapidated village, you manage to find something useful!  There's an intact but empty ", false);
-				switch(rack) {
-					case 0:
-						outputText("armor");
-						break;
-					case 1:
-						outputText("weapon");
-						break;
-					case 2:
-						outputText("shield");
-						break;
-					default:
-						outputText("undefined");
-				}
-				outputText(" rack here.  It looks like it could hold nine different ", false);
-				switch(rack) {
-					case 0:
-						outputText("armors");
-						break;
-					case 1:
-						outputText("weapons");
-						break;
-					case 2:
-						outputText("shields");
-						break;
-					default:
-						outputText("undefined");
-				}
-				outputText(".  You check it over and spot an easy way to fold it up for transport.  This would be a fine addition to your camp, so you pack it up and haul it back.", false);
-				switch(rack) {
-					case 0:
-						player.createKeyItem("Equipment Rack - Armor",0,0,0,0);
-						break;
-					case 1:
-						player.createKeyItem("Equipment Rack - Weapons",0,0,0,0);
-						break;
-					case 2:
-						player.createKeyItem("Equipment Rack - Shields",0,0,0,0);
-						break;
-					default:
-						outputText("  <b>Please let Kitteh6660 know about this bug.</b>");
-				}
-				doNext(camp.returnToCampUseOneHour);
-				return;
-			}
-			if (flags[kFLAGS.AMILY_VILLAGE_ENCOUNTERS_DISABLED] != 1) getGame().amilyScene.encounterAmily();
-			else scavengeTownRuinsOption();
+			explorationEncounter.execEncounter();
 		}
-		
+
+		private function findRack():void {
+			var rack:Number;
+			var rackArray:Array = [];
+			if (player.hasKeyItem("Equipment Rack - Armor") < 0) rackArray[rackArray.length] = 0;
+			if (player.hasKeyItem("Equipment Rack - Weapons") < 0) rackArray[rackArray.length] = 1;
+			if (player.hasKeyItem("Equipment Rack - Shields") < 0) rackArray[rackArray.length] = 2;
+			rack = rackArray[rand(rackArray.length)];
+			outputText("While picking through the ruined houses and abandoned structures of this dilapidated village, you manage to find something useful!  There's an intact but empty ", false);
+			switch(rack) {
+				case 0:
+					outputText("armor");
+					break;
+				case 1:
+					outputText("weapon");
+					break;
+				case 2:
+					outputText("shield");
+					break;
+				default:
+					outputText("undefined");
+			}
+			outputText(" rack here.  It looks like it could hold nine different ", false);
+			switch(rack) {
+				case 0:
+					outputText("armors");
+					break;
+				case 1:
+					outputText("weapons");
+					break;
+				case 2:
+					outputText("shields");
+					break;
+				default:
+					outputText("undefined");
+			}
+			outputText(".  You check it over and spot an easy way to fold it up for transport.  This would be a fine addition to your camp, so you pack it up and haul it back.", false);
+			switch(rack) {
+				case 0:
+					player.createKeyItem("Equipment Rack - Armor",0,0,0,0);
+					break;
+				case 1:
+					player.createKeyItem("Equipment Rack - Weapons",0,0,0,0);
+					break;
+				case 2:
+					player.createKeyItem("Equipment Rack - Shields",0,0,0,0);
+					break;
+				default:
+					outputText("  <b>Please let Kitteh6660 know about this bug.</b>");
+			}
+			doNext(camp.returnToCampUseOneHour);
+		}
+
 		//------------
 		// SCAVENGING
 		//------------

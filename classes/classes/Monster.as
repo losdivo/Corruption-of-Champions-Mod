@@ -82,7 +82,7 @@
 		//For enemies
 		public var bonusHP:Number = 0;
 		public var bonusLust:Number = 0;
-		private var _long:String = "<b>You have encountered an unitialized  Please report this as a bug</b>.";
+		private var _long:String = "<b>You have encountered an uninitialized  Please report this as a bug</b>.";
 		public function get long():String
 		{
 			return _long;

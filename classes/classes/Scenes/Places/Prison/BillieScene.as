@@ -223,11 +223,11 @@ package classes.Scenes.Places.Prison
 					outputText("(Placeholder) Mistress Elly seems to accept her offering and walks over to where you and Billie sit locked together at the hips. She then takes a firm grasp on each of your heads, shoves her cock between your mouths, and begins to use your faces to pleasure herself. This sends Billie into a state of ecstasy, and she begins to fuck at your [vagOrAss] like a jackrabbit, quickly pulling you into a similar state. Before long Mistress Elly begins to squirt between your lips, and as she paints the two of you white Billie erupts within you, dragging you through a series of messy orgasms as well.\n\n");
 				}
 				prisonCaptorBillieHappinessSet(0);
-				player.orgasm();
+				player.orgasm('VaginalAnal');
 			}
 			else if (branchChoice == "2")
 			{
-				outputText("(Placeholder) Billie is suprised, but proud of you. She assumes that you have decided to take responsibility for your actions and learn from your lesson, and so she gives you a wet kiss on the cheek and leaves you be.\n\n");
+				outputText("(Placeholder) Billie is surprised, but proud of you. She assumes that you have decided to take responsibility for your actions and learn from your lesson, and so she gives you a wet kiss on the cheek and leaves you be.\n\n");
 				prisonCaptorBillieHappinessSet(0);
 				prison.changeEsteem(1,prison.inPrison);
 			}
@@ -253,7 +253,7 @@ package classes.Scenes.Places.Prison
 			}
 			else if (branchChoice == "4")
 			{
-				outputText("(Placeholder) Billie quickly brings herself to orgasm, coating your face with her cum. She is suprised that you didn't want to be fed, but proud of you. She assumes that you have decided to take responsibility for your actions and learn from your lesson, and so she gives you a wet kiss on the cheek, then after briefly getting distracted licking her own seed from your face, leaves you be.\n\n");
+				outputText("(Placeholder) Billie quickly brings herself to orgasm, coating your face with her cum. She is surprised that you didn't want to be fed, but proud of you. She assumes that you have decided to take responsibility for your actions and learn from your lesson, and so she gives you a wet kiss on the cheek, then after briefly getting distracted licking her own seed from your face, leaves you be.\n\n");
 				if (prison.prisonRestraintMouthLevel() > 0 && !(prison.prisonRestraintMouthLevel() == 4))
 				{
 					outputText("(Placeholder) She replaces your gag before she leaves. ");

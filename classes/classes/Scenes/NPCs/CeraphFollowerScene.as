@@ -232,7 +232,7 @@ package classes.Scenes.NPCs
 		{
 			clearOutput();
 			spriteSelect(7);
-			outputText("You reach down and snatch the collar from Ceraph's shaking hand.  Turning it over in your grip, you get a feel for the soft, supple leather.  Blood-red studs poke out around the black strap's surface, vaguely reminding you of a dog's collar, though with the aggression cranked up to max.  The snap mechanism looks simple enough to connect, but you can't see any way to release the latch.  It makes sense that Ceraph would have one-way collars; slaves shouldn't be able to remove the symbol of their station.\n\n", false);
+			outputText("You reach down and snatch the collar from Ceraph's shaking hand.  Turning it over in your grip, you get a feel for the soft, supple leather.  Blood-red studs poke out around the black strap's surface, vaguely reminding you of a dog's collar, though with the aggression cranked up to max.  The snap mechanism looks simple enough to connect, but you can't see any way to release the latch.  It makes sense that Ceraph would have one-way collars; slaves shouldn't be able to remove the symbol of their state.\n\n", false);
 
 			outputText("Leaning over, you slide the collar around your new slave's suddenly flush neck, feeling her heart hammering away just beneath the skin.  Snapping it closed, you muse ", false);
 			if (player.cor < 33) outputText("that you never expected making a demon into your slave would factor into your quest.  On one hand it seems wrong, but... she's a demon.  The fewer you have opposing you, the easier it will be to end their threat completely.", false);

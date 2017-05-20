@@ -255,7 +255,11 @@ private function buyCocoa():void {
 	outputText("You pay ten gems for some cocoa.  ");
 	player.gems -= 10;
 	statScreenRefresh();
-	inventory.takeItem(consumables.MOUSECO, ingredientsMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.MOUSECO.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.MOUSECO, ingredientsMenu);
 }
 
 private function buyFerretFruit():void {
@@ -270,7 +274,11 @@ private function buyFerretFruit():void {
 	outputText("You pay twenty gems for a single ferret fruit.  ");
 	player.gems -= 20;
 	statScreenRefresh();
-	inventory.takeItem(consumables.FRRTFRT, ingredientsMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.FRRTFRT.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.FRRTFRT, ingredientsMenu);
 }
 
 private function buyFig():void {
@@ -284,7 +292,11 @@ private function buyFig():void {
 	outputText("You pay five gems for a fig.  ");
 	player.gems -= 5;
 	statScreenRefresh();
-	inventory.takeItem(consumables.RINGFIG, ingredientsMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.RINGFIG.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.RINGFIG, ingredientsMenu);
 }
 
 
@@ -437,7 +449,11 @@ private function buyFoxBerry():void {
 	outputText("You pay five gems for a fox berry.  ");
 	player.gems -= 5;
 	statScreenRefresh();
-	inventory.takeItem(consumables.FOXBERY, ingredientsMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.FOXBERY.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.FOXBERY, ingredientsMenu);
 }
 
 private function buyHardBiscuits():void {
@@ -450,7 +466,11 @@ private function buyHardBiscuits():void {
 	outputText("You pay five gems for a pack of hard biscuits.  ");
 	player.gems -= 5;
 	statScreenRefresh();
-	inventory.takeItem(consumables.H_BISCU, checkBakeryMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.H_BISCU.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.H_BISCU, ingredientsMenu);
 }
 
 private function buyTrailMix():void {
@@ -463,7 +483,11 @@ private function buyTrailMix():void {
 	outputText("You pay twenty gems for a pack of trail mix.  ");
 	player.gems -= 20;
 	statScreenRefresh();
-	inventory.takeItem(consumables.TRAILMX, checkBakeryMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.TRAILMX.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.TRAILMX, ingredientsMenu);
 }
 
 private function buyHummus():void {
@@ -476,7 +500,11 @@ private function buyHummus():void {
 	outputText("You pay twenty gems for a pack of hummus.  ");
 	player.gems -= 100;
 	statScreenRefresh();
-	inventory.takeItem(consumables.HUMMUS_, checkBakeryMenu);
+	
+	if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+		consumables.HUMMUS_.useItem();
+		doNext(ingredientsMenu);
+	} else inventory.takeItem(consumables.HUMMUS_, ingredientsMenu);
 }
 
 private function easterBakeSale():void {
@@ -518,7 +546,7 @@ private function easterBakeSaleHelp():void {
 //[Male]
 private function malesHelpOutWithEaster():void {
 	clearOutput();
-	outputText("A idea crosses your mind; why not have the molten girl help you with your problem?  As if reading your mind, the girl continues her way to you, making her way with her eyes locked on your [cock biggest].  She is upon you now, flaccid streams drooling off her hand as she makes to grab your cock.  A heated pressure envelopes your shaft");
+	outputText("An idea crosses your mind; why not have the molten girl help you with your problem?  As if reading your mind, the girl continues her way to you, making her way with her eyes locked on your [cock biggest].  She is upon you now, flaccid streams drooling off her hand as she makes to grab your cock.  A heated pressure envelopes your shaft");
 	if (player.balls > 0) outputText(", sticky drops of chocolate trailing down your [balls]");
 	outputText(", each movement a not unpleasant sensation as the warmth infuses you.  The center of the pressure loosens, and your chocolate partner takes it upon herself to pin you to the floor, her warmness surrounding you.  Almost immediately you feel a similar pressure to the previous upon your groin, pulsating now as if stroking your cock in earnest.  You work out that she has enveloped your rod in what you assume is a vagina.  As if to confirm your suspicions, your captor lets out a small moan, increasing the fervor with which she rings out your dong.");
 	outputText("\n\nUnable now to contain your own lust, you start idly pumping into her velvety depths, the extreme warmth of which does nothing to discourage you.  Delighted by your newfound vigor, the mass riding you lets a sound out halfway between a squeal and a moan, increasing the vehemence of her own ministrations.  You pull your hand free from its prison only to thrust it higher up, gripping the highly malleable breast of the buxom girl.  Increasing the intensity of your pelvic endeavor, you elicit another moan from the bodacious vixen's lips, only adding fuel to your frenzied motions.  Jamming into her depths, intense heat assaults your body.  As if setting a spark to kindling, a torrid wave sweeps through you before you realize you are towards your limit.");
@@ -540,7 +568,7 @@ private function malesHelpOutWithEaster():void {
 	outputText("  It's about all you can do to get to the floor before passing out.  So much for helping.  In the back of your mind you picture the minotaur with a smug grin as your consciousness fades.");
 	outputText("\n\n<b>Later...</b>");
 	outputText("\nYou stumble back to camp, still somewhat out of it from your experience.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("lib", 1);
 	player.cumMultiplier += 2;
 	doNext(camp.returnToCampUseOneHour);

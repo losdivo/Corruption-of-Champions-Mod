@@ -28,6 +28,10 @@ package classes
 			if (player.hasKeyItem("Bow") >= 0 || player.hasKeyItem("Kelt's Bow") >= 0)
 				combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusEffectv1(StatusEffects.Kelt)) + " / 100\n";
 				
+			combatStats += "<b>Critical Hit Chance:</b> " + Math.round(combat.getCritChance()) + "%\n";	
+				
+			combatStats += "<b>Dodge Chance:</b> " + Math.round(player.getEvasionChance()) + "% (W/o speed-based)\n";	
+			
 			combatStats += "<b>Damage Resistance:</b> " + (100 - Math.round(player.damagePercent(true))) + "-" + (100 - Math.round(player.damagePercent(true) - player.damageToughnessModifier(true))) + "% (Higher is better.)\n";
 
 			combatStats += "<b>Lust Resistance:</b> " + (100 - Math.round(player.lustPercent())) + "% (Higher is better.)\n";
@@ -618,11 +622,11 @@ package classes
 				outputText("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects, false);
 			// End Ongoing Stat Effects
 			menu();
+			addButton(0, "Next", playerMenu);
 			if (player.statPoints > 0) {
 				outputText("\n\n<b>You have " + num2Text(player.statPoints) + " attribute point" + (player.statPoints == 1 ? "" : "s") + " to distribute.");
 				addButton(1, "Stat Up", attributeMenu);
 			}
-			doNext(playerMenu);
 		}
 		
 		//------------
@@ -647,14 +651,19 @@ package classes
 				outputText("\n<b>You can adjust your double attack settings.</b>");
 				addButton(button++,"Dbl Options",doubleAttackOptions);
 			}
-		}
+		
+			if (player.findPerk(PerkLib.AscensionTolerance) >= 0){
+				outputText("\n<b>You can adjust your Corruption Tolerance threshold.</b>");
+				addButton(button++,"Tol. Options",ascToleranceOption,null,null,null,"Set whether or not Corruption Tolerance is applied.");
+			}
+}
 
 		public function doubleAttackOptions():void {
 			clearOutput();
 			menu();
 			if (flags[kFLAGS.DOUBLE_ATTACK_STYLE] == 0) {
 				outputText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
-				outputText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
+				outputText("\n\nYou can change it to double attack until sixty strength and then dynamically switch to single attacks.");
 				outputText("\nYou can change it to always single attack.");
 			}
 			else if (flags[kFLAGS.DOUBLE_ATTACK_STYLE] == 1) {
@@ -685,6 +694,31 @@ package classes
 			flags[kFLAGS.DOUBLE_ATTACK_STYLE] = 2;
 			doubleAttackOptions();
 		}
+		
+		public function ascToleranceOption():void{
+			clearOutput();
+			menu();
+			if (player.perkv2(PerkLib.AscensionTolerance) == 0){
+				outputText("Corruption Tolerance is under effect, giving you " + player.corruptionTolerance() + " tolerance on most corruption events." +
+				"\n\nYou can disable this perk's effects at any time.<b>Some camp followers may leave you immediately after doing this. Save beforehand!</b>");
+				addButton(0, "Disable", disableTolerance);
+			}else addButtonDisabled(0, "Disable", "The perk is already disabled.");
+			if (player.perkv2(PerkLib.AscensionTolerance) == 1){
+				outputText("Ascension Tolerance is not under effect. You may enable it at any time.");
+				addButton(1, "Enable", enableTolerance);
+			}else addButtonDisabled(1, "Enable", "The perk is already enabled.");
+			addButton(4, "Back", displayPerks);
+		}
+		
+		public function disableTolerance():void{
+			player.setPerkValue(PerkLib.AscensionTolerance, 2, 1);
+			ascToleranceOption();
+		}
+		public function enableTolerance():void{
+			player.setPerkValue(PerkLib.AscensionTolerance, 2, 0);
+			ascToleranceOption();
+		}
+
 		
 		//------------
 		// LEVEL UP
@@ -1117,7 +1151,7 @@ package classes
 					_add(new PerkClass(PerkLib.WellAdjusted));
 				}
 				//Slot 5 - minimum libido
-				if (player.lib >= 60 && player.cor >= 50) {
+				if (player.lib >= 60 && player.cor >= (50 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.Masochist));
 				}
 			}
@@ -1129,28 +1163,28 @@ package classes
 			// CORRUPTION
 			//------------
 			//Slot 7 - Corrupted Libido - lust raises 10% slower.
-			if (player.cor >= 25) {
+			if (player.cor >= (25 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.CorruptedLibido,20,0,0,0));
 			}
 			//Slot 7 - Seduction (Must have seduced Jojo
-			if (player.cor >= 50) {
+			if (player.cor >= (50 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.Seduction));
 			}
 			//Slot 7 - Nymphomania
-			if (player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= 75) {
+			if (player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= (75 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.Nymphomania));
 			}
 			//Slot 7 - UNFINISHED :3
-			if (player.minLust() >= 20 && player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= 50) {
+			if (player.minLust() >= 20 && player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= (50 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.Acclimation));
 			}
 			//Tier 1 Corruption Perks - acclimation over-rides
 			if (player.level >= 6)
 			{
-				if (player.cor >= 60 && player.findPerk(PerkLib.CorruptedLibido) >= 0) {
+				if (player.cor >= (60 - player.corruptionTolerance()) && player.findPerk(PerkLib.CorruptedLibido) >= 0) {
 					_add(new PerkClass(PerkLib.Sadist));
 				}
-				if (player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= 70) {
+				if (player.findPerk(PerkLib.CorruptedLibido) >= 0 && player.cor >= (70 - player.corruptionTolerance())) {
 					_add(new PerkClass(PerkLib.ArousingAura));
 				}
 			}
