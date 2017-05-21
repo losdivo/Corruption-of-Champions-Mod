@@ -367,33 +367,24 @@ package classes.Scenes.Dungeons.MinoTown
             else if (description1 == 3) outputText("You bend and dring from the vat.\n\n");
             
             var choice : int =  description3;
+            HPChange(20 + player.maxHP() * 0.1 + rand(player.maxHP() * 0.2), true);
+            player.changeFatigue( -25);
+            player.refillHunger(10);
             
             if (choice == 0) {
                 outputText("Strangely enough, you feel nothing happened to you\n\n");
-                player.refillHunger(5);
-                HPChange(player.HP * 0.1 + rand(player.HP * 0.2), true);
-                player.changeFatigue( -25);
                 dynStats("lus", -20);
             }
             else if (choice == 1) {
                 var tainted:Boolean = (rand(2) == 0);
                 var enchanced:Boolean = tainted && (rand(5) == 0);
                 mutations.laBova(tainted, enchanced, player, false);
-                player.refillHunger(10);
-                player.changeFatigue( -25);
-                HPChange(player.HP * 0.1 + rand(player.HP * 0.2), true);
             }
             else if (choice == 2) {
                 mutations.lactaid(player, false);
-                player.refillHunger(10);
-                HPChange(player.HP * 0.1 + rand(player.HP * 0.2), true);
-                player.changeFatigue( -25);
             }
             else if (choice == 3) {
                 mutations.minotaurCum(false,player,false);
-                player.refillHunger(10);
-                HPChange(player.HP * 0.1 + rand(player.HP * 0.2), true);
-                player.changeFatigue( -25);
             }
             else if (choice == 4) {
                 // succubi milk - only after a factory catastrophe
