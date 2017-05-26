@@ -40,7 +40,7 @@ package classes.Scenes.Areas.Forest
 					outputText("With effort you manage to wrench your eyes away from the inviting folds of Tamani's vagina.  ");
 					if (player.totalCocks() > 1) outputText("Each of y");
 					else outputText("Y");
-					outputText("our " + player.multiCockDescriptLight(), false);
+					outputText("our " + player.multiCockDescriptLight());
 					if (player.lust > 80) outputText(" drips pre-cum");
 					else if (player.lust > 40) outputText(" grows harder");
 					else outputText(" hardens");
@@ -50,7 +50,7 @@ package classes.Scenes.Areas.Forest
 				else {
 					outputText("Struggling, you pull your eyes back into your head and away from Tamani's gorgeous slit.  You shudder, feeling ");
 					if (player.totalCocks () > 1) outputText("each of ");
-					outputText("your " + player.multiCockDescriptLight(), false);
+					outputText("your " + player.multiCockDescriptLight());
 					if (player.lust <= 41) outputText(" thicken perceptibly");
 					else if (player.lust <= 81) outputText(" twitch eagerly");
 					else outputText("drip pre-cum");

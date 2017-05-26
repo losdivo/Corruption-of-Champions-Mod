@@ -319,7 +319,7 @@ public function exgartuanMasturbation():void {
 			outputText("\"<i>No, it's not like that!</i>\" you yell, while pumping away, reveling in the feeling of your hands sliding up and down your pre-cum-soaked shaft.  Tiny moans interrupt your denial, punctuating it with short sharp moans of pleasure.\n\n");
 			
 			outputText("\"<i>Oh, you're already giving in to me?  I can feel the cum boiling in your ");
-			if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+			if (player.balls > 0) outputText(player.ballsDescriptLight());
 			else outputText("loins");
 			outputText(", just aching to squirt out.  Relax and enjoy the feelings.  The more you accept it, the better it will feel.  Just give in and cum, I want to watch it splatter your face,</i>\" taunts your demon-dick.\n\n");
 			
@@ -732,7 +732,7 @@ public function exgartuanArmorShift():void {
 //(FORCE OUT ANY WORM INFECTION)
 public function exgartuanWormCure():void {
 	outputText("Your ");
-	if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(player.ballsDescriptLight());
 	else outputText("groin");
 	outputText(" begins to grow warm... no, hot.  You feel it moving and squirming with discomfort as the worms inside you wriggle about, agitated by something.  The heat intensifies and you watch in a mixture of shock and horror as they start crawling out your urethra, sliding down to the ground on a river of thick seminal fluid.  You double over in pain as something stretches you wide, and you feel the main worm pushing itself through your " + player.cockDescript(0) + ", desperate to escape.  It crests the tip, wiggling and stuck for a moment as it struggles to pull free.  At last it pops out and drops to the ground, crawling away.  Exgartuan roars, \"<i>AND STAY OUT!</i>\"");
 	outputText("\n\nYou guess there was only enough room for one or the other...");
@@ -877,7 +877,7 @@ private function exgartuanSleepSurprise():void {
 			if (flags[kFLAGS.TIMES_AUTOFELLATIOED_EXGARTUAN] < 5) {
 				outputText("You grab hold of your over-sized, demon-infested organ with both hands, resigned to this fate.  Even if you managed to stop Exgartuan now, he would just start all over again once you'd fallen asleep.  The pre-slicked, veiny surface slides through your fingers, outputting a cacophony of pleasure through your nervous system.  Your eyes cross from the feeling, and you actually cry moans of need into your own " + player.cockHead() + ".  It vibrates pleasantly, dumping a few loads of pre-cum into your gullet while ");
 				if (player.biggestTitSize() >= 2) outputText("you squeeze your tits around your " + player.cockDescript(0) + " with your biceps");
-				else outputText("you squeeze and caress your " + player.cockDescript(0), false);
+				else outputText("you squeeze and caress your " + player.cockDescript(0));
 				outputText(".  With both hands beginning to stroke faster and faster, you give yourself over to the corrupted lust that's burning in your veins.\n\n");
 			}
 			//(MED+COR, DONE A LOT:
@@ -906,8 +906,8 @@ private function exgartuanSleepSurprise():void {
 				outputText(" skin of your outer lips is engorged and ready, but there's no pleasure to be had for your greedy gash.  Cool night air washes over the exposed ");
 				if (player.hasScales()) outputText("scales");
 				else outputText("skin");
-				outputText(" surrounding your sex, teasing you with the barest hint of sensation while your ignorant hands maul your " + player.cockDescript(0) + " at Exgartuan's behest.  If only you had taken care of yourself earlier, you might have had the control to slip a digit into your " + player.vaginaDescript(0), false);
-				if (player.getClitLength() > 3) outputText(" or stroke your " + player.clitDescript(), false);
+				outputText(" surrounding your sex, teasing you with the barest hint of sensation while your ignorant hands maul your " + player.cockDescript(0) + " at Exgartuan's behest.  If only you had taken care of yourself earlier, you might have had the control to slip a digit into your " + player.vaginaDescript(0));
+				if (player.getClitLength() > 3) outputText(" or stroke your " + player.clitDescript());
 				outputText(" to fully satisfy ALL of yourself.");
 				outputText("\n\n");
 			}
@@ -976,9 +976,9 @@ private function exgartuanBulgeTortureII():void {
 	
 	outputText("You again reach for ");
 	if (player.armorName != "crotch-hugging slutty swimwear" && player.armorName != "crotch-hugging revealing chainmail bikini")
-		outputText("your last remaining piece of " + player.armorName, false);
+		outputText("your last remaining piece of " + player.armorName);
 	//[else]
-	else outputText("your " + player.armorName, false);
+	else outputText("your " + player.armorName);
 	outputText(" to find it still firmly attached to your midsection.  What's more, as you begin to feel around it, you find to your surprise that ");
 	//[if armorname IS EQUAL TO \"<i>crotch-hugging full platemail</i>\" OR \"<i>crotch-hugging scale-mail armor</i>\"]
 	if (player.armorName == "crotch-hugging full platemail" || player.armorName == "crotch-hugging scale-mail armor") outputText("your " + player.armorName + " feels as if it's become incredibly stiff, refusing to neither budge your package or impart any sense of feeling or vibration to what lies underneath.");
@@ -1010,9 +1010,9 @@ private function exgartuanBulgeTortureIII():void {
 	
 	outputText("Your desire only increasing, you begin desperately clawing at the edges of your " + player.armorName + ".  Your stuck skin only grows red from your efforts, eschewing even the notion that it might break free.  Your breathing begins to draw to a panicked pace as you stop and try to form some coherent thought.  The best your lust-addled brain can come up with is to try moving your " + player.hipDescript() + ", and see if you can make any contact with your imprisoned penis.  Grinding, thrusting... anything you can think of to just make the slightest bit of contact.  However, your only accomplishment is in putting your " + player.legs() + " to sleep.  A tingling sensation works it way down your lower half, followed by numbness.  But before you can start adding that to your frustrations, a glint of something catches your eye- a single bead of pre-cum resting on the tip of your slightly hard " + player.cockDescript(0) + ", around an inch in diameter if you had to guess.");
 	//[if armorname IS EQUAL TO \"<i>crotch-hugging full platemail</i>\" OR \"<i>crotch-hugging scale-mail armor</i>\"]
-	if (player.armorName == "crotch-hugging full platemail" || player.armorName == "crotch-hugging scale-mail") outputText("  As you stare in bewilderment, you can't even begin to fathom how it possibly seeped through the steel of your solid " + player.armorName, false);
+	if (player.armorName == "crotch-hugging full platemail" || player.armorName == "crotch-hugging scale-mail") outputText("  As you stare in bewilderment, you can't even begin to fathom how it possibly seeped through the steel of your solid " + player.armorName);
 	//[if armorname IS EQUAL TO \"<i>crotch-hugging practically indecent steel armor</i>\" OR \"<i>crotch-hugging full-body chainmail</i>\" OR \"<i>crotch-hugging revealing chainmail bikini</i>\"]
-	else if (player.armorName == "crotch-hugging practically indecent steel armor" || player.armorName == "crotch-hugging full-body chainmail" || player.armorName == "crotch-hugging revealing chainmail bikini") outputText("  Your fixation on the drop draws to question just how it managed its way through the sealed chains of your " + player.armorName, false);
+	else if (player.armorName == "crotch-hugging practically indecent steel armor" || player.armorName == "crotch-hugging full-body chainmail" || player.armorName == "crotch-hugging revealing chainmail bikini") outputText("  Your fixation on the drop draws to question just how it managed its way through the sealed chains of your " + player.armorName);
 	else outputText("  A strange feeling of betrayal casts over as you begin to question how the liquid worked its way through the material when none of your struggles have registered even the slightest sensation.");
 	outputText("  You run your thumb and forefinger through it, skeptical of your eyes' discovery.  All it takes is that familiar touch followed by that telltale aroma to further break down what last defenses your brain was mounting against your all-consuming avidity.\n\n");
 	
@@ -1080,9 +1080,9 @@ private function exgartuanBulgeTortureIV():void {
 	outputText("You wake the next morning, nestled inside your " + camp.bedDesc() + ".  Realizing where you are, a relaxing feeling of easiness washes over you.  You throw off your cover to greet the day, only becoming confused as it peels off your sticky skin.  You glance down at your waist, still wearing ");
 	//[if armorname IS NOT EQUAL TO \"<i>crotch-hugging slutty swimwear</i>\" OR \"<i>crotch-hugging revealing chainmail bikini</i>\"]
 	if (player.armorName != "crotch-hugging slutty swimwear" && player.armorName != "crotch-hugging revealing chainmail bikini")
-		outputText("your " + player.armorName, false);
+		outputText("your " + player.armorName);
 	else
-		outputText("the single piece of your " + player.armorName, false);
+		outputText("the single piece of your " + player.armorName);
 	outputText(".  As you rise to your feet, a few streams of cum run down your " + player.legs() + ".");
 	//[If any followers]
 	if (camp.hasCompanions()) outputText("  For a moment, you consider asking someone outside if they remember anything from last night.  But you decide it's better to just keep it to yourself, afraid of what you might find out.");

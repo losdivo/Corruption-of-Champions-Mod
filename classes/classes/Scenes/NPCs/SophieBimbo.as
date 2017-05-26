@@ -622,7 +622,7 @@ private function bimboSophieLicksRugs():void {
 	sophieSprite();
 	clearOutput();
 	//*Summary - lean back on a rock and spread your legs.  She licks you off with chance of compelling you to sixtynine her. 
-	outputText("You sit back on a nearby rock and spread your " + player.legs(), false);
+	outputText("You sit back on a nearby rock and spread your " + player.legs());
 	if (player.balls > 0) outputText(", lifting your heavy sack out of the way");
 	outputText(" to give Sophie a perfect view of your " + player.vaginaDescript() + ".  Sophie's dull, somewhat glazed eyes brighten at the sight of your box, and she leans forward intently, dipping a digit into herself as she asks, \"<i>Ooh, can I, like, lick it for you?  It looks soooo yummy!</i>\"\n\n");
 	
@@ -791,7 +791,7 @@ private function buttFuckBimboSophie():void {
 	outputText(".  Sophie's breasts sway underneath her, the pendulous globes occasionally dipping low enough to drag her thumb-sized nipples through the rough dirt.");
 	if (pregnancy.event >= 2) outputText("  Just like her breasts, her gravid tummy sways a little as well, plush with the weight of the egg you've given her.");
 	outputText("  The bimbo moans harder every time it happens and sounds more whorish and lurid with each passing second - a true anal slut.  She looks back at you with lust in her eyes and a gleeful grin on her face.  Suddenly, one of the ditz's fingernails is dragging ");
-	if (player.balls > 0) outputText("over your " + player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText("over your " + player.ballsDescriptLight());
 	else outputText("across your taint");
 	outputText(".  It works its way down, crosses the joining of your bodies, and reaches its owner's pussy, circling the puffy lips until a long strand of girl-goo is dangling down towards the ground.\n\n");
 	

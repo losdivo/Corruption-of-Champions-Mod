@@ -1144,7 +1144,7 @@ package classes.Scenes
 							//genderless: 
 							else outputText("  Your [vagina] begins twitching, aching for something to push through it over and over again.");
 							outputText("  Seated in your own slime, you moan softly, unable to keep your hands off yourself.");
-							dynStats("lus=", player.maxLust(), "resisted");
+							dynStats("lus=", player.maxLust(), "resisted", false);
 							displayedUpdate = true;
 						}
 						else {
@@ -1329,7 +1329,7 @@ package classes.Scenes
 						outputText("<b>\nA honey-scented fluid drips from your rectum.</b>  At first it worries you, but as the smell fills the air around you, you realize anything with such a beautiful scent must be good.  ");
 						if (player.cockTotal() > 0) outputText("The aroma seems to permeate your very being, slowly congregating in your ");
 						if (player.cockTotal() == 1) {
-							outputText(player.cockDescript(0), false);
+							outputText(player.cockDescript(0));
 							if (player.countCocksOfType(CockTypesEnum.HORSE) == 1) outputText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air, until your " + player.cockDescript(0) + " is twitching and dripping, the flare swollen and purple.  ");
 							if (player.dogCocks() == 1) outputText(", each inhalation making it thicker, harder, and firmer.  You suck in huge lungfuls of air, desperate for more, until your " + player.cockDescript(0) + " is twitching and dripping, its knot swollen to the max.  ");
 							if (player.countCocksOfType(CockTypesEnum.HUMAN) == 1) outputText(", each inhalation making it bigger, harder, and firmer.  You suck in huge lungfuls of air, until your " + player.cockDescript(0) + " is twitching and dripping, the head swollen and purple.  ");
@@ -1606,10 +1606,10 @@ package classes.Scenes
 					
 					outputText("\n\nBeset by a panic, you watch as the strange thing sets butt-end down on your pubic mound and adheres");
 					//[(if cocks)
-					if (player.cockTotal() > 0) outputText(" below your " + player.multiCockDescriptLight(), false);
+					if (player.cockTotal() > 0) outputText(" below your " + player.multiCockDescriptLight());
 					outputText(". A sharp pinch lances through the nerves in your groin and sends your hands to it reflexively.  This smaller pain, coupled with the adrenaline and dopamine that have finally chased the fog from your head, is enough to pull your thoughts into focus for another attempt to remove your strange, parasitic offspring.  You shift your grip and pull a few more times, but the thing doesn't budge.  The handling of it only serves to make the stalk thicken and become stiff; gradually you notice that you're feeling the sensation of your own pulling not from the skin at the point of attachment but from the stalk itself, and this realization is accompanied by the ring of tentacles opening and pulling back to reveal the crown of a penis!  <b>You have a new anemone-penis!</b>");
 					//[(dick slot 1 exists)
-					if (player.cockTotal() > 0) outputText("  The tentacles writhe around, rubbing against your " + player.multiCockDescriptLight(), false);
+					if (player.cockTotal() > 0) outputText("  The tentacles writhe around, rubbing against your " + player.multiCockDescriptLight());
 					//(doesn't exist)
 					else outputText("  The tentacles curl inwards, rubbing on the head of your new blue pecker");
 					player.createCock((4+rand(3)),1.2);
@@ -2025,7 +2025,7 @@ package classes.Scenes
 						//light quantity
 						if (player.statusEffectv3(StatusEffects.Eggs) < 10) {
 							outputText("You are interrupted as you find yourself overtaken by an uncontrollable urge to undress and squat.   You berate yourself for giving in to the urge for a moment before feeling something shift.  You hear the splash of fluid on the ground and look down to see a thick greenish fluid puddling underneath you.  There is no time to ponder this development as a rounded object passes down your birth canal, spreading your feminine lips apart and forcing a blush to your cheeks.  It plops into the puddle with a splash, and you find yourself feeling visibly delighted to be laying such healthy eggs.   Another egg works its way down and you realize the process is turning you on more and more.   In total you lay ");
-							outputText(eggDescript(), false); 
+							outputText(eggDescript()); 
 							outputText(", driving yourself to the very edge of orgasm.");
 							dynStats("lus=", player.maxLust(), "resisted", false);
 						}

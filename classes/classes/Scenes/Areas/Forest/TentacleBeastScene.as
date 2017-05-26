@@ -409,7 +409,7 @@ internal function tentacleLossRape():void {
 			outputText("hind legs.  When the creature tries to pull away you step forward awkwardly, forelegs still raised, and continue spraying your copious amount of seed directly into the main mass.  It writhes about beneath you, incapable of doing anything as its soggy, heavily-laden tentacles are now no match for your strength.\n\n");
 			
 			outputText("Eventually you");
-			if (player.balls > 0) outputText("r " + player.ballsDescriptLight(), false);
+			if (player.balls > 0) outputText("r " + player.ballsDescriptLight());
 			outputText(" empty and you turn around to leave, giving the spunk covered mass a swift kick as a reminder of your superiority.");
 			//end (victory)
 			player.orgasm('Dick');
@@ -435,7 +435,7 @@ internal function tentacleLossRape():void {
 		outputText("You feel light-headed as the drug spreads through your body quickly.  Your ");
 		//Just dicks
 		if (player.gender == 1) {
-			outputText(player.multiCockDescriptLight(), false);
+			outputText(player.multiCockDescriptLight());
 			if (player.cockTotal() > 1) outputText(" begin ");
 			else outputText(" begins ");
 		}
@@ -443,12 +443,12 @@ internal function tentacleLossRape():void {
 		else {
 			//AND dick(s)
 			if (player.cockTotal() > 0) {
-				outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight(), false);
+				outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight());
 				outputText(" begin ");
 			}
 			//Nope just pussy
 			else {
-				outputText(player.vaginaDescript(0), false);
+				outputText(player.vaginaDescript(0));
 				outputText(" begins ");
 			}
 		}
@@ -519,7 +519,7 @@ internal function tentacleLossRape():void {
 		if (player.cor < 75) outputText("While you attempt to resist the abomination, its raw muscle mass is too much. ");
 		outputText("It pins you to the ground easily. You immediately feel a sharp, horrible pain at the base of your ");
 		if (player.cockTotal() > 1) outputText("cocks");
-		else outputText(player.cockDescript(0), false);
+		else outputText(player.cockDescript(0));
 		outputText(".  You look down to see the end of a thorny tendril impaled in your pelvic region. Fiery pain courses through your veins as you feel the creature inject you with some sort of liquid. As the pain sears through you, your ");
 		if (player.cockTotal() > 1) outputText(player.multiCockDescriptLight() + " immediately become fully erect and leak pre-cum liberally from their tips.  ");
 		else outputText("member immediately becomes fully erect and pre-cum leaks liberally from your tip.  ");
@@ -564,7 +564,7 @@ private function tentacleRapeContinuation():void {
 		if (player.vaginas.length > 1)
 			outputText("s");
 		outputText(". As you cry out in shock, another dick-shaped appendage forces its way into your throat. The beast takes care to prevent you from choking on its limb.");
-		outputText("\n\nIn a coordination that can only signify higher intelligence, the monster fucks your " + player.vaginaDescript(0), false);
+		outputText("\n\nIn a coordination that can only signify higher intelligence, the monster fucks your " + player.vaginaDescript(0));
 		if (player.vaginas.length > 1)
 			outputText("s");
 		outputText(" and mouth and begins milking your swollen breasts and sucks your throbbing ");
@@ -573,7 +573,7 @@ private function tentacleRapeContinuation():void {
 		else
 			outputText("clit. ");
 		player.cuntChange(player.vaginalCapacity() * .76, true);
-		outputText(" Your body betrays your resistance as pleasure hammers you from crotch to head. After some time, you begin bucking your hips in tandem to the creature's thrusts, drunk with pleasure. As you peak for your orgasm, you feel the creature bottom out inside your womb. Oceans of hot cum flood your " + player.vaginaDescript(0), false);
+		outputText(" Your body betrays your resistance as pleasure hammers you from crotch to head. After some time, you begin bucking your hips in tandem to the creature's thrusts, drunk with pleasure. As you peak for your orgasm, you feel the creature bottom out inside your womb. Oceans of hot cum flood your " + player.vaginaDescript(0));
 		if (player.vaginas.length > 1)
 			outputText("s");
 		outputText(" and your mouth. You are being inseminated by the abomination, but you do not care. The fucking is too good. The hot, musky fluids pour into your mouth. The taste crushes your last bit of resistance and you NEED MORE, not just to swallow, but to devour with your womb. You manage to free one hand, only to grasp the tentacle in your mouth to coax more semen inside you. You feel your stomach distend from the amount of cum you greedily swallow. The beast floods you with more cum than you can handle and proceeds to soak you from head to toe in its fluids as it runs from your overwhelmed orifices.");

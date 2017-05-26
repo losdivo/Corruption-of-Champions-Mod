@@ -151,7 +151,7 @@ package classes.Scenes.Monsters
 			temp = rand(3);
 			//Butt slap!
 			if (temp == 0) {
-				outputText(capitalA + short + " slaps her " + Appearance.buttDescriptionShort(this), false);
+				outputText(capitalA + short + " slaps her " + Appearance.buttDescriptionShort(this));
 				if (buttRating >= 10) {
 					outputText(", making it jiggle delightfully.");
 					//85% success rate for the jiggly girls

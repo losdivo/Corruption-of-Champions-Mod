@@ -12,10 +12,10 @@ package classes.Scenes.Areas.Forest
 			if (selector == 0) {
 				outputText("A slender hand reaches inside your " + player.armorName + " and gives your ");
 				if (player.balls > 0) {
-					if (rand(2) == 0) outputText(player.multiCockDescriptLight(), false);
-					else outputText(player.ballsDescriptLight(), false);
+					if (rand(2) == 0) outputText(player.multiCockDescriptLight());
+					else outputText(player.ballsDescriptLight());
 				}
-				else outputText(player.multiCockDescriptLight(), false);
+				else outputText(player.multiCockDescriptLight());
 				outputText(" a gentle squeeze.  You twist away but your breathing gets a little heavier.\n\n");
 			}
 			else if (selector == 1) {

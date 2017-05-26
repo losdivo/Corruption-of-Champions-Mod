@@ -65,10 +65,7 @@ override public function helPregnant():Boolean {
 }
 
 	public function spriteChooser():void { //USED FOR HELIA'S APPEARANCE, /NOT/ HELSPAWN
-		if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] >= 1 && flags[kFLAGS.HEL_BONUS_POINTS] < 150) spriteSelect(110); //bandanna, no pale flame
-		else if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] == 0 && flags[kFLAGS.HEL_BONUS_POINTS] >= 150) spriteSelect(111); //no bandanna, pale flame
-		else if (flags[kFLAGS.HEL_ISABELLA_THREESOME_ENABLED] >= 1 && flags[kFLAGS.HEL_BONUS_POINTS] >= 150) spriteSelect(112); //bandanna, pale flame
-		else spriteSelect(68); //no bandanna, no pale flame
+		helScene.spriteChooser();
 	}
 
 //Hel’s New Appearance Screen: Taking Things Into Account

@@ -7,7 +7,7 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface,En
 
 
 		public function encounterChance():Number {
-			return (100 - (flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]||0))/100;
+			return (100 - ((flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] * 0.9) || 0)) / 100;
 		}
 
 	public function encounterName():String {
@@ -30,7 +30,7 @@ public class CorruptedGlade extends BaseContent implements TimeAwareInterface,En
 			if (flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] > 1 && flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] < 100) { //Extinct if you destroyed 100 Corrupted Glades.
 				if (flags[kFLAGS.AMILY_DESTROYING_CORRUPTED_GLADES] > 0 && rand(6) == 0) flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]++;
 				if (flags[kFLAGS.KIHA_DESTROYING_CORRUPTED_GLADES] > 0 && rand(4) == 0) flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]++;
-				if (model.time.days % 3 == 0 && model.time.hours > 23) flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]--; //Decrement by 1 every 3 days.
+				if (model.time.days % (3 + Math.floor(flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] / 15)) == 0 && model.time.hours > 23) flags[kFLAGS.CORRUPTED_GLADES_DESTROYED]--; //Decrement by 1 every 3 days.
 			}
 			if (flags[kFLAGS.CORRUPTED_GLADES_DESTROYED] >= 100) { //Extinct state
 				if (flags[kFLAGS.AMILY_DESTROYING_CORRUPTED_GLADES] > 0) flags[kFLAGS.AMILY_DESTROYING_CORRUPTED_GLADES] = 0;

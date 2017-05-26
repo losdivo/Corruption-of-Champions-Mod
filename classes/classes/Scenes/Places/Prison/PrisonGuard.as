@@ -70,7 +70,7 @@ package classes.Scenes.Places.Prison
 				}
 				else
 				{
-					outputText("Do you make an escape attempt? " + prison.prisonWillCostDescript(15),false);
+					outputText("Do you make an escape attempt? " + prison.prisonWillCostDescript(15));
 					outputText("\n");
 					doYesNo(prisonGuardAttackFight, prisonGuardAttackSubmit);
 					if (player.will >= prison.prisonWillCost(10)) {

@@ -400,7 +400,7 @@ package classes.Scenes.Areas.Swamp
 
 				outputText("You lay down, quite confident in your plus-sized erection and daydreaming about all the ways she could take you.  Is she going to thigh-fuck you?  Maybe she'll give you a hand-job with that slippery-smooth carapace of hers?  Of course, you suppose she could always just grind her gorgeous little gash on your mammoth manhood.  " + player.SMultiCockDesc() + " drips a nice, fat drop of pre-cum from its slightly-dilated slit at its " + player.cockHead() + " from all your dirty thoughts.  The wet droplet reminds you of where you are, and you look up in time get a nice view of the pale woman's well-rounded ass as it shakes back and forth, jiggling slightly while her abdomen sways heavily above it.\n\n");
 
-				outputText("All over the spherical, arachnid organ, her spinnerets engorge, becoming more visible.  They twist for a moment before spurting out heavy flows of webbing, the weighty strands coating your " + player.legs() + ", arms, parts of your torso , and even your " + player.feet() + ".  The only places left totally uncovered are your head and crotch.  A second blast of smooth, non-sticky threads encase the first, making sure your lover won't get stuck to you once things get intimate.  The spider-maid giggles as she saunters up to get a closer look at your " + player.cockDescript(x), false);
+				outputText("All over the spherical, arachnid organ, her spinnerets engorge, becoming more visible.  They twist for a moment before spurting out heavy flows of webbing, the weighty strands coating your " + player.legs() + ", arms, parts of your torso , and even your " + player.feet() + ".  The only places left totally uncovered are your head and crotch.  A second blast of smooth, non-sticky threads encase the first, making sure your lover won't get stuck to you once things get intimate.  The spider-maid giggles as she saunters up to get a closer look at your " + player.cockDescript(x));
 				if (player.cockTotal() > 1) outputText(", ignoring the other, smaller members");
 				outputText(".  She asks, \"<i>This is your pride and joy, isn't it?  Well, I don't have much use for such a bulky thing, but if you eat me out good enough, maybe I'll see if its orgasm is as impressive as its size.</i>\"\n\n");
 			}
@@ -668,7 +668,7 @@ package classes.Scenes.Areas.Swamp
 			outputText("  Her carapace-clad finger-tips dig into the ground, and her back arches reflexively as if she could somehow twist away from the stimulation.  You pin her down underneath you and hold her tight until her struggles cease.\n\n");
 
 			outputText("At last, she gives up on resisting the forced sodomy and relaxes.  Once you feel her sphincter release its death-grip on your member, you start to fuck her ass.  You pump her hard and fast, with little concern for her pleasure, reveling in the claiming of this untamed monster-girl's tight, possibly virgin hole.  Each hard-pushing, butt-fucking stroke leaves her clenching ring a little looser, a little more accommodating of your maleness.  The slowly-widening sphincter gets stretched wide, leaving her hole slightly agape with each pull back");
-			if (y >= 0) outputText(", but it's still tighter than the sloppy spider-cunt that keeps rhythmically devouring your " + player.cockDescript(y), false);
+			if (y >= 0) outputText(", but it's still tighter than the sloppy spider-cunt that keeps rhythmically devouring your " + player.cockDescript(y));
 			outputText(".\n\n");
 
 			outputText("Your victim bites her lip, trying to hold in the gasps of pleasure, but you slap her pillowy asscheek, forcing her to cry out in surprise.  With the dam broken, you're treated to an audible symphony of verbal enjoyment.  The spider-girl gasps and croons, moans and pants, and eventually just starts babbling 'yes' with every ass-filling thrust of your " + player.cockDescript(x) + ".  Her legs go weak, and you're forced to hold her aloft by her abdomen while you rail away at her exposed ass, fucking the spider-girl as hard as your muscles will allow.\n\n");
@@ -676,7 +676,7 @@ package classes.Scenes.Areas.Swamp
 			outputText("The spider-skank cums hard, revealing her orgasm ");
 			if (y == -1) outputText("by splattering her fragrant lady-spunk into the dirt");
 			else {
-				outputText("by splattering your " + player.cockDescript(y), false);
+				outputText("by splattering your " + player.cockDescript(y));
 				if (player.balls > 0) outputText(" and balls");
 				outputText(" with her copious lady-spunk");
 			}

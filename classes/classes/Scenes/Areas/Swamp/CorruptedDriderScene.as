@@ -365,13 +365,13 @@ package classes.Scenes.Areas.Swamp
 
 			outputText("The spider's look of ");
 			if (monster.HP < 1) {
-				outputText("hate fades slightly when she sees you eyeing her ovipositor, and with a sigh of annoyance, allows the segmented organ to slowly slide out from her body.  It grows to just over two feet in length, swaying sinuously in the air, though you can tell it isn't completely engorged yet.  Still, your " + player.vaginaDescript(), false);
+				outputText("hate fades slightly when she sees you eyeing her ovipositor, and with a sigh of annoyance, allows the segmented organ to slowly slide out from her body.  It grows to just over two feet in length, swaying sinuously in the air, though you can tell it isn't completely engorged yet.  Still, your " + player.vaginaDescript());
 				if (player.hasCock()) outputText(" and " + player.sMultiCockDesc() + " twitch");
 				else outputText(" twitches");
 				outputText(" at the thought of trying to pack all of that meaty, alien pole inside you.\n\n");
 			}
 			else {
-				outputText("lust only deepens when she sees you eyeing her ovipositor, and with a twinkle in her eyes, she releases a hiss of pleasure.  The organ pulsates once, then practically explodes before your eyes, lancing just over two feet into the air and waving back and forth sinuously, like a snake.  In a way, the tubular, segmented shaft reminds you of a monstrously thick cock, something that might even give a minotaur pause. Your " + player.vaginaDescript(), false);
+				outputText("lust only deepens when she sees you eyeing her ovipositor, and with a twinkle in her eyes, she releases a hiss of pleasure.  The organ pulsates once, then practically explodes before your eyes, lancing just over two feet into the air and waving back and forth sinuously, like a snake.  In a way, the tubular, segmented shaft reminds you of a monstrously thick cock, something that might even give a minotaur pause. Your " + player.vaginaDescript());
 				if (player.hasCock()) outputText(" and  " + player.sMultiCockDesc() + " twitch");
 				else outputText(" twitches");
 				outputText(" in anticipation - you can't wait to feel that thing going inside you!\n\n");
@@ -436,13 +436,13 @@ package classes.Scenes.Areas.Swamp
 
 			outputText("The spider's look of ");
 			if (monster.HP < 1) {
-				outputText("hate fades slightly when she sees you eyeing her ovipositor, and with a sigh of annoyance, allows the segmented organ to slowly slide out from her body.  It grows to just over two feet in length, swaying sinuously in the air, though you can tell it isn't completely engorged yet.  Still, your " + player.assholeDescript(), false);
+				outputText("hate fades slightly when she sees you eyeing her ovipositor, and with a sigh of annoyance, allows the segmented organ to slowly slide out from her body.  It grows to just over two feet in length, swaying sinuously in the air, though you can tell it isn't completely engorged yet.  Still, your " + player.assholeDescript());
 				if (player.hasCock()) outputText(" and " + player.sMultiCockDesc() + " twitch");
 				else outputText(" twitches");
 				outputText(" at the thought of trying to pack all of that meaty, alien pole inside you.\n\n");
 			}
 			else {
-				outputText("lust only deepens when she sees you eyeing her ovipositor, and with a twinkle in her eyes, she releases a hiss of pleasure.  The organ pulsates once, then practically explodes before your eyes, lancing just over two feet into the air and waving back and forth sinuously, like a snake.  In a way, the tubular, segmented shaft reminds you of a monstrously thick cock, something that might even give a minotaur pause. Your " + player.assholeDescript(), false);
+				outputText("lust only deepens when she sees you eyeing her ovipositor, and with a twinkle in her eyes, she releases a hiss of pleasure.  The organ pulsates once, then practically explodes before your eyes, lancing just over two feet into the air and waving back and forth sinuously, like a snake.  In a way, the tubular, segmented shaft reminds you of a monstrously thick cock, something that might even give a minotaur pause. Your " + player.assholeDescript());
 				if (player.hasCock()) outputText(" and  " + player.sMultiCockDesc() + " twitch");
 				else outputText(" twitches");
 				outputText(" in anticipation - you can't wait to feel that thing going inside you!\n\n");
@@ -594,8 +594,8 @@ package classes.Scenes.Areas.Swamp
 			outputText("\n\n");
 
 			outputText("\"<i>Ungh, if I knew your ass was this eager to s-swallow my cock I wouldn't have wasted my time tying you up...</i>\"  She gasps, clearly the more impassioned of the two of you as she manages to bottom out inside of your " + player.buttDescript() + ".  You have very little time to regain your breath as the horny drider-woman begins to thrust in and out of your " + player.assholeDescript() + " with fevered abandon, tongue lolling out of her open mouth while you're forced to bounce against her crotch, your ");
-			if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
-			else if (player.hasVagina()) outputText(player.vaginaDescript(0), false);
+			if (player.balls > 0) outputText(player.ballsDescriptLight());
+			else if (player.hasVagina()) outputText(player.vaginaDescript(0));
 			else outputText("taint");
 			outputText(" slapping against her slavering cunt.  She grabs on to your " + player.hipDescript() + ", using you as leverage to pump her pole inside of you while you jerk against the ground, eyes closed tight while your cheek rubs against the cold dirt.\n\n");
 
@@ -744,7 +744,7 @@ package classes.Scenes.Areas.Swamp
 				outputText(" to the air.  She squeezes " + player.oMultiCockDesc() + " in her hand and pumps it, smiling while you stiffen and twitch precipitously in her grasp.");
 			}
 			outputText("  With a strength beyond what her lithe frame would imply, the spider-woman's shiny, exoskeletal arms slip under your shoulders and lift you up, hugging you into both pairs of breasts");
-			if (monster.nipplesPierced > 0) outputText(", the crossed chains digging into your " + player.chestDesc(), false);
+			if (monster.nipplesPierced > 0) outputText(", the crossed chains digging into your " + player.chestDesc());
 			outputText(".  The warmth of her nodule-covered cock pulsates on your belly, smearing you with a trail of pre-cum while she arranges your entwined bodies.\n\n");
 
 			outputText("Lines of webbing burst from the arachnid abdomen, snapping into tree limbs before pulling taut.  The drider's eight legs clitter and clack, four of them folding around your back while your world rotates 90 degrees.  The two of you are pulled into the trees by the sticky strands, hanging sideways, almost upside-down, in the leaves.  The four-eyed monster-girl blinks asynchronously and smiles, shifting you slightly to bring " + player.oMultiCockDesc() + " against her moist lips.  You exhale, an intense, animalistic thrill shivering through you from the feeling of having your " + player.cockDescript(x) + " lodged in a woman's entrance.  She leans down and bites into your neck, releasing a surge of toxin into your bloodstream.  It boils like fire, making you twitch and squirm in her many-limbed clutches.  The pain fades quickly, but in its place it leaves behind a molten, liquid lust, filling " + player.sMultiCockDesc() + " to its absolute maximum size, as hard as it can possibly be.\n\n");

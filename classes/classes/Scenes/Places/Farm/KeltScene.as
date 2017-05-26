@@ -239,7 +239,7 @@ private function keltEagerlyGetNaked():void {
 	else {
 		if (player.biggestTitSize() == 0) outputText("\"<i>Oops!  Could have sworn I'd find a pair of tits on you.  That's okay... I'm sure you'll hit puberty some day!</i>\"\r\r");
 		//(Too small, A to DD: 
-		else if (player.biggestTitSize() <= 5) outputText("\"<i>Ha! No wonder you cover up like a sniveling human!  Any centaur maiden would be ashamed to go out in public with " + num2Text(player.totalBreasts()) + " mosquito bites like that!  What do they call you back home... 'Tiny Tits'?  Or maybe they all just assume you're a guy!</i>\"\r\r",false);
+		else if (player.biggestTitSize() <= 5) outputText("\"<i>Ha! No wonder you cover up like a sniveling human!  Any centaur maiden would be ashamed to go out in public with " + num2Text(player.totalBreasts()) + " mosquito bites like that!  What do they call you back home... 'Tiny Tits'?  Or maybe they all just assume you're a guy!</i>\"\r\r");
 		//(Medium, E to HHH:
 		else if (player.biggestTitSize() <= 11) outputText("\"<i>Uh oh, boys... look out!  Miss Melons here has been putting on a little weight!  How did someone like you become an adventurer?  From the waist up, you're good for whoring and not much else!</i>\"\r\r");
 		//(Big, Watermelon and beyond:
@@ -295,7 +295,7 @@ private function keltReluctantlyGetNaked():void {
 	else {
 		if (player.biggestTitSize() == 0) outputText("\"<i>Oops!  Could have sworn I'd find a pair of tits on you.  That's okay... I'm sure you'll hit puberty some day!</i>\"\r\r");
 		//(Too small, A to DD: 
-		else if (player.biggestTitSize() <= 5) outputText("\"<i>Ha! No wonder you cover up like a sniveling human!  Any centaur maiden would be ashamed to go out in public with " + num2Text(player.totalBreasts()) + " mosquito bites like that!  What do they call you back home... 'Tiny Tits'?  Or maybe they all just assume you're a guy!</i>\"\r\r",false);
+		else if (player.biggestTitSize() <= 5) outputText("\"<i>Ha! No wonder you cover up like a sniveling human!  Any centaur maiden would be ashamed to go out in public with " + num2Text(player.totalBreasts()) + " mosquito bites like that!  What do they call you back home... 'Tiny Tits'?  Or maybe they all just assume you're a guy!</i>\"\r\r");
 		//(Medium, E to HHH:
 		else if (player.biggestTitSize() <= 11) outputText("\"<i>Uh oh, boys... look out!  Miss Melons here has been putting on a little weight!  How did someone like you become an adventurer?  From the waist up, you're good for whoring and not much else!</i>\"\r\r");
 		//(Big, Watermelon and beyond:
@@ -1000,7 +1000,7 @@ private function fuckKeltsShitUp():void {
 				outputText("You feel a mighty groan around your " + player.cockDescript(0) + " and Kelt's cock begin to pulse against your tail urgently.  Quickly and expertly, you wrap the end around the centaur's penis tightly, denying him release and rewarding yourself with another pained, muffled squeal reverberating through your prick.\r\r");
 				
 				outputText("\"<i>Ah, ah, ah,</i>\" you hiss.  \"<i>Sluts don't get off before their masters.</i>\"  A wicked idea strikes you.  Whilst still holding onto the centaur's cock with your coils, you begin to wind the tip of your tail towards Kelt's ass.  It isn't easy; you have invested the entirety of your frame into holding onto the centaur, so it is by measures that you constrict him tighter as your tail inches towards his anus.  He is bone -crushingly gripped in your coils by the time you find his sphincter, which you softly but surely sink your tip into.  Kelt struggles with the last of his strength against this final humiliation, but there is nothing he can do; with your venom plaguing his limbs, your coils wrapped hard around his frame, and your cock buried in his face, you have robbed him of everything.  His saliva coats your ");
-				if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+				if (player.balls > 0) outputText(player.ballsDescriptLight());
 				else outputText("crotch");
 				outputText(" as you begin to roughly push and pull him against your dick using his hair, feeding your tail into his ass by increments.  You feel your tip touch something which pulses, and you gently probe it as you roughly fuck his mouth, beginning to reach your peak.  Kelt only manages a few muffled screams as you milk his prostate while continuing to deny his cock release, before you silence him with a torrent of cum, which you pour directly down his throat.\r\r");
 

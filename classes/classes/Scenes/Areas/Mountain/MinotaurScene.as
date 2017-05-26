@@ -376,8 +376,8 @@ private function bumRapeaMinotaur():void {
 	minoRapeIntro();
 	outputText("\n\nYou droop your "); 
 	//Regular or multi...
-	if (player.cockTotal() == 1) outputText(player.cockDescript(x), false);
-	else outputText(player.multiCockDescriptLight(), false);
+	if (player.cockTotal() == 1) outputText(player.cockDescript(x));
+	else outputText(player.multiCockDescriptLight());
 	outputText(" across his upraised backside, ");
 	//pre-cum descriptions
 	if (player.cumQ() < 25) outputText("dribbling a bit of slick pre-cum into his fur.  ");
@@ -661,7 +661,7 @@ public function getOralRapedByMinotaur():void {
 	//new pg
 	outputText("You arch your back off the wall, resting your weight on the minotaur's " + monster.cockDescriptShort(0) + ". Your chest and belly rub against the minotaur's massive torso");
 	if (player.hasBreasts()) outputText(", painfully grinding your " + player.nippleDescript(0) + " against his wiry fur");
-	if (player.balls > 0) outputText(", and you can feel the minotaur's hot breath on your " + player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(", and you can feel the minotaur's hot breath on your " + player.ballsDescriptLight());
 	outputText(". The bull-man snorts and jerks his hips as you twist your hands around his shaft, hoping to make him cum sooner. You tickle your tongue against his cock-head and start sucking as hard as you can. You bend your neck as the minotaur grinds itself in your mouth, hoping to make the tip easier to take. The minotaur jerks his hips in short spasms and you can hear its grunts coming closer and closer together. You take a deep breath through your nose, filling your lungs with air before the beast floods your throat with its cum...\n\n");
 	//new pg
 	outputText("With no warning the minotaur yanks your " + player.legs() + " off of the ledge and grabs your waist. He shoves you down hard on his shaft while slamming his hips forward. Your eyes go wide in shock as the minotaur rams the massive tip of its cock past your mouth and into your throat. Grunting and moaning the minotaur forces its cock into your throat, inch by inch as it grinds you around its shaft. Your throat bulges as the first ridge around the minotaur's cock approaches your lips.\n\n");
@@ -736,7 +736,7 @@ private function takeMinoCumDirectly():void {
 
 	outputText("You bottom out, sighing happily as you feel his hot fluids leaking inside you, radiating pure pleasure out from your core.   Bestial hands grab your " + player.nippleDescript(0) + "s and begin gently twisting them, taking surprising care for all their strength.  Spurred on by the feelings radiating from your ");
 	if (player.biggestTitSize() < 1) outputText("chest");
-	else outputText(player.breastDescript(0), false);
+	else outputText(player.breastDescript(0));
 	outputText(" and hungry for even more bliss, you begin bouncing atop the defeated beast, repeatedly squeezing and relaxing yourself around him, trying to wring out the maximum possible amount of fluid.\n\n");
 	
 	outputText("A flood of heated liquid pumps into you all at once as the minotaur caves in to your full-body stroking and squeezing of his massive shaft.   It swells inside you, pulsating a moment just before the next jet unloads into you.  You giggle uncontrollably as the effects of the ever-increasing spooge-load spread to your brain.  It feels as if your thoughts are struggling through cotton-candy, a pleasant pink fuzz that makes it hard to do anything but drool happily as you're pumped full of the drug you crave.\n\n");

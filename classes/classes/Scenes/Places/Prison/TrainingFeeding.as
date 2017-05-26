@@ -2924,7 +2924,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 20 || player.esteem < 40 && player.obey > 25)
 				{
 					outputText(" but you don't think you could manage any stronger a defense of your dignity due to your your obvious powerlessness and insignificance.");
@@ -3188,7 +3188,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 15 || player.esteem < 35 && player.obey > 35)
 				{
 					outputText(" but you don't think you could manage any stronger a defense of your dignity due to your your obvious powerlessness and insignificance.");
@@ -3617,7 +3617,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 10 || player.esteem < 25 && player.obey > 40)
 				{
 					outputText(" but you don't think you could manage any stronger a defense of your dignity due to your your obvious powerlessness and insignificance.");
@@ -3686,7 +3686,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 10 || player.esteem < 25 && player.obey > 40)
 				{
 					outputText(" but you don't think you could manage any stronger a defense of your dignity due to your your obvious powerlessness and insignificance.");
@@ -3779,7 +3779,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could meekly refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 10 || player.esteem < 25 && player.obey > 40)
 				{
 					outputText(" but you don't think you could manage any stronger a defense of your dignity due to your your obvious powerlessness and insignificance.");

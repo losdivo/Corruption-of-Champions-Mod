@@ -540,7 +540,7 @@ private function analSpearSemiPregMinotaurGangbang():void {
 	
 	outputText("\"<i>Sure thing bro,</i>\" answers the deep-voiced giant from behind you.  Two massive hands squeeze around your " + player.hipDescript() + " raise your ");
 	if (player.isTaur()) outputText("haunches");
-	else outputText(player.assDescript(), false);
+	else outputText(player.assDescript());
 	outputText(" skyward, your back bowing from the sudden strain.  A wide, drippy tip butts up against your back-door, and though you had heard them talk about fucking your ass through your lusty daze, nothing could prepare you for the feeling of a hot, male member pushing at your pucker.  You relax your " + player.legs() + " and feel your " + player.assholeDescript() + " loosen, slowly dilating to let the beast's slippery pre-cum inside your rectum.  Yet, even in the face of your complete submission, he holds back, letting you hang there in the air, panting around a cock and aching for greater levels of penetration.");
 	player.buttChange(60,true,true,false);
 	outputText("\n\n");
@@ -600,7 +600,7 @@ private function analSpearSemiPregMinotaurGangbang():void {
 	outputText("With your " + player.assholeDescript() + " locking it down, the other, even bigger dick gives in and releases.  It's owner bellows and grunts like a beast, slamming his fur-girded hips against your " + player.buttDescript() + " with body-shaking force.  Your burble and gurgle in delight, not minding the semen back-filling your throat and boiling through your nose.  Gushing, your " + player.vaginaDescript() + " orgasms even without being touched.  Two fuzzy nut-sacks slowly deflate against your body, and by the time they've finished you look even more pregnant than before.  Your mind shuts down and you giggle dopily around the thick cock in your throat, dreaming your brain's too filled up with cum to work at anything besides being fucked.\n\n");
 	
 	outputText("Both poles slide out of you");
-	if (!player.hasFuckableNipples() && player.biggestLactation() >= 1) outputText(", and the minitaur's lips disentangle from your " + player.nippleDescript(0), false);
+	if (!player.hasFuckableNipples() && player.biggestLactation() >= 1) outputText(", and the minitaur's lips disentangle from your " + player.nippleDescript(0));
 	outputText(".  Hands gently lower you to the ground");
 	if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] >= 5) outputText(", but you're positioned with your ass in the air.  A voice calls out, \"<i>Okay, Mom's pretty out of it.  One at a time and don't damage her, okay?</i>\"\n\nGiggling dreamily, you're fucked repeatedly, spunk squirting from your anus with every thrust.  You pass out like that, feeling quite satisfied.");
 	else outputText(".  They step back and admire their handiwork while you float through your narcotic-infused haze.");
@@ -630,7 +630,7 @@ internal function victoryMinotaurGang():void {
 	//(Lust) 
 	else outputText("The last minotaur sinks to his knees, pulling aside his loincloth with thread-rending strength to expose the pulsating, needy shaft to the air.  He begins to masturbate himself just like his brother, spilling his pre-seed over the ground into the messy, growing puddle.  The smell hangs thick in the air, but you've won and kept enough of your wits about you to walk away if you want.\n\n");
 	//+lust regardless 
-	if (player.lust < 33) dynStats("lus=", 33, "resisted");
+	if (player.lust < 33) dynStats("lus=", 33, "resisted", false);
 	else dynStats("lus", 20);
 	
 	outputText("Your body is burning up, buzzing with growing lust from the obscenity going on a few feet away from you.  What do you do?");
@@ -867,8 +867,8 @@ private function victoryAllThePenetrationsMinotaurGangBang():void {
 private function forceMinitaurToGiveOral(choice:Number = 0):void {
 	clearOutput();
 	spriteSelect(94);
-	outputText("You hastily remove the lower portions of your " + player.armorName + " to expose your " + player.vaginaDescript(), false);
-	if (player.hasCock()) outputText(" and " + player.multiCockDescriptLight(), false);
+	outputText("You hastily remove the lower portions of your " + player.armorName + " to expose your " + player.vaginaDescript());
+	if (player.hasCock()) outputText(" and " + player.multiCockDescriptLight());
 	outputText(" to the air.  The defeated ");
 	if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] < 20) outputText("mob");
 	else outputText("tribe");
@@ -903,7 +903,7 @@ private function forceMinitaurToGiveOral(choice:Number = 0):void {
 		else outputText("looking up at you longingly as he leans in towards your entrance.");
 		outputText("  He opens his mouth and hesitantly extends his tongue towards your womanhood.  It's clear he doesn't have much experience providing oral to the fairer sex.  Since you don't have much intention of staying in the mountains long, you grab him by his short little horns and pull him against your gash.\n\n");
 		
-		outputText("Extending outward defensively, the minitaur's tongue slides into your vaginal opening with ease.  It's very, very long and extraordinarily wet.  His hot breath washes over your " + player.clitDescript() + ", fogging the surrounding air as you press his bovine nose against your folds.  The difference in temperature between the coolness of his moist nose and the heat of his breath and tongue drives you wild.  The feminine beast-man adapts to his task with enthusiasm, hungrily lapping and sucking at your " + player.vaginaDescript(), false);
+		outputText("Extending outward defensively, the minitaur's tongue slides into your vaginal opening with ease.  It's very, very long and extraordinarily wet.  His hot breath washes over your " + player.clitDescript() + ", fogging the surrounding air as you press his bovine nose against your folds.  The difference in temperature between the coolness of his moist nose and the heat of his breath and tongue drives you wild.  The feminine beast-man adapts to his task with enthusiasm, hungrily lapping and sucking at your " + player.vaginaDescript());
 		if (player.getClitLength() < 3) outputText(", even sucking your clit into his mouth and running his tongue along its length.");
 		else outputText(", even stroking your clit in his hand in time with his licks.");
 		
@@ -1017,7 +1017,7 @@ private function victoryBJNippleFuckMinotaurGang():void {
 	
 	outputText("Your girlish minitaur son dives right in to your inviting maw.  His cock slides through your lips, over your tongue, and into the recesses of your throat with ease, leaving a trail of tingling pre-cum coating everything in its wake.  Even though the sudden appearance of your smallest child has forced your bigger offspring to shift, all it's done is pulled your shaking, violated breasts out to the sides in a lewd display of breast penetration.  The three pound away at you violently, humping to their own rhythms and making it impossible to focus on anything but the violent penetration.");
 	if (player.hasCock()) {
-		outputText("  " + player.SMultiCockDesc(), false);
+		outputText("  " + player.SMultiCockDesc());
 		if (player.hasVagina()) outputText(" and " + player.vaginaDescript() + " drool");
 		else outputText(" drools");
 		outputText(" lamely inside your clothing, nearly forgotten in the sensory overload coming from your upper body.");

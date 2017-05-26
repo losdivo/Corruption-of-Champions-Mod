@@ -238,7 +238,8 @@ package classes.Scenes.Areas
 						flags[kFLAGS.HAS_SEEN_MINO_AND_COWGIRL] = 1;
 						if (!player.hasStatusEffect(StatusEffects.MinoPlusCowgirl)) player.createStatusEffect(StatusEffects.MinoPlusCowgirl, 0, 0, 0, 0);
 						else player.addStatusValue(StatusEffects.MinoPlusCowgirl, 1, 1);
-						outputText("As you pass a shadowy cleft in the mountainside, you hear the sounds of a cow coming out from it. Wondering how a cow got up here, but mindful of this land's dangers, you cautiously sneak closer and peek around the corner.\n\n", true);
+						clearOutput();
+						outputText("As you pass a shadowy cleft in the mountainside, you hear the sounds of a cow coming out from it. Wondering how a cow got up here, but mindful of this land's dangers, you cautiously sneak closer and peek around the corner.\n\n");
 						outputText("What you see is not a cow, but two large human-shaped creatures with pronounced bovine features -- tails, horns, muzzles, and hooves instead of feet. They're still biped, however, and their genders are obvious due to their stark nudity. One has massive, udder-like breasts and wide hips, the other a gigantic, horse-like dong and a heavy set of balls more appropriate to a breeding stud than a person. You've stumbled upon a cow-girl and a minotaur.\n\n");
 						if (flags[kFLAGS.CODEX_ENTRY_MINOTAURS] <= 0) {
 							flags[kFLAGS.CODEX_ENTRY_MINOTAURS] = 1;
@@ -270,12 +271,13 @@ package classes.Scenes.Areas
 		}
 
 		private function hike():void {
+			clearOutput();
 			if (player.cor < 90) {
-				outputText("Your hike in the mountains, while fruitless, reveals pleasant vistas and provides you with good exercise and relaxation.", true);
+				outputText("Your hike in the mountains, while fruitless, reveals pleasant vistas and provides you with good exercise and relaxation.");
 				dynStats("tou", .25, "spe", .5, "lus", player.lib / 10 - 15);
 			}
 			else {
-				outputText("During your hike into the mountains, your depraved mind keeps replaying your most obcenely warped sexual encounters, always imagining new perverse ways of causing pleasure.\n\nIt is a miracle no predator picked up on the strong sexual scent you are emitting.", true);
+				outputText("During your hike into the mountains, your depraved mind keeps replaying your most obcenely warped sexual encounters, always imagining new perverse ways of causing pleasure.\n\nIt is a miracle no predator picked up on the strong sexual scent you are emitting.");
 				dynStats("tou", .25, "spe", .5, "lib", .25, "lus", player.lib / 10);
 			}
 			doNext(camp.returnToCampUseOneHour);

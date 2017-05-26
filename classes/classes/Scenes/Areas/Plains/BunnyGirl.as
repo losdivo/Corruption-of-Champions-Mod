@@ -162,9 +162,9 @@ private function rapeBunBun():void {
 private function bunbunFucksYourVag():void {
 	spriteSelect(13);
 	clearOutput();
-	outputText("An anticipatory grin widens across your " + player.face() + " as you speedily disrobe, discarding your " + player.armorName, false);
+	outputText("An anticipatory grin widens across your " + player.face() + " as you speedily disrobe, discarding your " + player.armorName);
 	
-	if (player.weaponName != "fists") outputText(" and " + player.weaponName, false);
+	if (player.weaponName != "fists") outputText(" and " + player.weaponName);
 	outputText(" in a hurry.   Meanwhile the bunny looks on in a semi-aroused stupor, stroking her length with one hand while her other teases one of the hard nubs of her nipples.  You sigh with excitement as you position yourself above her, lining up her somewhat angular crown with the entrance to your " + player.vaginaDescript(0) + " before you start to drop.");
 	if (player.vaginas[0].vaginalWetness >= VAGINA_WETNESS_DROOLING) outputText("  Moisture leaks in a steady drizzle, mixing with bunny-pre to totally slick the soon-to-be invading member.");
 	outputText("\n\n");
@@ -350,7 +350,7 @@ private function bunbunGetsFucked():void {
 	if (y != -1) outputText("She squeaks at the pressure on her tender asshole, but doesn't object as your pre-cum smears over it.  ");
 	outputText("At once, her greedy breeding hole relaxes ");
 	if (y != -1) outputText("along with her anus ");
-	outputText("and your " + player.cockDescript(x), false);
+	outputText("and your " + player.cockDescript(x));
 	if (y != -1) outputText(" and " + player.cockDescript(y) + " sink");
 	else outputText(" sinks");
 	outputText(" into her slippery, warm depths.  She pants and groans with happiness, going so far as to vocalize her pleasure, \"<i>Oooh yes, I don't know why but it feels just as good as breeding season!  If you keep this up, " + player.mf("stud","sexy") + ", you might... ahhhh.. make me egg!</i>\"\n\n");
@@ -384,7 +384,7 @@ private function bunbunGetsFucked():void {
 	else outputText("base");
 	outputText(" rubs her passion-inflamed pussy-lips.  " + player.SMultiCockDesc() + " unloads, splattering out ropes of cum into ");
 	if ((player.cockTotal() == 2 && y == -1) || player.cockTotal() > 2) outputText("and onto ");
-	outputText("the insensate bunny-breeder.  Her silken pussy milks and squeezes as you cum, seeming to draw your seed from your cock itself and pull it deeper inside, leaving none to waste.",false);
+	outputText("the insensate bunny-breeder.  Her silken pussy milks and squeezes as you cum, seeming to draw your seed from your cock itself and pull it deeper inside, leaving none to waste.");
 	if (y != -1) {
 		outputText("  Her ass gurgles from your deposit");
 		if (player.cumQ() > 500) outputText(", and her stomach gains a bit of pudge from the copious jism deluge you pump into her");

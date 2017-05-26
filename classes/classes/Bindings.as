@@ -24,7 +24,8 @@ package classes
 				var doQuickSave:Function = function():void {
 					game.mainView.nameBox.text = "";
 					game.saves.saveGame(slotX);
-					game.outputText("Game saved to " + slotX + "!", true);
+					game.clearOutput();
+					game.outputText("Game saved to " + slotX + "!");
 					game.doNext(game.playerMenu);
 				};
 				if (flags[kFLAGS.DISABLE_QUICKSAVE_CONFIRM] != 0) {
@@ -47,7 +48,8 @@ package classes
 					if (game.saves.loadGame("CoC_" + slot)) {
 						game.showStats();
 						game.statScreenRefresh();
-						game.outputText("Slot " + slot + " Loaded!", true);
+						game.clearOutput();
+						game.outputText("Slot " + slot + " Loaded!");
 						game.doNext(game.playerMenu);
 					}
 				};

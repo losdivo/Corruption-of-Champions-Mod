@@ -3,7 +3,6 @@
 // Since it's a big ass god wolf, it's pretty hard to beat
 // Herm, since there's no set gender for it in its mythology
 // Comes with a unique bad end if you lose to it too many times, kinda like the Phoenix
-// Also: Wolf TF! :D Because like, really, why hasn't that been implemented yet? It could be sooo coool <3
 
 package classes.Scenes.Areas.GlacialRift 
 {
@@ -18,13 +17,11 @@ package classes.Scenes.Areas.GlacialRift
 			if(hasStatusEffect(StatusEffects.Blind)) {
 				outputText("The Amarok lunges for you, attempting to slash you with one of its paws, but misses completely due to its blindness.");
 				combatRoundOver();
-				return;
 			}
 			//Dodge that shit yo
 			if (player.getEvasionRoll()) {
 				outputText("The Amarok throws itself at you, attempting to slash you with its claws. Luckily, you manage to move out of the way.");
 				combatRoundOver();
-				return;
 			}
 			else {
 				//Damage roll
@@ -42,23 +39,21 @@ package classes.Scenes.Areas.GlacialRift
 			if(hasStatusEffect(StatusEffects.Blind)) {
 				outputText("Luckily, though, its blindness causes it to misjudge your location and it misses entirely.");
 				combatRoundOver();
-				return;
 			}
 			//Evasioning
 			if (player.getEvasionRoll()) {
 				outputText("You move out of the way before it can hit.");
 				combatRoundOver();
-				return;
 			}
 			else {
 				//Damageeee + stun! Reference to the legend of it slapping a kid with its tail, except minus the bone breaking.
 				outputText("The hit sends you stumbling back");
 				if (player.findPerk(PerkLib.Resolute) <= 0 && rand(2) == 0) 
 				{
-					outputText(", stunning you.");
+					outputText(", stunning you");
 					player.createStatusEffect(StatusEffects.Stunned, 0, 0, 0, 0);
 				}
-				else outputText(".");
+				outputText(".");
 				var damage:int = ((str + 100) + rand(75));
 				damage = player.reduceDamage(damage);
 				player.takeDamage(damage, true);
@@ -68,10 +63,10 @@ package classes.Scenes.Areas.GlacialRift
 		
 		override protected function performCombatAction():void
 		{
-			var chooser:Number = 0;
-			chooser = rand(10);
+			var chooser:Number = rand(10);
 			if (chooser < 6) amarokClaw(); //60% chance
-			if (chooser >= 6 && chooser < 9) amarokTail(); //40% chance
+			else if (chooser >= 6 && chooser < 9) amarokTail(); //40% chance
+			else eAttack(); //when the hell was this removed?? Game just broke cuz it was .-.;;
 		}
 		
 		override public function defeated(hpVictory:Boolean):void

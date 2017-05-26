@@ -288,7 +288,7 @@ package classes.Scenes.Areas.HighMountains
 			//Male/Herm: 
 			if (player.hasCock()) {
 				outputText("With surprising gentleness and deftness, the basilisk rubs your " + player.cockDescript(0) + " with one palm");
-				if (player.hasVagina()) outputText(" and sticks some of the smaller fingers of his other hand in your " + player.vaginaDescript(0), false);
+				if (player.hasVagina()) outputText(" and sticks some of the smaller fingers of his other hand in your " + player.vaginaDescript(0));
 				outputText(", thankfully angling his sickle claw away. You can't do anything against it, and some of his mental compulsion remains; a backwash of erotic images from your past fill your head, and you can't even grit your teeth as the gentle, insistent pressure brushing your prick makes you rock hard. He stops when you are erect and then, with the very faintest of smiles playing over his cruel mouth, leaves. You're naked, your " + player.cockDescript(0) + " is begging for release; you're utterly helpless... you can only hope that the spell will wear off, and before anything else in the mountain finds you.\n\n");
 			}
 			//Female: 

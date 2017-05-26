@@ -1,4 +1,4 @@
-﻿//CoC Creature.as
+//CoC Creature.as
 package classes
 {
 	import classes.BodyParts.Skin;

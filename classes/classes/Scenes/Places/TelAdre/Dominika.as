@@ -607,8 +607,8 @@ private function agreeWithDominika():void {
 		if (player.tallness < 64) outputText("leans down");
 		else outputText("pushes herself up");
 		outputText(", biting your lip just barely lightly enough to not draw blood.  Her hand caresses down the side of your head and your neck almost possessively.  You can feel her knee pressing in between your legs, grinding into your ");
-		if (player.hasCock()) outputText(player.multiCockDescriptLight(), false);
-		else if (player.hasVagina()) outputText(player.vaginaDescript(0), false);
+		if (player.hasCock()) outputText(player.multiCockDescriptLight());
+		else if (player.hasVagina()) outputText(player.vaginaDescript(0));
 		else outputText("groin");
 		outputText(".  The action turns into a kiss of some small passion, the smell of your crotch still fresh on her breath as those slippery ebon pillows graze over your own inferior display.  She breathes heavily against you, looking in your eyes and filling your vision with her own blue eyes.\n\n");
 

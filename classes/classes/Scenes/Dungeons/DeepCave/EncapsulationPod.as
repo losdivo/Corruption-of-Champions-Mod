@@ -68,7 +68,7 @@ package classes.Scenes.Dungeons.DeepCave
 				if (player.pregnancyIncubation > 0 && player.pregnancyIncubation < 120) outputText("pregnant ");
 				outputText("belly as they get closer and closer to ");
 				if (player.biggestTitSize() < 1) outputText("your chest");
-				else outputText("the underside of your " + player.allBreastsDescript(), false);
+				else outputText("the underside of your " + player.allBreastsDescript());
 				outputText(".  Gods above, this is turning you on!  Your lower body is being violated in every conceivable way and it's only arousing you more.  Between the mind-numbing smell and the sexual assault you're having a hard time focusing.\n");
 				if (player.lust < 65) {
 					game.dynStats("lus", 1);

@@ -1865,7 +1865,7 @@ package classes.Scenes.Combat
 			}
 			if (debug){
 				outputText("\n----------------------------\n");
-				outputText(monster.generateDebugDescription(),false);
+				outputText(monster.generateDebugDescription());
 			}
 		}
 		public function showMonsterLust():void {
@@ -2282,6 +2282,7 @@ package classes.Scenes.Combat
 				if (monster.short == "Izma") {
 					outputText("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.");
 				}
+				if (monster is Ghoul) ghoulReveal = false;
 				inCombat = false;
 				clearStatuses(false);
 				doNext(camp.returnToCampUseOneHour);

@@ -195,8 +195,8 @@ private function gooNagaRape():void {
 	outputText("You pause for a moment, enjoying the sensation of filling someone up with your body, surprised at just how good it feels. Grabbing the naga's hips you slowly push yourself in and out of her now full pussy, ");
 	//(if male)
 	if (player.totalCocks() > 0) {
-		if (player.cockTotal() == 1) outputText("your " + player.cockDescript(0), false);
-		else outputText("one of your " + player.multiCockDescriptLight(), false);
+		if (player.cockTotal() == 1) outputText("your " + player.cockDescript(0));
+		else outputText("one of your " + player.multiCockDescriptLight());
 		outputText(" hitting the naga's pleasure buzzer with each downward thrust.");
 	} 
 	//(if female)
@@ -205,8 +205,8 @@ private function gooNagaRape():void {
 	} 
 	//(if herm) 
 	else if (player.gender == 3) {
-		if (player.cockTotal() == 1) outputText("your " + player.cockDescript(0), false);
-		else outputText("your " + player.multiCockDescriptLight(), false);
+		if (player.cockTotal() == 1) outputText("your " + player.cockDescript(0));
+		else outputText("your " + player.multiCockDescriptLight());
 		outputText(" and clit rubbing against the naga's pleasure buzzer with each downward thrust.");
 	}
 	//(if genderless)
@@ -236,7 +236,7 @@ private function gooNagaRape():void {
 		outputText("You scream in ecstasy as you hit your peak, your girlcum ");
 		if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS_SLAVERING) outputText("leaking out");
 		else outputText("gushing out to form a pool on the naga's stomach");
-		outputText(" and your " + player.multiCockDescriptLight(), false);
+		outputText(" and your " + player.multiCockDescriptLight());
 		//(normal)
 		if (player.cumQ() < 250) outputText(" spurting onto her stomach as well.");
 		//(lots of jizz)

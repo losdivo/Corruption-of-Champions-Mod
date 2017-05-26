@@ -187,7 +187,7 @@ package classes.Scenes.Seasonal {
 				outputText(".   She blows and blows, seemingly filling you with an inexhaustible supply of whatever magical substance she's forcing inside you. The tingling grows stronger and stronger, and then changes to warmth as a pleasurable heat centers itself in your midsection.\n\n");
 				
 				outputText("The magic-using elf pulls back with a knowing grin and resumes stroking you, ignoring a dribble of pink fluid that squirts from your tip.   The warmth inside builds higher and you start sweating, even in the cool night air. The uncomfortable heat churns inside you");
-				if (player.balls > 0) outputText("r " + player.ballsDescriptLight(), false);
+				if (player.balls > 0) outputText("r " + player.ballsDescriptLight());
 				outputText(", a gentle pressure that builds higher and higher until you feel about to explode.  You need to cum, and you squirm in the elf's grasp, trembling and shuddering as one of her hands slips over a particularly sensitive spot. A bead of pre-cum rolls out of your " + player.cockHead() + " and starts sliding down the shaft, followed by another, and another, and another.\n\n");
 				
 				outputText("Your 'present' asks with gradually rising authority, \"<i>Do you feel the naughtiness leaking out?  It feels good doesn't it?  Yes it does, but that's just the start.  You've got a lot of pent up naughty that needs to come out so you'll be good and see me next year.  So be a good boy and cum out all those bad thoughts for me please.</i>\"\n\n");

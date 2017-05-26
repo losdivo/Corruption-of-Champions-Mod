@@ -64,7 +64,7 @@ package classes.Scenes.Areas.HighMountains
 			else if (damage <= 14) {
 				outputText("The powerful pheromones and scents hanging in the air around you make your body flush hotly.  Your " + player.nippleDescript(0) + "s grow harder");
 				if (player.lust > 70) outputText(", though you didn't think such a thing was possible");
-				else outputText(", feeling like two bullets scraping along the inside of your " + player.armorName, false);
+				else outputText(", feeling like two bullets scraping along the inside of your " + player.armorName);
 				outputText(", but it... it could have been worse.  You shudder as a little fantasy of letting them dribble it all over your body works through your mind.");
 				if (player.lust >= player.maxLust()) outputText("  Fuck it, they smell so good.  You want, no, NEED more.");
 				else outputText("  A growing part of you wants to experience that.");

@@ -509,7 +509,7 @@ public function isabellaMorningWakeupCall():void {
 	outputText(" to the cow-girl's vacuum-tight lips, ejaculating a nice, thick load of spooge to fill her hungry mouth.");
 	if (player.cockTotal() > 1) {
 		outputText("  At the same time, you cum from ");
-		if (player.cockTotal() > 2) outputText("the rest of your " + player.multiCockDescriptLight(), false);
+		if (player.cockTotal() > 2) outputText("the rest of your " + player.multiCockDescriptLight());
 		else outputText("the one penis she's left untouched");
 		outputText(", spraying across your belly and " + player.chestDesc() + ".  Isabella, ever attentive, grabs the twitching cock");
 		if (player.cockTotal() > 2) outputText("s");
@@ -680,14 +680,14 @@ private function repeatGermanBratwurstInCamp():void {
 		if (isabellaAccent()) outputText("\"<i>Oh my, does mein ass feel zat good on ze huge, pervy thing you call a dick?</i>\" teases Isabella as she flexes one side then the other, forcing your " + player.cockDescript(x) + " to bend in response to the two dueling masses of her booty cheeks.  She keeps talking, \"<i>You have such a naughty look on your face, drooling all over yourself like a dog.  Is that what having a big dick does to you?  Does it make you so horny and weak-willed that you'll waste your cum all over my ass?</i>\"  Isabella stops her back-and-forth flexing in order to begin bouncing up and down.  Her soft, flexing buns caress your " + player.cockDescript(x) + " from base ");
 		else outputText("\"<i>Oh my, does my ass-job feel that good on that huge, pervy thing you call a dick?</i>\" teases Isabella as she flexes one side then the other, forcing your " + player.cockDescript(x) + " to bend in response to the two dueling masses of her booty cheeks.  She keeps talking, \"<i>You have such a naughty look on your face, drooling all over yourself like a dog.  Is that what having a big dick does to you?  Does it make you so horny and weak-willed that you'll waste your cum all over my ass?</i>\"  Isabella stops her back-and-forth flexing in order to begin bouncing up and down.  Her soft, flexing buns caress your " + player.cockDescript(x) + " from base ");
 		if (player.cocks[x].cockLength > 48) outputText("to as high as she can reach on the towering shaft's length");
-		else outputText("to " + player.cockHead(x), false);
+		else outputText("to " + player.cockHead(x));
 		outputText(" as she does so, drawing an anguished moan from your shivering, lust-overloaded body.\n\n");
 	
 		outputText("You grab back onto the chair as pleasure sweeps through your well-endowed body, whimpering, \"<i>G-gonna... gonna... gonna-cum-soon...</i>\"\n\n");
 		
 		outputText("Isabella reaches between her legs to ");
 		if (player.balls > 0) outputText("squeeze your balls");
-		else if (player.hasVagina()) outputText("rub your soaked vulva and " + player.clitDescript(), false);
+		else if (player.hasVagina()) outputText("rub your soaked vulva and " + player.clitDescript());
 		else outputText("caress your taint");
 		if (isabellaAccent()) outputText(".  She teases you with a slight undercurrent of disdain in her melodious voice, \"<i>Cumming already?  Very vell, go on zen.  Let your disgusting, obscene cock control you.  I can feel it trickling and dribbling on mein bum.  Do vat your fat, over-sized dick commands and cum all over Momma Isabella's butt.  Big, thick pricks always seem to cum vay too fast.</i>\"\n\n");
 		else outputText(".  She teases you with a slight undercurrent of disdain in her melodious voice, \"<i>Cumming already?  Very well, go on then.  Let your disgusting, obscene cock control you.  I can feel it trickling and dribbling on my bum.  Do what your fat, over-sized dick commands and cum all over Momma Isabella's butt.  Big, thick pricks always seem to cum way too fast.</i>\"\n\n");
@@ -1159,7 +1159,7 @@ private function getIzzyBurped():void {
 	flags[kFLAGS.ISABELLA_PROBOVA_BURP_COUNT]++;
 	//First time
 	if (flags[kFLAGS.ISABELLA_PROBOVA_BURP_COUNT] == 1) {
-		outputText("You completely ignore the warning, immediately moving to help your cow-girl companion with her upset stomach problems. She casts a disbelieving look at you, vocally stumbling over a dozen different protests. Determined as you are, however, you dutifully rub her belly, intent on alleviating her pains.  \"<i>You... you.... dummkopf! ",false);
+		outputText("You completely ignore the warning, immediately moving to help your cow-girl companion with her upset stomach problems. She casts a disbelieving look at you, vocally stumbling over a dozen different protests. Determined as you are, however, you dutifully rub her belly, intent on alleviating her pains.  \"<i>You... you.... dummkopf! ");
 		if (isabellaAccent()) outputText("V");
 		else outputText("W");
 		outputText("hat-</i>\" she sputters, the last syllable mysteriously cut off. Curious about the interruption, you look up from your massaging to her face. Isabella's cheeks are seriously inflated, as if she was attempting to hold back... oh.  Ooooooh.  Almost theatrical in its timing, her first echoing belch strikes you the same time as realization dawns upon you, the surprisingly sweet-smelling gust blasting your " + player.hairDescript() + " behind you.\n\n");
@@ -1181,7 +1181,7 @@ private function getIzzyBurped():void {
 		}
 		//[if no cow horns present]
 		if (player.horns <= 0 || player.hornType != HORNS_COW_MINOTAUR) {
-			if (player.horns > 0 && player.hornType > HORNS_NONE) outputText("  Your existing horns quiver, then reform into those of a " + player.mf("bull","cow"), false);
+			if (player.horns > 0 && player.hornType > HORNS_NONE) outputText("  Your existing horns quiver, then reform into those of a " + player.mf("bull","cow"));
 			else outputText("  Two nubs sprout from your forehead, swiftly thickening and growing into a large pair of curved bovine horns");
 			outputText(", throwing your center of balance off and aborting yet another attempt to right yourself.");
 			changed = true;

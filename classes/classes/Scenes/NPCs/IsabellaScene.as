@@ -466,8 +466,8 @@ public function nomOnMommaIzzysTits():void {
 	player.slimeFeed();
 	player.refillHunger(40);
 	//(Chance of thickening body to 75, chance of softening body if PC has a vag)
-	if (rand(2) == 0) outputText(player.modThickness(75,4), false);
-	if (rand(2) == 0 && player.hasVagina()) outputText(player.modTone(0,4), false);
+	if (rand(2) == 0) outputText(player.modThickness(75,4));
+	if (rand(2) == 0 && player.hasVagina()) outputText(player.modTone(0,4));
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -870,7 +870,7 @@ public function isabellaRapesYouWithHerAss():void {
 	if (isabellaAccent()) outputText("I vant you to apologize for being so wicked and nasty from the bottom of your heart.  Until you do, I'll keep squeezing and rubbing with mein heiny!");
 	else outputText("I want you to apologize for being so wicked and nasty - from the bottom of your heart! Until you do, I'll keep squeezing and rubbing!");
 	outputText("</i>\"  You close your eyes and try to focus on the limited pleasure she's giving you – maybe you can get off without having to apologize?  The cow-girl will have none of it, and each time you feel the telltale warmth of an approaching orgasm");
-	if (player.balls > 0) outputText(" or the tightening of your " + player.sackDescript() + " as it pulls your "+ player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(" or the tightening of your " + player.sackDescript() + " as it pulls your "+ player.ballsDescriptLight());
 	outputText(", she eases up, denying you your sloppy prize.  You try to earn more friction with subtle lifts of your hips, but that gets you another ear-ringing slap.\n\n");
 	
 	outputText("There's no choice.  You're getting so hard it hurts, and Isabella is a relentless tease.  Whenever you close your eyes, she squirts your face with milk, and by the time you blink her cream from your eyes, she's pulled her gauzy top back into place.  Still, you can see the outline of her quad-tipped areola through the milk-wet fabric, and it only enhances the flow of blood to your already painfully-erect prick.  There's no way around it.  You swallow your pride, trying to ignore the teardrops running from your eyes, and beg as earnestly as you can, \"<i>Okay okay, I'm sorry!  I'll be good. I promise.  Just let me cum!  It hurrrrts!</i>\"\n\n");
@@ -968,7 +968,7 @@ public function IsabellaPostSpankFeedSex():void {
 	if (isabellaAccent()) outputText(" \"<i>Das is good [boy]!  Don't move!  Iz impolite to interrupt your elder's pleasure, and your tiny cock is so small and unique.  You vill lie there until momma has had her fill, ja?</i>\" To emphasize her point she puts a hand ");
 	else outputText(" \"<i>There's a good [boy]!  Don't move!  Its impolite to interrupt your elder's pleasure, and your tiny cock is so small and unique.  You will lie there until momma has had her fill, yes?</i>\" To emphasize her point she puts a hand ");
 	if (player.biggestTitSize() < 1) outputText("on your chest");
-	else outputText("in between your " + player.allBreastsDescript(), false);
+	else outputText("in between your " + player.allBreastsDescript());
 	outputText(", pushing your torso so hard it sinks an inch or two into mud that reeks of Isabella's sex-juices.  You lie there, immobilized and defeated while you're forcibly raped, used like a small, disposable dildo.\n\n");
 	
 	outputText("The cow-girl lets some of the pressure off in order to tweak one of your " + player.nippleDescript(0) + "s, but as you gasp, her tongue is forced into your mouth, smothering your ");
@@ -1122,9 +1122,9 @@ public function victoryLactation69():void {
 	outputText("  The cow-girl shudders from head to toe with her climax, the milk thickening into sweet-cream as she sprays it from all four of her nipple-tips onto your tongue.\n\n");
 	
 	outputText("After a few moments of guzzling Isabella's orgasmic cream, your own climax starts to build, radiating from your squirting " + player.nippleDescript(0) + " and ");
-	if (player.hasCock()) outputText(player.multiCockDescriptLight(), false);
-	else if (player.hasVagina()) outputText(player.vaginaDescript(), false);
-	else outputText(player.assholeDescript(), false);
+	if (player.hasCock()) outputText(player.multiCockDescriptLight());
+	else if (player.hasVagina()) outputText(player.vaginaDescript());
+	else outputText(player.assholeDescript());
 	outputText(".  You arch your back, crushing the cow-girl's face with the swell of your jiggling breast while you drain the last of your milky reserves into her, using her as your personal breast-pump.");
 	
 	//(Cuntnips) 
@@ -1211,7 +1211,7 @@ public function PCVictoryOnIsabellaButtsex():void {
 		if (y >= 0) outputText(", and your " + player.cockDescript(y) + " may as well go into that sloppy cow-cooch");
 		outputText(".  ");
 	}
-	outputText("Isabella's eyes widen with from the sudden pressure of your " + player.cockHead(x), false);
+	outputText("Isabella's eyes widen with from the sudden pressure of your " + player.cockHead(x));
 	if (y >= 0) outputText(" and other " + player.cockHead(y) + " pressing against her holes");
 	else outputText(" pressing against her dark pucker");
 	outputText(", and she voices a moo of discomfort when you slap her moist backside.  You ignore it and pull harder on her tail, forcing her anus to devour your entire " + player.cockDescript(x) + " in a single stroke");
@@ -1224,7 +1224,7 @@ public function PCVictoryOnIsabellaButtsex():void {
 	
 	outputText("Milk audibly 'drip-drip-drip's in the dirt, disgorged by the cow's wobbling udders.  Isabella's loud grunts begin to change with each prick-sheathing thrust, adding a low whimper of lust to her voice until the cow-girl is letting out long moos of contented desire.  You let go of her tail and grab hold of her waist.  Fingers dig into the red lace of her corset with every pull, dragging the red-head's near-heifer-sized cheeks into your " + player.hipDescript() + ".  She still squeezes around your ");
 	if (y >= 0) outputText("members");
-	else outputText(player.cockDescript(x), false);
+	else outputText(player.cockDescript(x));
 	outputText(" but not with the dick-crushing tension she exerted before.\n\n");
 	
 	outputText("You pull on her hair, twisting the short red tangles in your finger to arch her neck and hold her still.  Her pussy ");
@@ -1277,7 +1277,7 @@ public function victoryAgainstIzzzzzySixtyNine():void {
 	outputText("  It doesn't surprise you that they glisten, or that her nethers are slowly parting to reveal her pinky-sized clit and moist canal, but what does surprise you is the sweet, pleasant scent the red-head's lips exude.  After watching the teasing display with such rapt attention, you finally notice the teardrop-shaped thatch of red pubes above her entrance.  It seems to match her blooming 'flower' perfectly, undulating with the cow-cunt's incessant, nervous squirming.\n\n");
 	
 	outputText("You twist sinuously, sliding your " + player.hipDescript() + " over Isabella until your groin is hovering over her mouth and your " + player.legs() + " are brushing her ears.  She tentatively opens her mouth, spreading her dusky lips wide as her tongue licks them.  The cow-girl grabs hold of your " + player.assDescript() + ", knowing full well what's expected of her, and pulls up to ");
-	if (player.gender == 2) outputText("nuzzle your " + player.vaginaDescript(0) + ", smearing your vulva with her lips even she spreads the folds to access your " + player.clitDescript(), false);
+	if (player.gender == 2) outputText("nuzzle your " + player.vaginaDescript(0) + ", smearing your vulva with her lips even she spreads the folds to access your " + player.clitDescript());
 	else if (player.cockThatFits(38) != -1) outputText("swallow your " + player.cockDescript(x) + " whole, plying her smooth, spit-covered tongue over every inch of it");
 	else outputText("lick your " + player.cockDescript(x) + ", fondling it with her long, smooth tongue in ways that no human could");
 	outputText(".\n\n");
@@ -1511,7 +1511,7 @@ public function vaginalProdNPokeIsabella():void {
 	outputText("In spite of the distracting milk-fountains, your main focus remains on her cunt, and how wonderful that hot little box feels around your " + player.cockDescript(x) + ".  ");
 	if (player.totalCocks() > 1) {
 		outputText("You wish you had room for ");
-		if (player.totalCocks() > 2) outputText("another " + player.oMultiCockDesc(), false);
+		if (player.totalCocks() > 2) outputText("another " + player.oMultiCockDesc());
 		else outputText("your other penis");
 		outputText(" inside her, but her arousal-slicked lips are squeezing too tightly on you for you to cram anything else into that hole, and at this angle, anal sex would be nigh impossible.  ");
 	}
@@ -1547,7 +1547,7 @@ public function tinyVictoryTittyFuckingFuntimesWithMilk():void {
 	outputText("You toss aside your " + player.armorName + " to reveal your " + player.cockDescript(x) + " to the ");
 	if (monster.lust >= monster.eMaxLust()) outputText("lusty");
 	else outputText("weakened");
-	outputText(" cow-girl.  She squeals in delight at the sight of your " + player.multiCockDescriptLight(), false);
+	outputText(" cow-girl.  She squeals in delight at the sight of your " + player.multiCockDescriptLight());
 	if (player.cockTotal() > 1) outputText(", singling the smallest one out for some reason");
 	if (isabellaAccent()) outputText(".  \"<i>Is zat vant you vanted from me?  Oooh baby, you could have just asked!  Mamma Isabella loves sucking on cute little penises like yours, particularly ones like zat little guy, right zere.</i>\"\n\n");
 	else outputText(".  \"<i>Is that what you wanted from me?  Oooh baby, you could have just asked!  Momma Isabella loves sucking on cute little dicks like yours, particularly ones like that little guy, right there.</i>\"\n\n");

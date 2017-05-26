@@ -364,7 +364,7 @@ private function fapResults(place:Number = 3):void {
 			outputText(" load of girl-cum too, as if to compete with its male counterpart.");
 		}
 		//end of conditions 
-		outputText("\n\nFinally the strength of all the ejaculations is starting to ebb, as well as your fading orgasm.  Wincing in pain and pleasure mixed, your " + player.cockDescript(x) + " lets out an ultimate spurt of goo before resting, deeply buried into your partner's ass.  You fall over, making everyone after fall too by domino effect.  As you slowly doze off, you have a special thought about the still semi-erect cock being lodged in your " + player.buttDescript() + ".  That wagon of butts and dicks... it felt so right, so powerful, so... connected.\n\n",false);
+		outputText("\n\nFinally the strength of all the ejaculations is starting to ebb, as well as your fading orgasm.  Wincing in pain and pleasure mixed, your " + player.cockDescript(x) + " lets out an ultimate spurt of goo before resting, deeply buried into your partner's ass.  You fall over, making everyone after fall too by domino effect.  As you slowly doze off, you have a special thought about the still semi-erect cock being lodged in your " + player.buttDescript() + ".  That wagon of butts and dicks... it felt so right, so powerful, so... connected.\n\n");
 	}
 	//[else, if you lost]
 	else {

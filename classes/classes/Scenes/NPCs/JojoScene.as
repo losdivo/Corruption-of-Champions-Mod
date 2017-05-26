@@ -374,14 +374,14 @@ private function mutateJojo():void {
 	outputText("You smile and give the opening a lick – it's sweet – and turn back to his ear, \"<i>Now you're where I want you bitch.  Feel that dildo squeezing your prostate?  You'll cum just from that won't you?  Take those new tentacles off your dick and aim them at your face, I want to watch you give yourself a facial and cum all over yourself just from my other toy.</i>\"\n\n");
 	outputText("Despite looking lost to the pleasure, his body obeys, releasing his dick and aiming his shoulder-tentacles at his open mouth.  You can see now that each is a dark green color, and capped with a shiny purplish head, just like the vines in the corrupted glade.  Each of them starts flaring wider, and you feel his cock snake up between your ");
 	if (player.biggestTitSize() < 1) outputText("bodies");
-	else outputText(player.allBreastsDescript(), false);
+	else outputText(player.allBreastsDescript());
 	outputText(", until it pops out just under his chin, looking like a fatter version of the twins on his shoulders.  All three start flaring wider in preparation, and you know he is about to erupt.\n\n");
 	outputText("\"<i>Good toy,</i>\" you whisper, \"<i>cum for your ");
 	if (player.gender <= 1) outputText("master");
 	else outputText("mistress");
 	outputText(".</i>\"\n\n");
 	outputText("He submits happily, a smile overtaking his face in spite of his eyes rolled back and his tongue drooling all over his muzzle.  His entire body quakes, and you feel bulges beginning to pass under your ");
-	if (player.biggestTitSize() >= 1) outputText(player.allBreastsDescript(), false);
+	if (player.biggestTitSize() >= 1) outputText(player.allBreastsDescript());
 	else outputText("chest");
 	outputText(".  You can see them moving up the shoulder tentacles with agonizing slowness, until all three cock-vines erupt simultaneously, splattering Jojo's face with his own seed.  The perfect synchronization is broken immediately when his primary tentacle blasts a glob into his hair, and then the entire scene devolves into a mess of quivering tentacles and splattering spooge.  Jojo's mouth catches plenty, and he begins swallowing instinctively as his tentacles do their best to drown him.\n\n");
 	outputText("You pull back and watch, ");
@@ -389,7 +389,7 @@ private function mutateJojo():void {
 		outputText("stroking your own member");
 		if (player.cockTotal() > 1) outputText("s");
 		outputText(" ");
-		if (player.hasVagina()) outputText("and ",false);
+		if (player.hasVagina()) outputText("and ");
 	}
 	if (player.hasVagina()) outputText("caressing your aching twat ");
 	outputText("as the mouse slowly paints himself with spoo.  By the time he has finished, he is soaked from head to toe, and lying in a puddle of his own making.  The tentacles fall limp and slowly begin to retract, until the only visible indication of their presence is a small lump on each shoulder.  His tails seem to regrow their fur in an instant, but they stay separate, and retain their thicker size.  Last but not least, you see that his member has shrunk back down to almost a foot and a half long, but has thickened up nicely.  Most of it returns to his natural pink skin-tone, but the head remains an angry purple as it stays hard and keeps drooling.\n\n");
@@ -420,8 +420,8 @@ public function useTentacleJojo():void {
 	if (player.hasVagina()) outputText("You feel it split in half, dividing in order to take you from both ends.  ");
 	outputText("You marvel at just how hard it is to dominate someone who can fuck you from a few feet away and wrap you up with a half-dozen appendages before you just give in and decide to enjoy it.\n\n"); 
 	outputText("You put your arms on your hips and say, \"<i>Go ahead and ravage me then, but if I don't love every second of it you'll regret it.</i>\"\n\n");
-	outputText("Looking very much like a starving man looking at a steak, Jojo smiles serenely and lashes out with his shoulder-tentacles, grabbing your arms and pinning them to your waist.  They wrap about your middle and lift you off the ground with ease.  Suspended in front of him, you're effortlessly rotated in place until your " + player.assholeDescript() + " is in the air and your legs splayed apart, with the mutant-mouse's primary tentacle getting ever closer to your " + player.assholeDescript(), false);
-	if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0), false);
+	outputText("Looking very much like a starving man looking at a steak, Jojo smiles serenely and lashes out with his shoulder-tentacles, grabbing your arms and pinning them to your waist.  They wrap about your middle and lift you off the ground with ease.  Suspended in front of him, you're effortlessly rotated in place until your " + player.assholeDescript() + " is in the air and your legs splayed apart, with the mutant-mouse's primary tentacle getting ever closer to your " + player.assholeDescript());
+	if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0));
 	outputText(".\n\n");
 	//REAL SECKS STARTS HERE
 	if (player.totalCocks() > 0) {
@@ -519,7 +519,7 @@ public function useTentacleJojo():void {
 			if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS_GAPING_WIDE) outputText(" practically falling into your oversized cum-receptacles");
 			else {
 				if (player.vaginas[0].vaginalWetness >= VAGINA_WETNESS_SLICK) outputText(" sliding inside easily thanks to your copious lubrication");
-				else outputText("forcing their way inside your " + player.vaginaDescript(0) + " and " + player.assholeDescript(), false);
+				else outputText("forcing their way inside your " + player.vaginaDescript(0) + " and " + player.assholeDescript());
 			}
 		}
 		//Just butt
@@ -527,7 +527,7 @@ public function useTentacleJojo():void {
 			if (player.ass.analLooseness >= 4) outputText(" practically falling into your oversized cum-receptacle");
 			else {
 				if (player.ass.analWetness >= 3) outputText(" sliding inside easily thanks to your copious lubrication");
-				else outputText("forcing its way inside your " + player.assholeDescript(), false);
+				else outputText("forcing its way inside your " + player.assholeDescript());
 			}
 		}
 	}
@@ -653,7 +653,7 @@ public function useTentacleJojo():void {
 	if (titFucking) {
 		outputText("The titfucking tentacles squeeze tighter against your " + player.allBreastsDescript() + " before they cum again, much harder than before.  Each time it pops free of your flesh, a wave of spunk flows out with it, rolling off your chest to drip into your already soaked face and mouth.  ");
 		if (player.cor >= 80 && player.lib >= 70) outputText("You lick your lips and swallow as much of it as possible, wallowing in the mouse-cream.  ");
-		if (player.hairLength > 0) outputText("He keeps unloading it until you feel it in your " + player.hairDescript(), false);
+		if (player.hairLength > 0) outputText("He keeps unloading it until you feel it in your " + player.hairDescript());
 		else outputText("He keeps unloading it until you feel it on your head");
 		outputText(", then both tentacles abruptly release, going flaccid.\n\n");
 	}
@@ -863,7 +863,7 @@ private function repeatMilkJojo(tentacle:Boolean = false):void {
 		outputText("Giving your furry slut's clenching ass a smack, you walk around in front of him, nearly tripping over the bouncing tube as you change position.  Jojo's panting with his eyes nearly rolled back into his head.  Every fifteen seconds or so his body will clench, only to have the cock-sucker's motions slow torturously.  He squeals and squeaks each time as if it was the first time.  You scratch him behind his large, dish-shaped ears as words bubble up from within you.  \"<i>Good pet.  You love being milked.  Your balls get so full and heavy... so full of spunk.  They ache, don't they?  Yes... they hurt you so bad.  You get so much cum pent up in there, and you can't let it out, not without being sucked like this.  Shhh... shhh... it's okay.  Just enjoy how perfectly swollen your balls are getting.  You can let it out eventually.</i>\"\n\n");
 		
 		outputText("Jojo's eyes roll the whole way back for a moment, and his mouth begins to froth as he utterly caves in to his animal, pleasure-seeking instincts.  You lean back against a smooth part of the wall and shed your clothes, beginning to masturbate directly in front of your stall.  In time, your own pleasured moans draw your pet from his pleasure-induced stupor, and he watches with wide, bloodshot eyes as you bring yourself off to climax after climax");
-		if (!player.hasCock() && !player.hasVagina()) outputText(", even though to do so you're forced to stimulate your " + player.assholeDescript(), false);
+		if (!player.hasCock() && !player.hasVagina()) outputText(", even though to do so you're forced to stimulate your " + player.assholeDescript());
 		outputText(".  His twitching rodent-nose sniffs at the air wildly as he pants, inhaling your scent between long, forlorn sounding moans.\n\n");
 		
 		outputText("Jojo's muscles seize, and you can tell his orgasm has arrived.  You smirk and lean closer, tugging an ear close to your mouth for another dose of 'encouragement'.  \"<i>Cum for me, pet.  Let all that spunk clogging up your balls boil out into the milker.  Give it all up for me.  Just let out every... thick... pent-up... liter of your seed.  Empty it all!  Cum and squirt until your balls are as empty as your virtue!</i>\"\n\n");
@@ -1085,11 +1085,11 @@ private function amilyAndJojoFuck():void {
 public function jojoFollowerMeditate():void {
 	jojoSprite();
 	if (flags[kFLAGS.JOJO_LAST_MEDITATION] == model.time.days) {
-		outputText("Jojo smiles and meditates with you.  The experience is calming, but it's so soon after your last session that you don't get much benefit from it.", doClear);
+		outputText("Jojo smiles and meditates with you.  The experience is calming, but it's so soon after your last session that you don't get much benefit from it.");
 		dynStats("lus", -30);
 	}
 	else {
-		outputText("The mouse monk leads you to a quiet spot away from the portal and the two of you sit down, him cross-legged and you mimicking to the best of your ability, back to back.  You close your eyes and meditate for half-an hour, centering your body and mind.  Afterwards, he guides you through stretches and exercises to help keep your bodies fit and healthy.\n\nWhen you are done, Jojo nods to you, and climbs back onto his rock, still thinking.", doClear);
+		outputText("The mouse monk leads you to a quiet spot away from the portal and the two of you sit down, him cross-legged and you mimicking to the best of your ability, back to back.  You close your eyes and meditate for half-an hour, centering your body and mind.  Afterwards, he guides you through stretches and exercises to help keep your bodies fit and healthy.\n\nWhen you are done, Jojo nods to you, and climbs back onto his rock, still thinking.");
 		//Reduces lust
 		dynStats("lus", -30);
 		var cleanse:int = -2; //Corruption reduction - faster at high corruption

@@ -1804,7 +1804,7 @@ package classes.Scenes.Combat
 				if (monster.lustVuln == 0) outputText("  Your aphrodisiac toxin has no effect!");
 				else {
 					if (monster.plural) outputText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
-					else outputText("  " + monster.mf("He","She") + " flushes hotly and " + monster.mf("touches his suddenly-stiff member, moaning lewdly for a moment.","touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."), false);
+					else outputText("  " + monster.mf("He","She") + " flushes hotly and " + monster.mf("touches his suddenly-stiff member, moaning lewdly for a moment.","touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
 					var lustDmg:int = 25 * monster.lustVuln;
 					if (rand(5) == 0) lustDmg *= 2;
 					monster.teased(lustDmg);
@@ -2040,14 +2040,14 @@ package classes.Scenes.Combat
 			//BLOCKED
 			if (damage <= 0) {
 				damage = 0;
-				outputText(monster.capitalA + monster.short, false);
+				outputText(monster.capitalA + monster.short);
 				if (monster.plural) outputText("'");
 				else outputText("s");
 				outputText(" defenses are too tough for your kick to penetrate!");
 			}
 			//LAND A HIT!
 			else {
-				outputText(monster.capitalA + monster.short, false);
+				outputText(monster.capitalA + monster.short);
 				if (!monster.plural) outputText(" reels from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
 				else outputText(" reel from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
 			}

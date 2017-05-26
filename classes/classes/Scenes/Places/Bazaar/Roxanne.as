@@ -313,7 +313,7 @@ private function roxanneGivesABlowjob():void {
 	outputText("The lizan glances back up at you, inebriated; her half-vacant eyes make love to you while her pink tongue worships your beer- and spit-covered member.\n\n");
 	
 	outputText("You slump back in your chair, sprawling out your " + player.legs() + " around you, completely relaxed by the alcohol flowing through your veins and the exquisite oral service.  Roxanne returns her focus to your " + player.cockDescript(x) + ", more tongue spilling from her gaping maw to curl around your lust-engorged shaft.  The drunken lizard's oral organ devours ");
-	if (player.cockArea(x) < 60) outputText("the entire length of your " + player.cockDescript(x), false);
+	if (player.cockArea(x) < 60) outputText("the entire length of your " + player.cockDescript(x));
 	else outputText("as much of your over-sized member as she can encompass");
 	outputText(", constricting, snake-like, to hold you in a slippery, warm embrace.  Suddenly, a pointed nail drags over your taint, pressing just hard enough to hold you still while the shemale pirate works your " + player.cockDescript(x) + " with her tongue");
 	if (player.hasVagina()) outputText(", stopping just short of your female entrance");
@@ -553,7 +553,7 @@ private function roxanneFucksYourAssOHGODITSHUGE():void {
 	outputText("  She's so big... unnaturally big.  Roxanne's cock feels so huge that your drunken mind reels as it tries to process the sheer size, comparing it to everything from clubs to tree-trunks.  The lizan sighs with something approaching relief after her head is inside you, squeezed tightly by your anal ring.  She doesn't rest there, and pushes forward again to force your ");
 	if (player.analCapacity() >= 150) outputText("spit");
 	else outputText("ointment");
-	outputText("-slicked ass to accept ever-greater quantities of cock.  Sharp fingernails drag over your " + player.hipDescript(), false);
+	outputText("-slicked ass to accept ever-greater quantities of cock.  Sharp fingernails drag over your " + player.hipDescript());
 	if (player.hasPlainSkin()) outputText(", leaving red lines in your unblemished skin");
 	outputText(" while your hips visibly spread, somehow accepting something a normal human body never could.");
 	player.buttChange(Math.floor(30+(flags[kFLAGS.ROXANNE_TIME_WITHOUT_SEX]/4)),true,true,false);
@@ -568,7 +568,7 @@ private function roxanneFucksYourAssOHGODITSHUGE():void {
 	
 	outputText("You breathe in shallow breaths, trying to see just how much more remains; thankfully it looks like there's only a few more inches left to sink up your butt-hole.  Roxanne rubs her palms against the small of your back, pushing hard enough to squish you into the cushions and tighten your prick-packed body around her needy, pulsing shaft.  At last she bottoms out, her heavy, swollen testes bouncing against your ");
 	if (player.balls > 0) outputText("own");
-	else if (player.hasVagina()) outputText(player.vaginaDescript(), false);
+	else if (player.hasVagina()) outputText(player.vaginaDescript());
 	else outputText("now-narrow taint");
 	outputText(", churning and swelling with the heavy load they're ready to disgorge.\n\n");
 	

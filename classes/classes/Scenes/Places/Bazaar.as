@@ -22,6 +22,7 @@ public function Bazaar(){
 		public var fapArena:FapArena = new FapArena();
 		public var lilium:Lilium = new Lilium();
 		public var roxanne:Roxanne = new Roxanne();
+		public var chillySmith:ChillySmith = new ChillySmith();
 
 //[Find Travelling Bazaar]
 public function findBazaar():void {
@@ -94,6 +95,7 @@ public function enterTheBazaarAndMenu(demons:Boolean = true):void {
 	if (flags[kFLAGS.BAZAAR_ENTERED] == 0) flags[kFLAGS.BAZAAR_ENTERED] = 1;
 	outputText("You breeze past the crimson guard and enter the interior of the Bizarre Bazaar.  The ground is hard-packed, trampled as if walked over by hundreds of hooves, paws, and feet.  A massive bonfire rages in the center of the clearing, crackling and popping as it consumes its fuel gluttonously.  Surrounding the blazing behemoth are tiny, wheeled food-carts with vendors hawking everything from sausage to something called a 'marshmallow'.  Huge wagons ring the clearing, many set up to display exotic wares or services.  You can see everything from dancing centaurs to demons browsing the wares, but it seems an uneasy truce of sorts reigns here.  Then again, maybe the demons have just not had the chance to openly attack this place yet.");
 	outputText("\n\nOne of the wagons proudly proclaims itself to be \"Greta's Garments,\" though both 'G's are emphasized with cute, stylized devil horns, and the 'S' is shaped in the form of a spaded, demonic tail.  Obviously it must some kind of clothing shop.");
+	chillySmith.smithButton();
 	roxanne.RoxanneAppearance();
 	benoit.setBenoitShop();
 	fapArena.fapAppearance();
@@ -146,6 +148,7 @@ private function shopMenu():void {
 	benoit.setBenoitShop(true);
 	addButton(1, "G. Garments", gretasGarments);
 	addButton(2, "S. Squeeze", theSlipperySqueeze);
+	chillySmith.smithButton(true);
 	addButton(4, "Back", enterTheBazaarAndMenu);
 }
 
@@ -299,8 +302,8 @@ private function joeysMassageWifNoExtraJizz():void {
 	clearOutput();
 	//(Continue as NoWang)
 	outputText("The rabbit-eared fem-boy climbs back onto the table and strokes himself a few times over your " + player.assDescript() + "; the first drops of his 'special oil' feel hot as they land on the curves of your butt cheeks.  He climbs over you, touching himself just enough to stay hard while his cum-drooling cock stops dripping and starts genuinely leaking.  A long trail of bunny-spunk is dripped onto your " + player.assDescript() + " until you're glazed with thick ropes of it.  You spot his discarded thong on the floor and giggle as you feel him flip around to put his cute bunny-butt on your shoulders.  His spunk immediately runs down your spine, even as his hands smear it all over your " + player.skinDesc + ".\n\n");
-	outputText("The massage heads back towards your " + player.buttDescript() + "; Joey's hands fill with your flesh as he fondles and strokes, spreading the jism into every nook and cranny, even your " + player.assholeDescript(), false);
-	if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0), false);
+	outputText("The massage heads back towards your " + player.buttDescript() + "; Joey's hands fill with your flesh as he fondles and strokes, spreading the jism into every nook and cranny, even your " + player.assholeDescript());
+	if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0));
 	outputText(".  The strange, slippery feeling would've made you jump if you weren't so thoroughly relaxed, but the warmth of the room and sureness of your masseuse's touch only serve to stoke your lust as effectively as he had the oven's fire.  You mewl happily when he slides his cum-soaked fingers up your back, spreading the sloppy mess over you like icing on a cake.\n\n");
 	
 	outputText("Joey stands and turns, his cum drooling into your " + player.hairDescript() + " as he asks, \"<i>Would you roll over for me?</i>\"  Eager for more of his skilled massage and impelled by your own growing arousal, you roll over, letting his jism drip onto your face.  He sits down gently, resting his barely-felt weight atop your bellybutton, and in no time, his fingers are smearing more of his fragrant, constantly-leaking goo over your " + player.chestDesc() + ".  The long-eared fem-boy rubs around your " + player.nippleDescript(0) + "s, trailing delicate circles that make the perky, pink flesh harden and glisten.\n\n");
@@ -330,7 +333,7 @@ private function joeysMassageWifNoExtraJizz():void {
 	//(FEM/GENDERLESS) 
 	else {
 		if (player.hasVagina()) outputText("presses his ruby lips into the glistening delta of your mons");
-		else outputText("presses a finger against the semen-soaked ring of your " + player.assholeDescript(), false);
+		else outputText("presses a finger against the semen-soaked ring of your " + player.assholeDescript());
 		outputText(".  He skillfully works a free hand over your slippery butt-cheek, squeezing the supple flesh while he expertly rubs your interior, stroking it with semen-lubed touches.\n\n");
 	}
 	//Fems/Genderless cum+epilogue
@@ -374,7 +377,7 @@ private function joeysMassageWithEXTRASpooge():void {
 	clearOutput();
 	outputText("The rabbit-eared fem-boy pulls the cork on another bottle and helps you to roll to your side to drink it.  He holds the lip of the bottle to your lips and raises the bottom slowly, giving you just enough time to guzzle it without drowning.  It's sweet and syrupy, though there's an undertone of spicy strangeness that you can't quite place.  Whatever the secret ingredients are, you'll never figure them out from taste alone.  You feel warmth once you've finished, and a tightness settles ");
 	if (player.balls == 0) outputText("inside you");
-	else outputText("in your " + player.ballsDescriptLight(), false);
+	else outputText("in your " + player.ballsDescriptLight());
 	outputText(" that reminds you of the sensation just before orgasm.");
 	if (player.balls > 0) outputText("  They even feel a little bigger.");
 	outputText("\n\n");
@@ -399,7 +402,7 @@ private function joeysMassageWithEXTRASpooge():void {
 	outputText("\n\n");
 	
 	outputText("The bunny-boy springs back atop you, landing hard just below your hips.  His dripping seed washes over " + player.sMultiCockDesc() + ", and the sudden onslaught of fresh, liquid warmth on your groin sets off a small explosion of jism that splatters into your chin, leaving a long trail of slime behind like a snail.  The long-eared girly-boy smiles and shifts to rub his small cock against your " + player.cockDescript(0) + ", frotting you aggressively while you both spray cum like faucets with the knobs torn off.  You don't mind that he seems to have forgotten the massage, and you run your hands up and down your " + player.chestDesc() + " to smear the heavy loads ");
-	if (!player.hasFur()) outputText("over your " + player.skinDesc, false);
+	if (!player.hasFur()) outputText("over your " + player.skinDesc);
 	else outputText("through your fur");
 	outputText(".\n\n");
 	

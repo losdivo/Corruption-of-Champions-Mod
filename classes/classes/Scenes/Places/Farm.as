@@ -994,7 +994,7 @@ public function cockPumping():void {
 		if (cumQ < 1000) {
 			outputText("The orgasm rolls over you, shutting down your thoughts as your body spasms in its straps, boiling out ");
 			if (cumQ > 500) outputText("thick ");
-			outputText("spurts of spunk.  Wriggling cilia convulse around you, licking your head as it flares wide, filling with blood and pouring out cum.  You moan and scream with delight, babbling happily as you watch your cum wick up the clear tube and into the machinery in the wall.  All too soon the pleasure comes to an end; the harness lowers you to the ground and releases you, but the squishy walls of your demon machine lover don't cease their ministrations on your tender " + Appearance.cockNoun(CockTypesEnum.HUMAN), false);
+			outputText("spurts of spunk.  Wriggling cilia convulse around you, licking your head as it flares wide, filling with blood and pouring out cum.  You moan and scream with delight, babbling happily as you watch your cum wick up the clear tube and into the machinery in the wall.  All too soon the pleasure comes to an end; the harness lowers you to the ground and releases you, but the squishy walls of your demon machine lover don't cease their ministrations on your tender " + Appearance.cockNoun(CockTypesEnum.HUMAN));
 			if (player.cockTotal() > 1) outputText("s");
 			outputText(".\n\n");
 						
@@ -1181,7 +1181,7 @@ private function milkerBadEnd1():void {
 	clearOutput();
 	outputText("As you roll onto your back the machine delivers an encore performance on your swollen " + player.multiCockDescriptLight() + ", down to the very same orgasm denial.  Wracked by pleasure but now freed to move, you find yourself trying to thrust against the tubes, as best as your feeble grip and exhaustion will allow, in order to try to override the machine's will and achieve release.  Nevertheless, the suction expertly manipulates your arousal and you can do little except endure it as another oversized batch of cum wells up");
 	//[(balls)
-	if (player.balls > 0) outputText(" in your " + player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(" in your " + player.ballsDescriptLight());
 	outputText(".  As before, the machine works you on and off for roughly an hour before the wall light once again turns green and the suction on your " + player.multiCockDescriptLight() + " intensifies.  Your hips take over as you buck against the machine and push out another ");
 	if (cumQ < 100) outputText("trickle");
 	else if (cumQ < 600) outputText("stream");
@@ -1259,9 +1259,9 @@ private function milkerBadEnd1():void {
 	outputText("For several hours this continues, " + player.sMultiCockDesc() + " swelling to nearly twice its previous size and your orgasms coming one after another without a break as you pump your hips, knowing or caring about nothing except getting off on your machine lover and being fed in turn.  Your load each time is increased rather than decreased, with the cups growing multiple fleshy overflow valves and working overtime to vent the excess pressure every time you ejaculate.  ");
 	//[(corruption > 90, high demonscore)
 	if (player.cor > 90) {
-		outputText("After literally hundreds of orgasms, the machine once again begins carefully regulating its suction, denying your release.  Repeatedly it teases your " + player.multiCockDescriptLight(), false);
+		outputText("After literally hundreds of orgasms, the machine once again begins carefully regulating its suction, denying your release.  Repeatedly it teases your " + player.multiCockDescriptLight());
 		//[(vag)
-		if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0), false);
+		if (player.hasVagina()) outputText(" and " + player.vaginaDescript(0));
 		outputText(" to the edge of orgasm and then backs off.  All the pumping in the world can't seem to get you over it, and your frustration mounts as the minutes roll by.  A sharper pressure than usual forms at the base of your " + player.multiCockDescriptLight() + " as you fruitlessly grind into the tubes, wishing more than anything to climax; the green light on the wall steadfastedly refuses to light up, mocking your attempts.  From the new pressure an odd strength flows through the rest of your body, increasing your sexual fervor and giving you a second wind, and you finally manage to get a good grip on the tubes, nearly slamming them back and forth on your shaft");
 		if (player.cockTotal() > 1) outputText("s");
 		outputText(".  This damn demon machine can't stop you from getting off anymore; with a violent shove you bury " + player.sMultiCockDesc() + " into the mouth");

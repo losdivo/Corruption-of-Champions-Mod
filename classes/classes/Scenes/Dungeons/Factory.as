@@ -221,7 +221,7 @@ package classes.Scenes.Dungeons
 					player.growTits(1, (2+rand(3)), true, 1);
 					outputText("  ");
 					outputText("Your " + player.nippleDescript(0) + "s ");
-					if (player.cocks.length > 0) outputText("and " + player.multiCockDescript(), false);
+					if (player.cocks.length > 0) outputText("and " + player.multiCockDescript());
 					outputText(" become rock hard, leaking fluids constantly.  ");
 					//MALE
 					if (player.cocks.length > 0 && player.vaginas.length == 0) outputText("Glancing over into the sea of sex, you find yourself drawn to the nearest pussy, as if it was the only thing in the world to matter.  You lose track of the time as you fuck hard dozens of gaping cunts, each of them overflowing with cum from all participants in this infernal orgy.  ");
@@ -303,7 +303,7 @@ package classes.Scenes.Dungeons
 		private function doBadEndTension():void {
 			outputText("Desperate for more of the demon-drugs, you slide into the now-familiar harness and let the needles sink into your skin.   Panting in lust, you beg for them increase the dosage again.   Desire burns through your veins as the cocktail surges through them");
 			if (player.cocks.length > 0) {
-				outputText(", filling your " + player.multiCockDescriptLight(), false);
+				outputText(", filling your " + player.multiCockDescriptLight());
 				outputText(" with sensation");
 				if (player.cockTotal() == 1) outputText("s");
 				outputText(" as ");

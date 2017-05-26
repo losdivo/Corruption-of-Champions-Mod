@@ -322,8 +322,8 @@ private function fuckYoDaughtersHomie():void {
 			outputText("A drop of pre-cum beads on the tip and you find yourself relaxing, letting Tamani slide her drug-slicked horse-cock the rest of the way into you.\n\n");
 		}
 		outputText("A third goblin suddenly attacks your taint, licking between your " + player.assholeDescript() + " and ");
-		if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
-		else if (player.hasVagina()) outputText(player.vaginaDescript(0), false);
+		if (player.balls > 0) outputText(player.ballsDescriptLight());
+		else if (player.hasVagina()) outputText(player.vaginaDescript(0));
 		else outputText("shaft");
 		outputText(" as she presses her hard nipples up against your " + player.legs() + ". ");
 		//(No Tamani:
@@ -400,7 +400,7 @@ private function legTamanisDaughtersRAEPYou():void {
 		outputText("A sudden flow of fluids soaks your " + player.face() + " and dribbles from your chin.  The face-riding goblin bucks like a bronco, nearly breaking your nose before the strength drains from her body and she slides off into the dirt, panting weakly.   Confronted with the sight of ");
 		if (cocks > 2) outputText("so many girls impaled on your flesh");
 		else if (cocks == 2) outputText("your daughters' whorish expressions of pleasure");
-		else outputText("the sultry gaze of Tamani's oldest daughter as she rides your " + player.cockDescript(primary), false);
+		else outputText("the sultry gaze of Tamani's oldest daughter as she rides your " + player.cockDescript(primary));
 		outputText(", you can do nothing but cum.  ");
 		if (cocks > 1) outputText("Twitching powerfully, your body unloads into the tight, fertile cum-receptacles, giving them exactly what they want.");
 		else outputText("Twitching powerfully, your body unloads into the tight, fertile cum-receptacle, giving her exactly what she wants.");
@@ -430,7 +430,7 @@ private function legTamanisDaughtersRAEPYou():void {
 			
 			outputText("Tamani massages your ");
 			if (player.biggestTitSize() < 1) outputText("chest");
-			else outputText(player.allBreastsDescript(), false);
+			else outputText(player.allBreastsDescript());
 			outputText(" as she mounts you, ");
 			outputText("squeezing her dripping wet cunt around your " + player.cockDescript(primary) + ".  She explains, caressing your cheek as you start to drool, \"<i>You see, " + player.short + ", this potion is a special one.  You can probably feel it now, emptying your mind and shutting down your thought processes.  That's what it's supposed to do.  You won't remember anything when I'm done either, aside from how great my pussy feels on your " + player.cockDescript(primary) + "</i>.\"\n\n");
 			
@@ -526,15 +526,15 @@ private function legTamanisDaughtersRAEPYou():void {
 			if (cocks == 2) outputText("  Another one of the petite sluts climbs aboard your " + player.cockDescript(1) + ", squealing happily to her sister as she joins her in riding you.");
 			if (cocks > 2) {
 				outputText("  A third, wearing slutty pink make-up with platinum blonde hair, lays out across your ");
-				if (cocks > 3) outputText("remaining " + player.multiCockDescriptLight(), false);
-				else outputText(player.cockDescript(2), false);
+				if (cocks > 3) outputText("remaining " + player.multiCockDescriptLight());
+				else outputText(player.cockDescript(2));
 				outputText(".");
 			}
 			outputText("\n\n");
 			
 			outputText("She pivots around, placing her drooling, wet gash against your " + player.cockHead() + " and begins vigorously jerking you off.   Her ass bounces hypnotically on your ");
 			if (player.biggestTitSize() < 1) outputText("chest");
-			else outputText(player.allBreastsDescript(), false);
+			else outputText(player.allBreastsDescript());
 			outputText(", sending a fresh surge of arousal through your " + player.multiCockDescriptLight() + ".   Another one of the girls leans down between your " + player.legs() + " licking your ");
 			if (player.balls > 0) outputText("balls");
 			else if (player.hasVagina()) outputText("pussy");
@@ -591,7 +591,7 @@ private function legTamanisDaughtersRAEPYou():void {
 			
 			outputText("The goblin who served between the legs crawls back into position, and you realize she must be the youngest, and therefore the lowest on the goblin totem-pole.  Her eager tongue is just as skilled as it was minutes ago, and between her attentions and the tongues on your " + player.multiCockDescriptLight() + ", you're leaking streamers of liquid lust.  Hands run over your ");
 			if (player.biggestTitSize() < 1) outputText("chest");
-			else outputText(player.allBreastsDescript(), false);
+			else outputText(player.allBreastsDescript());
 			outputText(", circling your nipples and massaging your chest while a girlish voice whispers in your ear, \"<i>Cum for us now daddy, we've gotten so wet having to wait on you...</i>\"\n\n");
 			
 			outputText("Ripples of convulsive pleasure wrack your midsection as you feel the muscular contractions of your orgasm threatening to tear you apart.   Your ");
@@ -612,7 +612,7 @@ private function legTamanisDaughtersRAEPYou():void {
  			outputText("You sigh into the fragrant pussy, the warm air-flow turning the slippery box a dripping fountain of orgasm.   The walls clamp around your tongue, squeezing it from base to tip in a milking motion you've become intimately acquainted with.   A high pitched shriek of pleasure rises, then cuts off.  You blink away a sudden burst of light as the orgasming girl is ripped from your questing tongue, revealing the crowd of sultry bodies and Tamani's knowing smirk.\n\n");
 			
 			outputText("\"<i>Mother always said you had to keep your men on a tight leash, and boy was she ever right – you've been cheating on Tamani!  With your own daughters!</i>\" exclaims your ");
-			if (flags[kFLAGS.TAMANI_TIMES_HYPNOTISED] >= 10) outputText("wife",false);
+			if (flags[kFLAGS.TAMANI_TIMES_HYPNOTISED] >= 10) outputText("wife");
 			else outputText("\"wife\"");
 			outputText(" in mock indignation.   She taps her chin for a moment, ignoring her daughters as they continue to lick and stroke ");
 			if (cocks) outputText("each of ");
@@ -636,7 +636,7 @@ private function legTamanisDaughtersRAEPYou():void {
 			if (cocks > 2) {
 				outputText("Meanwhile your other " + Appearance.cockNoun(CockTypesEnum.HUMAN) + "s are wasting their spunk over your belly, so some of the waiting girls grab them and pull them aside, ramming their tips deep inside their seemingly bottomless fuck-holes.  They giggle and run their manicured nails over your ");
 				if (player.biggestTitSize() < 1) outputText("chest");
-				else outputText(player.allBreastsDescript(), false);
+				else outputText(player.allBreastsDescript());
 				outputText(", circling your sensitive nipples");
 				if (player.biggestLactation() >= 1) {
 					outputText(" as they start to ");
@@ -652,7 +652,7 @@ private function legTamanisDaughtersRAEPYou():void {
 			else if (cocks == 2) {
 				outputText("Meanwhile your other " + Appearance.cockNoun(CockTypesEnum.HUMAN) + " is wasting its spunk over your belly, so one of the waiting girls grabs it and pulls it to the side, ramming its tip deep inside her seemingly bottomless fuck-hole.  She giggle and runs their manicured nails over your ");
 				if (player.biggestTitSize() < 1) outputText("chest");
-				else outputText(player.allBreastsDescript(), false);
+				else outputText(player.allBreastsDescript());
 				outputText(", circling your sensitive nipples");
 				if (player.biggestLactation() >= 1) {
 					outputText(" as they start to ");
@@ -785,7 +785,7 @@ private function tamaniDaughtersCombatLossDrain():void {
 	if (cocks > 1) outputText("each of ");
 	outputText("your " + player.multiCockDescriptLight() + " until it feels much harder and thicker than normal.  You stifle an involuntary groan, but fail to conceal your lust-filled pants from your audience.   A daring girl leaps onto your ");
 	if (player.biggestTitSize() < 1) outputText("chest");
-	else outputText(player.allBreastsDescript(), false);
+	else outputText(player.allBreastsDescript());
 	outputText(" and shoves a lactating nipple into your mouth, commanding, \"<i>Drink up, the more fluid you have the more baby batter you can cook up for us!</i>\"\n\n");
 	
 	outputText("Unable to fight back in any way, you shrug and begin suckling the purplish nipple, tasting the creamy goblin milk as it easily fills your mouth.  You gulp it down, slowly relaxing between the mechanized cock-sucking and gentle breast-feeding.  Your daughter was right, it's almost like paradise. Unfortunately, the pleasure is interrupted by something probing at your backside.  Unable to look with your mouth full of delicious tit, you can only gurgle and dribble in protest as a lubricated tube is inserted into your " + player.assholeDescript() + ".\n\n");
@@ -945,7 +945,7 @@ private function loseToDaughtersWithTamaniThere():void {
 	}
 	outputText("  Tamani pushes her way to the front of the pack, her daughters looking disappointed but yielding to their mother's authority for the time being.  She walks over to you, stepping over your fallen form and uncorking a potion.  You grunt as she drops her jiggling ass down on your ");
 	if (player.biggestTitSize() < 1) outputText("chest");
-	else outputText(player.allBreastsDescript(), false);
+	else outputText(player.allBreastsDescript());
 	outputText(" and says, \"<i>Now husband, you've let your daughters beat you fair and square, so now it's time to take your medicine and give them their reward for becoming so strong.</i>\"\n\n");
 	
 	outputText("The potion's bottle becomes a plug for your mouth as Tamani forces your mouth open.  She tips it back and massages your throat with one hand, forcing you to gulp down the fluid.  ");

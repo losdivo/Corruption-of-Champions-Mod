@@ -286,9 +286,9 @@ internal function kihaLossIntro():void {
 		outputText("The dragoness sighs and glances around.  \"<i>Since you weren't able to satisfy me in battle, let's see if you have anything else to offer...</i>\"\n\n");
 		
 		outputText("Leaving her axe to rest a few feet away, stuck on the ground, Kiha strips off your " + player.armorName + " revealing your ");
-		if (player.hasCock()) outputText(player.multiCockDescriptLight(), false);
+		if (player.hasCock()) outputText(player.multiCockDescriptLight());
 		if (player.hasCock() && player.hasVagina()) outputText(" and ");
-		if (player.hasVagina()) outputText(player.vaginaDescript(), false);
+		if (player.hasVagina()) outputText(player.vaginaDescript());
 		outputText(".\n\n");
 		//TO THE RAPES!
 		
@@ -750,7 +750,7 @@ private function analRapuzulaKiha():void {
 	outputText("\"<i>Look,</i>\" you smile devilishly, \"<i>your own juices are lubing me up to take you.  Here I thought you were turned off by the thought of your ass getting pounded.</i>\"  She visibly clenches her muscles at your insult and pulls her rump away from your grip.  You grab her hips once again and thrust your ready cock into her virginally-tight asshole as punishment.\n\n");
 
 	outputText("As soon as your fingers touch her skin, her tail whips around your " + player.multiCockDescriptLight() + ", wrapping up your groin");
-	if (player.balls > 0) outputText(" and threatening to crush your " + player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(" and threatening to crush your " + player.ballsDescriptLight());
 	outputText(".  \"<i>Ooh, you're a feisty one, aren't you,</i>\" you goad. \"<i>You can dish out the snappy insults just fine, but taking them... Your temper is horrible.</i>\"  You wince in pain, as the scaly tail wrapped around your genitals tightens in response.\n\n");
 	
 	outputText("You need to come up with a quick way to get out of this painful situation.  A thought forms in your mind.  She may act like a high and mighty puritan, but you still had a visible effect on her, and her cunt was definitely soaking from your touch just a few moments ago.  It seems she's not as high and mighty as she'd like to be.  A devious grin spreads across your face and you reach around and grope the dragon-girl's breasts.\n\n");
@@ -885,6 +885,7 @@ private function analRapuzulaKiha():void {
 			outputText("The display makes you feel righteous.\n\n");
 			//[Player receives: 1x Inquisitor's Robes]
 			flags[kFLAGS.GOTTEN_INQUISITOR_ARMOR] = 1;
+			flags[kFLAGS.GOTTEN_INQUISITOR_ROBES] = 1;
 			inventory.takeItem(armors.I_ROBES, camp.returnToCampUseOneHour);
 		}
 
@@ -900,6 +901,7 @@ private function analRapuzulaKiha():void {
 			outputText("The display makes you feel like a badass.\n\n");
 			//[Player receives 1x Inquisitor's Corset]
 			flags[kFLAGS.GOTTEN_INQUISITOR_ARMOR] = 1;
+			flags[kFLAGS.GOTTEN_INQUISITOR_CORSET] = 1;
 			inventory.takeItem(armors.I_CORST, camp.returnToCampUseOneHour);
 		}
 }

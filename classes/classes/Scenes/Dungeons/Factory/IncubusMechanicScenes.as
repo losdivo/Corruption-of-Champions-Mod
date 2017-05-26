@@ -232,12 +232,12 @@ package classes.Scenes.Dungeons.Factory
 			if (player.cocks.length > 0) {
 				outputText("With a few deft motions, you shift your " + player.armorName + " to expose your ");
 				if (player.gender == 3) {
-					if (player.balls > 0) outputText(player.multiCockDescriptLight() + ", " + player.ballsDescriptLight() + ", and " + player.vaginaDescript(0), false);
-					else outputText(player.multiCockDescriptLight() + " and " + player.vaginaDescript(0), false);
+					if (player.balls > 0) outputText(player.multiCockDescriptLight() + ", " + player.ballsDescriptLight() + ", and " + player.vaginaDescript(0));
+					else outputText(player.multiCockDescriptLight() + " and " + player.vaginaDescript(0));
 				}
 				else {
-					if (player.balls > 0) outputText(player.multiCockDescriptLight() + " and " + player.ballsDescriptLight(), false);
-					else outputText(player.multiCockDescriptLight(), false);
+					if (player.balls > 0) outputText(player.multiCockDescriptLight() + " and " + player.ballsDescriptLight());
+					else outputText(player.multiCockDescriptLight());
 				}
 				outputText(".  Having resolved to take the demon's backdoor, you approach his weakened form with brimming confidence.  He looks up, clearly hoping your plan is to squat on his throbbing member.  You dispel his misguided notion when you grab him by the horns and shove his face against the floor. He struggles weakly until you press down harder, making it clear he is to stay in position - on his knees with his head down and his ass in the air.  Circling your prey, you inspect his flawless body and carefully note that the hole at his crotch actually exposes a fair portion of his very supple and surprisingly feminine-looking backside.\n\n");
 				outputText("You don't waste any time, gripping your " + player.cockDescript(0) + " in one hand and ");
@@ -269,11 +269,11 @@ package classes.Scenes.Dungeons.Factory
 				outputText("With a few deft motions, you shift your " + player.armorName + " to expose your ");
 				//Herm
 				if (player.gender == 3) {
-					if (player.balls > 0) outputText(player.multiCockDescriptLight() + ", " + player.ballsDescriptLight() + ", and " + player.vaginaDescript(0), false);
-					else if (player.balls > 0) outputText(player.multiCockDescriptLight() + " and " + player.vaginaDescript(0), false);
+					if (player.balls > 0) outputText(player.multiCockDescriptLight() + ", " + player.ballsDescriptLight() + ", and " + player.vaginaDescript(0));
+					else if (player.balls > 0) outputText(player.multiCockDescriptLight() + " and " + player.vaginaDescript(0));
 				}
 				else {
-					outputText(player.vaginaDescript(0), false);
+					outputText(player.vaginaDescript(0));
 				}
 				outputText(".  Striding forwards with hunger in your eyes, you give your left hand free access to your groin and slip your fingers between the moist folds of your " + player.vaginaDescript(0) + ".  As you undulate into the incubus' personal space, a swift thrust of your " + player.hipDescript() + " buries your fingers up to the knuckles and knocks the demon onto his well-muscled back.\n\n"); 
 				outputText("He looks up at you with a practiced eye, adjusting his demon-tool's size to better fill your  " + player.vaginaDescript(0) + ".  ");

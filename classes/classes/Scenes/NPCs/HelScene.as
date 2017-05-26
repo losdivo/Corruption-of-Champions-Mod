@@ -476,7 +476,7 @@ internal function beatUpHelAndStealHerWalletFromHerVagina():void {
 	outputText("She gasps with the sudden change, but grins wolfishly at you.  Without missing a beat, she takes her tits in hand and starts to work them along the length of your shaft, pumping your " + player.cockDescript(0) + " for all it's worth as her prehensile tail slips into her now vacant cunt, pleasuring her as she titfucks you.  You grab hold of her shoulders and, taken by wild urge, lean down and kiss the salamander.  She returns it, thrusting her tongue into your mouth and redoubling her titfuck.\n\n");
 
 	outputText("Finally you cum!  You grit your teeth and pull out of the kiss as you make one last, mighty thrust into her titflesh.  Never stopping, your lover takes your cock into her mouth and starts milking it with her tongue, lips, and hands");
-	if (player.hasVagina()) outputText(" while releasing her breasts to finger your " + player.vaginaDescript(0), false);
+	if (player.hasVagina()) outputText(" while releasing her breasts to finger your " + player.vaginaDescript(0));
 	outputText(".  You run your hands through her hair as you shoot strings of jism again and again into her mouth until her cheeks start to bulge.  When you're through, she makes a loud gulp and licks her lips, grinning at you wide enough that a tiny amount of your cum leaks from her cheeks.\n\n");
 
 	outputText("Exhausted, you can't help but collapse into her cleavage, your cheek coming to rest between her soft breasts.  You smile at her, and cup one of them even as she begins to stroke your cheek, smiling.  Your eyes feel heavy, and exhaustion begins to overtake you.  Slowly, you drift off into a peaceful sleep in the embrace of your lover.");
@@ -702,8 +702,8 @@ private function nagaCoilsUpHel():void {
 
 	outputText("You get the idea in a hurry, and discard your " + player.armorName + " as she disrobes, giving you a good view of her smooth snatch and her big, soft breasts.  The sight of her nude form causes your " + player.cockDescript(x) + " to quickly slip out of its hidey-hole in your reptilian half; she grabs it and starts to stroke it, bringing it to full hardness as you coil your tail around her feet.  She gasps from the sudden tightness around her belly as you make a full loop around her, binding her arms to her side and pulling her up off the ground with your strong tail.\n\n");
 
-	outputText("With your lover now completely at your mercy, you lean back and draw her close, lining her crotch up with your " + player.cockDescript(x), false);
-	if (y >= 0) outputText(" and her ass up with your " + player.cockDescript(y), false);
+	outputText("With your lover now completely at your mercy, you lean back and draw her close, lining her crotch up with your " + player.cockDescript(x));
+	if (y >= 0) outputText(" and her ass up with your " + player.cockDescript(y));
 	outputText(".  As you start to lower her onto your shaft");
 	if (y >= 0) outputText("s");
 	outputText(", she gasps and squirms, writhing in her inability to control the penetration.  \"<i>Deeper, deeper,</i>\" she begs, kissing your shoulders and neck imploringly.  \"<i>I need you deeper, dammit!  DEEPER!</i>\"\n\n");
@@ -846,12 +846,12 @@ private function helVaginaTaur69():void {
 
 	outputText("With a wicked smile, you snatch up the woman's writhing tail and grasp it like a whip, coiling it until only a foot or so extends past your wrist.  Now, you lean down and prod at her with the tail, trying blindly to set its pointed tip into her vacant cunt.  Finally, you find your mark, her tail slipping past her hips and into her slit.  You thrust the tail forward into its owner, eliciting a yelp of pleasure");
 	if (player.hasCock()) outputText(" from around your encapsulated cock");
-	outputText(".  Getting a good grip on her hot, red tail, you start to fuck her hard, fast, and perhaps vengefully as she continues to assault your " + player.vaginaDescript(0), false);
+	outputText(".  Getting a good grip on her hot, red tail, you start to fuck her hard, fast, and perhaps vengefully as she continues to assault your " + player.vaginaDescript(0));
 	if (player.hasCock()) outputText(" and swelling member");
 	outputText(".\n\n");
 	
 
-	outputText("It cannot go on forever.  You soon feel the tell-tale pressure of impending orgasm building behind your " + player.vaginaDescript(0), false);
+	outputText("It cannot go on forever.  You soon feel the tell-tale pressure of impending orgasm building behind your " + player.vaginaDescript(0));
 	if (player.hasCock()) outputText(" and shaft");
 	outputText(".  And you're not alone: under your intense tail-fucking, the salamander screams her climax, and you feel a gout of girl-cum squirt onto your underside.  You aren't far behind, clamping down on her invading fist as your own orgasm hits, nearly toppling you over with its intensity");
 	if (player.hasCock()) outputText(" and filling her throat with jism");
@@ -1171,7 +1171,7 @@ private function askHelAboutHer():void {
 //[Attacking You]
 private function askHelAboutAttackingYou():void {
 	spriteChooser();
-	outputText("",true);
+	clearOutput();
 	flags[kFLAGS.HEL_FUCKBUDDY] = 0;
 	outputText("Now that you've got the feisty salamander calm for once, you ask her why she's always attacking you.\n\n");
 
@@ -1629,7 +1629,7 @@ private function stuffIzzyAndSalamanderWithDicks():void {
 	}
 	//(Player has 2-3 cocks)
 	else if (z == -1 || zz == -1) {
-		outputText("Now fucking both girls at once with your super-human twin endowments, you settle into a good solid rut.  The girls squeal and moan under your intense fucking, only stopping in their sweetly feminine vocalizations to kiss or suckle each other.  Just as you've hit your rhythm, though, you're suddenly pushed to the ground as both Isabella and Hel give you a playful kick with their hoofed-or-scaled feet.  They switch positions so that Isabella is fore-most and facing you atop your " + player.cockDescript(x) + " while Hel sits behind her, impaled on your " + player.cockDescript(y), false);
+		outputText("Now fucking both girls at once with your super-human twin endowments, you settle into a good solid rut.  The girls squeal and moan under your intense fucking, only stopping in their sweetly feminine vocalizations to kiss or suckle each other.  Just as you've hit your rhythm, though, you're suddenly pushed to the ground as both Isabella and Hel give you a playful kick with their hoofed-or-scaled feet.  They switch positions so that Isabella is fore-most and facing you atop your " + player.cockDescript(x) + " while Hel sits behind her, impaled on your " + player.cockDescript(y));
 		if (z > -1) outputText(" with your " + player.cockDescript(z) + " even now spearing her tight ass");
 		outputText(".\n\n");
 

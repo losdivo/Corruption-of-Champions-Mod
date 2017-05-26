@@ -198,7 +198,7 @@ private function timeForAuntNancySpiderCooch():void {
 	outputText("You look the still-beautiful spider-lady in the eye, and, half-mesmerized, nod in agreement.  She smiles broadly (and, you can't help but notice, quite lewdly) and puts one of her lower arms through one of yours, while putting the upper one on your shoulder.  \"<i>Well then,</i>\" Aunt Nancy says, \"<i>I suppose we should be off.</i>\"\n\n");
 
 	outputText("She leads you through the streets of Tel'Adre, weaving through crowds and back alleys, before you finally end up just outside a modest little adobe building tucked away in a side street.  Slowly, she wraps all four of her arms around you, giving you a gentle hug");
-	if (player.biggestTitSize() >= 1) outputText(" and taking the opportunity to grope your " + player.allBreastsDescript() + " right through your " + player.armorName, false);
+	if (player.biggestTitSize() >= 1) outputText(" and taking the opportunity to grope your " + player.allBreastsDescript() + " right through your " + player.armorName);
 	outputText(".\n\n");
 
 	outputText("\"<i>Come into my parlor,</i>\" she whispers into your ear, licking it gently before sticking the tip of her long tongue into the hole before pressing her soft lips against the lobe of it.\n\n");
@@ -422,7 +422,7 @@ private function auntNancyPoonPartIII():void {
 		else 
 			outputText("Aunt Nancy puts one hand beneath her dripping pussy and squeezes some powerful internal muscle.  A thick dollop of gooey cum falls onto it from inside of her, and she lifts it in front of her mouth.");
 		outputText("  Snaking her long tongue around her fluid-smeared hand, the spider-lady licks up a thick load of the contents of your ");
-		if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText(player.ballsDescriptLight());
 		else outputText("body");
 		outputText(", and throws back her head to let it slide into her mouth.\n\n");
 

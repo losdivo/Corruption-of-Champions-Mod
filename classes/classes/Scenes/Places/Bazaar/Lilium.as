@@ -258,7 +258,7 @@ private function liliumNippleFuck():void {
 	if (doubleNipFuck) outputText("s");
 	outputText(" as you can.  A wave of ecstasy washes over you from your head to ");
 	if (player.tailType > TAIL_TYPE_NONE) outputText("your tail");
-	else outputText("your " + player.feet(), false);
+	else outputText("your " + player.feet());
 	outputText(" as you cum");
 	if (player.cockTotal() > 2) outputText(", your unused cocks drenching her with seed");
 	outputText(".  The tightness of her ");

@@ -88,8 +88,8 @@ package classes.Scenes.Areas.Swamp
 			if (player.spe < 2 && player.hasStatusEffect(StatusEffects.Web)) {
 				outputText("The arachnid aggressor slowly saunters forward while you struggle under the heaps of webbing, gently placing " + mf("his", "her") + " arms around your back in a tender hug.  " + mf("His", "Her") + " fangs slide into your neck with agonizing slowness, immediately setting off a burning heat inside you that makes you dizzy and weak.  ");
 				if (player.hasCock()) {
-					outputText(player.SMultiCockDesc() + " turns rock hard and squirts weakly, suddenly so aroused that it starts soaking your " + player.armorName, false);
-					if (player.hasVagina()) outputText(" along with your " + player.vaginaDescript(), false);
+					outputText(player.SMultiCockDesc() + " turns rock hard and squirts weakly, suddenly so aroused that it starts soaking your " + player.armorName);
+					if (player.hasVagina()) outputText(" along with your " + player.vaginaDescript());
 					outputText(".  ");
 				}
 				else if (player.hasVagina()) outputText("Your " + player.vaginaDescript() + " grows wet as hell and so sensitive that every step and movement reminds you of the powerful need for something between your sopping nether-lips.  ");

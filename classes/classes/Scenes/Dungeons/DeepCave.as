@@ -1,6 +1,6 @@
 //Dungeon 2: Deep Cave
 package classes.Scenes.Dungeons 
-{ 
+{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -429,7 +429,7 @@ package classes.Scenes.Dungeons
 				else outputText("  Thanks to your massive bust, he is able to fit his entire throbbing prick inside you.");
 				outputText("  The demon starts pounding your tit with inhuman vigor, making the entire thing wobble enticingly.  The others, seeing their brother's good time, pounce on ");
 				if (player.totalNipples() > 2) outputText("each of ");
-				outputText("your other " + player.nippleDescript(0), false);
+				outputText("your other " + player.nippleDescript(0));
 				if (player.totalNipples() > 2) outputText("s");
 				outputText(", fighting over the opening");
 				if (player.totalNipples() > 2) outputText("s");
@@ -552,7 +552,7 @@ package classes.Scenes.Dungeons
 			if (player.cor > 66) {
 				outputText("You smirk down at him and fold your arms over your ");
 				if (player.biggestTitSize() < 1) outputText("chest");
-				else outputText(player.breastDescript(0), false);
+				else outputText(player.breastDescript(0));
 				outputText(", relishing his fear while you consider the possibilities");
 			}
 			else if (player.cor > 33) {

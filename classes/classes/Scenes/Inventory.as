@@ -124,10 +124,15 @@ package classes.Scenes
 			if (flags[kFLAGS.DELETE_ITEMS] > 0) outputText("\nWhich item will you discard?");
 			else outputText("\nWhich item will you use?");
 			outputText("\n<b>Capacity:</b> " + getOccupiedSlots() + " / " + getMaxSlots());
+			addButton(14, "Back", exitInventory);
+		}
+		
+		private function exitInventory():void {
+			flags[kFLAGS.DELETE_ITEMS] = 0;
 			if (getGame().inCombat)
-				addButton(14, "Back", combat.combatMenu, false); //Player returns to the combat menu on cancel
+				combat.combatMenu(false); //Player returns to the combat menu on cancel
 			else
-				addButton(14, "Back", playerMenu);
+				playerMenu();
 		}
 		
 		public function stash():void {

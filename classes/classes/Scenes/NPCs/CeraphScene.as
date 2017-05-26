@@ -329,7 +329,7 @@ package classes.Scenes.NPCs
 			outputText("  With an amused grin, Ceraph yanks down your gear and ");
 			//[dicks]
 			if (player.totalCocks() > 0) {
-				outputText("grabs your " + player.cockDescript(0), false);
+				outputText("grabs your " + player.cockDescript(0));
 				if (player.cocks[0].pierced > 0) outputText(", the old piercing clattering to the ground as it slides out of your flesh, ");
 				outputText(" and snaps the diamond stud through your sensitive flesh, making your vision haze red in pain.\n\n");
 				player.cocks[0].pierced = 1;
@@ -397,7 +397,7 @@ package classes.Scenes.NPCs
 			spriteSelect(7);
 			outputText("You tell Ceraph no, and let her know ");
 			if (player.cor <= 50) outputText("you'll stop her devilish scheme");
-			else outputText("you'll be HER " + player.mf("master", "mistress"), false);
+			else outputText("you'll be HER " + player.mf("master", "mistress"));
 			outputText(".  She snarls and drops the harness, preparing to defend herself.  It looks like you've got a fight!");
 			startCombat(new Ceraph());
 		}
@@ -563,7 +563,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nWith an amused grin, Ceraph yanks down your gear and ");
 			//[dicks]
 			if (player.cockTotal() > 0) {
-				outputText("grabs your " + player.cockDescript(0), false);
+				outputText("grabs your " + player.cockDescript(0));
 				if (player.cocks[0].pierced > 0)
 					outputText(", the old piercing clattering to the ground as it slides out of your flesh,");
 				outputText(" and snaps the diamond stud through your sensitive flesh, making your vision haze red in pain.");
@@ -711,7 +711,7 @@ package classes.Scenes.NPCs
 			outputText(", \"<i>Really?  Is that it?  After being under my magic for so long, you try to make a stand and fail, like this?!  Pathetic.</i>\"\n\n");
 
 			outputText("The demonic hermaphrodite steps one foot onto your chest");
-			if (player.biggestTitSize() > 1) outputText(", right between your " + player.allBreastsDescript(), false);
+			if (player.biggestTitSize() > 1) outputText(", right between your " + player.allBreastsDescript());
 			outputText(".  Her foot is arched like a high-heel, with a bone-like protrusion forming the heel and digging painfully into your chest.  She looks down at you, watching with a bemused expression while her right hand traces idle circles over her puffy feminine sex.  You can't help but enjoy the situation, pinned under the sexy demon and restrained by her heel.  Ceraph smirks and taunts, \"<i>So what am I to do you with you?  I want you to submit to my harem, not become a bound and unwilling slave.</i>\"\n\n");
 
 			outputText("She reaches down to pinch one of your erect nipples, \"<i>Though I'm sure you'd enjoy the restraint and humiliation...  I suppose I'll just have to punish you for your transgression and hope you've learned your lesson.  Now I'm not letting you go until you get me off or suffocate, so I hope you have a talented tongue!</i>\"\n\n");
@@ -786,7 +786,7 @@ package classes.Scenes.NPCs
 			outputText("\n\n");
 
 			outputText("As you're squeezed and massaged by ");
-			if (player.cocks[x].cockLength < 68) outputText(num2Text(int(player.cocks[x].cockLength / 12)), false);
+			if (player.cocks[x].cockLength < 68) outputText(num2Text(int(player.cocks[x].cockLength / 12)));
 			else outputText("six");
 			outputText(" feet of love-tunnel, you struggle not to blow your load.  ");
 			if (player.cocks[x].cockLength > 84) outputText("You've still got a lot more dick to get wet, and you start pushing the rest through her, using her like a plus-sized, organic onahole.  ");
@@ -802,7 +802,7 @@ package classes.Scenes.NPCs
 			else outputText("You expel huge waves of seed in what can only be described as eruptions.  They splatter into the dirt, forming thick puddles that are joined together with each successful splash of goo.  In between blasts, a steady stream leaks from the tip, travels down the underside, and catches on Ceraph's lip.  The spunk-flow is pulled over her face and into her hair by gravity.  She's glazed white and dripping into a puddle by the time you finish.");
 			outputText("\n\n");
 
-			outputText("You push the used fuck-toy off your " + player.cockDescript(0), false);
+			outputText("You push the used fuck-toy off your " + player.cockDescript(0));
 			if (player.cockTotal() == 2) outputText(" and marvel at the cum your other cock dumped into the puddle");
 			else if (player.cockTotal() > 2) outputText(" and marvel at the cum your other cocks dumped into the puddle");
 			outputText(".  Ceraph's pussy gapes at least " + num2Text(int(player.cocks[x].cockThickness + 1)) + " inches wide, pushing her hips so far apart as to make it difficult to walk.  She shudders, drooling spit, pussy-juice, and sperm as her mouth, neck, and chest tighten up.  Her lower body doesn't change one iota; your magics are still overpowering her natural abilities below the waist.  The abused dom twitches a few more times before her eyes reappear and she pulls her tongue back into her mouth.\n\n");
@@ -1104,7 +1104,7 @@ package classes.Scenes.NPCs
 				x = rand(player.cockTotal());
 				outputText("Ceraph's fingers feel unexpectedly hot as they brush your " + player.cockDescript(x) + ", as if she had just come out of a heated tub.  You don't have long to ponder that little detail as they pinch into a tight ring");
 				if (player.cocks[x].cockThickness >= 4) outputText(", compressing your massive girth into the rigid shaft");
-				outputText(", slowly closing.  It should hurt but it doesn't, it just feels warmer and warmer, and then with a sudden 'PYOING!', Ceraph is holding your " + player.cockDescript(x), false);
+				outputText(", slowly closing.  It should hurt but it doesn't, it just feels warmer and warmer, and then with a sudden 'PYOING!', Ceraph is holding your " + player.cockDescript(x));
 				if (player.balls > 0 && player.cockTotal() == 1) {
 					outputText(" and balls");
 					//Gotcher balls!

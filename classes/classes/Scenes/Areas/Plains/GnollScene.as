@@ -34,10 +34,10 @@ package classes.Scenes.Areas.Plains
 			clearOutput();
 			outputText("The sound of the gnoll's mocking laughter grates in your ears as you collapse down on your knees before her.  She circles you with the last scrap of her wariness and then surges forward to knock you over, exposing your ");
 			if (player.hasCock()) {
-				outputText(player.multiCockDescriptLight(), false);
+				outputText(player.multiCockDescriptLight());
 				if (player.hasVagina()) outputText(" and ");
 			}
-			if (player.hasVagina()) outputText(player.vaginaDescript(0), false);
+			if (player.hasVagina()) outputText(player.vaginaDescript(0));
 			if (player.gender > 0) outputText(".  ");
 			else outputText("flat, featureless groin.  ");
 			//  (if cockTotal=0 AND vaginas=1)
@@ -82,7 +82,7 @@ package classes.Scenes.Areas.Plains
 			//(if cockTotal>0)
 			if (player.cockTotal() > 0) {
 				outputText("  Your hips begin to buck as your orgasm builds, but the gnoll slams her hands down on your sides, pinning you to the hardscrabble ground.  \"<i>Best if you don't move too much, lover,</i>\" she laughs, even as she quickens her pace.  Immediately your ");
-				if (player.balls > 0) outputText(player.sackDescript(), false);
+				if (player.balls > 0) outputText(player.sackDescript());
 				else outputText("body");
 				outputText(" seizes tighter and you can feel your cum churning inside you.\n\n");
 
@@ -274,8 +274,8 @@ package classes.Scenes.Areas.Plains
 			player.consumeItem(consumables.S_DREAM);
 			//[either Gnoll loss, if the player has a succubi's dream in inventory]
 
-			outputText("A rolling, harsh laughter surrounds you as you sink to ground, no longer strong enough to remain upright.  The gnoll's mocking bark fills the air as she disposes of your " + player.armorName, false);
-			if (player.weaponName != "fists") outputText(" and " + player.weaponName, false);
+			outputText("A rolling, harsh laughter surrounds you as you sink to ground, no longer strong enough to remain upright.  The gnoll's mocking bark fills the air as she disposes of your " + player.armorName);
+			if (player.weaponName != "fists") outputText(" and " + player.weaponName);
 			outputText(" with rough motions, the soft pads of her paw-like hands coarsely grasping your " + player.hipDescript() + " as much to grope as to strip you.  As she knocks your belongings aside, a small, bulbous bottle rolls out of your pouches, the lurid white fluid sloshing inside like an alabaster stain against the dull browns and greens of the plains.  The hyena-girl pauses in her eagerness to taste the spoils of victory, regarding the stray vial doubtfully.  Her lips curl into a sneer that approaches a smile and she stoops down to retrieve the creamy flask.  Through the panting haze obscuring your vision, you can make out the murky whorls of curious thickness in the cum-colored elixir and you realize that the amazon has found your Succubi's Dream.\n\n");
 
 			outputText("You try to protest the theft, but she casually snaps her leg into a kick that jerks your chin up and the ground rushes to meet the back of your head, white pain exploding before your eyes.  \"<i>All that you have and all that you are belongs to me,</i>\" the hyena-woman snarls.  \"<i>I will take what tribute I see fit.</i>\"  Laughing again, she flicks the cork from your potion and sniffs the concoction with renewed interest.  Her nostrils crinkle at the scent, but she locks her gaze to yours and, in an aggressive, unblinking gesture, throws her head back to swallow the curiously thick ivory fluid.  Discarding the empty glass, she licks her lips as if the refreshingly cool cream merely inflamed a different sort of thirst.\n\n");
@@ -291,7 +291,7 @@ package classes.Scenes.Areas.Plains
 		{
 			clearOutput();
 			outputText("Using the distraction, you roll onto your belly, crawling towards your " + player.armorName + ", hoping to use the distraction to make an escape.  Baring your " + player.buttDescript() + ", however, proves to be a mistake, as the gnoll fixates on the wobbling orbs, lunging desperately.  She lands atop you, her paws pinning your head and shoulders to the ground as the warmth of her impatient shaft slides between your cheeks, her new scrotum slapping wetly against ");
-			if (player.balls > 0) outputText("your own " + player.ballsDescriptLight(), false);
+			if (player.balls > 0) outputText("your own " + player.ballsDescriptLight());
 			else outputText("your sweat-slick thighs");
 			outputText(".  The amazon wastes no time, guiding her monstrous clit to your " + player.assholeDescript() + " with gasping pleasure, thrusting the barrel-like pseudo-cock deeply inside your nethers, drawing a cry of penetration from your lips.  The plush interior of your anus parts before her energized clitoris, her cunt flowing with warm lubrication so heavily that its deluge inundates your bowels like a flood of pre-cum.");
 			player.buttChange(30, true, true, false);

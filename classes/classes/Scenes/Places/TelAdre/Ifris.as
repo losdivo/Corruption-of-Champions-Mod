@@ -111,7 +111,7 @@ private function liftWhileIfrisWatches():void {
 	dynStats("lus", 5);
 	//Body changes here
 	//Muscleness boost!
-	outputText(player.modTone(85,5+rand(5)), false);
+	outputText(player.modTone(85,5+rand(5)));
 	player.changeFatigue(30);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -162,7 +162,7 @@ private function showOffForIfris():void {
 		if (player.tou < 40) dynStats("tou", .3);
 		//Body changes here
 		//Muscleness boost!
-		outputText(player.modTone(85,5+rand(5)), false);
+		outputText(player.modTone(85,5+rand(5)));
 		doNext(camp.returnToCampUseOneHour);
 		return;
 	}
@@ -201,7 +201,7 @@ private function showOffForIfris():void {
 			outputText("Ifris all but squeals in delight as you tell her you're totally up for smashing that record, a wide grin spreading her thick lips, briefly worrying you when you see those sharp teeth of hers... but then you remind yourself how good she is with them, as you lay back onto the bench, gripping the bars above you. The devil girl doesn't even wait this time, tugging your bottoms down right away to get at your " + player.cockDescript(0) + ". She sits upon your " + player.legs() + ", her posh butt so nice and soft against you as she waits for you to begin.\n\n");
 
 			outputText("The moment you lift the weight for the first time, she bends down, rubbing her smooth cheek against your half-turgid member");
-			if (player.balls > 0) outputText(", her hand cupping your " + player.ballsDescriptLight(), false);
+			if (player.balls > 0) outputText(", her hand cupping your " + player.ballsDescriptLight());
 			outputText(". Smiling, she watches you carefully, her tongue sliding out of her lips, laving up the underside of the shaft, urging it on its final steps to full hardness. She groans in desire as she takes your " + player.cockHead() + " into her mouth once again, pulling a moan from you with her first, hard suckle upon your sensitive tip; it seems she doesn't want to tease anymore.\n\n");
 
 			outputText("The sexy little dark-haired devil takes your dick to the ");
@@ -258,7 +258,7 @@ private function showOffForIfris():void {
 	player.orgasm('Generic');
 	//Body changes here
 	//Muscleness boost!
-	outputText(player.modTone(85,5+rand(5)), false);
+	outputText(player.modTone(85,5+rand(5)));
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -340,7 +340,7 @@ private function ifrisDP():void {
 	player.orgasm('Generic');
 	//Body changes here
 	//Muscleness boost!
-	outputText(player.modTone(85,5+rand(5)), false);
+	outputText(player.modTone(85,5+rand(5)));
 	doNext(camp.returnToCampUseOneHour);
 }
 }

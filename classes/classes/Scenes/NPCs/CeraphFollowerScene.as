@@ -438,7 +438,7 @@ package classes.Scenes.NPCs
 				outputText("  With an amused grin, Ceraph yanks down your gear and ");
 				//[dicks]
 				if (player.totalCocks() > 0) {
-					outputText("grabs your " + player.cockDescript(0), false);
+					outputText("grabs your " + player.cockDescript(0));
 					if (player.cocks[0].pierced > 0) outputText(", the old piercing clattering to the ground as it slides out, ");
 					outputText(" and snaps the diamond stud through your sensitive flesh, making your vision haze red in pain.\n\n");
 					player.cocks[0].pierced = 1;
@@ -537,7 +537,7 @@ package classes.Scenes.NPCs
 			outputText("  You grab Ceraph's thighs");
 			if (player.str < 60) outputText(" and heave, lifting her up off the ground and forcing her to straddle you.");
 			else outputText(" and easily lift her, forcing her to straddle you.");
-			outputText("  Dragging the demon back, you bring her slutty, sodden puss up to your " + player.cockDescript(x), false);
+			outputText("  Dragging the demon back, you bring her slutty, sodden puss up to your " + player.cockDescript(x));
 			if (flags[kFLAGS.CERAPH_HIDING_DICK] == 0) outputText(", ignoring the rope of dangling pre-cum that hangs from her bumpy prick.");
 			else outputText(", feeling the heat washing off her mons and onto your " + player.cockHead(x) + ".");
 			outputText("  Yanking back, you bury all " + num2Text(Math.round(player.cocks[x].cockLength)) + " inches of your " + player.cockDescript(x) + " into Ceraph's unholy, warm snatch, ");
@@ -606,8 +606,8 @@ package classes.Scenes.NPCs
 			clearOutput();
 			spriteSelect(87);
 
-			outputText("Desirous of being pleasured by your demonic slave, you spread out your " + player.legs() + " to allow easy access to your " + player.vaginaDescript(), false);
-			if (player.hasCock()) outputText(" and " + player.multiCockDescriptLight(), false);
+			outputText("Desirous of being pleasured by your demonic slave, you spread out your " + player.legs() + " to allow easy access to your " + player.vaginaDescript());
+			if (player.hasCock()) outputText(" and " + player.multiCockDescriptLight());
 			outputText(".\n\n");
 
 			outputText("\"<i>Serve me with your tongue,</i>\" you command.\n\n");
@@ -1588,7 +1588,7 @@ package classes.Scenes.NPCs
 			outputText("You sigh and undress enough to point at your [cock " + y + "], indicating that Ceraph is welcome to have it.  Ceraph titters, \"<i>With pleasure, my [Master].</i>\"");
 			outputText("\n\nCeraph's fingers feel unexpectedly hot as they brush your " + player.cockDescript(x) + ", as if she had just come out of a heated tub.  You don't have long to ponder that little detail as they pinch into a tight ring");
 			if (player.cocks[x].cockThickness >= 4) outputText(", compressing your massive girth into the rigid shaft");
-			outputText(", slowly closing.  It should hurt but it doesn't, it just feels warmer and warmer, and then with a sudden 'PYOING!', Ceraph is holding your " + player.cockDescript(x), false);
+			outputText(", slowly closing.  It should hurt but it doesn't, it just feels warmer and warmer, and then with a sudden 'PYOING!', Ceraph is holding your " + player.cockDescript(x));
 			if (player.balls > 0 && player.cockTotal() == 1) {
 				outputText(" and balls");
 				//Gotcher balls!

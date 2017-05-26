@@ -421,7 +421,7 @@ package classes
 				          +" It can reach up to one foot, its forked tips tasting the air as they flick at the end of each movement.");
 			//Horns
 			if (player.hornType == HORNS_IMP) {
-				outputText(" A set of pointed imp horns rest atop your head.", false);
+				outputText(" A set of pointed imp horns rest atop your head.");
 			}
 			//Demonic horns
 			if (player.hornType == HORNS_DEMON) 

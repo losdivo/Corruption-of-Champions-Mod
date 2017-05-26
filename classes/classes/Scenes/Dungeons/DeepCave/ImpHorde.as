@@ -30,7 +30,7 @@ package classes.Scenes.Dungeons.DeepCave
 				//(OH SHIT IT GOES OFF) 
 				//+50 lust!
 				game.dynStats("lus", 50);
-				outputText("The imps in the back finish their spell-casting, and point at you in unison.  A wave of pure arousal hits you with the force of a freight train.   Your equipment rubs across your suddenly violently sensitive " + player.nippleDescript(0), false);
+				outputText("The imps in the back finish their spell-casting, and point at you in unison.  A wave of pure arousal hits you with the force of a freight train.   Your equipment rubs across your suddenly violently sensitive " + player.nippleDescript(0));
 				if (player.biggestLactation() > 1) outputText(" as they begin to drip milk");
 				outputText(".  The lower portions of your coverings ");
 				if (player.cockTotal() > 0) {

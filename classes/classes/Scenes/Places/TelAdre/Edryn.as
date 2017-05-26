@@ -417,7 +417,7 @@ private function fuckEdrynTaur():void {
 	outputText(" while she caresses the side of your " + player.face() + " with the other.  Your body pumps away while your tongues entwine, tracing saliva over each other's lips.  She pulls back and moans out again, trailing off into a whinny as she orgasms underneath you.\n\n");
 
 	outputText("Her cunt locks tightly around you once again, clamping down in a series of rings from the base all the way to your " + player.cockHead(x) + ".  At once, they start sliding from the base towards the tip, new ones forming along the bottom of the shaft as her pussy milks your " + player.cockDescript(x) + " hard.  Trapped inside her, all you can do is groan and cum in response to her climax.  You throw back your head as you feel the warmth of your release building in your ");
-	if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+	if (player.balls > 0) outputText(player.ballsDescriptLight());
 	else outputText("loins");
 	outputText(".\n\n");
 
@@ -715,7 +715,7 @@ private function beAnAssholeToPregdryn():void {
 //Pleased
 private function pleasedbyPregdryn():void {
 	spriteSelect(14);
-	outputText("",true);
+	clearOutput();
 	outputText("You crack into a smile and congratulate the lusty centaur.  She giggles with relief at your words and wipes a bead of sweat from her brow as you finish.  Edryn exclaims, \"<i>I'm so glad you're happy about this!  I don't expect you to drop your quest and move in with me or anything like that, but it'll be wonderful to hear the clipper-clopper of little hooves in this town.</i>\"\n\n");
 
 	outputText("Edryn pulls back from the table and stretches, her muscles visibly loosening as the tension oozes out of her imposing frame.  She whispers, \"<i>Be right back lover, I've got to make a stop at the little ponies' room,</i>\" before she departs.\n\n");
@@ -761,9 +761,9 @@ private function pregdrynOffer(cs:Boolean = true):void {
 		outputText("\n\n");
 
 		outputText("You wouldn't notice her return if it wasn't for the increase in potent centaur pheromones hitting your nostrils.  It takes a hand slipping under the table to play with your ");
-		if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText(player.ballsDescriptLight());
 		else if (player.hasSheath()) outputText("sheath");
-		else if (player.cockTotal() > 0) outputText(player.cockDescript(0), false);
+		else if (player.cockTotal() > 0) outputText(player.cockDescript(0));
 		else outputText("crotch");
 		outputText(" to rouse you from the incredible sexual haze.  ");
 	}
@@ -783,9 +783,9 @@ private function pregdrynOffer(cs:Boolean = true):void {
 		outputText("\n\n");
 
 		outputText("As usual, you're barely cognizant of her return.  It isn't until a hand sneaks under the table to surreptitiously fondle your ");
-		if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText(player.ballsDescriptLight());
 		else if (player.hasSheath()) outputText("sheath");
-		else if (player.cockTotal() > 0) outputText(player.cockDescript(0), false);
+		else if (player.cockTotal() > 0) outputText(player.cockDescript(0));
 		else outputText("crotch");
 		outputText(" that you come out of your daze.  ");
 	}
@@ -915,7 +915,7 @@ public function fuckPregEdryn():void {
 		outputText("You grunt from the force of your exertions and begin to fuck her a little more roughly.  Your arms squeeze tightly around her midsection with a mixture of affection and need as you fulfill her request.  You pound her swollen, dripping cunt with hard strokes that make your intertwined forms shiver, dislodging a few pillows.  Scrabbling noise fills the air.  Your legs are scrambling for purchase, but there's no traction.  Lying sideways in the pillows with your pregnant lover prevents you from fucking quite as hard as your body would like.\n\n");
 
 		outputText("Her slippery, silken tunnel feels wonderful as it contracts and squeezes your maleness with vice-like tightness.  Edryn's mouth hangs open, and as her eyes start to cross, you can feel the passage intensifying its muscular twitches.  She's on the brink of orgasm, but you aren't too far behind her.  You pull one arm up to her head and kiss her, running your tongue over her lips before sliding it inside to tangle with hers.  She undulates underneath you, convulsing as she reaches her peak.  Her juices erupt, splattering over your thighs");
-		if (player.balls > 0) outputText(" and " + player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText(" and " + player.ballsDescriptLight());
 		outputText(".  Her twat clutches you so tightly that you're immobilized for fear of hurting yourself, and the tight seal of her entrance acts as a cock-ring, actually bloating your " + player.cockDescript(x) + " inside her.\n\n");
 
 		outputText("Your " + player.cockDescript(x) + " is milked from ");
@@ -972,7 +972,7 @@ private function jizzFromEatingPregdrynOut():void {
 
 	outputText("You tremble as you pull away, licking her lust from your lips and gasping for air as you shift to lick at her clit.");
 	if (player.isTaur()) {
-		outputText("  Your legs twitch weekly on the floor, forgotten about as you focus entirely on your hands, mouth, and pulsating " + Appearance.cockNoun(CockTypesEnum.HUMAN), false);
+		outputText("  Your legs twitch weekly on the floor, forgotten about as you focus entirely on your hands, mouth, and pulsating " + Appearance.cockNoun(CockTypesEnum.HUMAN));
 		if (player.cockTotal() > 1) outputText("s");
 		outputText(".");
 	}

@@ -414,6 +414,7 @@ package classes
 				var gameMode:Number = flags[kFLAGS.HUNGER_ENABLED];
 				var hardcoreMode:int = flags[kFLAGS.HARDCORE_MODE];
 				var hardcoreSlot:String = flags[kFLAGS.HARDCORE_SLOT];
+				var mrapierBought:int = flags[kFLAGS.MRAPIER_BOUGHT];
 				
 			}
 			//Clear plot storage array!
@@ -426,6 +427,7 @@ package classes
 				flags[kFLAGS.HUNGER_ENABLED] = gameMode;
 				flags[kFLAGS.HARDCORE_MODE] = hardcoreMode;
 				flags[kFLAGS.HARDCORE_SLOT] = hardcoreSlot;
+				flags[kFLAGS.MRAPIER_BOUGHT] = mrapierBought;
 				if (player.findPerk(PerkLib.Misdirection) > 0) flags[kFLAGS.RAPHAEL_INTELLIGENCE_TRAINING];
 				if (player.findPerk(PerkLib.RapierTraining) > 0) flags[kFLAGS.RAPHAEL_RAPIER_TRANING] == 4;
 			}
@@ -637,7 +639,8 @@ package classes
 			player.createBreastRow();
 			
 			//Choices
-			outputText("You are a hermaphrodite.  Your upbringing has provided you an average in stats.\n\nWhat type of build do you have?", true);
+			clearOutput();
+			outputText("You are a hermaphrodite.  Your upbringing has provided you an average in stats.\n\nWhat type of build do you have?");
 			menu();
 			addButton(0, "Fem. Slender", buildSlenderFemale, null, null, null, "Feminine build. \n\nWill make you a futanari.", "Feminine, Slender");
 			addButton(1, "Fem. Average", buildAverageFemale, null, null, null, "Feminine build. \n\nWill make you a futanari.", "Feminine, Average");
@@ -828,7 +831,8 @@ package classes
 		//-- SKIN COLOURS
 		//-----------------
 		private function menuSkinComplexion():void {
-			outputText("What is your complexion?", true);
+			clearOutput();
+			outputText("What is your complexion?");
 			menu();
 			addButton(0, "Light", confirmComplexion, "light");
 			addButton(1, "Fair", confirmComplexion, "fair");
@@ -848,7 +852,8 @@ package classes
 		//-- HAIR COLOURS
 		//-----------------
 		private function menuHairColor():void {
-			outputText("What is your hair color?", true);
+			clearOutput();
+			outputText("What is your hair color?");
 			menu();
 			addButton(0, "Blonde", chooseHairColor, "blonde");
 			addButton(1, "Brown", chooseHairColor, "brown");
@@ -869,7 +874,8 @@ package classes
 		//-- BEARD STYLE
 		//-----------------
 		private function menuBeardSettings():void {
-			outputText("You can choose your beard length and style.\n\n", true);
+			clearOutput();
+			outputText("You can choose your beard length and style.\n\n");
 			outputText("Beard: " + player.beardDescript());
 			menu();
 			addButton(0, "Style", menuBeardStyle);
@@ -877,7 +883,8 @@ package classes
 			addButton(14, "Back", genericStyleCustomizeMenu);
 		}
 		private function menuBeardStyle():void {
-			outputText("What beard style would you like?", true);
+			clearOutput();
+			outputText("What beard style would you like?");
 			menu();
 			addButton(0, "Normal", chooseBeardStyle, 0);
 			addButton(1, "Goatee", chooseBeardStyle, 1);
@@ -890,7 +897,8 @@ package classes
 			menuBeardSettings();
 		}
 		private function menuBeardLength():void {
-			outputText("How long would you like your beard be? \n\nNote: Beard will slowly grow over time, just like in the real world. Unless you have no beard. You can change your beard style later in the game.", true);
+			clearOutput();
+			outputText("How long would you like your beard be? \n\nNote: Beard will slowly grow over time, just like in the real world. Unless you have no beard. You can change your beard style later in the game.");
 			menu();
 			addButton(0, "No Beard", chooseBeardLength, 0);
 			addButton(1, "Trim", chooseBeardLength, 0.1);
@@ -942,21 +950,24 @@ package classes
 			mainView.nameBox.visible = false;
 			if (int(mainView.nameBox.text) < 48)
 			{
-				outputText("That is below your minimum height choices!", true);
+			clearOutput();
+				outputText("That is below your minimum height choices!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
 			}
 			if (int(mainView.nameBox.text) > 96)
 			{
-				outputText("That is above your maximum height choices!", true);
+			clearOutput();
+				outputText("That is above your maximum height choices!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
 			}
 			if (mainView.nameBox.text == "")
 			{
-				outputText("Please input your height. Off you go to the height selection!", true);
+			clearOutput();
+				outputText("Please input your height. Off you go to the height selection!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
@@ -964,7 +975,8 @@ package classes
 			player.tallness = int(mainView.nameBox.text);
 			mainView.nameBox.maxChars = 16;
 			mainView.nameBox.restrict = null;
-			outputText("You'll be " + Math.floor(player.tallness / 12) + " feet and " + player.tallness % 12 + " inches tall. Is this okay with you?", true);
+			clearOutput();
+			outputText("You'll be " + Math.floor(player.tallness / 12) + " feet and " + player.tallness % 12 + " inches tall. Is this okay with you?");
 			doYesNo(genericStyleCustomizeMenu, setHeight);
 		}
 
@@ -1070,7 +1082,7 @@ package classes
 					outputText("Is your skin unusually sensitive?  (+5 Sensitivity)\n\nSensitivity affects how easily touches and certain magics will raise your lust.  Very low sensitivity will make it difficult to orgasm.");
 					break;
 				case PerkLib.Pervert:
-					outputText("Are you unusually perverted?  (+5 Corruption)\n\Corruption affects certain scenes and having a higher corruption makes you more prone to Bad Ends.\n", true);
+					outputText("Are you unusually perverted?  (+5 Corruption)\n\Corruption affects certain scenes and having a higher corruption makes you more prone to Bad Ends.\n");
 					break;
 				//Gender-specific
 				case PerkLib.BigCock:
@@ -1374,7 +1386,8 @@ package classes
 
 		//GRIMDARK!
 		private function chooseModeGrimdark():void {
-			outputText("You have chosen Grimdark Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?", true);
+			clearOutput();
+			outputText("You have chosen Grimdark Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?");
 			flags[kFLAGS.GRIMDARK_MODE] = 1;
 			flags[kFLAGS.HUNGER_ENABLED] = 1;
 			flags[kFLAGS.GAME_DIFFICULTY] = 3;

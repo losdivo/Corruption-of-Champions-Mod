@@ -82,7 +82,7 @@ package classes.Scenes.Dungeons.Factory
 		
 		private function talkSuccubusItsMe():void {
 			clearOutput();
-			outputText("You laugh mockingly at the stupid demon, roaring, \"<i>I'm the bloody champion you vapid cunt!</i>\"\n\nShe whirls, her beautiful face marred by rage.  It looks like you have a fight on your hands...");
+			outputText("You laugh mockingly at the stupid demon, roaring, \"<i>I'm the champion, you vapid bitch!</i>\"\n\nShe whirls, her beautiful face marred by rage.  It looks like you have a fight on your hands...");
 			doNext(doFightSuccubusMocked);
 		}
 		
@@ -366,7 +366,7 @@ package classes.Scenes.Dungeons.Factory
 			if (player.totalNipples() >= 6) outputText("As your first " + player.nippleDescript(0) + " drains, you force her over to the next, unleashing even more milk for her to feast upon.  In time, that " + player.nippleDescript(0) + " also empties and you rotate her on to the next.  The cycle repeats seemingly endlessly as you work her from nipple to nipple, relieving the insistent pressure of your breasts and slowly filling her with your milk.  ");
 			if (player.averageLactation() * player.totalBreasts() < 6) outputText("Her belly bulges slightly from all the breast-milk she's consumed.\n\n");
 			else outputText("The succubus looks bloated and pregnant from all the milk you've forced into her.  She sloshes and moans incoherently from the strain of it all.\n\n");
-			outputText("Despite the relief your " + player.allBreastsDescript() + " now feel, your " + player.vaginaDescript(0), false);
+			outputText("Despite the relief your " + player.allBreastsDescript() + " now feel, your " + player.vaginaDescript(0));
 			if (player.cocks.length > 0) outputText(" and " + player.multiCockDescriptLight() + " feel hungrier than ever.  ");
 			else outputText(" feels hungrier than ever.  ");
 			outputText("You shove your crotch into your milk-dazed foe's white-stained visage, grinding your " + player.vaginaDescript(0) + " into her mouth until you cum all over her");

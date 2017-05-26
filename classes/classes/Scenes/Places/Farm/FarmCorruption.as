@@ -2,6 +2,7 @@ package classes.Scenes.Places.Farm
 {
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.GlobalFlags.kFLAGS;
+	import classes.Items.Consumable;
 	import classes.Items.ConsumableLib;
 	import classes.Items.Consumables.SimpleConsumable;
 	import classes.ItemSlotClass;
@@ -390,7 +391,7 @@ package classes.Scenes.Places.Farm
 			addButton(14, "Back", rootScene);
 		}
 		
-		private function getItemObj(flag:int):SimpleConsumable
+		private function getItemObj(flag:int):Consumable
 		{
 			if (flag == kFLAGS.FARM_SUCCUMILK_STORED) return consumables.SUCMILK;
 			if (flag == kFLAGS.FARM_INCUDRAFT_STORED) return consumables.INCUBID;
@@ -403,7 +404,7 @@ package classes.Scenes.Places.Farm
 		
 		private function takeItems(flag:int):void
 		{
-			var item:SimpleConsumable = getItemObj(flag);
+			var item:Consumable = getItemObj(flag);
 			
 			if (flag == kFLAGS.FARM_EGG_STORED) flags[kFLAGS.FARM_EGG_COUNTDOWN] = 7;
 			flags[flag]--;

@@ -205,7 +205,7 @@ private function useTheSexMachine():void {
 
 			outputText("You moan gently, feeling a slight dampness beginning to form between your legs as your ");
 			if (player.cockTotal() > 1) outputText("primary cock");
-			else outputText(player.cockDescript(0), false);
+			else outputText(player.cockDescript(0));
 			outputText(" is gently stroked by the sheathe-like device now slipping over it. It rubs the flaccid member gently, stroking it up and down as it begins to swell with blood, growing harder by the second. You shudder with pleasure, wondering what could come next, only to be forced to gasp by a firm press on your " + player.assholeDescript() + ". A metallic cock presses hard against your muscular ring, taking the opportunity given by your gasp of surprise to force another cock into your mouth.\n\n");
 
 			outputText("It's almost impossible to stay focused on any one stimulation at once, your mind flowing effortlessly between your asshole as the cock lubes it up, your cock as it's milked slowly, your throat as it's slowly fucked by another cock, and your pussy as it grows wet, slowly allowing inch after inch of the invading phallus to penetrate your walls and stretch you wide open.");

@@ -201,6 +201,9 @@ public function setBenoitShop(setButtonOnly:Boolean = false):void {
 			}
 		}
 	}
+	else {
+		addButtonDisabled(0, flags[kFLAGS.TIMES_IN_BENOITS] == 0 ? "Market Stall" : benoitMF("Benoit", "Benoite"), "The shop is currently closed. Come back later.\n\nHours of operation: 9am to 5pm");
+	}
 }
 
 //Introduction Scenes

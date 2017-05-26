@@ -118,7 +118,7 @@ package classes.Scenes.Places.Prison
 			}
 			outputText("(Placeholder) You are given a chance to be released from the stockades -- all you need do is admit that you deserved to be punished, and apologize for what you did wrong. ");
 			//Checks Player "Self Esteem" and "Obedience" to see whether the player will beg for freedom or simply accept it 
-			outputText("Do you accept your " + prison.prisonCaptor.captorTitle + "'s terms, or do refuse? " + prison.prisonWillCostDescript(15), false);
+			outputText("Do you accept your " + prison.prisonCaptor.captorTitle + "'s terms, or do refuse? " + prison.prisonWillCostDescript(15));
 			menu();
 			if (player.esteem > 40 || player.obey < 10) {
 				addDisabledButton(0, "Beg");
@@ -247,10 +247,10 @@ package classes.Scenes.Places.Prison
 			outputText("(Placeholder)A dark resolve comes over your [captorTitle], and [captorhe] drags you to the stone box in the corner of the room and presses a hidden switch somewhere near its base. The front panel slides open and " + prison.prisonCaptor.captorPronoun1 + " quickly forces you inside the narrow chamber.\n\n");
 			outputText("\"<i>I'm afraid I've done you a disservice by allowing you to take my kindness for granted for so long. Well, I'll correct that mistake today. You will soon feel like you are being harshly punished, but trust me, in the end you will thank me for it. You will thank me for breaking you of your false impressions about your station in life. You will thank me because you will understand just how kind I have been. You will thank me because you will have a new found appreciation for the truth that both your mind and your body eventually submit to my will no matter how hard you try to fight it. And until you <b>do</b> thank me <b>and</b> apologize for your bad behavior, you <b>will</b> remain in this box and learn its very direct and pointed lesson.</i>\"\n\n");
 			outputText("With that very conclusive statement " + prison.prisonCaptor.captorPronoun1 + " fastens a girdle around your waste and uses four belts to attach it to vertical metal bars in each of the four corners of the stone box. Once the belts are properly tightened you realize that they are designed to hold you securely in the center of the stone box. You can barely squirm more than an inch in any direction, and thus are completely unable to lean on the walls of the chamber.\n\n");
-			outputText("But despite preventing any sideways movement, the straps wrap around the bars in a way that does allow you to crouch and stand freely. You understand why as your " + prison.prisonCaptor.captorTitle + " presents the final piece of the puzzle: a horizontal bar with a collection of demonically animated monstrous dildos bristling upwards along its length. Grinning, " + prison.prisonCaptor.captorPronoun1 + " positions the bar between your [legs] at a height where even if you stand on the tips of your toes the wriggling beasts can just barely find their way into your " + player.assholeDescript(),false);
+			outputText("But despite preventing any sideways movement, the straps wrap around the bars in a way that does allow you to crouch and stand freely. You understand why as your " + prison.prisonCaptor.captorTitle + " presents the final piece of the puzzle: a horizontal bar with a collection of demonically animated monstrous dildos bristling upwards along its length. Grinning, " + prison.prisonCaptor.captorPronoun1 + " positions the bar between your [legs] at a height where even if you stand on the tips of your toes the wriggling beasts can just barely find their way into your " + player.assholeDescript());
 			if (player.vaginas.length > 0)
 			{
-				outputText(" and " + player.vaginaDescript(),false);
+				outputText(" and " + player.vaginaDescript());
 			}
 			outputText(". And with you properly strapped into the hellish box, " + prison.prisonCaptor.captorTitle + " " + prison.prisonCaptor.captorName + " shoves a penis gag down your throat, straps it in place, and closes the stone door without another word. You are left in complete darkness and silence with nothing to keep you company but your panicked thoughts and the ravenous shafts between your legs.");
 			player.changeStatusValue(StatusEffects.PrisonCaptorEllyStatus,3,12 + rand(4));
@@ -336,20 +336,20 @@ package classes.Scenes.Places.Prison
 			statusVal = player.statusEffectv4(StatusEffects.PrisonCaptorEllyStatus);
 			if (statusVal <= 1)
 			{
-				outputText("There is now less than an inch of dildo wriggling around inside your " + player.assholeDescript(),false);
+				outputText("There is now less than an inch of dildo wriggling around inside your " + player.assholeDescript());
 			}
 			else if (statusVal >= 20)
 			{
-				outputText("You've sank down as far as you can go and your " + player.assDescript() + " now rests on the bar. Over 20 inches of dildo are buried in your " + player.assholeDescript(),false);
+				outputText("You've sank down as far as you can go and your " + player.assDescript() + " now rests on the bar. Over 20 inches of dildo are buried in your " + player.assholeDescript());
 			}
 			else
 			{
-				outputText("There are now almost " + Math.ceil(statusVal) + " inches of dildo wriggling around inside your " + player.assholeDescript(),false);
+				outputText("There are now almost " + Math.ceil(statusVal) + " inches of dildo wriggling around inside your " + player.assholeDescript());
 			}
 			
 			if (player.vaginas.length > 0)
 			{
-				outputText(" and " + player.vaginaDescript(),false);
+				outputText(" and " + player.vaginaDescript());
 			}
 			outputText(". ");
 			if (verbose)
@@ -422,7 +422,7 @@ package classes.Scenes.Places.Prison
 		{
 			clearOutput();
 			outputText("(Placeholder) You are given a chance to be released from the isolation chamber -- all you need do is admit that you deserved to be punished, thank your " + prison.prisonCaptor.captorTitle + " for the lesson, and apologize for what you did wrong. ");
-			outputText("Do accept your " + prison.prisonCaptor.captorTitle + "'s terms, or do you refuse? " + prison.prisonWillCostDescript(15), false);
+			outputText("Do accept your " + prison.prisonCaptor.captorTitle + "'s terms, or do you refuse? " + prison.prisonWillCostDescript(15));
 			menu();
 			if (player.esteem > 40 || player.obey < 10) {
 				addDisabledButton(0, "Beg");
@@ -556,7 +556,7 @@ package classes.Scenes.Places.Prison
 			var selector:int = 0;
 			if (player.statusEffectv4(StatusEffects.PrisonRestraints) > 0 && !(player.statusEffectv4(StatusEffects.PrisonRestraints) == 4))
 			{
-				outputText("Because of the way your mouth is gagged you are unable to suck on the dildo. You are consumed by the thought that the next time you are given the chance to earn your freedom this way, it might be wise to avoid doing things that would earn you a gag.",true);
+				outputText("Because of the way your mouth is gagged you are unable to suck on the dildo. You are consumed by the thought that the next time you are given the chance to earn your freedom this way, it might be wise to avoid doing things that would earn you a gag.");
 				doNext(playerMenu);
 				return;
 			}

@@ -67,19 +67,19 @@ public function HPChange(changeNum:Number, display:Boolean):Number
 public function HPChangeNotify(changeNum:Number):void {
 	if (changeNum == 0) {
 		if (player.HP >= maxHP())
-			outputText("You're as healthy as you can be.\n", false);
+			outputText("You're as healthy as you can be.\n");
 	}
 	else if (changeNum > 0) {
 		if (player.HP >= maxHP())
-			outputText("Your HP maxes out at " + maxHP() + ".\n", false);
+			outputText("Your HP maxes out at " + maxHP() + ".\n");
 		else
-			outputText("You gain <b><font color=\"#008000\">" + int(changeNum) + "</font></b> HP.\n", false);
+			outputText("You gain <b><font color=\"#008000\">" + int(changeNum) + "</font></b> HP.\n");
 	}
 	else {
 		if (player.HP <= 0)
-			outputText("You take <b><font color=\"#800000\">" + int(changeNum*-1) + "</font></b> damage, dropping your HP to 0.\n", false);
+			outputText("You take <b><font color=\"#800000\">" + int(changeNum*-1) + "</font></b> damage, dropping your HP to 0.\n");
 		else
-			outputText("You take <b><font color=\"#800000\">" + int(changeNum*-1) + "</font></b> damage.\n", false);
+			outputText("You take <b><font color=\"#800000\">" + int(changeNum*-1) + "</font></b> damage.\n");
 	}
 }
 		
@@ -137,11 +137,8 @@ public function rawOutputText(output:String, purgeText:Boolean = false):void
  * Output the text on main text interface.
  * @param	output The text to show. It can be formatted such as bold, italics, and underline tags.
  * @param	purgeText Clear the old text.
- * @param	parseAsMarkdown Parses the text using Markdown.
  */
-public function outputText(output:String, 
-						purgeText:Boolean = false, 
-						parseAsMarkdown:Boolean = false):void
+public function outputText(output:String):void
 {
 	// we have to purge the output text BEFORE calling parseText, because if there are scene commands in 
 	// the parsed text, parseText() will write directly to the output
@@ -151,22 +148,10 @@ public function outputText(output:String,
 	// It's needed since those buttons are available even when in the event-tester
 	mainView.hideTestInputPanel();
 
-	if (purgeText)
-	{
-		clearOutput();
-	}
+	output = this.parser.recursiveParser(output);
 
-	output = this.parser.recursiveParser(output, parseAsMarkdown);
-
-	//OUTPUT!
-	if (purgeText) {
-		//if (!debug) mainText.htmlText = output;
-		currentText = output;
-	}
-	else {
 		currentText += output;
 		//if (!debug) mainText.htmlText = currentText;
-	}
 	if (debug) 
 	{
 		mainView.setOutputText( currentText );
@@ -673,7 +658,8 @@ public function applyOperator(old:Number, op:String, val:Number):Number {
 }
 
 public function testDynStatsEvent():void {
-	outputText("Old: "+player.str+" "+player.tou+" "+player.spe+" "+player.inte+" "+player.lib+" "+player.sens+" "+player.lust+"\n",true);
+	clearOutput();
+	outputText("Old: "+player.str+" "+player.tou+" "+player.spe+" "+player.inte+" "+player.lib+" "+player.sens+" "+player.lust+"\n");
 	dynStats("tou", 1, "spe+", 2, "int-", 3, "lib*", 2, "sen=", 25,"lust/",2);
 	outputText("Mod: 0 1 +2 -3 *2 =25 /2\n");
 	outputText("New: "+player.str+" "+player.tou+" "+player.spe+" "+player.inte+" "+player.lib+" "+player.sens+" "+player.lust+"\n");

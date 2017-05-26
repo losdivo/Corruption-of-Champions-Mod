@@ -2494,7 +2494,7 @@ private function weightLifting():void {
 	if (player.tou < 40) dynStats("tou", .3);
 	//Body changes here
 	//Muscleness boost!
-	outputText(player.modTone(85,5+rand(5)), false);
+	outputText(player.modTone(85,5+rand(5)));
 	outputText("\n\nDo you want to hit the showers before you head back to camp?");
 	if (flags[kFLAGS.BROOKE_MET] == 1) {
 		menu();
@@ -2583,9 +2583,9 @@ private function goJogging():void {
 	}
 
 	//Thickness decrease!
-	outputText(player.modThickness(1,5+rand(2)), false);
+	outputText(player.modThickness(1,5+rand(2)));
 	//Muscleness boost!
-	outputText(player.modTone(100,2+rand(4)), false);
+	outputText(player.modTone(100,2+rand(4)));
 	outputText("\n\nDo you want to hit the showers before you head back to camp?");
 	if (flags[kFLAGS.BROOKE_MET] == 1) {
 		menu();

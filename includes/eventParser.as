@@ -1,4 +1,4 @@
-﻿import classes.GlobalFlags.kFLAGS;
+import classes.GlobalFlags.kFLAGS;
 import classes.GlobalFlags.kGAMECLASS;
 import classes.Player;
 import classes.Items.Consumable;
@@ -58,7 +58,7 @@ public function gameOver(clear:Boolean = false):void { //Leaves text on screen u
 	//Delete save on hardcore.
 	if (flags[kFLAGS.HARDCORE_MODE] > 0) {
 		outputText("\n\n<b>Error deleting save file.</b>");
-		/*outputText("\n\n<b>Your save file has been deleted, as you are on Hardcore Mode!</b>", false);
+		/*outputText("\n\n<b>Your save file has been deleted, as you are on Hardcore Mode!</b>");
 		flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] = flags[kFLAGS.HARDCORE_SLOT];
 		var test:* = SharedObject.getLocal(flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION], "/");
 		if (test.data.exists)
@@ -284,7 +284,7 @@ private function goNextWrapped(time:Number, needNext:Boolean):Boolean  {
 		else if (flags[kFLAGS.DIAPAUSE_FLUID_AMOUNT] > 0 && (player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0)) {
 			if (flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] == 1) {
 				flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] = 0;
-				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.", false);
+				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.");
 				needNext = true;
 			}
 			if (flags[kFLAGS.EVENT_PARSER_ESCAPE] == 1) {

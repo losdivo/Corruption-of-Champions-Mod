@@ -425,7 +425,6 @@ private function RaphaelSelectDate():void {
 }
 //{When player chooses [Reject] after second encounter}
 private function RaphaelChooseReject():void {
-	outputText("",true);
 	outputText("You sigh at the fox and shake your head. You're not interested in him or his advances.\n\n"); 
 
 	outputText("He flicks his tail past his body again and within the blink of an aye, the glass of wine is exchanged for the stolen pendant.\n\n");

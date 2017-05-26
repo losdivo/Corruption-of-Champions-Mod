@@ -45,7 +45,8 @@ package classes.Scenes.Areas
 		
 		private function deepwoodsWalkFn():void
 		{
-			outputText("You enjoy a peaceful walk in the deepwoods.  It gives you time to think over the recent, disturbing events.", true);
+			clearOutput();
+			outputText("You enjoy a peaceful walk in the deepwoods.  It gives you time to think over the recent, disturbing events.");
 			dynStats("tou", .5, "int", 1);
 			doNext(camp.returnToCampUseOneHour);
 		}

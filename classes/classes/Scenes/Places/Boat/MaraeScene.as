@@ -302,7 +302,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 			player.orgasm('Generic');
 			if (!deliberate) outputText("You dart to the side, diving into a roll that brings you up behind the tree.  You try to slip by the gauntlet of grabbing tentacles, but fail, getting tripped and ensnared in them like a fly in a spider's web.  You are pulled up and lifted to the other side of the tree, where you are slammed against it.  The tentacles pull your arms and legs wide, exposing you totally and locking you into a spread-eagle position.  You cringe as Marae strides around, free from the confines of her tree.\n\n");
 			else outputText("A mischievous idea reaches you, and you decide to play a prank on the corrupted goddess. You dart to the side, diving into a roll that bring you up behind the tree, aiming for her lethicite. You try to make your robbery attempt look real, and succeed; perhaps too well. Caught by surprise by her honest hostile reaction, you're ensnared by several tentacles like a fly in a spider's web. You are pulled up and lifted to the other side of the tree, where you are slammed against it.  The tentacles pull your arms and legs wide, exposing you totally and locking you into a spread-eagle position.  You cringe as Marae strides around, free from the confines of her tree. This was most definitely a bad idea.\n\n");
-			outputText("\"<i>Awwww, what a nasty deceitful little " + player.mf("boy", "girl"), false);
+			outputText("\"<i>Awwww, what a nasty deceitful little " + player.mf("boy", "girl"));
 			outputText(" you are.  You turn me into a steaming hot sex-pot, then have the nerve to come here and try to walk off with my lethicite, all WITHOUT fucking me?  Tsk tsk tsk,</i>\" she scolds, \"<i>I appreciate your ambition, but I can't just let a mortal walk all over me like that.  I'll be taking that,</i>\" she says as she grabs the crystal, and lugs it to the tree underneath you.  She strokes the wood surface lovingly, and a knot dilates until it forms a hole large enough to contain the lethicite.  Marae shoves it inside, and strokes the wood like a pet creature, humming while the bark flows closed, totally concealing the crystal.\n\n");
 			outputText("\"<i>Now, that should keep it safe from swift little play-toys like yourself.  What you tried was a bold move, and I respect that; initiative is to be rewarded.   So I'll let you go, just like that,</i>\" she says, snapping her fingers for emphasis.\n\n");
 			outputText("The tentacles lower you to the ground, but do not release you from their tight embrace.\n\n");
@@ -311,12 +311,12 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 			if (player.gender == 1 || (player.gender == 3 && rand(2) == 1)) {
 				outputText("She extends a hand expectantly, watching with detached concentration while a tentacle lowers from the tree into her palm.   Hips swaying sexually, she advances, peeling back the tentacle's outer layer.  It opens up to reveal a wet, gummy mouth.  She giggles and bumps the opening against your ");
 				if (player.cocks.length > 1) outputText("largest ");
-				outputText(player.cockDescript(0), false);
+				outputText(player.cockDescript(0));
 				outputText("'s tip.  Immediately a powerful suction draws your " + player.cockDescript(0) + " inside the tentacle-maw, burying you up to the base in squirming pleasure.   Marae watches the plant go to work, squeezing teasingly until you orgasm.  It takes mere moments for the gifted tentacle to achieve its goal.  Your cum makes a tasty treat for the plant-beast, and it sucks and sucks until your body feels empty and drained.\n\n");
 				outputText("\"<i>Oh that simply won't do,</i>\" Marae whispers, cupping your ");
-				if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
+				if (player.balls > 0) outputText(player.ballsDescriptLight());
 				else {
-					if (player.vaginas.length > 0) outputText(player.vaginaDescript(0), false);
+					if (player.vaginas.length > 0) outputText(player.vaginaDescript(0));
 					else outputText("crotch");
 				}
 				outputText(", \"<i>You'll be my prized breeder.</i>\"  The sharp point of a fingernail presses against your taint, scratching the skin.  \"<i>Just one tiny change to make,</i>\" exhales the goddess.  Pain explodes at the base of your crotch as it feels like her fingernail impales you, penetrating inches into your flesh.  You thrash in agony as it reaches something sensitive inside you.  You black out from pain and the shock of watching your blood flow down her arm.\n\n");
@@ -368,7 +368,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 		outputText("Squirming roots are crawling over the boat's underside.  They dig into every crease and crevice, binding the vessel tightly in place.  Just as you start to ponder swimming for the shore, the boat shifts, ");
 		if (player.spe < 50) outputText("dropping you flat on your ass");
 		else outputText("nearly dropping you flat on your ass before you catch yourself and sit down");
-		outputText(".  The old dinghy's cutting through the water with amazing speed, leaving foot-high waves in its wake.  Marae's island grows larger with each passing second, almost taunting you with your inability to get away.   By now the root-like vines have crept over the gunwales, and they wriggle at you, seemingly in warning.  Getting in the water is definitely not a good idea right now.	The bone-chilling scrape of sand on wood grates at your ears.  You've arrived.  There's no point in putting off the inevitable.  You straighten up your " + player.armorName, false);
+		outputText(".  The old dinghy's cutting through the water with amazing speed, leaving foot-high waves in its wake.  Marae's island grows larger with each passing second, almost taunting you with your inability to get away.   By now the root-like vines have crept over the gunwales, and they wriggle at you, seemingly in warning.  Getting in the water is definitely not a good idea right now.	The bone-chilling scrape of sand on wood grates at your ears.  You've arrived.  There's no point in putting off the inevitable.  You straighten up your " + player.armorName);
 		if (player.weaponName != "fists") outputText(", adjust your " + player.weaponName + ",");
 		outputText(" and step out of the boat onto the small, sandy beach that rings the island.  The tentacles that dragged your boat ashore are gone, leaving the well-used vessel in pristine condition, or as close as any such water-craft can be.  Looking up, you behold the monstrous, demonic-tree that sprouts from the island's apex.   It has no leaves, only small, teat-like protrusions that sprout from some of the 'branches', which in truth have more in common with tentacles than plant-life.  The squirming mass of sexual shrubbery stays in constant motion, and its intertwined tentacles occasionally bulge and flex as they spurt thick, jism-like sap over one-another.\n\n");
 
@@ -440,7 +440,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 
 			outputText("Marae grunts and pulls on ");
 			if (player.horns > 0) outputText("your horns");
-			else outputText("your " + player.hairDescript(), false);
+			else outputText("your " + player.hairDescript());
 			outputText(", shoving her thick clit-cock deep inside your throat.  You reflexively swallow down the bulging fuck-meat and ");
 			if (player.cor < 33) outputText("struggle to ");
 			else if (player.cor < 66) outputText("work to ");
@@ -515,7 +515,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 
 			if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS_WET) outputText("Sticky wetness glistens between your thighs");
 			else if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS_DROOLING) outputText("Drops of feminine arousal run down your thighs");
-			else outputText("Trails of viscous feminine fluid leak from your " + player.vaginaDescript(0), false);
+			else outputText("Trails of viscous feminine fluid leak from your " + player.vaginaDescript(0));
 			outputText(", reminding you of your unused femsex.  Marae grunts underneath you, and while at first you assume it's from the penetration, the prodding of two cock-like protrusions at your lusty holes corrects your misguided assumptions.  You pull back and begin to fuck her in earnest, and with each long rock back, you can see she's grown tentacles from underneath her ass, like two prehensile tails.  They push forwards and spear you, arresting your movement while you try to cope with the sudden stretching of two of your orifices.  Warmth radiates from the twin intruders along with a slippery fullness.  They're pumping something inside you that tingles and makes " + player.sMultiCockDesc() + " bounce and drip.");
 			player.cuntChange(12, true, true, false);
 			player.buttChange(12, true, true, false);
@@ -536,8 +536,8 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 				outputText("Neglected but orgasming, ");
 				if (player.cockTotal() > 3) outputText("the remainder of ");
 				outputText("your ");
-				if (player.cockTotal() > 3) outputText(player.multiCockDescriptLight(), false);
-				else outputText(player.cockDescript(2), false);
+				if (player.cockTotal() > 3) outputText(player.multiCockDescriptLight());
+				else outputText(player.cockDescript(2));
 				outputText(" does its best to coat Marae's thighs with whiteness.  ");
 			}
 			outputText("The goop from inside you never seems to end, and you pump Marae's belly up with it until she looks a little pregnant.  ");

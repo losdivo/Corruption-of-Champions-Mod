@@ -111,7 +111,8 @@ package classes.Scenes.Areas
 		}
 
 		private function walk():void {
-			outputText("You spend an hour trudging through the bleak and bitingly cold glaciers but you don’t find anything interesting.", true);
+			clearOutput();
+			outputText("You spend an hour trudging through the bleak and bitingly cold glaciers but you don’t find anything interesting.");
 			doNext(camp.returnToCampUseOneHour);
 		}
 

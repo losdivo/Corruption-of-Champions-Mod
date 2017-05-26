@@ -11,6 +11,10 @@ package classes.Scenes.Areas.Desert {
 	import classes.internals.WeightedDrop;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
+	import classes.Creature;
+	import classes.Monster;
+	import classes.Player;
+	import classes.StatusEffects;
 	import classes.Scenes.Areas.Desert.*;
 	
 	public class Ghoul extends Monster {
@@ -19,7 +23,7 @@ package classes.Scenes.Areas.Desert {
 		public var spellCostGhoulMagic:int = 12;
 		
 		protected function hyenaBite():void {
-			if(hasStatusEffect(StatusEffects.Blind)) { //Blind
+			if (this.hasStatusEffect(StatusEffects.Blind)) { //Blind
 				outputText("The hyena lunges for you, aiming to bite you, but misses entirely due to its blindness!");
 				combatRoundOver();
 				return;
@@ -39,7 +43,7 @@ package classes.Scenes.Areas.Desert {
 		}
 	
 		protected function hyenaClaw():void {
-			if(hasStatusEffect(StatusEffects.Blind)) { //Blind
+			if (this.hasStatusEffect(StatusEffects.Blind)) { //Blind
 				outputText("The hyena slashes its paw at you, but misses due to its blindness!");
 				combatRoundOver();
 				return;
@@ -68,7 +72,7 @@ package classes.Scenes.Areas.Desert {
 				else {
 					outputText("You manage to blink in the nick of time!");
 				}
-				fatigue += spellCostBlind;
+				this.fatigue += spellCostBlind;
 			}
 			combatRoundOver();
 		}
@@ -82,19 +86,18 @@ package classes.Scenes.Areas.Desert {
 					return;
 				}
 				else { //Damage
-					outputText("Blackened flames burst from the circle, causing you to seize with pain as they scorch every inch of your body.");
+					outputText("Blackened flames burst from the circle, causing you to seize with pain as they scorch every inch of your body. ");
 					var damage:int = (rand(10) + 10);
 					damage = player.reduceDamage(damage);
 					player.takeDamage(damage, true);
 				}
-				fatigue += spellCostGhoulMagic;
+				this.fatigue += spellCostGhoulMagic;
 			}
 			combatRoundOver();
 		}
 		
 		override protected function performCombatAction():void {
-			var chooser:Number = 0;
-			chooser = rand(10);
+			var chooser:Number = rand(10);
 			if (!game.combat.ghoulReveal) {
 				if (chooser <= 5) hyenaClaw();
 				else if (chooser >= 6) hyenaBite();
@@ -107,20 +110,20 @@ package classes.Scenes.Areas.Desert {
 		
 		override public function defeated(hpVictory:Boolean):void
 		{
+			game.combat.ghoulReveal = false;
 			outputText("The ghoul lets out a furious screech as your attacks become too much to bear, and vanishes in a dusty cloud of sand. You're left staring at the spot, wondering if you just hallucinated everything that happened.");
 			game.combat.cleanupAfterCombat();
-			game.combat.ghoulReveal = false;
 		}
 		
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
+			game.combat.ghoulReveal = false;
 			if(pcCameWorms){
 				outputText("\nThe ghoul lets out a disgusted noise and vanishes without a word.");
 				doNext(game.combat.endLustLoss);
 			} else {
 				game.desert.ghoulScene.ghoulWon();
 			}
-			game.combat.ghoulReveal = false;
 		}
 		
 		private const VIRGIN_VARIATIONS:Array = [
@@ -151,7 +154,7 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const LEG_VARIATIONS:Array = [
-			["no"],
+			["lack of"],
 			["human"],
 			["hoofed"],
 			["dog"],
@@ -272,7 +275,6 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const HAIRTYPE_VARIATIONS:Array = [
-			["no"],
 			["normal"],
 			["feather"],
 			["ghost"],
@@ -284,7 +286,7 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const FACE_VARIATIONS:Array = [
-			["no"],
+			["lack of"],
 			["human"],
 			["horse"],
 			["dog"],
@@ -337,7 +339,7 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const TONGUE_VARIATIONS:Array = [
-			["no"],
+			["non-existant"],
 			["human"],
 			["snake"],
 			["demonic"],
@@ -398,7 +400,7 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const TAIL_VARIATIONS:Array = [
-			["no"],
+			["non-existant"],
 			["horse"],
 			["dog"],
 			["demonic"],
@@ -428,6 +430,7 @@ package classes.Scenes.Areas.Desert {
 		];
 		
 		private const HORN_VARIATIONS:Array = [
+			["no"],
 			["demon"],
 			["cow"],
 			["minotaur"],
@@ -475,7 +478,7 @@ package classes.Scenes.Areas.Desert {
 			var hornTypes:Array = randomChoice(HORN_VARIATIONS);
 			var wingTypes:Array = randomChoice(WING_VARIATIONS);
 			
-			this.revealedDesc = "The ghoul is one of the more bizarre things you've seen, with a " + faceTypes[0] + " face, " + armsType[0] + " arms, and a " + legType[0] + " lower body. Its face is complete with " + eyeTypes[0] + " eyes and a " + tongueTypes[0] + " tongue. It also has " + wingTypes[0] + " wings, " + hornTypes[0] + " horns, and a " + tailTypes[0] + " tail above its [ass]. It has " + hairColours[0] + " " + hairTypes[0] + " hair, " + skinColour[0] + " " + skinsType[0] + ", " + hipRate[0] + " hips, and a " + buttRate[0] + " butt. It weilds a " + weaponTypes[0] + " for a weapon and wears " + armorTypes[0] + " as armor.";
+			this.revealedDesc = "The ghoul is one of the more bizarre things you've seen, with a " + faceTypes[0] + " face, " + armsType[0] + " arms, and a " + legType[0] + " lower body. Its face is complete with " + eyeTypes[0] + " eyes and a " + tongueTypes[0] + " tongue. It also has " + wingTypes[0] + " wings, " + hornTypes[0] + " horns, and a " + tailTypes[0] + " tail above its [ass]. It has " + hairColours[0] + " " + hairTypes[0] + " hair, " + skinColour[0] + " " + skinsType[0] + ", " + hipRate[0] + " hips, and a " + buttRate[0] + " butt. It wields a " + weaponTypes[0] + " for a weapon and wears " + armorTypes[0] + " as armor.";
 			
 			this.a = "the ";
 			this.short = "";
@@ -506,7 +509,7 @@ package classes.Scenes.Areas.Desert {
 
 			this.skinTone = skinColour[0];
 			this.skinType = rand(5);
-			this.hairLength = rand(25) + 0;
+			this.hairLength = rand(25);
 			if (this.hairLength > 0) {
 				this.hairColor = hairColours[0];
 				this.hairType = rand(7) + 1;
@@ -542,7 +545,7 @@ package classes.Scenes.Areas.Desert {
 			this.tailType = rand(26);
 			this.horns = rand(4);
 			if (this.horns > 0) {
-				this.hornType = rand(8);
+				this.hornType = rand(7) + 1;
 			} else {
 				this.hornType = HORNS_NONE;
 			}

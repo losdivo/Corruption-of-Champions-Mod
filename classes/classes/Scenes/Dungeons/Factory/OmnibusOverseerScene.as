@@ -395,15 +395,15 @@ package classes.Scenes.Dungeons.Factory
 			if (player.cocks.length > 1) {
 				outputText("In her hand is a mass of shining green material.  She turns to face you, bringing it closer and letting you see the lights shift and change on its luminescent surface.\n\n");
 				outputText("\"<i>For someone as... different as you, we will have to try this creature.  I've bred it from a mixture of plant-tentacles, dazzle-weed, and what we've taken to calling pussy plants,</i>\" she mentions, her hands working to open the mass on the table.  The interior surface is a mass of slimy undulating protrusions that wriggle feverishly as they are exposed to the air.  She gathers up the thing in her arms while continuing to speak to you, \"<i>You see, my plant will encapsulate your members tightly, wrapping them in sticky wetness.  Its fluids are a perfect blend of aphrodisiacs, lubricants, and will-sapping narcotics.  You'll love it.</i>\"\n\n");
-				outputText("You make a desperate attempt to escape her chair, but your body fails to do much more than squirm in place.  She drops the creature squarely into your crotch and hops up onto her desk to watch.  Thousands of tiny wet nodules immediately begin massaging your " + player.multiCockDescriptLight(), false);
-				if (player.balls > 0) outputText(" and " + player.ballsDescript(), false);
+				outputText("You make a desperate attempt to escape her chair, but your body fails to do much more than squirm in place.  She drops the creature squarely into your crotch and hops up onto her desk to watch.  Thousands of tiny wet nodules immediately begin massaging your " + player.multiCockDescriptLight());
+				if (player.balls > 0) outputText(" and " + player.ballsDescript());
 				outputText(".  You groan as the pleasure washes over you like a wave.  Your squirming stops as your hips begin twitching into the air, as if begging for even more stimulation.  It's not fair how good this feels... you can't help it, it's just too hard to fight.\n\n");
 				outputText("You watch with detached fascination as each of your " + player.multiCockDescript() + " is wrapped tightly in shiny green material.  The shape of each penis is still clearly defined under the pulsating green stuff, though you can see it shifting and rippling over your lengths as it pleasures you.  It almost looks like some kind of kinky bondage-toy.  Aware of your attentions, the green stuff squeezes you tightly and begins flashing beautiful bioluminescent color patterns across its surface that scatter your thoughts as you watch.  You blink a few times as the green mass rolls more of itself out, curling over your ");
 				if (player.balls > 0) {
 					outputText("balls");
-					if (player.vaginas.length > 0) outputText(" and " + player.vaginaDescript(0), false);
+					if (player.vaginas.length > 0) outputText(" and " + player.vaginaDescript(0));
 				}
-				else if (player.vaginas.length > 0) outputText(player.vaginaDescript(0), false);
+				else if (player.vaginas.length > 0) outputText(player.vaginaDescript(0));
 				else outputText("taint");
 				outputText(", sliding up your abdomen, and oozing down over your hips.  As it spreads the colors fill more and more of your head, clearing away your thoughts of resistance.\n\n");
 				outputText("A soothing female voice talks to you from somewhere, \"<i>Did I mention it's specifically tuned to ensnare the conscious mind with it's pretty colors?  I must have forgot.  Well, I see you've discovered it on your own.  The colors are just so perfect for opening your mind to me, aren't they?  They just chase away your thoughts and let my words slip deep into your subconscious.  I bet it feels nice to just focus on the colors and let my pet tease your cocks, doesn't it?</i>\"\n\n");
@@ -514,8 +514,8 @@ package classes.Scenes.Dungeons.Factory
 				outputText("in moments");
 				if (player.biggestLactation() > 2) outputText(" and start to drip with milk");
 				outputText(".  You sigh with disappointment when her hands drop away.  You were so close to orgasm.  She reaches back up and places something wet and warm on ");
-				if (player.breastRows.length <= 1) outputText("your " + player.nippleDescript(0), false);
-				if (player.breastRows.length > 1) outputText("your top " + player.nippleDescript(0), false);
+				if (player.breastRows.length <= 1) outputText("your " + player.nippleDescript(0));
+				if (player.breastRows.length > 1) outputText("your top " + player.nippleDescript(0));
 				outputText(".  You look down and see two star-shaped creatures made of glistening pink (just like your panties!) attached to your " + player.nippleDescript(0) + "s.  They pulse and ripple as they constantly massage and suck.  ");
 				if (player.biggestLactation() > 1) outputText("Your milk erupts, spraying out from a tiny hole in the center of the star.  In response the creature increases the force of its sucking action, making you fountain milk constantly.  ");
 				if (player.breastRows.length > 1) outputText("While you continue to fuck that meat pole and watch the creatures squirming on your nipples, more are affixed to each of your remaining " + player.nippleDescript(0) + "s, until every single one is covered with its own tiny pleasure-creature.\n\n");

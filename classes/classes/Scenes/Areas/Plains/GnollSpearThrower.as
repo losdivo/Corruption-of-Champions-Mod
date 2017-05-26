@@ -190,7 +190,7 @@ package classes.Scenes.Areas.Plains
 				}
 				//<Hyena Attack 3 – Snap Kick – Successful>
 				else {
-					outputText("A glint enters the dark eyes of the gnoll before she strides forward and pivots.  A long, spotted leg snaps up and out to slam against your " + player.chestDesc(), false);
+					outputText("A glint enters the dark eyes of the gnoll before she strides forward and pivots.  A long, spotted leg snaps up and out to slam against your " + player.chestDesc());
 					if (player.biggestTitSize() >= 1) outputText(", sending a wave of pain through the sensitive flesh");
 					outputText(".  A small, traitorous part of you can't help but notice a flash of long, dark flesh beneath her loincloth even as you stagger back from the impact. ");
 					game.dynStats("lus", 2);

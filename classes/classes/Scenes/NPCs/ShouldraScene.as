@@ -425,7 +425,7 @@ private function slimeGinaFlation():void {
 	outputText("You're stuck on your back like an unlucky turtle, the weight of your still-ballooning belly pressing down on you. The goo in your gut sloshes impatiently, roiling under the skin like a quintuplet of angry minotaurs. A thought strikes you, and though it's a bit insane, you figure you might as well work with what you're given. You lean as far as your belly allows you to one side, then with an almighty heave, throw yourself the other way. The momentum carries you up and over until you're resting on your own squishy stomach. Your weight squishes your swollen body, and you can feel goo threatening to spurt back out of the gaping orifices that the stuff entered through. The substance inside you quakes happily from the pressure, and you're relieved to finally be making progress. You knead and press your tight-stretched skin furiously with your ");
 	if (player.isNaga()) outputText("snake-like lower body");
 	else if (player.isGoo()) outputText("undulating, gooey mass");
-	else if (player.tailType == TAIL_TYPE_NONE) outputText("arms and " + player.legs(), false);
+	else if (player.tailType == TAIL_TYPE_NONE) outputText("arms and " + player.legs());
 	else outputText("arms, " + player.legs() + ", and tail");
 	outputText(", taking pleasure in the distant cries and moans from the ghost girl inside. The ingested green slime begins rumbling, softly at first, but with increasing intensity. You're actually knocked from your tentative perch as the quake of flesh continues growing, landing heavily on your side. As abruptly as it began, the vibrations cease, but you continue to rub, feeling the worst is not yet over.\n\n");
 	
@@ -460,7 +460,7 @@ private function slimeyPenorsAhoy():void {
 	
 	outputText("She falls into spell-chanting- a strange-sounding thing, considering her current body- and you're forced to wait impatiently until her incantation is complete. She ends the chant with a gesture towards you, cluing you in on the recipient of the spell. With a wry smile, you spread your arms, and she happily accepts the offer. Neither of you waste time with foreplay, both of you too aroused to care about much at all. The spectral slime girl happily hops up and impales herself upon your " + player.cockDescript(x) + ". She twitches eagerly as she wraps her legs around your waist, pinning herself to your still-standing frame");
 	//([if boobs present] 
-	if (player.biggestTitSize() < 1) outputText(" while squishing her small boobs into your own " + player.allBreastsDescript(), false);
+	if (player.biggestTitSize() < 1) outputText(" while squishing her small boobs into your own " + player.allBreastsDescript());
 	outputText(". Before you can dwell on her seemingly sexually-hindering actions, however, a sensation in your genitals steals your attention—the spirit screams in ecstasy as your slime-sheathed penis magically broadens substantially.  ");
 	if (flags[kFLAGS.SHOULDRA_SLIME_PENOR_TIMES] > 0) outputText("You can't shake the feeling that she's used this particular spell before. What an unoriginal ghost.  ");
 	outputText("Your growing girth stuffs the goo-ghost more and more, and she enthusiastically squirms against you. \"<i>Nnngghh... touch me, idiot!</i>\" she demands between excited gasps. Happy to comply, you reach up and tickle her jade-colored tits. The stimulation elicits a gurgle from the enamored eldritch woman, and you feel her pulsating mass of slime tighten around your swollen cock. Your efforts redouble, nearly pushing right through her as you work the goo as a chef does stubborn dough. Her legs weaken their grip on your " + player.hipDescript() + "; capitalizing on the slip-up, your grip instantly drops to her forcibly widened hips.\n\n");
@@ -581,7 +581,7 @@ private function penisLossThatIsntALoss():void {
 		if (player.cockTotal() > 1) {
 			outputText("  Mindful of ");
 			if (player.cockTotal() == 2) outputText("your other dick");
-			else outputText("the rest of " + player.multiCockDescriptLight(), false);
+			else outputText("the rest of " + player.multiCockDescriptLight());
 			outputText(", the mentally dominated girl quickly clutches ");
 			if (player.cockTotal() == 2) outputText("your other shaft and pumps it vigorously.");
 			else if (player.cockTotal() == 3) outputText("your other two shafts and pumps them vigorously.");
@@ -596,7 +596,7 @@ private function penisLossThatIsntALoss():void {
 		else if (player.cockTotal() >= 3) outputText("Taking her hands away from your other dicks, the ");
 		else outputText("The ");
 		outputText("ghost girl smiles around your phallus, and you can only guess what she has planned.  You don't have long to wait, however; a strange roiling arises ");
-		if (player.balls > 0) outputText("in your " + player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText("in your " + player.ballsDescriptLight());
 		else outputText("near the base of your shaft");
 		outputText(".  ");
 		if (player.balls == 0) outputText("The first effects of the spell make themselves known in a big way when an overladen cumsack forms and drops between your legs.  ");
@@ -781,7 +781,7 @@ private function hermaphroditeGhostsCumEctoplasm():void {
 		if (player.cockTotal() > 1) {
 			outputText("  Mindful of ");
 			if (player.cockTotal() == 2) outputText("your other dick");
-			else outputText("the rest of " + player.multiCockDescriptLight(), false);
+			else outputText("the rest of " + player.multiCockDescriptLight());
 			outputText(", the mentally dominated girl quickly clutches ");
 			if (player.cockTotal() == 2) outputText("your other shaft and pumps it vigorously.");
 			else if (player.cockTotal() == 3) outputText("your other two shafts and pumps them vigorously.");
@@ -796,7 +796,7 @@ private function hermaphroditeGhostsCumEctoplasm():void {
 		else if (player.cockTotal() >= 3) outputText("Taking her hands away from your other dicks, the ");
 		else outputText("The ");
 		outputText("ghost girl smiles around your phallus, and you can only guess what she has planned.  You don't have long to wait, however; a strange roiling arises ");
-		if (player.balls > 0) outputText("in your " + player.ballsDescriptLight(), false);
+		if (player.balls > 0) outputText("in your " + player.ballsDescriptLight());
 		else outputText("near the base of your shaft");
 		outputText(".  ");
 		if (player.balls == 0) outputText("The first effects of the spell make themselves known in a big way when an overladen cumsack forms and drops between your legs.  ");
@@ -1186,7 +1186,7 @@ private function superCoolPaladinSexStuffDudeGasmJizzMonkies():void {
 //(no)
 private function noCourtingYouFag():void {
 	spriteSelect(66);
-	outputText("",true);
+	clearOutput();
 	outputText("You quickly tell her that there's been a misunderstanding; surely your order would not allow such a relationship. She nods, not seeming very bothered by the dismissal. \"<i>What a shame. Farewell, then, paladin friend,</i>\" she says, turning back towards her shack. \"<i>Perhaps we will meet again.</i>\"  You're left to watch her go, and you soon depart as well.");
 	doNext(camp.returnToCampUseOneHour);
 }

@@ -1699,12 +1699,12 @@ private function standardSex(newpage:Boolean = true):void {
 			outputText("You smirk at her and demonstrate just how easy it is to get at your genitals while wearing this outfit.  But you decide to not disappoint her, making a show of removing your " + player.armorName + " and pretending to have some modestly when you show off your ");
 			//[player has at least one dick]
 			if (player.totalCocks() > 0) {
-				outputText(player.multiCockDescriptLight(), false);
+				outputText(player.multiCockDescriptLight());
 				//player has at least one dick and a vagina]
 				if (player.vaginas.length > 0) outputText(" and your ");
 			}
 			//[player has a vagina]
-			if (player.vaginas.length > 0) outputText(player.vaginaDescript(0), false);
+			if (player.vaginas.length > 0) outputText(player.vaginaDescript(0));
 			outputText(".  You also make sure that there is no lingering clothing on your body for her, just as she did for you.\n\n");
 		}
 		//(player is not wearing fetish gear)
@@ -1716,12 +1716,12 @@ private function standardSex(newpage:Boolean = true):void {
 			else outputText("running one of your hands over them before continuing on.");
 			outputText("  You slip open the lower half of your clothes, revealing your ");
 			if (player.totalCocks() > 0) {
-				outputText(player.multiCockDescriptLight(), false);
+				outputText(player.multiCockDescriptLight());
 				//player has at least one dick and a vagina]
 				if (player.vaginas.length > 0) outputText(" and your ");
 			}
 			//[player has a vagina]
-			if (player.vaginas.length > 0) outputText(player.vaginaDescript(0), false);
+			if (player.vaginas.length > 0) outputText(player.vaginaDescript(0));
 			outputText(".  You then remove any other clothing, leaving your body bare.\n\n");
 		}
 		//(player is a herm)
@@ -1827,7 +1827,7 @@ private function marbleMilkSex(newpage:Boolean = true):void {
 			while(temp > 0) {
 				temp--;
 				if (player.cocks[temp].cockType.Index > 2) {
-					outputText(player.cockDescript(temp), false);
+					outputText(player.cockDescript(temp));
 					temp = -1;
 				}
 			}
@@ -1860,8 +1860,8 @@ private function marbleMilkSex(newpage:Boolean = true):void {
 		//[after either]
 		outputText("After finishing up");
 		//[if player has more than two breasts]
-		if (player.totalBreasts() > 2) outputText(" with each of your " + player.allBreastsDescript(), false);
-		else outputText(" with each of your " + player.breastDescript(0), false);
+		if (player.totalBreasts() > 2) outputText(" with each of your " + player.allBreastsDescript());
+		else outputText(" with each of your " + player.breastDescript(0));
 		outputText(", Marble looks up at you and sticks her tongue out again.  \"<i>Now it's time for the main course!</i>\" she whispers before lowering her head down to one of your " + player.nippleDescript(0) + "s and closing her mouth around it. She soon begins to suckle your nipple.\n\n");
 		//[if player has nipplecunts]
 		if (player.hasFuckableNipples()) {
@@ -2036,7 +2036,8 @@ public function interactWithMarbleAtCamp():void {
 	//Reminder to visit Rathazul
 	else
 	{
-		outputText("<i>\"Hello, sweetie; have you had a chance to talk to that alchemist yet? I’m so close to being pure at last, but I need his help if I’m to get over this last hurdle.\"</i>",true);
+		clearOutput();
+		outputText("<i>\"Hello, sweetie; have you had a chance to talk to that alchemist yet? I’m so close to being pure at last, but I need his help if I’m to get over this last hurdle.\"</i>");
 	}
 	/*List the six buttons, first four on the top row, second two on the 
 	bottom row, the milk and gathered buttons do not appear if Marble has 
@@ -2245,7 +2246,7 @@ private function talkWithMarbleAtCamp():void {
 	doNext(playerMenu);
 	//I don't understand your code enough yet to come up with the conditions for these ifs:
 	//General thoughts:
-	outputText("You call Marble over and the two of you sit down on some rocks to chat.  After thinking a bit, you sort through everything that has happened in this strange land, trying to come up with a new story for your bovine friend.  ",true);
+	outputText("You call Marble over and the two of you sit down on some rocks to chat.  After thinking a bit, you sort through everything that has happened in this strange land, trying to come up with a new story for your bovine friend.  ");
 	/*check if the player has encountered a major story event that they 
 	have not told Marble about, put it in the temp variable if there is, 
 	otherwise leave it blank*/
@@ -2254,7 +2255,7 @@ private function talkWithMarbleAtCamp():void {
 	//The player has met the Goddess Marae
 	if (flags[kFLAGS.MET_MARAE] > 0 && flags[kFLAGS.MARBLE_CAMPTALK_LEVEL] < 1)
 	{
-		outputText("You tell Marble about your visit with the Goddess Marae.  Marble is very interested in the story and listens closely to your every word.  \"<i>To think that there is still a pure Goddess in this world...</i>\" she says in wonder afterward, \"<i>But what's happening to her is so sad.  We should definitely help her if we can.</i>\"",false);
+		outputText("You tell Marble about your visit with the Goddess Marae.  Marble is very interested in the story and listens closely to your every word.  \"<i>To think that there is still a pure Goddess in this world...</i>\" she says in wonder afterward, \"<i>But what's happening to her is so sad.  We should definitely help her if we can.</i>\"");
 		//Level up!
 		flags[kFLAGS.MARBLE_CAMPTALK_LEVEL] = 1;
 	}
@@ -2351,7 +2352,7 @@ private function talkWithMarbleAtCamp():void {
 	outputText("The topic of conversation turns to your mission and you ask Marble what she thinks you should be doing next.  ");
 	//If (player has not yet met Marae)
 	if (flags[kFLAGS.MET_MARAE] <= 0) {
-		outputText("\"<i>Well sweetie, I guess you should start with getting to know the place a little better.  Why don't you look some more around the lake outside the farm?  I think that's the safest place to start.</i>\"",false);
+		outputText("\"<i>Well sweetie, I guess you should start with getting to know the place a little better.  Why don't you look some more around the lake outside the farm?  I think that's the safest place to start.</i>\"");
 	}
 	else if (flags[kFLAGS.MET_MARAE] > 0 && flags[kFLAGS.FACTORY_FOUND] <= 0)
 	{
@@ -2427,12 +2428,12 @@ private function marbleGathered():void {
 //Gives general info on how Marble works, and what she can do for the player
 private function marbleInfo():void {
 	spriteSelect(41);
-	outputText("Marble is a loyal friend and lover who has decided to help you with your quest.  She can be interacted with while she is at camp.  ",true);
+	outputText("Marble is a loyal friend and lover who has decided to help you with your quest.  She can be interacted with while she is at camp.  ");
 	outputText("She can share some of her thoughts and give advice on your current situation, or supply you with bottles of her milk and other useful items that she has found while scavenging.  You can also get Marble to consume some of the items you find.\n\n");
 	//explain morning drinking sessions if the player is an addict
 	if (player.findPerk(PerkLib.MarblesMilk) >= 0)
 	{
-		outputText("She will nurse you every morning automatically to satisfy your addiction.  ",false);
+		outputText("She will nurse you every morning automatically to satisfy your addiction.  ");
 		//otherwise tell the player that drinking bottles of her milk is safe
 	} 
 	else
@@ -3358,12 +3359,12 @@ private function marbleNightSexIntro(clear:Boolean = true):void {
 		outputText("Your head rests comfortably between Marble's breasts the entire time, her warm breath blowing softly on your hair.  You feel almost completely relaxed, yet incredibly turned on at the same time.  For some reason, it just feels right to lay there and breathe in her scent, enjoying the wonderful love pillows she is forcing you to relax between.  She runs her hand down your " + player.biggestBreastSizeDescript() + ", gently cooing to you.  Her hand slips down to your ");
 		//If (PC has dick) {
 		if (player.cockTotal() > 0) {
-			outputText(player.multiCockDescriptLight(), false);
+			outputText(player.multiCockDescriptLight());
 			//If (PC both dick and vag) 
 			if (player.hasVagina()) outputText(" and your ");
 		}
 		//If (PC has vag) 
-		if (player.hasVagina()) outputText(player.vaginaDescript(), false);
+		if (player.hasVagina()) outputText(player.vaginaDescript());
 		outputText(" and gently caresses you.  She whispers into your ear, \"<i>Soon sweetie, soon we'll both get what we want.</i>\"\n\n");
 		outputText("Finished with removing your clothes and her own, Marble releases her grip on your head and turns your body over.\n\n");
 	} 
@@ -3372,12 +3373,12 @@ private function marbleNightSexIntro(clear:Boolean = true):void {
 		outputText("She reaches over and puts her hand onto your waist, gently slipping her hand inside your undergarments to touch your ");
 		//If (PC has dick) {
 		if (player.cockTotal() > 0) {
-			outputText(player.multiCockDescriptLight(), false);
+			outputText(player.multiCockDescriptLight());
 			//If (PC both dick and vag) 
 			if (player.hasVagina()) outputText(" and your ");
 		}
 		//If (PC has vag) 
-		if (player.hasVagina()) outputText(player.vaginaDescript(0), false);
+		if (player.hasVagina()) outputText(player.vaginaDescript(0));
 		outputText(" while you slip your own hand into her clothes and ");
 		//If (Marble is a herm) {
 		if (flags[kFLAGS.MARBLE_DICK_TYPE] > 0) {
@@ -3471,7 +3472,7 @@ private function marbleNightSexDudes():void {
 	{
 		outputText("Of course, ");
 		if (player.totalCocks() > 2) { 
-			outputText("the rest of your " + player.multiCockDescriptLight(), false);
+			outputText("the rest of your " + player.multiCockDescriptLight());
 		} 
 		else { 
 			outputText("your other tool");
@@ -3840,13 +3841,13 @@ private function marbleAppearance():void {
 	else outputText("Two fairly large horns grow from her forehead, similar in appearance to those on a female bovine.  ");
 	outputText("She has wide womanly thighs that draw the attention of those around her, and her large butt fills out her clothing nicely.  A long cow-tail with a puffy tip swishes back and forth between her legs, as if swatting at flies. A pretty bow has been tied to her tail.  Two legs grow down from her waist");
 	
-	if (flags[kFLAGS.MARBLE_BOVA_LEVEL] <=1) outputText(", human until about half-way down her thigh.  The lower portion of her legs is covered in thick dark brown fur and ends in a pair of bestial hooves.\n\n",false);
-	else outputText(" that are oddly jointed and end in a pair of bestial hooves.\n\n",false);
+	if (flags[kFLAGS.MARBLE_BOVA_LEVEL] <=1) outputText(", human until about half-way down her thigh.  The lower portion of her legs is covered in thick dark brown fur and ends in a pair of bestial hooves.\n\n");
+	else outputText(" that are oddly jointed and end in a pair of bestial hooves.\n\n");
 
 	if (player.statusEffectv4(StatusEffects.Marble) <=15) outputText("She has two pillowy breasts, each supporting a 0.4-inch lactating " + marbleNip() + ".  She could easily fill a " + marbleBreastSize() + " bra.\n\n");
 	else if (player.statusEffectv4(StatusEffects.Marble)<=25) outputText("She has two large breasts, each supporting a 0.6-inch lactating " + marbleNip() + ".  She could easily fill a " + marbleBreastSize() + ".\n\n");
 	else if (player.statusEffectv4(StatusEffects.Marble)<=35) outputText("She has two basketball-sized breasts, each supporting a 0.8-inch milk-seeping " + marbleNip() + ".  She could easily fill a " + marbleBreastSize() + " bra.\n\n");
-	else outputText("She has two basketball-sized breasts, each supporting a 1-inch milk-seeping " + marbleNip() + ".  She could easily fill an " + marbleBreastSize() + " bra.\n\n",false);
+	else outputText("She has two basketball-sized breasts, each supporting a 1-inch milk-seeping " + marbleNip() + ".  She could easily fill an " + marbleBreastSize() + " bra.\n\n");
 	
 	//Additions to Marble's appearance screen
 	//Marble's Pregnancy

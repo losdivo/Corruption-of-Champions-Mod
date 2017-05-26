@@ -471,6 +471,16 @@ public function satyrBirth(vag:Boolean):void {
 	outputText(", you slip into a short, fitful sleep.");
 	//badabingbadaboom
 	flags[kFLAGS.SATYR_KIDS]++;
+    //Butt increase
+    if (player.buttRating < 10 && rand(2) == 0) {
+        player.buttRating++;
+        outputText("\n\nYou notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.");
+    }
+    else if (player.hipRating < 10) {
+        player.hipRating++;
+        outputText("\n\nAfter the birth your " + player.armorName + " fits a bit more snugly about your " + player.hipDescript() + ".");
+    }
+    outputText("\n");
 }
 
 

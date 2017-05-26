@@ -62,7 +62,7 @@ package classes.Scenes.Monsters
 				outputText("He makes a series of arcane gestures, drawing on his lust to inflict it upon you! ");
 				var lustDamage:int = (inte / 5) + rand(10);
 				lustDamage = lustDamage * (player.lustPercent() / 100);
-				game.dynStats("lus", lustDamage, "resisted");
+				game.dynStats("lus", lustDamage, "resisted", false);
 				outputText(" <b>(<font color=\"#ff00ff\">" + (Math.round(lustDamage * 10) / 10) + "</font>)</b>");
 				fatigue += spellCostArouse;
 			}

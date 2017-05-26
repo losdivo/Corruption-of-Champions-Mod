@@ -261,7 +261,7 @@ public class FetishCultistScene extends AbstractLakeContent implements Encounter
 					if (player.breastRows.length == 2) outputText("Once about a quarter of the fluid has been injected into the first breast, she moves on to the second and you feel a similar sharp pain followed by the glowing pleasure.  She continues this until all of your " + player.allBreastsDescript() + " have been injected.  ");
 					//[if the player has three rows of breasts]
 					if (player.breastRows.length > 2)  outputText("Once about a sixth of the fluid has been injected into the first breast, she moves on to the second and you feel a similar sharp pain followed by the glowing pleasure.  She continues this until all of your " + player.allBreastsDescript() + " have been injected.  ");
-					outputText("Soon the glowing pleasure fills your breasts completely and you feel an orgasm shoot through your body as your " + player.allBreastsDescript(), false);
+					outputText("Soon the glowing pleasure fills your breasts completely and you feel an orgasm shoot through your body as your " + player.allBreastsDescript());
 					//[if breasts are already lactating]
 					if (player.biggestLactation() >= 1) outputText(" start lactating even more.  ");
 					//[if breasts are not lactating]
@@ -340,7 +340,7 @@ public class FetishCultistScene extends AbstractLakeContent implements Encounter
 				else {
 					//(variant 1: servant boy, requires dick)
 					if (player.cocks.length > 0 && (player.vaginas.length == 0 || rand(2) == 0)) {
-						outputText("  You see that your " + player.armorName + " have become a nice looking, if simple, frilled white shirt and bow tie along with black pants and matching shoes.  They make you look like you would be at home in a manor attending the needs of a noble, if it were not for the flaps on the front and back of your pants that give easy access to your " + player.multiCockDescriptLight(), false);
+						outputText("  You see that your " + player.armorName + " have become a nice looking, if simple, frilled white shirt and bow tie along with black pants and matching shoes.  They make you look like you would be at home in a manor attending the needs of a noble, if it were not for the flaps on the front and back of your pants that give easy access to your " + player.multiCockDescriptLight());
 						if (player.vaginas.length) outputText(", your " + player.vaginaDescript(0) + ",");
 						outputText(" and your " + player.buttDescript() + ".  Any undergarments you had are now gone.\n\n");
 						if (player.armor == armors.C_CLOTH) player.modArmorName = "cute servant's clothes";
@@ -360,7 +360,7 @@ public class FetishCultistScene extends AbstractLakeContent implements Encounter
 					}
 					//(variant 2: maid, requires vagina)
 					else if (player.vaginas.length > 0) {
-						outputText("You see that your " + player.armorName + " have become an apron over a plain dress with high stockings and simple black shoes.  They make you look like you would be at home keeping a manor clean and tidy, if it were not for the rather short skirt and lack of undergarments that give easy access to your " + player.vaginaDescript(0), false);
+						outputText("You see that your " + player.armorName + " have become an apron over a plain dress with high stockings and simple black shoes.  They make you look like you would be at home keeping a manor clean and tidy, if it were not for the rather short skirt and lack of undergarments that give easy access to your " + player.vaginaDescript(0));
 						//[if player has a dick] 
 						if (player.cocks.length > 0) outputText(", your " + player.multiCockDescriptLight() + ",");
 						outputText(" and your " + player.buttDescript() + ".\n\n");

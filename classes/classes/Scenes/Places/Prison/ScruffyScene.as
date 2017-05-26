@@ -221,7 +221,7 @@ package classes.Scenes.Places.Prison
 			}
 			else
 			{
-				outputText("You could politely refuse " + prison.prisonWillCostDescript(5),false);
+				outputText("You could politely refuse " + prison.prisonWillCostDescript(5));
 				if (player.esteem < 20 || player.esteem < 40 && player.obey > 25)
 				{
 					outputText(" but you don't think you could manage any stronger a rebuke to someone trying to show you kindness due to your your obvious powerlessness and insignificance.");

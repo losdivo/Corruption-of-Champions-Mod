@@ -28,7 +28,7 @@ package classes.Scenes.Monsters
 			else if (mimicAppearance == 2) outputText("what can only be described as an enormous, disembodied… boob ");
 			else if (mimicAppearance == 3) outputText("what is unmistakably an enormous, flaccid penis, complete with gigantic balls, ");
 			else outputText("a large wooden box with a hinged lid and tarnished brass fittings ");
-			outputText("nestled in a shady alcove.\n\n",false);
+			outputText("nestled in a shady alcove.\n\n");
 			//Check if you're smart enough to even think about it
 			if (rand(18) + (player.inte / 2) < 15) {
 				outputText("You are entranced by the sight of ");
@@ -64,12 +64,12 @@ package classes.Scenes.Monsters
 					//find a cool item!
 					outputText("and begin to reach towards it. However, just as you begin to move your hand, the… thing gives a strange shudder and emits a bizarre, snorting sound. You quickly realize that not only is this some kind of creature, but you have somehow come upon it while it sleeps! As you begin to slowly back away, you notice a ");
 					var itemRoll:int = rand(4);
-					if (itemRoll == 0) outputText("glinting silver vial ",false);
+					if (itemRoll == 0) outputText("glinting silver vial ");
 					if (itemRoll == 1) outputText("small sack ");
 					if (itemRoll == 2) outputText("large glass bottle ");
 					if (itemRoll == 3) outputText("small clay jar ");
 					outputText("in a pile of rubbish off to one side of the alcove. Careful not to disturb the… whatever it is, you grab the ");
-					if (itemRoll == 0) outputText("vial ",false);
+					if (itemRoll == 0) outputText("vial ");
 					if (itemRoll == 1) outputText("sack ");
 					if (itemRoll == 2) outputText("bottle ");
 					if (itemRoll == 3) outputText("jar ");
@@ -239,7 +239,7 @@ package classes.Scenes.Monsters
 				}
 				outputText("to suck and massage your cock");
 				if (player.cockTotal() > 1 || player.breastRows[0].nippleCocks) outputText("s");
-				outputText(" with a sort of spinning motion. The combined sensations from that and the countless other tendrils quickly bring you to orgasm, causing you to spew unusually large amounts of cum deep into the creatures hungry mouth",false);
+				outputText(" with a sort of spinning motion. The combined sensations from that and the countless other tendrils quickly bring you to orgasm, causing you to spew unusually large amounts of cum deep into the creatures hungry mouth");
 				if (player.breastRows[0].nippleCocks) outputText("s");
 				outputText(". Unfortunately, the beast doesn’t seem satisfied with just one emission, and its ministrations become more forceful as you are made to cum again and again. Far beyond the limits of your endurance, you still manage to hold on to some last shred of consciousness. Even as dozens of small tendrils are forced down your urethra");
 				if (player.cockTotal() > 1 || player.breastRows[0].nippleCocks) outputText("s");
@@ -250,7 +250,7 @@ package classes.Scenes.Monsters
 			//Girl Parts!
 			if (player.gender == 2)
 			{
-				outputText("and your " + player.vaginaDescript(), false);
+				outputText("and your " + player.vaginaDescript());
 				if (player.vaginas.length > 1) outputText("s are ");
 				else outputText(" is ");
 				//wetnesssss
@@ -261,7 +261,7 @@ package classes.Scenes.Monsters
 				//what kind of tongue? box or rock = huge, boob/dick = whippy
 				if (mimicAppearance == 2 || mimicAppearance == 3) outputText("thin, whippy tongues run");
 				else outputText("huge tongue runs");
-				outputText(" across your " + player.vaginaDescript(), false);
+				outputText(" across your " + player.vaginaDescript());
 				if (player.vaginas.length > 1) outputText("s");
 				outputText(", and you hear the creature burble with satisfaction. It clearly likes the taste. ");
 				//do you have fuckable nipples?
@@ -289,16 +289,16 @@ package classes.Scenes.Monsters
 				//what kind of tongue? box or rock = huge, boob/dick = whippy
 				if (mimicAppearance == 2 || mimicAppearance == 3) 
 				{
-					outputText("the seemingly uncountable number of tongues and tendrils slurp, stroke, and suck at your " + player.vaginaDescript(), false);
+					outputText("the seemingly uncountable number of tongues and tendrils slurp, stroke, and suck at your " + player.vaginaDescript());
 					if (player.vaginas.length > 1) outputText("s"); 
-					outputText(" and " ,false);
+					outputText(" and ");
 					if (player.totalBreasts() > 2) outputText(player.totalBreasts() + " ");
 					outputText("breasts. ");
 				}
 				else 
 				{
 					outputText("the monster’s huge tongue covers your crotch and the entire front of your body, dragging its bumpy, slick surface over ");
-					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript(), false); 
+					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript()); 
 					else outputText("all of your " + player.vaginaDescript() + "s");
 					outputText(" and ");
 					if (player.totalBreasts() > 2) outputText(player.totalBreasts() + " ");
@@ -309,14 +309,14 @@ package classes.Scenes.Monsters
 				if (mimicAppearance == 2 || mimicAppearance == 3) 
 				{
 					outputText("what must be two dozen of its wriggling tongues deep into ");
-					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript(), false); 
+					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript()); 
 					else outputText("each of your " + player.vaginaDescript() + "s");
 					outputText(", exploring every nook and crevice");
 				}
 				else
 				{
 					outputText("its huge tongue deep into ");
-					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript(), false); 
+					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript()); 
 					else outputText("each of your " + player.vaginaDescript() + "s one by one");
 				}
 				outputText(", your reaction is only a weak moan. ");
@@ -328,7 +328,7 @@ package classes.Scenes.Monsters
 			//Futaz!
 			if (player.gender == 3)
 			{		
-				outputText(" your " + player.vaginaDescript(), false);
+				outputText(" your " + player.vaginaDescript());
 				if (player.vaginas.length > 1) outputText("s");
 				//wetnesssss
 				if (player.vaginas[0].vaginalWetness < 2) outputText(" dripping ");
@@ -341,7 +341,7 @@ package classes.Scenes.Monsters
 				//what kind of tongue? box or rock = huge, boob/dick = whippy
 				if (mimicAppearance == 2 || mimicAppearance == 3) outputText("thin, whippy tongues run");
 				else outputText("huge tongue runs");
-				outputText(" across your " + player.vaginaDescript(), false);
+				outputText(" across your " + player.vaginaDescript());
 				if (player.vaginas.length > 1) outputText("s");
 				outputText(". ");
 				outputText("You feel some kind of orifice enveloping ");
@@ -381,7 +381,7 @@ package classes.Scenes.Monsters
 				//what kind of tongue? box or rock = huge, boob/dick = whippy
 				if (mimicAppearance == 2 || mimicAppearance == 3) 
 				{
-					outputText("the seemingly uncountable number of tongues and tendrils slurp, stroke, and suck at your " + player.vaginaDescript(), false);
+					outputText("the seemingly uncountable number of tongues and tendrils slurp, stroke, and suck at your " + player.vaginaDescript());
 					if (player.vaginas.length > 1) outputText("s"); 
 					outputText(" and ");
 					if (player.totalBreasts() > 2) outputText(player.totalBreasts() + " ");
@@ -398,7 +398,7 @@ package classes.Scenes.Monsters
 					outputText("and up the entire front of your body, dragging its bumpy, slick surface over ");
 					if (player.vaginas.length == 1) outputText("your " + player.vaginaDescript()); 
 					else outputText("all of your " + player.vaginaDescript() + "s");
-					outputText(" and " ,false);
+					outputText(" and ");
 					if (player.totalBreasts() > 2) outputText(player.totalBreasts() + " ");
 					outputText("breasts in long strokes while the ");
 					if (player.breastRows[0].nippleCocks) outputText("mouth-tentacles begin ");

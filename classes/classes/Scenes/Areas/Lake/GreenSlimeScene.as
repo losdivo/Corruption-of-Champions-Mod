@@ -156,20 +156,20 @@ private function serviceLowCorruptionHighLust():void
 				//Multicock
 				if (player.cockTotal() > 1)
 				{
-					outputText("You feel your " + player.multiCockDescriptLight() + " surge to their full size as the slime works you over.  They quickly begin to throb and ache for release, a need made only more pressing by your desire to have it fondled.  ",false);
+					outputText("You feel your " + player.multiCockDescriptLight() + " surge to their full size as the slime works you over.  They quickly begin to throb and ache for release, a need made only more pressing by your desire to have it fondled.  ");
 					//of course, if the creature is working the player's crotch because they don't have breasts, they -can- jerk off!
 					if (player.biggestTitSize() == 0) outputText("You delicately grasp the head of one of your cocks, your hand slick with the fluids of yourself and of the creature.  The combination of the creature's movements and your own quickly overwhelms you.");
 				}
 				//Single prick
 				else
 				{
-					outputText("You feel your " + player.cockDescript(0) + " surge to full size as the slime works you over.  It begins to throb and ache for release, a need made only more pressing by your desire to have it fondled.  ",false);
+					outputText("You feel your " + player.cockDescript(0) + " surge to full size as the slime works you over.  It begins to throb and ache for release, a need made only more pressing by your desire to have it fondled.  ");
 					//Play with it if your boobs aren't being manhandled
 					if (player.biggestTitSize() == 0) outputText("You delicately grasp the head of your " + player.cockDescript(0) + ", your hand slick with the fluids of yourself and of the creature.  The combination of the creature's movements and your own quickly overwhelms you.");
 				}
 			}
 			//New paragraph for orgazms.
-			outputText("\n\n",false);
+			outputText("\n\n");
 			//Female cum!
 			outputText("Finally, you feel a tsunami of pleasure begin to wash over you as you orgasm, and as your entire body shakes you unconsciously try to squeeze the creature between your legs.  It pulls back slightly and with a final mighty pulse, a green fluid explodes from the tip of its " + monster.cockDescriptShort(0) + ", splashing over your entire body.  Everywhere it touches seems to catch fire with pleasure and your already reeling mind almost collapses, and you let yourself fall back against the slime's body as wave after wave of pleasure flows through you.  ");
 			//Herm bonus cum!
@@ -178,7 +178,7 @@ private function serviceLowCorruptionHighLust():void
 				//Multidicked herms
 				if (player.cockTotal() > 1)	outputText("You let out a strangled gasp as your body, already straining from exertion, shudders again as your " + player.multiCockDescript() + " explodes into orgasm, showering both you and the creature in jizz.  ");
 				//Single cocked herms
-				else outputText("You let out a strangled gasp as your body, already straining from exertion, shudders again as your " + player.cockDescript(0) + " explodes into orgasm, sending a jet of your warm jizz into the air.  ",false);
+				else outputText("You let out a strangled gasp as your body, already straining from exertion, shudders again as your " + player.cockDescript(0) + " explodes into orgasm, sending a jet of your warm jizz into the air.  ");
 			}
 			outputText("When you open your eyes you notice that the creature's erection has disappeared and the almost predatory calm it possessed when you first encountered it has returned, though different somehow.");
 			//New PG
@@ -187,12 +187,12 @@ private function serviceLowCorruptionHighLust():void
 		//UNFINISHED - Genderless Text goes here - suggested giving monster oral with possible slimecock growth?
 		if (player.gender == 0) {}
 		//Monster leaves (for both male and female variants)
-		outputText("After a few moments the creature slides out from under you, slinking back into the waters of the lake as you recover from the ordeal.  When your wits return, there is nothing to do but stop back by camp.\n",false);
+		outputText("After a few moments the creature slides out from under you, slinking back into the waters of the lake as you recover from the ordeal.  When your wits return, there is nothing to do but stop back by camp.\n");
 	}
 	//PHEW! that was a big one.  now...  we do it all again for large players, whee! and this is why this thing is so goddamn long.
 	else if (player.tallness >= 82)
 	{
-		outputText("A light green fluid begins to coat your hand as you stroke the slime's cock, making your fingers feel warm and sending shivers of arousal through your entire body.  ",false);
+		outputText("A light green fluid begins to coat your hand as you stroke the slime's cock, making your fingers feel warm and sending shivers of arousal through your entire body.  ");
 		//Males/Herms
 		if (player.gender == 1 || (player.gender == 3 && rand(2) == 0))
 		{
@@ -231,7 +231,7 @@ private function serviceLowCorruptionHighLust():void
 				//Small tits?  Pwned.
 				else outputText("Its hand easily smothers your " + player.allBreastsDescript() + ", ");
 				outputText("and you stop for a moment until the slime tweaks one of your " + player.nippleDescript(0) + ", prompting you to begin rubbing it again.  The hand on your breasts expertly massages them with what feels like dozens of fingers as the other gently runs a finger over your gash.  Looking down, you realize that the slime doesn't appear to be moving at all - it is shifting its own mass to massage you, creating a feeling like nothing you've ever experienced!  ");
-				outputText("A bead of realization dawns on you just before you feel it hit, the surprise making you squeeze and twist at the head of the slime's cock.  ",false);
+				outputText("A bead of realization dawns on you just before you feel it hit, the surprise making you squeeze and twist at the head of the slime's cock.  ");
 			}
 			//Non titty foreplay
 			else outputText("rapidly moistening " + player.vaginaDescript(0) + ", and you begin to slide a finger along your gash as you grip the creature's shaft and stroke it from crown to root.  As the pulsing of the beast's mass becomes more pronounced so does its appearance, and it takes on the distinct look of a human penis.  Grinning you pull it towards you a bit and rapidly stroke the shaft with one hand while working the cock's head with the other, making the slime buck slightly, pulsing within your hands.  Without warning, one of its wide arms reaches up, draping across your thighs, the hand going straight for your " + player.vaginaDescript(0) + ".\n");
@@ -448,7 +448,7 @@ private function femaleRapesOoze():void {
 		if (player.cockTotal() > 1)
 		{
 			outputText("Your " + player.multiCockDescriptLight() + " explode into simultaneous orgasm, releasing ");
-			outputText(num2Text(player.cocks.length), false);
+			outputText(num2Text(player.cocks.length));
 			outputText(" thick streams of semen onto you and the creature, your mind blanking at the massive relief.  You vaguely notice your ejaculate sinking into the creature's body and getting absorbed as you give yourself to pleasure.  ");
 		}
 		else
@@ -473,13 +473,13 @@ private function oozeButtRapesYou():void
 	player.slimeFeed();
 	outputText("You collapse under the beating from the slime's soft but heavy fists, dazed and disoriented.  You weakly try to resist as the slime rolls you onto your stomach and lifts your " + player.buttDescript() + " into the air as it takes up a position behind you.  It holds your head against the ground with one hand and strips off your clothes with the other, pressing its trunk up against you.  Its skin is soft, velvety, and firm, but it is also easily pliable.  You feel something grow out of its body and almost instantly realize what's going on.  The slime rubs its moist cock between your cheeks for a moment, before pulling back.  You realize with a tiny bit of fear that the creature's tool must be massive – over a foot, at least, and several inches wide!  It runs its tip over your ");
 	//Girls get fondled. 
-	if (player.vaginas.length > 0) outputText(player.vaginaDescript(0) + " and " + player.assholeDescript(), false);
+	if (player.vaginas.length > 0) outputText(player.vaginaDescript(0) + " and " + player.assholeDescript());
 	//No coochie
 	else {
 		//Ballsy
-		if (player.balls >= 2) outputText(player.assholeDescript() + " and " + player.ballsDescript(), false);
+		if (player.balls >= 2) outputText(player.assholeDescript() + " and " + player.ballsDescript());
 		//No balls, no pussy, just butt
-		else outputText(player.assholeDescript(), false);
+		else outputText(player.assholeDescript());
 	}
 	outputText(" before settling over your rear entrance.  ");
 	// virgins just assume it wont fit
@@ -657,7 +657,7 @@ private function oozeRapesYouVaginally():void
 			outputText("It finally begins to penetrate and you grab at the grass beneath you, delighted that its cock seems large enough to fill you");
 			//SLUT!
 			if (player.vaginalCapacity() >= 30) outputText(" at least partly");
-			outputText(".  A deep, throaty moan escapes your lips as the cock slides into your " + player.vaginaDescript(0) + ", its girth changing slightly to fit you perfectly, stretching you just the right amount.  Your moans grow even louder as it penetrates deeper into your body, filling the contours of your interior perfectly until your hips finally touch its trunk.  There's a short pause and you let out a delighted gasp as the slime's member then grows inside you, lengthening to fill your " + player.vaginaDescript(0), false);
+			outputText(".  A deep, throaty moan escapes your lips as the cock slides into your " + player.vaginaDescript(0) + ", its girth changing slightly to fit you perfectly, stretching you just the right amount.  Your moans grow even louder as it penetrates deeper into your body, filling the contours of your interior perfectly until your hips finally touch its trunk.  There's a short pause and you let out a delighted gasp as the slime's member then grows inside you, lengthening to fill your " + player.vaginaDescript(0));
 			if (player.vaginalCapacity() >= 30) outputText(" almost perfectly.\n");
 			else outputText(" perfectly.\n");
 		}
@@ -702,7 +702,7 @@ internal function rapeOozeWithMilk():void {
 	// [If male- 
 	if (player.gender == 1) 
 	{ 
-		outputText("caressing your " + player.multiCockDescriptLight(), false);
+		outputText("caressing your " + player.multiCockDescriptLight());
 		if (player.balls > 0) 
 		{
 			outputText(", and slipping slightly further down to engulf your " + player.ballsDescriptLight() + " as well. ");
@@ -717,7 +717,7 @@ internal function rapeOozeWithMilk():void {
 	//[If Herm- 
 	else if (player.gender == 3) 
 	{ 
-		outputText("caressing your " + player.multiCockDescriptLight(), false); 
+		outputText("caressing your " + player.multiCockDescriptLight()); 
 		if (player.balls > 0) 
 			outputText("and slipping slightly further down to engulf your " + player.ballsDescriptLight() + " as well. ");
 		else outputText("and almost dripping down to coat your " + player.clitDescript() + " to add to your pleasure. "); 
@@ -739,16 +739,16 @@ internal function rapeOozeWithMilk():void {
 
 	//[if male- 
 	if (player.gender == 1) {
-		outputText(player.multiCockDescriptLight(), false); 
-		if (player.balls > 0) outputText(" and " + player.ballsDescript(), false); 
+		outputText(player.multiCockDescriptLight()); 
+		if (player.balls > 0) outputText(" and " + player.ballsDescript()); 
 		outputText(" and ");
 	}
 	//[if female- 
 	else if (player.gender == 2) outputText(player.clitDescript() + " and ");
 	//[if Herm- 
 	else if (player.gender==3) {
-		outputText(player.multiCockDescriptLight(), false);
-		if (player.balls > 0) outputText(", " + player.ballsDescriptLight() + "," , false);
+		outputText(player.multiCockDescriptLight());
+		if (player.balls > 0) outputText(", " + player.ballsDescriptLight() + ",");
 		outputText(" and " + player.clitDescript() + " and ");
 	}
 	outputText(player.breastDescript(0) + ".\n\n");

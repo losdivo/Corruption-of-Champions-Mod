@@ -39,8 +39,8 @@ package classes.Scenes.Areas.Mountain
 				if (player.hasStatusEffect(StatusEffects.Infested)  && player.hasCock()) {
 					if (player.hasCock()) {
 						outputText("  Despite avoiding the torrent of infected seed, your own wormy ");
-						if (player.balls > 0) outputText(player.ballsDescriptLight(), false);
-						else outputText(player.multiCockDescriptLight(), false);
+						if (player.balls > 0) outputText(player.ballsDescriptLight());
+						else outputText(player.multiCockDescriptLight());
 						outputText(" wriggle");
 						if (player.balls == 0 && player.cockTotal() == 1) outputText("s");
 						outputText(" hotly, expelling a few of your own worms in response along with a dribble of thick pre-cum.   You wonder what it would feel like to let his worms crawl inside you...");

@@ -333,7 +333,7 @@ private function sandwitchSex():void {
 	spriteSelect(50);
 	clearOutput();
 	outputText("With a charming, disarming smile, you reach between her legs and touch against the slick lips of her pussies. She has ");
-	if (player.cockTotal() > 1) outputText(num2Text(player.cockTotal()), false);
+	if (player.cockTotal() > 1) outputText(num2Text(player.cockTotal()));
 	else outputText("two");
 	outputText(" of them!  The sand witch appears frightened, but as you gently tease her lips with your fingers, she slowly starts to breathe faster, starting to moan as her legs spread themselves against her better judgment. Grinning in satisfaction, you bring your rigid " + player.cockDescript(0) + " against her lips, and push slowly, gently.  ");
 	outputText("The sand witch cries out, her hands grabbing your arms, pressing hard against your " + player.skinDesc + " as you slowly and teasingly ease your " + player.cockDescript(0) + " into her tight depths. You almost feel like a virgin, your " + player.cockDescript(0) + " throbbing, the need to cum almost beyond your ability to control.  ");
@@ -383,9 +383,9 @@ private function sandwitchCentaurBoning():void {
 		//[cock and cunt]
 		if (player.hasVagina() && player.totalCocks() > 0) outputText(" and your " + player.cockDescript(0) + " hardens as your " + player.vaginaDescript(0) + " begins to drip with moisture.");
 		if (player.gender == 0) outputText(" her.");  
-		outputText(" She seems hesitant at first, but soon approaches and begins to run her hands along your stomach and your " + player.hipDescript(),false);
+		outputText(" She seems hesitant at first, but soon approaches and begins to run her hands along your stomach and your " + player.hipDescript());
 		//[has breasts]
-		if (player.biggestTitSize() > 0) outputText(", eyes fixed on your " + player.allBreastsDescript(), false);
+		if (player.biggestTitSize() > 0) outputText(", eyes fixed on your " + player.allBreastsDescript());
 		outputText(".\n\n");
 		//[GoTo: SW_3 and return] 
 		if (SWCentaurMore(3)) return;
@@ -562,7 +562,7 @@ private function SWCentaurMore(argument:Number):Boolean {
 				else if (player.analCapacity() < 20) outputText("two of her fingers ");
 				//[anus size is large]
 				else outputText("a fist ");
-				outputText("penetrates your " + player.assholeDescript(), false);
+				outputText("penetrates your " + player.assholeDescript());
 				outputText(".");
 			}
 			//[does not has cunt]

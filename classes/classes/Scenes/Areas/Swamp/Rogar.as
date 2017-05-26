@@ -322,9 +322,9 @@ private function okayBroLetsHaveAGayCarwash():void {
 	//[(if player has tail) 
 	if (player.hasLongTail() > 0 || player.isNaga()) outputText("  Your tail brushes along Ro'gar's legs eagerly, tickling his thighs as you service him.");
 	outputText("  Ro'gar presses his fat length against your lips and you immediately dive onto it, licking over the uncut head and kissing along the hefty shaft.  You slip your tongue between his bulbous head and folded flaps of skin, collecting the salty pre-cum pooling there and dipping down to lick over Ro'gar's heavy and swollen cum factories.  You warm them with your mouth as you feel pre-cum dripping down over your " + player.face() + ".  You slide your tongue up to the tip of Ro'gar's cock, taking it into your mouth to suckle on it.  More and more passes your lips as salty pre-cum begins to fill your mouth.  \"<i>Mmf, fuck,</i>\" Ro'gar hisses as your mouth goes down over his meaty length.  He holds your head firmly in place, shifting his hips and thrusting upward as he starts to facefuck you, slapping his pent-up sack against your chin.  He thrusts into your mouth relentlessly, and it's all you can do to keep your lips wrapped tightly around his shaft.  You reach down to touch yourself" + (player.armorDescript() != "gear" ? " under your clothes" : "") + ", rubbing over ");
-	if (player.hasCock()) outputText(player.sMultiCockDesc(), false);
-	else if (player.hasVagina()) outputText("your " + player.vaginaDescript(0), false);
-	else outputText("your " + player.assholeDescript(), false);
+	if (player.hasCock()) outputText(player.sMultiCockDesc());
+	else if (player.hasVagina()) outputText("your " + player.vaginaDescript(0));
+	else outputText("your " + player.assholeDescript());
 	outputText(" as Ro'gar penetrates your mouth.  Soon the orc gives out a low groan and slams his cock down your throat, holding you impaled on the green monster as he begins pumping you full of thick seed.  You can feel the heavy spunk sliding down your throat and filling your stomach with each throatful of cum he pumps into you.  Eventually his member slips out of your soaked mouth and blasts the last few ropes out over your " + player.face() + ", 'dirtying' you with a starchy load as he promised.\n\n");
 	
 	outputText("\"<i>F-fuck, yer amazin', " + player.short + "!</i>\" Ro'gar pants heavily as his body lays out on the bed with eyes shut.  Your tongue flicks out against his spent orc cock, licking clean what you can, then you rub the globs of spooge from your " + player.face() + " before popping your cumslicked fingers into your mouth one by one.  You swirl the cum in your mouth before swallowing, the taste of the thick seed clinging to your tongue.  After you're done cleaning yourself and Ro'gar's mess, you notice the orc is snoring.  You chuckle, realizing just how exhausted he must have been.");
@@ -455,7 +455,7 @@ public function rogarPhaseFour():void {
 	//(if high femininity or breasts <=B-cup and Ro'roh Raggy = 0)
 	if ((player.biggestTitSize() >= 2) && flags[kFLAGS.ROGAR_WARNING] == 0) {
 		outputText("Ro'gar the orc is drinking at the bar again, two crushed cans sitting by his half-empty one.  The bartender is casting irritated glances at them as though she'd like to throw them away, but doesn't dare take them from the enormous, burly orc until he finishes or leaves.  You tug on his cloak as you take a seat next to him, and he turns to you with a toothy smile.  That smile dims to a frown as he looks you over, eyes lingering on the womanly contours of your face");
-		if (player.biggestTitSize() >= 2) outputText(" and your " + player.chestDesc(), false);
+		if (player.biggestTitSize() >= 2) outputText(" and your " + player.chestDesc());
 		outputText(".  \"<i>Gee, ya look... different.  Been samplin' some of the local foods, huh?</i>\"  You agree cautiously, and he flags the bartender over and buys you a drink.  \"<i>I'm just bein' polite since we're pals,</i>\" the orc ventures.  \"<i>Ya kin pay me back another time.</i>\"  You nod, sip your drink, and converse reservedly with him for a while, then go on your way.");
 		//set Ro'roh Raggy = 1
 		flags[kFLAGS.ROGAR_WARNING] = 1;
