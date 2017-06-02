@@ -219,14 +219,16 @@ package classes.Items
 			player.orgasm('Dick');
 		}
 
-		public function minotaurCum(purified:Boolean, player:Player):void
+		public function minotaurCum(purified:Boolean, player:Player, bottled:Boolean):void
 		{
 			player.slimeFeed();
 			clearOutput();
 			//Minotaur cum addiction
 			if (!purified) player.minoCumAddiction(7);
 			else player.minoCumAddiction(-2);
-			outputText("As soon as you crack the seal on the bottled white fluid, a ");
+            if (bottled) outputText("As soon as you crack the seal on the bottled white fluid, a ");
+            else         outputText("A ");
+            
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] == 0 && player.findPerk(PerkLib.MinotaurCumResistance) < 0) outputText("potent musk washes over you.");
 			else outputText("heavenly scent fills your nostrils.");
 			if (!purified) {
@@ -234,7 +236,7 @@ package classes.Items
 				else outputText("  It makes you feel euphoric, happy, and willing to do ANYTHING to keep feeling this way.");
 			}
 			else outputText("  You know that the bottle is purified and you're positive you won't get any addiction from this bottle.");
-			outputText("  Unbidden, your hand brings the bottle to your lips, and the heady taste fills your mouth as you convulsively swallow the entire bottle.");
+            if (bottled) outputText("  Unbidden, your hand brings the bottle to your lips, and the heady taste fills your mouth as you convulsively swallow the entire bottle.");
 			//-Raises lust by 10.
 			//-Raises sensitivity
 			dynStats("sen", 1, "lus", 10);
@@ -1688,7 +1690,7 @@ package classes.Items
 		 If the player's nipples are larger than 1 inch in length, this item is guaranteed to give them quad nipples.  This applies to all their breasts; seems like it ould be a good compromise on whether or not cowgirls should have 4 breasts.
 		 Very small chance to increase fertility (normally this increase would only happen when the player forces a creature to drink their milk).
 		 */
-		public function laBova(tainted:Boolean,enhanced:Boolean,player:Player):void
+		public function laBova(tainted:Boolean,enhanced:Boolean,player:Player,fromBottle:Boolean = true):void
 		{
 			var tfSource:String = "laBova";
 			player.slimeFeed();
@@ -1709,11 +1711,14 @@ package classes.Items
 			//LaBova:
 			//ItemDesc: "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off.  "
 			//ItemUseText:
-			clearOutput();
-			outputText("You drink the ");
-			if (enhanced) outputText("Pro Bova");
-			else outputText("La Bova");
-			outputText(".  The drink has an odd texture, but is very sweet.  It has a slight aftertaste of milk.");
+            if (fromBottle) {
+				clearOutput();
+			    outputText("You drink the ");
+			    if (enhanced) outputText("Pro Bova");
+			    else outputText("La Bova");
+                outputText(".  ");
+            }
+			outputText("The drink has an odd texture, but is very sweet.  It has a slight aftertaste of milk.");
 			//Possible Item Effects:
 			//STATS
 			//Increase player str:

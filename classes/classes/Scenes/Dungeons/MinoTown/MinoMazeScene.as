@@ -381,7 +381,7 @@ package classes.Scenes.Dungeons.MinoTown
                 mutations.laBova(tainted, enchanced, player, false);
             }
             else if (choice == 2) {
-                mutations.lactaid(player, false);
+                lactaidFountain();
             }
             else if (choice == 3) {
                 mutations.minotaurCum(false,player,false);
@@ -411,7 +411,7 @@ package classes.Scenes.Dungeons.MinoTown
             if (flags[kFLAGS.HUNGER_ENABLED] > 0) {
                 player.damageHunger(rand(10) / 10);
                 if (player.hunger < 25) { 
-                    outputText("<b>You have to eat something; your stomach is growling " + (player.hunger < 1 ? "painfully": "loudly") + ". </b>", false);
+                    outputText("<b>You have to eat something; your stomach is growling " + (player.hunger < 1 ? "painfully": "loudly") + ". </b>");
 		            if (player.hunger < 10) {
 			            outputText("<b>You are getting thinner and you're losing muscles. </b>");
 		            }
@@ -660,16 +660,16 @@ package classes.Scenes.Dungeons.MinoTown
         public function     minoMazeSuck() : void {
             
             
-            outputText("A huge minotaur have appeared from behind the corner and gives you a predatory smile.  He puts down the axe he was sharpening and strides over, his loincloth nearly tearing itself from his groin as his member inflates to full size.  Amazingly, this minotaur bothers to speak, \"<i>New fuck-toy.  Suck.</i>\"\n\n", false);
+            outputText("A huge minotaur have appeared from behind the corner and gives you a predatory smile.  He puts down the axe he was sharpening and strides over, his loincloth nearly tearing itself from his groin as his member inflates to full size.  Amazingly, this minotaur bothers to speak, \"<i>New fuck-toy.  Suck.</i>\"\n\n");
 	
-	        outputText("His words are music to your ears.  Crawling forwards, you wallow in the dirt until you're prostrate before him.  Looking up with wide eyes, you grip him in your hands and give him a gentle squeeze.  You open wide, struggling to fit his girthy member into your eager mouth, but you manage.  A drop of pre-cum rewards your efforts, and you happily plunge forwards, opening wider as he slips into the back of your throat.  Miraculously, your powerful needs have overcome your gag reflex, and you're gurgling noisily as your tongue slides along the underside of his cock, massaging him.\n\n", false);
+	        outputText("His words are music to your ears.  Crawling forwards, you wallow in the dirt until you're prostrate before him.  Looking up with wide eyes, you grip him in your hands and give him a gentle squeeze.  You open wide, struggling to fit his girthy member into your eager mouth, but you manage.  A drop of pre-cum rewards your efforts, and you happily plunge forwards, opening wider as he slips into the back of your throat.  Miraculously, your powerful needs have overcome your gag reflex, and you're gurgling noisily as your tongue slides along the underside of his cock, massaging him.\n\n");
 	
-	        outputText("\"<i>Need... more!</i>\" grunts the beast, grabbing you around the neck and pulling you upwards, forcing himself further and further into your throat.   Normally being unable to breathe would incite panic, but the pre-cum dripping into your gullet blasts away the worry in your mind.   You're face-fucked hard and fast until you feel your master's cock swelling with pleasure inside your throat.  It unloads a thick batch of creamy minotaur jism directly into your stomach, rewarding you until your belly bulges out with the appearance of a mild pregnancy.\n\n", false);
+	        outputText("\"<i>Need... more!</i>\" grunts the beast, grabbing you around the neck and pulling you upwards, forcing himself further and further into your throat.   Normally being unable to breathe would incite panic, but the pre-cum dripping into your gullet blasts away the worry in your mind.   You're face-fucked hard and fast until you feel your master's cock swelling with pleasure inside your throat.  It unloads a thick batch of creamy minotaur jism directly into your stomach, rewarding you until your belly bulges out with the appearance of a mild pregnancy.\n\n");
             player.buttChange(60,true,true,false);
 	
-	        outputText("Your master pulls out and fastens a leather collar around your neck before dragging you through the cave.  Between the tugging of your collar and rough throat-fucking, you're breathless and gasping, but you couldn't be any happier.  Your new owner lifts you up by your " + player.assDescript() + " and forces himself inside your " + player.assholeDescript() + ", stuffing you full of thick minotaur cock.  Still heavily drugged by the load in your gut, you giggle happily as you're bounced up and down, totally relaxed in your master's presence.\n\n", false);
+	        outputText("Your master pulls out and fastens a leather collar around your neck before dragging you through the cave.  Between the tugging of your collar and rough throat-fucking, you're breathless and gasping, but you couldn't be any happier.  Your new owner lifts you up by your " + player.assDescript() + " and forces himself inside your " + player.assholeDescript() + ", stuffing you full of thick minotaur cock.  Still heavily drugged by the load in your gut, you giggle happily as you're bounced up and down, totally relaxed in your master's presence.\n\n");
 	
-	        outputText("He grunts and cums inside you for the second time, somehow still able to flood your bowels with what feels like a gallon of cum.  Drooling brainlessly, happy gurgles trickle from your throat as you're pulled off and tossed to the side.  You don't feel the impact of your body landing in the mud, or even notice when you're passed around the cave, broken in as each of your new monstrous masters has his turn.", false);
+	        outputText("He grunts and cums inside you for the second time, somehow still able to flood your bowels with what feels like a gallon of cum.  Drooling brainlessly, happy gurgles trickle from your throat as you're pulled off and tossed to the side.  You don't feel the impact of your body landing in the mud, or even notice when you're passed around the cave, broken in as each of your new monstrous masters has his turn.");
             player.orgasm("Anal");
             dynStats("int", -20, "lib", 5, "sen", 15, "lus", 50, "cor", 10);
             player.refillHunger(50);
@@ -684,94 +684,94 @@ package classes.Scenes.Dungeons.MinoTown
             spriteSelect(44);
 	        hideUpDown();
 	        clearOutput();
-	        outputText("Days and weeks pass in a half-remembered haze.  You're violated countless time, and after the first day they don't even bother to keep you on a leash.  Why would they need to restrain such an eager slave?  You're tossed to the side whenever you're not needed as a cum-dump, but as soon as you start to come out of your daze, you crawl back, gaping, dripping, and ready for another dose.  For their part, your new masters seem happy to take care of your needs.  The only time you aren't drugged is when the minotaurs are sleeping, but the minitaurs seem all too happy to let you suckle the pre from their tiny horse-cocks in the huddled slave-pile.\n\n", false);
+	        outputText("Days and weeks pass in a half-remembered haze.  You're violated countless time, and after the first day they don't even bother to keep you on a leash.  Why would they need to restrain such an eager slave?  You're tossed to the side whenever you're not needed as a cum-dump, but as soon as you start to come out of your daze, you crawl back, gaping, dripping, and ready for another dose.  For their part, your new masters seem happy to take care of your needs.  The only time you aren't drugged is when the minotaurs are sleeping, but the minitaurs seem all too happy to let you suckle the pre from their tiny horse-cocks in the huddled slave-pile.\n\n");
 	
-	        outputText("You are no longer the Champion of your village.  The only thing you're a champion of is cum-guzzling.  You take immense pride in showing the other cum-sluts just how many thick loads you can coax from your horny masters every day.  Life couldn't be any better.", false);
+	        outputText("You are no longer the Champion of your village.  The only thing you're a champion of is cum-guzzling.  You take immense pride in showing the other cum-sluts just how many thick loads you can coax from your horny masters every day.  Life couldn't be any better.");
 	        getGame().gameOver();
 	        dynStats("int", -1, "lib", 5, "sen", 30, "lus=", 100, "cor", 20);
         }
         
         public function     minoMazeGangBang() : void {
             spriteSelect(94);
-            outputText("Three minotaurs have appeared from behind the rust-red rocks, arranged in a crude half-circle with you at the center.  Two of them are huge, powerfully-built bulls, stomping their hooved feet and snorting idly as they circle you.  Judging from the similar shapes and sizes of their muzzles and eyes, you'd guess they were brothers.\n\n", false);
-	        outputText("The minotaurs step closer as they approach your prone body.  You lift your head, nose twitching, and breathe their scent deeply while casting a coy look at the closest of the mob.  He smiles and squeezes his fingers around your jaw, pulling your mouth into a pouty 'o'.  His other hand holds the heavy mass of his stiff maleness - a turgid, flared shaft over two feet long with three prominent ridges along its length.  You shiver and lick your lips unconsciously, tasting the sweet smell of his pre in the air as it inches closer.\n\n", false);
+            outputText("Three minotaurs have appeared from behind the rust-red rocks, arranged in a crude half-circle with you at the center.  Two of them are huge, powerfully-built bulls, stomping their hooved feet and snorting idly as they circle you.  Judging from the similar shapes and sizes of their muzzles and eyes, you'd guess they were brothers.\n\n");
+	        outputText("The minotaurs step closer as they approach your prone body.  You lift your head, nose twitching, and breathe their scent deeply while casting a coy look at the closest of the mob.  He smiles and squeezes his fingers around your jaw, pulling your mouth into a pouty 'o'.  His other hand holds the heavy mass of his stiff maleness - a turgid, flared shaft over two feet long with three prominent ridges along its length.  You shiver and lick your lips unconsciously, tasting the sweet smell of his pre in the air as it inches closer.\n\n");
 	
             if (player.isTaur()) {
-                outputText("A sudden, forceful push rolls your equine body onto its flank, and a larger member is pressed against your clutching ", false);
-                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole", false);
-                else outputText("tailhole", false);
-                outputText(".  ", false);
+                outputText("A sudden, forceful push rolls your equine body onto its flank, and a larger member is pressed against your clutching ");
+                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole");
+                else outputText("tailhole");
+                outputText(".  ");
             }
-            else if (player.isNaga()) outputText("A sudden, forceful yank stretches out your tail, and a larger member presses between your " + player.buttDescript() + " to prod at your clutching asshole.  ", false);
+            else if (player.isNaga()) outputText("A sudden, forceful yank stretches out your tail, and a larger member presses between your " + player.buttDescript() + " to prod at your clutching asshole.  ");
             else if (player.isGoo()) {
-                outputText("A sudden, forceful push rolls you to your side, and you feel shaggy fur rubbing through your gooey folds while a larger member is pressed against your clutching ", false);
-                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole", false);
-                else outputText("tailhole", false);
-                outputText(".  ", false);
+                outputText("A sudden, forceful push rolls you to your side, and you feel shaggy fur rubbing through your gooey folds while a larger member is pressed against your clutching ");
+                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole");
+                else outputText("tailhole");
+                outputText(".  ");
             }
             else {
-                outputText("A sudden, powerful yank lifts one of your legs high into the air, and you feel a larger member pressing against your clutching ", false);
-                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole", false);
-                else outputText("tailhole", false);
-                outputText(".  ", false);
+                outputText("A sudden, powerful yank lifts one of your legs high into the air, and you feel a larger member pressing against your clutching ");
+                if (player.tailType == TAIL_TYPE_NONE) outputText("asshole");
+                else outputText("tailhole");
+                outputText(".  ");
             }
-            outputText("The cruel, flared tip of the horse-like cock batters at the unyielding entrance for a moment, slowly stretching your rectal orifice wider and wider with each painful push.  Gasping in pain, you cry out in anguish before transitioning into a low moan.  The dripping member before you plunges into your open orifice, pre-cum lubricating its passage as the flare is pushed to the back of your throat.  Ordinarily your body might try to reject such an intrusion, but all you feel is a numb sort of acceptance as you relax your throat to let the pre-cum roll into your belly.", false);
-            outputText("\n\n", false);
+            outputText("The cruel, flared tip of the horse-like cock batters at the unyielding entrance for a moment, slowly stretching your rectal orifice wider and wider with each painful push.  Gasping in pain, you cry out in anguish before transitioning into a low moan.  The dripping member before you plunges into your open orifice, pre-cum lubricating its passage as the flare is pushed to the back of your throat.  Ordinarily your body might try to reject such an intrusion, but all you feel is a numb sort of acceptance as you relax your throat to let the pre-cum roll into your belly.");
+            outputText("\n\n");
 	
-            outputText("The pressure on your " + player.assholeDescript() + " suddenly subsides, not because the minotaur is pulling back, but because part of the flare suddenly slipped through the ring of your tightly-stretched hole.  You swoon and try to relax, fighting with your sphincter's natural reaction to squeeze shut against the intruder.  A pleased rumble echoes behind you, and the minotaur penetrating your " + player.assholeDescript() + " pushes hard.  His flare slips inside with an audible, gut-stretching 'pop'.  ", false);
+            outputText("The pressure on your " + player.assholeDescript() + " suddenly subsides, not because the minotaur is pulling back, but because part of the flare suddenly slipped through the ring of your tightly-stretched hole.  You swoon and try to relax, fighting with your sphincter's natural reaction to squeeze shut against the intruder.  A pleased rumble echoes behind you, and the minotaur penetrating your " + player.assholeDescript() + " pushes hard.  His flare slips inside with an audible, gut-stretching 'pop'.  ");
             player.buttChange(60,true,true,false);
-	        outputText("  You can do naught but gurgle as the dual minotaur dicks each push deeper and completely, utterly spit-roasting you on their incestuous hardnesses.\n\n", false);
+	        outputText("  You can do naught but gurgle as the dual minotaur dicks each push deeper and completely, utterly spit-roasting you on their incestuous hardnesses.\n\n");
 	
-	        outputText("Inch by inch, the double dicks penetrate further, bulging your neck and gut around the growing flares.  You can actually feel their leaky, drug-like pre-cum burbling out to fill your belly and slip into your intestines.  It gives you a nice, pain-numbing high that makes it easy to handle the plus-sized members currently lifting you from the ground. Their hands move to grab at your midriff, helping to steady your aerial form between them.  As you're leveled at waist height, the last few inches of the throbbing, drug-leaking cocks push inside your holes.  Their two sweaty ballsacks clap against your " + player.buttDescript() + " and chin simultaneously.\n\n", false);
+	        outputText("Inch by inch, the double dicks penetrate further, bulging your neck and gut around the growing flares.  You can actually feel their leaky, drug-like pre-cum burbling out to fill your belly and slip into your intestines.  It gives you a nice, pain-numbing high that makes it easy to handle the plus-sized members currently lifting you from the ground. Their hands move to grab at your midriff, helping to steady your aerial form between them.  As you're leveled at waist height, the last few inches of the throbbing, drug-leaking cocks push inside your holes.  Their two sweaty ballsacks clap against your " + player.buttDescript() + " and chin simultaneously.\n\n");
 	            
             if (player.hasVagina()) {
-	            outputText("Your bovine masters begin to saw their throbbing members back and forth with long, orifice-scraping strokes.  It should be painful, but it only stirs the coals of your aphrodisiac-fueled fire. Your pussy ", false);
-                if (player.wetness() >= 5) outputText("gushes everywhere with each thrust, puddling your lubricants on the ground", false);
-                else if (player.wetness() >= 3) outputText("drools a thick stream of lubricants to puddle on the ground with each thrust.", false);
-                else outputText("drips lubricant with every thrust, leaving tiny blotches of wetness on the ground.", false);
-                outputText("  Bouncing between them like a child's ball, your body is battered, abused, and used for nothing more than a few minute's pleasure.  Every time the throat-obstructing mass pulls from your mouth you take another deep breath, staying conscious, but becoming more aroused by the omnipresent stench of the horny beasts.\n\n", false);
+	            outputText("Your bovine masters begin to saw their throbbing members back and forth with long, orifice-scraping strokes.  It should be painful, but it only stirs the coals of your aphrodisiac-fueled fire. Your pussy ");
+                if (player.wetness() >= 5) outputText("gushes everywhere with each thrust, puddling your lubricants on the ground");
+                else if (player.wetness() >= 3) outputText("drools a thick stream of lubricants to puddle on the ground with each thrust.");
+                else outputText("drips lubricant with every thrust, leaving tiny blotches of wetness on the ground.");
+                outputText("  Bouncing between them like a child's ball, your body is battered, abused, and used for nothing more than a few minute's pleasure.  Every time the throat-obstructing mass pulls from your mouth you take another deep breath, staying conscious, but becoming more aroused by the omnipresent stench of the horny beasts.\n\n");
             }
 	
-	        outputText("The minotaur occupying your mouth grabs hold of your ", false);
-            if (player.horns > 0) outputText("horns ", false);
-            else outputText("head ", false);
-	        outputText("and roughly buries his cock in your mouth, all the way to the hilt.  His pre-cum stops, and the balls on your chin begin to bounce as the beast's animalistic, three-ribbed member starts to widen inside you.  Your jaw stretches slightly, and you feel a huge wad of cum distend the urethra along the bottom of his shaft.  Working towards your belly, the mass bursts from his tip explosively, making your gut gurgle audibly as it receives its first injection of minotaur spunk.\n\n", false);
+	        outputText("The minotaur occupying your mouth grabs hold of your ");
+            if (player.horns > 0) outputText("horns ");
+            else outputText("head ");
+	        outputText("and roughly buries his cock in your mouth, all the way to the hilt.  His pre-cum stops, and the balls on your chin begin to bounce as the beast's animalistic, three-ribbed member starts to widen inside you.  Your jaw stretches slightly, and you feel a huge wad of cum distend the urethra along the bottom of his shaft.  Working towards your belly, the mass bursts from his tip explosively, making your gut gurgle audibly as it receives its first injection of minotaur spunk.\n\n");
 	
-	        outputText("Expanding in the moment of penultimate pleasure, the minotaur's tip flares wide, effectively sealing your esophagus shut.  The furry sack bobs on your chin, the heavy balls inside slowly shrinking as they empty their lust-inducing, thought-removing cargo into your deepest recesses", false);
-	        if (player.cor >= 66) outputText(".  You couldn't be happier about it", false);
-	        outputText(".   The bulges of cum squeezing past your thrashing, excited tongue slowly grow smaller and smaller as the spoogey goodness is inexorably emptied from the poor, pumped-up testes on your chin.  They give a tiny shudder and stop, and the minotaur pulls back at last, slowly softening to ease his passage from your abused throat hole.\n\n", false);
+	        outputText("Expanding in the moment of penultimate pleasure, the minotaur's tip flares wide, effectively sealing your esophagus shut.  The furry sack bobs on your chin, the heavy balls inside slowly shrinking as they empty their lust-inducing, thought-removing cargo into your deepest recesses");
+	        if (player.cor >= 66) outputText(".  You couldn't be happier about it");
+	        outputText(".   The bulges of cum squeezing past your thrashing, excited tongue slowly grow smaller and smaller as the spoogey goodness is inexorably emptied from the poor, pumped-up testes on your chin.  They give a tiny shudder and stop, and the minotaur pulls back at last, slowly softening to ease his passage from your abused throat hole.\n\n");
 	
-	        outputText("Once free, the beast wipes the mess from the tip of his fat cock on your lips. He pushes you back towards the one violating your " + player.assholeDescript() + ", allowing him to support you.  You groan at the rough treatment while licking at the delicious glaze on your lips.  The potent sperm in your throat and stomach have already shut down any thoughts more complex than 'find cum' and 'fuck'.\n\n", false);
+	        outputText("Once free, the beast wipes the mess from the tip of his fat cock on your lips. He pushes you back towards the one violating your " + player.assholeDescript() + ", allowing him to support you.  You groan at the rough treatment while licking at the delicious glaze on your lips.  The potent sperm in your throat and stomach have already shut down any thoughts more complex than 'find cum' and 'fuck'.\n\n");
             if (player.hasVagina()) {
-    	        outputText("The rock-solid mass of muscle holding you aloft softens, and your body weight drags you down.  Your juicy twat and abused anus throb, impaled on your own offspring's penises.  ", false);
+    	        outputText("The rock-solid mass of muscle holding you aloft softens, and your body weight drags you down.  Your juicy twat and abused anus throb, impaled on your own offspring's penises.  ");
 	            player.cuntChange(60,true,false,true);
-	            outputText("They part your flesh with ease, sheathing themselves deeply in your body and rubbing against each other through the narrow divide inside you.  Your asshole tingles, actually finding more pleasure from the act than your suddenly-stretched vagina thanks to the more comfortable pole residing in its depths.  They go deeper and deeper, until the stud supporting you is pushing on your distended cervix while his sheath bunches up against your outer lips.\n\n", false);
-	            outputText("A huge, bloated mass stretches past your pussy lips, forcing out a squirt of girlcum and feminine lube.  ", false);
+	            outputText("They part your flesh with ease, sheathing themselves deeply in your body and rubbing against each other through the narrow divide inside you.  Your asshole tingles, actually finding more pleasure from the act than your suddenly-stretched vagina thanks to the more comfortable pole residing in its depths.  They go deeper and deeper, until the stud supporting you is pushing on your distended cervix while his sheath bunches up against your outer lips.\n\n");
+	            outputText("A huge, bloated mass stretches past your pussy lips, forcing out a squirt of girlcum and feminine lube.  ");
 	            player.cuntChange(60,true,false,true);
-	            outputText("The head flares wide as it squirts into your womb; warmth blooms from the uterine cum-deposit, turning your muscles slack, and setting off an orgasm of your own.  Your pussy ripples and squeezes at the invader, matched in its orgasmic contractions by your cock-stuffed asshole.  The minitaur behind you whines and hilts himself as hard as his relatively lithe body will allow, slapping his balls into his brother's slowly emptying cum-sacks.", false);
+	            outputText("The head flares wide as it squirts into your womb; warmth blooms from the uterine cum-deposit, turning your muscles slack, and setting off an orgasm of your own.  Your pussy ripples and squeezes at the invader, matched in its orgasmic contractions by your cock-stuffed asshole.  The minitaur behind you whines and hilts himself as hard as his relatively lithe body will allow, slapping his balls into his brother's slowly emptying cum-sacks.");
                 if (player.hasCock()) {
-                    outputText("  " + player.SMultiCockDesc() + " explodes against the minotaur's belly, weakly spurting ", false);
-                    if (player.cumQ() < 25) outputText("a few spots of cum into his sweat-matted fur.", false);
-                    else if (player.cumQ() < 50) outputText("a steady trickle of cum into his fur.", false);
-                    else if (player.cumQ() < 100) outputText("a steady stream of cum into his matted fur.", false);
-                    else outputText("a constant flow of cum that utterly soaks the minotaur's fur and balls with your wasted, inferior seed.", false);
+                    outputText("  " + player.SMultiCockDesc() + " explodes against the minotaur's belly, weakly spurting ");
+                    if (player.cumQ() < 25) outputText("a few spots of cum into his sweat-matted fur.");
+                    else if (player.cumQ() < 50) outputText("a steady trickle of cum into his fur.");
+                    else if (player.cumQ() < 100) outputText("a steady stream of cum into his matted fur.");
+                    else outputText("a constant flow of cum that utterly soaks the minotaur's fur and balls with your wasted, inferior seed.");
                 }
-                outputText("\n\n", false);
+                outputText("\n\n");
             }
 	
-	        outputText("Completely impaled, drugged out of your mind, and being packed with ever-higher levels of narcotics, you lose your mind mid-orgasm. As little more than an instinctual fuck-beast, you moan lewdly and lick the sweat from your son's hairy body, cooing in pleasure at the feel of your two studs flooding your [vagorass] with gooey love.  The heaving balls below you shake and squirm, visibly shrinking with each lurching, hole-stretching pump. Your body trembles from the orgasmic assault, the white-hot pleasure of your orgasm seeming to burn out your capacity for thought until nothing is left in its wake but satisfaction.\n\n", false);
+	        outputText("Completely impaled, drugged out of your mind, and being packed with ever-higher levels of narcotics, you lose your mind mid-orgasm. As little more than an instinctual fuck-beast, you moan lewdly and lick the sweat from your son's hairy body, cooing in pleasure at the feel of your two studs flooding your [vagorass] with gooey love.  The heaving balls below you shake and squirm, visibly shrinking with each lurching, hole-stretching pump. Your body trembles from the orgasmic assault, the white-hot pleasure of your orgasm seeming to burn out your capacity for thought until nothing is left in its wake but satisfaction.\n\n");
 	
-	        outputText("Distracted by the high, you barely realize the shaft has been pulled from your pulverized [vagorass].  You're dropped to the dirt, and the still-cumming minotaur is pulled down by his flared rod to fall heavily atop you.  He kisses and licks you while he cums, gently bathing you in affection while he sates himself with your body.  For such a bestial, corrupt creature, he's truly a gentle lover.\n\n", false);
+	        outputText("Distracted by the high, you barely realize the shaft has been pulled from your pulverized [vagorass].  You're dropped to the dirt, and the still-cumming minotaur is pulled down by his flared rod to fall heavily atop you.  He kisses and licks you while he cums, gently bathing you in affection while he sates himself with your body.  For such a bestial, corrupt creature, he's truly a gentle lover.\n\n");
 	
-	        outputText("The minotaur stays inside you, reaching to rub your puffy, red nether-lips as he goes soft in your depths.  The hesitation gives his cum time to absorb through the lining of your intestine.  Once he pulls out, the world is spinning around you, but you try to crawl to ", false);
-	        if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] <= 3) outputText(" the minotaur that gave you your first dose.  Maybe he's ready to give you more? He smirks and slaps you across the face with his soft shaft.  You giggle drunkenly and start to lick his balls - they HAVE to have more for you!  ", false);
+	        outputText("The minotaur stays inside you, reaching to rub your puffy, red nether-lips as he goes soft in your depths.  The hesitation gives his cum time to absorb through the lining of your intestine.  Once he pulls out, the world is spinning around you, but you try to crawl to ");
+	        if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] <= 3) outputText(" the minotaur that gave you your first dose.  Maybe he's ready to give you more? He smirks and slaps you across the face with his soft shaft.  You giggle drunkenly and start to lick his balls - they HAVE to have more for you!  ");
 	        else {
-		        outputText(" a minotaur that hasn't had his chance to take you yet.  The beast laughs and smiles, pulling you to your knees.  ", false);
+		        outputText(" a minotaur that hasn't had his chance to take you yet.  The beast laughs and smiles, pulling you to your knees.  ");
 		        //(1-2 more end paragraph) 
-                if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] <= 5) outputText("You open your mouth wide, licking your lips until they're shiny and inviting enough for the stud to fuck.  He does not disappoint.  The fat head pushes past your puckered cock-suckers and slides into your throat, the passage eased by the leavings of the one before him.  You sigh happily and begin to suck his cock like a lollipop, though all you want is his creamy center.  The others crowd around, touching themselves and waiting for another turn.  ", false);
-                else outputText("You open your mouth wide, licking your lips until they're shiny and inviting enough for the stud to fuck.  He does not disappoint.  The fat head pushes past your puckered cock-suckers and slides into your throat, the passage eased by the leavings of the one before him.  You sigh happily and begin to suck his cock like a lollipop, though all you want is his creamy center.  Two more swollen fuck-sticks find their way to your waiting holes, and you giggle in dizzy bliss when you're packed full of your sons spunk once again.  ", false);
+                if (flags[kFLAGS.ADULT_MINOTAUR_OFFSPRINGS] <= 5) outputText("You open your mouth wide, licking your lips until they're shiny and inviting enough for the stud to fuck.  He does not disappoint.  The fat head pushes past your puckered cock-suckers and slides into your throat, the passage eased by the leavings of the one before him.  You sigh happily and begin to suck his cock like a lollipop, though all you want is his creamy center.  The others crowd around, touching themselves and waiting for another turn.  ");
+                else outputText("You open your mouth wide, licking your lips until they're shiny and inviting enough for the stud to fuck.  He does not disappoint.  The fat head pushes past your puckered cock-suckers and slides into your throat, the passage eased by the leavings of the one before him.  You sigh happily and begin to suck his cock like a lollipop, though all you want is his creamy center.  Two more swollen fuck-sticks find their way to your waiting holes, and you giggle in dizzy bliss when you're packed full of your sons spunk once again.  ");
 	        }
-	        outputText("You black out at that point, but when you wake up soaked in cum with a bottle of it next to you.", false);
+	        outputText("You black out at that point, but when you wake up soaked in cum with a bottle of it next to you.");
 	        //Force cum bottle loot!
 	        flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID] = consumables.MINOCUM.id;
 	//Preggers chance!
@@ -786,47 +786,47 @@ package classes.Scenes.Dungeons.MinoTown
         
         public function     minoMazeGangBangEnd() : void { // VAG
             clearOutput();
-            outputText("Three minotaurs have appeared from behind the rust-red rocks, arranged in a crude half-circle with you at the center.  Two of them are huge, powerfully-built bulls, stomping their hooved feet and snorting idly as they circle you.  Judging from the similar shapes and sizes of their muzzles and eyes, you'd guess they were brothers.\n\n", false);
+            outputText("Three minotaurs have appeared from behind the rust-red rocks, arranged in a crude half-circle with you at the center.  Two of them are huge, powerfully-built bulls, stomping their hooved feet and snorting idly as they circle you.  Judging from the similar shapes and sizes of their muzzles and eyes, you'd guess they were brothers.\n\n");
 	        spriteSelect(94);
-	        outputText("Slumping down to your knees, you look up at the crowd surrounding you.  There're dozens of horny, bestial figures, all of their bovine faces twisted into leering smiles at your state.   You can smell the thick musk in the air, hanging so heavily that it seems to fog your view.  Sniffing in great lungfuls of it, you slump back and let your " + player.legs() + " spread out of their own accord, utterly revealing the folds of your " + player.vaginaDescript() + " to the horny beast-men.  They cluster around you, their loincloths disappearing in a hurry in their rush to fuck their incestuous mother.  Images of all the other times you've been in a similar situation run through your head, the thoughts blurring together into a vision of one long, drug-fueled fuck.\n\n", false);
+	        outputText("Slumping down to your knees, you look up at the crowd surrounding you.  There're dozens of horny, bestial figures, all of their bovine faces twisted into leering smiles at your state.   You can smell the thick musk in the air, hanging so heavily that it seems to fog your view.  Sniffing in great lungfuls of it, you slump back and let your " + player.legs() + " spread out of their own accord, utterly revealing the folds of your " + player.vaginaDescript() + " to the horny beast-men.  They cluster around you, their loincloths disappearing in a hurry in their rush to fuck their incestuous mother.  Images of all the other times you've been in a similar situation run through your head, the thoughts blurring together into a vision of one long, drug-fueled fuck.\n\n");
 	
-	        outputText("Giggling, you realize a scene much like that is about to happen to you all over again.  A dribble of fem-slime leaks out from your " + player.vaginaDescript() + " into the dry mountain dirt, showing your boys just how excited you are to be on the receiving end of their dripping horse-cocks.\n\n", false);
+	        outputText("Giggling, you realize a scene much like that is about to happen to you all over again.  A dribble of fem-slime leaks out from your " + player.vaginaDescript() + " into the dry mountain dirt, showing your boys just how excited you are to be on the receiving end of their dripping horse-cocks.\n\n");
 	
-	        outputText("Sweat-slicked muscles wrap around your slack, delirious form and heft you onto a strong shoulder.  A gentle voice as deep as the rumble of a rockslide says, \"<i>Come on, there's no sense in you hiding from us anymore.</i>\"  They're taking you away out of the labirynth, back to a village.  Idly, you wonder if there's even more of the sexy... strong... handsome bulls there to violate you.  Maybe they've got even bigger cocks than their brothers!  You sink so deeply into your fantasies at that point that the only outward hint of your consciousness is the occasional whimper and accompanying squirt of slime down the brute's back.\n\n", false);
+	        outputText("Sweat-slicked muscles wrap around your slack, delirious form and heft you onto a strong shoulder.  A gentle voice as deep as the rumble of a rockslide says, \"<i>Come on, there's no sense in you hiding from us anymore.</i>\"  They're taking you away out of the labirynth, back to a village.  Idly, you wonder if there's even more of the sexy... strong... handsome bulls there to violate you.  Maybe they've got even bigger cocks than their brothers!  You sink so deeply into your fantasies at that point that the only outward hint of your consciousness is the occasional whimper and accompanying squirt of slime down the brute's back.\n\n");
 	
-	        outputText("Suddenly, you're dropped from your perch into a pile of cushiony pillows, your body flopping like a ragdoll as it pomfs into pillowy softness.  Looking around, you realize you're inside a crude hut that's absolutely filled with pillows, and you aren't the only one there!  Other people are sprawling out in the mound of mattresses, all of them naked and most of them pregnant.  Offhand, you spy a goblin so gravid you doubt she can move, a wolf-morph with cum-matted fur, a centauress with massive, milky breasts, and a cow-girl who's as busy playing with her swollen clit as she is stroking the taut skin of her baby-filled belly.  There're a few others bodies half-buried in pillows and blankets, but they seem to be sleeping too deep in the fluff for you to get any details.\n\n", false);
+	        outputText("Suddenly, you're dropped from your perch into a pile of cushiony pillows, your body flopping like a ragdoll as it pomfs into pillowy softness.  Looking around, you realize you're inside a crude hut that's absolutely filled with pillows, and you aren't the only one there!  Other people are sprawling out in the mound of mattresses, all of them naked and most of them pregnant.  Offhand, you spy a goblin so gravid you doubt she can move, a wolf-morph with cum-matted fur, a centauress with massive, milky breasts, and a cow-girl who's as busy playing with her swollen clit as she is stroking the taut skin of her baby-filled belly.  There're a few others bodies half-buried in pillows and blankets, but they seem to be sleeping too deep in the fluff for you to get any details.\n\n");
 	
-	        outputText("This place seems quite pleasant, though the other girls seem to be looking at you with barely-concealed jealousy bordering on rage.  A svelte figure steps through the shade.  You recognize him as the smallest of your brood, the minitaur.   He's completely naked, and though his pheromones are weaker than his larger kin, his mere presence is enough to make your pussy sloppy-wet.  The other girls crawl towards him, pawing at his legs and promising him the velvet tightness of their pussies.  His dick goes rock hard and immediately sets to dripping all over them, his need painfully visible by the trembling of his balls and the blood pulsing through his swollen cock.\n\n", false);
+	        outputText("This place seems quite pleasant, though the other girls seem to be looking at you with barely-concealed jealousy bordering on rage.  A svelte figure steps through the shade.  You recognize him as the smallest of your brood, the minitaur.   He's completely naked, and though his pheromones are weaker than his larger kin, his mere presence is enough to make your pussy sloppy-wet.  The other girls crawl towards him, pawing at his legs and promising him the velvet tightness of their pussies.  His dick goes rock hard and immediately sets to dripping all over them, his need painfully visible by the trembling of his balls and the blood pulsing through his swollen cock.\n\n");
 	
-	        outputText("The runt forces his way through the girls, ignoring their pouts of disappointment as he comes to you.  \"<i>Hey... the others are still celebrating adding you to the harem.  I thought maybe I could make sure you're adjusting, and... umm, if you're okay with it, I'm REALLY pent up.  They don't usually let me into the harem,</i>\" admits the minitaur, looking back at the door with a bit of worry in his eyes.\n\n", false);
+	        outputText("The runt forces his way through the girls, ignoring their pouts of disappointment as he comes to you.  \"<i>Hey... the others are still celebrating adding you to the harem.  I thought maybe I could make sure you're adjusting, and... umm, if you're okay with it, I'm REALLY pent up.  They don't usually let me into the harem,</i>\" admits the minitaur, looking back at the door with a bit of worry in his eyes.\n\n");
 	
-	        outputText("You giggle.  Lazing around all day and getting to suck the cum from dozens of minotaurs all the time?  This is heaven.  Sure, you were supposed to be out there fighting the demons, but you kept letting the big, hairy beasts force themselves on you over and over, until you weren't even sure why you were resisting.  Now?  There's a dick with a drizzle of pre-cum leaking from the tip, just asking for you to slurp the cum out of it.  You'll stay anywhere if it means you get to suck it down and feel it exploding in your soaked nethers.\n\n", false);
+	        outputText("You giggle.  Lazing around all day and getting to suck the cum from dozens of minotaurs all the time?  This is heaven.  Sure, you were supposed to be out there fighting the demons, but you kept letting the big, hairy beasts force themselves on you over and over, until you weren't even sure why you were resisting.  Now?  There's a dick with a drizzle of pre-cum leaking from the tip, just asking for you to slurp the cum out of it.  You'll stay anywhere if it means you get to suck it down and feel it exploding in your soaked nethers.\n\n");
 	
-	        outputText("Nodding, you give the poor boy a lick, gripping his swollen shaft in your hand as you reach down to undo your " + player.armorName + ".  You jump when the only thing your fingers bump into is your own " + player.skinFurScales() + ".  It seems that during the journey here all your gear was removed from your body.  You're as naked as any of the other sluts in here!  At least your nudity will make it even easier for you to get the poor guy off.  Clothing yourself seems a wasted effort at this point.\n\n", false);
+	        outputText("Nodding, you give the poor boy a lick, gripping his swollen shaft in your hand as you reach down to undo your " + player.armorName + ".  You jump when the only thing your fingers bump into is your own " + player.skinFurScales() + ".  It seems that during the journey here all your gear was removed from your body.  You're as naked as any of the other sluts in here!  At least your nudity will make it even easier for you to get the poor guy off.  Clothing yourself seems a wasted effort at this point.\n\n");
 	
-	        outputText("Cupping the heavy, shuddering ball-sack in your hand, you stroke the small minotaur's trembling shaft, setting off shivers of pleasure each time your fingers rub over the sensitive skin of his dick's three medial ridges.  Teasingly, you circle your tongue around his flare a few times, catching the fresh drops of pre that roll from his urethral opening to funnel back into your mouth.  He gasps, clearly loving your touches and wanting to blow, but unable from a few licks and a handjob alone.  Sensing his need, you ram the flat, wide-spread tip of his dick through your lips and suck hard, fully engorging his flare while your spit soaks into his bestial skin.\n\n", false);
+	        outputText("Cupping the heavy, shuddering ball-sack in your hand, you stroke the small minotaur's trembling shaft, setting off shivers of pleasure each time your fingers rub over the sensitive skin of his dick's three medial ridges.  Teasingly, you circle your tongue around his flare a few times, catching the fresh drops of pre that roll from his urethral opening to funnel back into your mouth.  He gasps, clearly loving your touches and wanting to blow, but unable from a few licks and a handjob alone.  Sensing his need, you ram the flat, wide-spread tip of his dick through your lips and suck hard, fully engorging his flare while your spit soaks into his bestial skin.\n\n");
 	
-	        outputText("You give the tiny beast-man's heavy balls a loving squeeze and jerk back, letting the swollen dick pop out of your oral prison and hang there, wet with saliva.  Shaking with a need of your own, you rise and bend ", false);
-            if (!player.isNaga()) outputText("over", false);
-            else outputText("back, snake-like", false);
-            outputText(" to present your " + player.vaginaDescript() + "'s needy opening to the smallest of your sons.  It's all the invitation he needs.  The rigid tool between his thighs shoots forward, lodging the animalistic head in your well-lubricated opening and giving your sloppy lips a burst of exquisite pleasure.  Sliding forward, the magnificent minotaur tool buries itself in your sopping cunt as if it was meant to be there, its passage made easy by spit, potent mino-spunk, and your own liquid need.\n\n", false);
+	        outputText("You give the tiny beast-man's heavy balls a loving squeeze and jerk back, letting the swollen dick pop out of your oral prison and hang there, wet with saliva.  Shaking with a need of your own, you rise and bend ");
+            if (!player.isNaga()) outputText("over");
+            else outputText("back, snake-like");
+            outputText(" to present your " + player.vaginaDescript() + "'s needy opening to the smallest of your sons.  It's all the invitation he needs.  The rigid tool between his thighs shoots forward, lodging the animalistic head in your well-lubricated opening and giving your sloppy lips a burst of exquisite pleasure.  Sliding forward, the magnificent minotaur tool buries itself in your sopping cunt as if it was meant to be there, its passage made easy by spit, potent mino-spunk, and your own liquid need.\n\n");
             
-            outputText("The minitaur looks down at you with a thankful expression on his monstrous muzzle.  The image is only broken by the lusty way he lets his tongue hang from his mouth as he mounts you, a few drops of saliva falling as he forgets himself in the passion of taking you.  A tiny rivulet of his constant, dripping pre-seed escapes from around his girth as he pushes in, finally butting his tip at your cervix, the slack skin of his sheath seeming to caress your labia and clitoris.  You squeal in happiness, feeling warmth spread outward from your pussy as more of his essence dribbles inside of you.\n\n", false);
+            outputText("The minitaur looks down at you with a thankful expression on his monstrous muzzle.  The image is only broken by the lusty way he lets his tongue hang from his mouth as he mounts you, a few drops of saliva falling as he forgets himself in the passion of taking you.  A tiny rivulet of his constant, dripping pre-seed escapes from around his girth as he pushes in, finally butting his tip at your cervix, the slack skin of his sheath seeming to caress your labia and clitoris.  You squeal in happiness, feeling warmth spread outward from your pussy as more of his essence dribbles inside of you.\n\n");
             
-            outputText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing the both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + player.vaginaDescript() + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n", false);
+            outputText("Already experiencing a pleasant buzz and tingle, you grab his hips and throw yourself against him, bouncing the both of you in the pillowy room, grunts and moans of passion teasing the other girls as you're fucked with wild abandon by one they crave.  Your " + player.vaginaDescript() + " is like a furnace of lust, the fires of need inside only growing hotter with every stroke of wonderful minotaur-cock.  Panting, the smallest of your beast-men does his best to fuck you, and though his member is nowhere near as large as his brother's swollen shafts, the thick, pent-up drugs he's dripping into your uterus are keeping you so close the edge.\n\n");
             
-            outputText("You feel like you're floating, cushioned in a bed of clouds with every nerve firing off nothing but pleasure and happiness.  There's a wet, slap-slap-slap nagging at you, but you close your eyes and forget it, letting your fingers play across your " + player.chestDesc() + " to ", false);
-            if (player.hasFuckableNipples()) outputText("slide inside your nipple-cunts and finger your chest pussies in a small approximation of what's happening below.", false);
-            else if (player.biggestLactation() >= 1) outputText("tug and pull at your drippy nipples, releasing thick flows of creamy milk.", false);
-            else outputText("tug at your achy nipples.", false);
-            outputText("  Moaning like a whore, you gasp and pant under your bovine lover, lost to the world and nearly screaming in delight each time your " + player.vaginaDescript(0) + " contracts around its invader.  Your eyes roll back and you howl, finally obtaining the climax you've desired.  The knowledge that it's your son's rough fucking that's getting you off only makes the orgasm stronger.  Realizing you'll never leave this place, you accept your fate and let your body tell you what to do, and for now, what it wants to do is keep cumming.\n\n", false);
+            outputText("You feel like you're floating, cushioned in a bed of clouds with every nerve firing off nothing but pleasure and happiness.  There's a wet, slap-slap-slap nagging at you, but you close your eyes and forget it, letting your fingers play across your " + player.chestDesc() + " to ");
+            if (player.hasFuckableNipples()) outputText("slide inside your nipple-cunts and finger your chest pussies in a small approximation of what's happening below.");
+            else if (player.biggestLactation() >= 1) outputText("tug and pull at your drippy nipples, releasing thick flows of creamy milk.");
+            else outputText("tug at your achy nipples.");
+            outputText("  Moaning like a whore, you gasp and pant under your bovine lover, lost to the world and nearly screaming in delight each time your " + player.vaginaDescript(0) + " contracts around its invader.  Your eyes roll back and you howl, finally obtaining the climax you've desired.  The knowledge that it's your son's rough fucking that's getting you off only makes the orgasm stronger.  Realizing you'll never leave this place, you accept your fate and let your body tell you what to do, and for now, what it wants to do is keep cumming.\n\n");
             
-            outputText("The rhythmic contractions around his rod set off the minitaur.  His heavy balls bounce against your body as they churn and jiggle, pumping an obscene amount of cum through the thick cock lodged in your twat.  You can feel his flare straining at your cervix, the urethra pumping a torrent of spooge ", false);
-            if (player.pregnancyIncubation == 0) outputText("inside your empty womb", false);
-            else outputText("against the plugged entrance of your pregnant womb", false);
-            outputText(", releasing so much that a squirt of it escapes to run down your " + player.leg() + ".  That was just the first spurt!  The second burst of semen fills every nook and cranny of your " + player.vaginaDescript() + ", your entrance turning to a frothy mess of white goo and slippery lady-spunk.  The pent-up pecker keeps flexing in orgasm, firing jet after jet of narcotic cream into your semen-spurting box, the pillows under you quickly soaking up the excess, addictive jizz.\n\n", false);
+            outputText("The rhythmic contractions around his rod set off the minitaur.  His heavy balls bounce against your body as they churn and jiggle, pumping an obscene amount of cum through the thick cock lodged in your twat.  You can feel his flare straining at your cervix, the urethra pumping a torrent of spooge ");
+            if (player.pregnancyIncubation == 0) outputText("inside your empty womb");
+            else outputText("against the plugged entrance of your pregnant womb");
+            outputText(", releasing so much that a squirt of it escapes to run down your " + player.leg() + ".  That was just the first spurt!  The second burst of semen fills every nook and cranny of your " + player.vaginaDescript() + ", your entrance turning to a frothy mess of white goo and slippery lady-spunk.  The pent-up pecker keeps flexing in orgasm, firing jet after jet of narcotic cream into your semen-spurting box, the pillows under you quickly soaking up the excess, addictive jizz.\n\n");
             
-            outputText("Your son sighs and slumps down, his cock slowly slipping from your abused vulva, escaping with a wet 'pop'.  A river of white rolls out of your body to further stain the room's furnishings.  You shudder from the sensation as a it triggers a series of tiny, miniature climaxes.  While you're lost to the pleasure, the minitaur departs with noticeably less bulge in his loincloth.  At the same time, the other girls crowd around you, scooping up what they can save of your boy's liquid love and shoveling it into their greedy, whorish maws.  The cow-girl industriously sets to work, using her massive tongue on your " + player.vaginaDescript() + " to scoop out every drop she can get.  You cum on her face, splattering her with spooge and your feminine moisture.  She smiles and kisses your still-sensitive clit, throwing you into a black-out inducing orgasm.", false);
+            outputText("Your son sighs and slumps down, his cock slowly slipping from your abused vulva, escaping with a wet 'pop'.  A river of white rolls out of your body to further stain the room's furnishings.  You shudder from the sensation as a it triggers a series of tiny, miniature climaxes.  While you're lost to the pleasure, the minitaur departs with noticeably less bulge in his loincloth.  At the same time, the other girls crowd around you, scooping up what they can save of your boy's liquid love and shoveling it into their greedy, whorish maws.  The cow-girl industriously sets to work, using her massive tongue on your " + player.vaginaDescript() + " to scoop out every drop she can get.  You cum on her face, splattering her with spooge and your feminine moisture.  She smiles and kisses your still-sensitive clit, throwing you into a black-out inducing orgasm.");
             player.orgasm('Vaginal');
             dynStats("int", -10, "lib", 10, "sen", 10);
             doNext(getGame().highMountains.minotaurMobScene.minotaurGangBadEnd2);
@@ -836,81 +836,81 @@ package classes.Scenes.Dungeons.MinoTown
             clearOutput();
 	        player.minoCumAddiction(10);
 	        player.slimeFeed();
-	        outputText("As you turn around the corner, a familiar, heavenly scent catches your nose and wicks into your brain, flooding you with need and molten-hot lust. Your sigh dreamily while your pupils slowly dilate from the familiar chemicals pounding through your bloodstream", false);
-	        if (player.hasVagina()) outputText(" and puffing up your twat with liquid arousal.\n\n", false);
-	        else if (player.hasCock()) outputText(" and turning " + player.sMultiCockDesc() + " into a turgid, pulsating mass.\n\n", false);
-	        else outputText("\n\n", false);
+	        outputText("As you turn around the corner, a familiar, heavenly scent catches your nose and wicks into your brain, flooding you with need and molten-hot lust. Your sigh dreamily while your pupils slowly dilate from the familiar chemicals pounding through your bloodstream");
+	        if (player.hasVagina()) outputText(" and puffing up your twat with liquid arousal.\n\n");
+	        else if (player.hasCock()) outputText(" and turning " + player.sMultiCockDesc() + " into a turgid, pulsating mass.\n\n");
+	        else outputText("\n\n");
 	
-	        outputText("You push your way, tearing off your " + player.armorName + " as you go.  The animal part of your brain recognizes that such needless trapping would just get in the way of all the thick, dripping, minotaur spunk just waiting to pump inside you.  You drool spittle down your neck while you lose yourself in the memory of that taste on your tongue, letting your body seek it out on autopilot.", false);
+	        outputText("You push your way, tearing off your " + player.armorName + " as you go.  The animal part of your brain recognizes that such needless trapping would just get in the way of all the thick, dripping, minotaur spunk just waiting to pump inside you.  You drool spittle down your neck while you lose yourself in the memory of that taste on your tongue, letting your body seek it out on autopilot.");
             if (player.hasVagina() || player.hasCock()) {
-                outputText("  A trail of ", false);
+                outputText("  A trail of ");
                 if (player.hasVagina()) {
-                    outputText("female slime ", false);
-                    if (player.hasCock()) outputText("and ", false);
+                    outputText("female slime ");
+                    if (player.hasCock()) outputText("and ");
                 }
                 if (player.hasCock()) {
-                    if (player.cumQ() < 100) outputText("pre-cum ", false);
-                    else if (player.cumQ() < 500) outputText("pre-cum a few inches wide ", false);
-                    else outputText("pre-cum over a foot wide ", false);
+                    if (player.cumQ() < 100) outputText("pre-cum ");
+                    else if (player.cumQ() < 500) outputText("pre-cum a few inches wide ");
+                    else outputText("pre-cum over a foot wide ");
                 }
-                outputText("winds over the rough-hewn floor behind you, clearly marking your passage to the overpowering musk.", false);
+                outputText("winds over the rough-hewn floor behind you, clearly marking your passage to the overpowering musk.");
             }
-	        outputText("\n\n", false);
+	        outputText("\n\n");
 	
-	        outputText("You saunter forwards, hips swaying sensually as the drug-like desire of potent minotaur musk pulls you ever closer.  Mewling happily, you take minotaur cock in hand and stroke along its length, giggling as it pulses and leaks a stream of heavenly goo down your arm.   You lick it from your arm in one long, languid motion before pursing your lips around the minotaur's flared tip and sucking it hard as you quest for more of its heady ambrosia.\n\n", false); 
+	        outputText("You saunter forwards, hips swaying sensually as the drug-like desire of potent minotaur musk pulls you ever closer.  Mewling happily, you take minotaur cock in hand and stroke along its length, giggling as it pulses and leaks a stream of heavenly goo down your arm.   You lick it from your arm in one long, languid motion before pursing your lips around the minotaur's flared tip and sucking it hard as you quest for more of its heady ambrosia.\n\n"); 
 	
-	        outputText("You hear a deep, strangled sigh as more and more delicious pre floods your mouth, lighting your senses up with a fireworks show of pleasure", false);
-	        if (player.gender > 0) outputText(" and increasing the size of the puddle you're leaving on the floor", false);
-	        outputText(".  In between gulps of the fragrant fluid, you suck the swollen rod deeper and deeper into your mouth, gleefully suppressing your gag reflex as it pushes aside your uvula.  You work your throat, feverishly swallowing to suck it down.  A flare briefly distends your neck as it's taken deeper and deeper inside your form until your lips are puckered through the hole and you're sniffing the minotaur's pheromone-laced crotch.\n\n", false);
+	        outputText("You hear a deep, strangled sigh as more and more delicious pre floods your mouth, lighting your senses up with a fireworks show of pleasure");
+	        if (player.gender > 0) outputText(" and increasing the size of the puddle you're leaving on the floor");
+	        outputText(".  In between gulps of the fragrant fluid, you suck the swollen rod deeper and deeper into your mouth, gleefully suppressing your gag reflex as it pushes aside your uvula.  You work your throat, feverishly swallowing to suck it down.  A flare briefly distends your neck as it's taken deeper and deeper inside your form until your lips are puckered through the hole and you're sniffing the minotaur's pheromone-laced crotch.\n\n");
 	
-	        outputText("The beast pulls back and starts pounding, letting out deep, rumbling sighs of pleasure with each throat abusing fuck.  If it weren't for his constant, bubbling preseed turning your throat to a slippery rut-hole you'd be rubbed raw, but instead you continue to lean forward, sniffing at his matted pubes every time he crushes them against your dick-stretched lips.  The other horny studs grunt with displeasure, but you reach out with your hands and grab hold two eager brutes' throbbing horsecocks.  Three out-of-sync heartbeats hammer through your hands and throat while you do your best to get them all off.\n\n", false); 
+	        outputText("The beast pulls back and starts pounding, letting out deep, rumbling sighs of pleasure with each throat abusing fuck.  If it weren't for his constant, bubbling preseed turning your throat to a slippery rut-hole you'd be rubbed raw, but instead you continue to lean forward, sniffing at his matted pubes every time he crushes them against your dick-stretched lips.  The other horny studs grunt with displeasure, but you reach out with your hands and grab hold two eager brutes' throbbing horsecocks.  Three out-of-sync heartbeats hammer through your hands and throat while you do your best to get them all off.\n\n"); 
 	
-	        outputText("You let your eyes drift closed and lash your tongue back and forth across the minotaur's lowest medial ring, feeling his flare bulge larger inside you in response.  The beast-man batters at the wall, grunting in equal measures of passion and pent-up desire as his cock's tip stretches wide and locks itself inside you.  His urethra bulges in rhythmic contractions, stretching your lips around the already swollen shaft and signaling to your musk-addled mind that you're about to get what you desire.  You hum with blissful delight as your belly begins to gurgle, accepting long bursts of sticky minotaur drug.\n\n", false);
+	        outputText("You let your eyes drift closed and lash your tongue back and forth across the minotaur's lowest medial ring, feeling his flare bulge larger inside you in response.  The beast-man batters at the wall, grunting in equal measures of passion and pent-up desire as his cock's tip stretches wide and locks itself inside you.  His urethra bulges in rhythmic contractions, stretching your lips around the already swollen shaft and signaling to your musk-addled mind that you're about to get what you desire.  You hum with blissful delight as your belly begins to gurgle, accepting long bursts of sticky minotaur drug.\n\n");
 	
-	        outputText("Tied down by the cum-spurting flare locked in your gullet, you pump on the other two dicks with feverish speed and sway on your " + player.feet() + " as the narcotic spooge intoxicates your already-addled mind.  You can feel each muscular contraction pulsing through the bestial shaft while it finishes depositing the heavy, sticky load, and your eyes cross from the viscous inebriation that's pooling in your belly.  Drizzles of pre-cum soak into your arms and palms, drawn out from the frenzied pumping of your fists.  They won't come from just a hand though.  They need something... tighter.\n\n", false);
+	        outputText("Tied down by the cum-spurting flare locked in your gullet, you pump on the other two dicks with feverish speed and sway on your " + player.feet() + " as the narcotic spooge intoxicates your already-addled mind.  You can feel each muscular contraction pulsing through the bestial shaft while it finishes depositing the heavy, sticky load, and your eyes cross from the viscous inebriation that's pooling in your belly.  Drizzles of pre-cum soak into your arms and palms, drawn out from the frenzied pumping of your fists.  They won't come from just a hand though.  They need something... tighter.\n\n");
 	
-	        outputText("You start moaning in drug-induced bliss, but your vocalized pleasure is interrupted by the squelching slurp of the softening shaft being pulled from your dick-puckered lips.  It drips a rope of cum over your mouth and chin as it pulls free from the wall, leaving behind one vacancy among the swarm of ready minotaur dicks.  You lick up your stud's leavings and purr in bliss, reaching through the hole to cup the departing minotaur's balls teasingly.  He grunts and walks out of your grip – sated for now.\n\n", false);
+	        outputText("You start moaning in drug-induced bliss, but your vocalized pleasure is interrupted by the squelching slurp of the softening shaft being pulled from your dick-puckered lips.  It drips a rope of cum over your mouth and chin as it pulls free from the wall, leaving behind one vacancy among the swarm of ready minotaur dicks.  You lick up your stud's leavings and purr in bliss, reaching through the hole to cup the departing minotaur's balls teasingly.  He grunts and walks out of your grip – sated for now.\n\n");
 	
-	        outputText("The beast who kept your left hand so busy repositions himself at the now-vacant opening, and you decide to reward him for moving so quickly.  You lick the last of the salty cream from your lips and muse that he isn't the only one getting a reward, but the monstrous cow-man doesn't need to know that.", false);
+	        outputText("The beast who kept your left hand so busy repositions himself at the now-vacant opening, and you decide to reward him for moving so quickly.  You lick the last of the salty cream from your lips and muse that he isn't the only one getting a reward, but the monstrous cow-man doesn't need to know that.");
 	        if (player.biggestTitSize() >= 2) {
-		        outputText("  You wrap the pillowy flesh of your " + player.allBreastsDescript() + " around the new member, pleasantly surprised by its girth and wide, already-flared tip.  Maybe you could have gotten him off with your hands after all?  ", false);
-		        if (player.biggestTitSize() < 6) outputText("Even so, you can't quite get your breasts the entire way around him, so you make up for it by pressing it harder into you with your busy hands.  ", false);
-		    outputText("Runnels of pre cover the shaft and squish wetly between your tits, turning your body into a slip-n-slide that reeks of hot, sticky minotaur sex.", false);
+		        outputText("  You wrap the pillowy flesh of your " + player.allBreastsDescript() + " around the new member, pleasantly surprised by its girth and wide, already-flared tip.  Maybe you could have gotten him off with your hands after all?  ");
+		        if (player.biggestTitSize() < 6) outputText("Even so, you can't quite get your breasts the entire way around him, so you make up for it by pressing it harder into you with your busy hands.  ");
+		    outputText("Runnels of pre cover the shaft and squish wetly between your tits, turning your body into a slip-n-slide that reeks of hot, sticky minotaur sex.");
 	        }
 	        else {
-		        outputText("You crush the member tightly against your chest, smearing your torso with the copious pre until you're like a hot, wet slip-n-slide of minotaur sex.  You make up for it by wrapping your arms around his prodigious thickness and squeeze him tightly with your hands, stroking him off with your whole body with enough tightness to make the poor mino' think he's in some poor adventurer's asshole.", false);
+		        outputText("You crush the member tightly against your chest, smearing your torso with the copious pre until you're like a hot, wet slip-n-slide of minotaur sex.  You make up for it by wrapping your arms around his prodigious thickness and squeeze him tightly with your hands, stroking him off with your whole body with enough tightness to make the poor mino' think he's in some poor adventurer's asshole.");
 	        }
-	        outputText("\n\n", false);
+	        outputText("\n\n");
 	
-            outputText("You lower and raise yourself, bouncing up and down on your " + player.legs() + " to enhance the ", false);
-            if (player.biggestTitSize() >= 2) outputText("tit-fucking ", false);
-            else outputText("full-body handjob ", false);
-            outputText("you're giving out.  In such a position, you're given the perfect view to watch as your strokes draw forth large bubbles of pre, and before you can lose your high, you latch onto the minotaur's vulnerable urethra and suck, tonguing in wide circles around it since you can't open wide enough to accommodate his flare.  Of course, all the attention just makes him flare wider, not just at the tip, but through the whole shaft.  ", false);
-            if (player.biggestTitSize() >= 2) outputText("The sudden girth change sends an enticing ripple through your " + player.allBreastsDescript() + " that's pleasurable enough to make you moan into his steadily-widening urethra.  ", false);
-            outputText("You pull off and bounce faster, lost to your lust and the haze of sex-musk permeating the air, intent on seeing just how much this huge stud can spray onto you.\n\n", false);
+            outputText("You lower and raise yourself, bouncing up and down on your " + player.legs() + " to enhance the ");
+            if (player.biggestTitSize() >= 2) outputText("tit-fucking ");
+            else outputText("full-body handjob ");
+            outputText("you're giving out.  In such a position, you're given the perfect view to watch as your strokes draw forth large bubbles of pre, and before you can lose your high, you latch onto the minotaur's vulnerable urethra and suck, tonguing in wide circles around it since you can't open wide enough to accommodate his flare.  Of course, all the attention just makes him flare wider, not just at the tip, but through the whole shaft.  ");
+            if (player.biggestTitSize() >= 2) outputText("The sudden girth change sends an enticing ripple through your " + player.allBreastsDescript() + " that's pleasurable enough to make you moan into his steadily-widening urethra.  ");
+            outputText("You pull off and bounce faster, lost to your lust and the haze of sex-musk permeating the air, intent on seeing just how much this huge stud can spray onto you.\n\n");
 
-	        outputText("The minotaur does not disappoint.  His hole dilates from the size of the approaching cum-blast, and you sink down his shaft slowly until it's aimed directly at your face.  You close your eyes and feel the first explosion splatter over your " + player.hairDescript() + " and forehead.  The next takes you full in the face, making it difficult to breathe through the mask of drug-like goo, but a few quick licks gives you a fix and makes it easy to breathe again.  On and on, the minotaur pumps fat ropes of spooge over your body until you're a syrupy, sticky mess that reeks of minotaur pheromones so strongly that dizziness overwhelms you and you fall free of the still-orgasming mino-cock, taking a few final blasts of seed on your " + player.chestDesc() + " and crotch.  Your hands instinctively shovel a few loads into your " + player.assholeOrPussy(), false);
-	if (player.hasVagina()) outputText(" while the animal part of your brain hopes it makes you pregnant with an equally girthy son", false);
-	        outputText(".\n\n", false);
+	        outputText("The minotaur does not disappoint.  His hole dilates from the size of the approaching cum-blast, and you sink down his shaft slowly until it's aimed directly at your face.  You close your eyes and feel the first explosion splatter over your " + player.hairDescript() + " and forehead.  The next takes you full in the face, making it difficult to breathe through the mask of drug-like goo, but a few quick licks gives you a fix and makes it easy to breathe again.  On and on, the minotaur pumps fat ropes of spooge over your body until you're a syrupy, sticky mess that reeks of minotaur pheromones so strongly that dizziness overwhelms you and you fall free of the still-orgasming mino-cock, taking a few final blasts of seed on your " + player.chestDesc() + " and crotch.  Your hands instinctively shovel a few loads into your " + player.assholeOrPussy());
+	if (player.hasVagina()) outputText(" while the animal part of your brain hopes it makes you pregnant with an equally girthy son");
+	        outputText(".\n\n");
             //ADD PREG CHECK
             //Preggers chance!
             player.knockUp(PregnancyStore.PREGNANCY_MINOTAUR, PregnancyStore.INCUBATION_MINOTAUR, 70);
 
-	        outputText("Giggling, you stagger over to the next cock in line and turn around, possessed with the idea of taking its spooge in the most direct way possible – anally.   You pull your butt-cheeks apart and lean back, surprising one of the horny beasts with the warmth of your " + player.assholeDescript() + " as you slowly relax, spreading over his flare.  He actually squirts ropes of something inside of you, but you've been around minotaurs enough to know that it can't be cum, at least not yet.  The slippery gouts of preseed make it nice and easy to rock back and spear yourself on the first few inches, ", false);
+	        outputText("Giggling, you stagger over to the next cock in line and turn around, possessed with the idea of taking its spooge in the most direct way possible – anally.   You pull your butt-cheeks apart and lean back, surprising one of the horny beasts with the warmth of your " + player.assholeDescript() + " as you slowly relax, spreading over his flare.  He actually squirts ropes of something inside of you, but you've been around minotaurs enough to know that it can't be cum, at least not yet.  The slippery gouts of preseed make it nice and easy to rock back and spear yourself on the first few inches, ");
             if (player.analCapacity() < 80) {
-                outputText("delighting in the drug-numbed pain of stretching yourself beyond your normal capacity.", false);
+                outputText("delighting in the drug-numbed pain of stretching yourself beyond your normal capacity.");
             }
-            else if (player.analCapacity() < 140) outputText("delighting in the feeling of perfect fullness.", false);
-            else outputText("delighting in realizing that you could take far larger than even this virile specimen!", false);
+            else if (player.analCapacity() < 140) outputText("delighting in the feeling of perfect fullness.");
+            else outputText("delighting in realizing that you could take far larger than even this virile specimen!");
             //(buttchange here: 90)
             player.buttChange(90,true,false);
 
-            outputText("\n\nYou slide down the twitching bull-shaft until your " + player.buttDescript() + " slaps the wall, and you draw slowly away, but you push back harder, turned into a lewd, wanting whore by the massive quantity of minotaur seed in your belly, on your skin, and fogging up the air.  The beast pulls out and you whine plaintively, feeling empty and useless until he plunges back inside and reminds you of your purpose.  He starts to fuck you hard, not caring for your pleasure at all, slamming his horse-cock deep and fast.  Each of his three rings of prepuce ", false);
-            if (!player.hasCock()) outputText("drags through your body, touching sensitive nerves you didn't even know you had until you cum, shuddering and shaking like a wanton whore.", false);
-            else outputText("presses on your prostate as it squeezes by, making " + player.sMultiCockDesc() + " drip and spurt freely until you can bear it no longer and cum, shaking and shuddering like a wanton whore.  Jizz drips and pours from " + player.sMultiCockDesc() + " in a steady stream that pools on the floor, slowly rolling towards a drain that doubtless empties into a tank or greedy goblin cunt.", false);
-            outputText("\n\n", false);
+            outputText("\n\nYou slide down the twitching bull-shaft until your " + player.buttDescript() + " slaps the wall, and you draw slowly away, but you push back harder, turned into a lewd, wanting whore by the massive quantity of minotaur seed in your belly, on your skin, and fogging up the air.  The beast pulls out and you whine plaintively, feeling empty and useless until he plunges back inside and reminds you of your purpose.  He starts to fuck you hard, not caring for your pleasure at all, slamming his horse-cock deep and fast.  Each of his three rings of prepuce ");
+            if (!player.hasCock()) outputText("drags through your body, touching sensitive nerves you didn't even know you had until you cum, shuddering and shaking like a wanton whore.");
+            else outputText("presses on your prostate as it squeezes by, making " + player.sMultiCockDesc() + " drip and spurt freely until you can bear it no longer and cum, shaking and shuddering like a wanton whore.  Jizz drips and pours from " + player.sMultiCockDesc() + " in a steady stream that pools on the floor, slowly rolling towards a drain that doubtless empties into a tank or greedy goblin cunt.");
+            outputText("\n\n");
 	
-            outputText("The strength goes completely out of your " + player.legs() + ", but you manage to hold yourself up long enough for your stud to flex his cock inside you and fill up your backdoor with more potent addiction.  You slide off, nerveless and still orgasming as jizz rains on your back from the abandoned cock, rolling off you to add to the ever-widening puddle of fluids on the floor.", false);
+            outputText("The strength goes completely out of your " + player.legs() + ", but you manage to hold yourself up long enough for your stud to flex his cock inside you and fill up your backdoor with more potent addiction.  You slide off, nerveless and still orgasming as jizz rains on your back from the abandoned cock, rolling off you to add to the ever-widening puddle of fluids on the floor.");
             //[NEXT]
             player.orgasm('Lips',false);
             player.orgasm('Anal');
@@ -921,6 +921,39 @@ package classes.Scenes.Dungeons.MinoTown
             doNext(playerMenu);
         }
         
+        private function    lactaidFountain() : void {
+            		
+			player.slimeFeed();
+			var i:Number = 0;
+			outputText("You gulp down creamy liquid.");
+			//Bump up size!
+			if (player.averageBreastSize() < 8) {
+				outputText("\n\n");
+				if (player.breastRows.length === 1) player.growTits((1 + rand(5)), 1, true, 1);
+				else player.growTits(1 + rand(2), player.breastRows.length, true, 1);
+			}
+			//Player doesn't lactate
+			if (player.biggestLactation() < 1) {
+				outputText("\n\n");
+				outputText("You feel your " + player.nippleDescript(0) + "s become tight and engorged.  A single droplet of milk escapes each, rolling down the curves of your breasts.  <b>You are now lactating!</b>");
+				for (i = 0; i < player.breastRows.length; i++) {
+					player.breastRows[i].lactationMultiplier += 2;
+				}
+			}
+			//Boost lactation
+			else {
+				outputText("\n\n");
+				outputText("Milk leaks from your " + player.nippleDescript(0) + "s in thick streams.  You're lactating even more!");
+				for (i = 0; i < player.breastRows.length; i++) {
+					player.breastRows[i].lactationMultiplier += 1 + rand(10) / 10;
+				}
+			}
+			dynStats("lus", 10);
+			if (rand(3) === 0) {
+				outputText(player.modFem(95, 1));
+			}
+            
+        }
     }
     
 

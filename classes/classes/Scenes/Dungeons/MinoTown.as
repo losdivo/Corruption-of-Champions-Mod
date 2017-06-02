@@ -29,7 +29,7 @@ package classes.Scenes.Dungeons
         
         public  function    exitDungeon ():void {
             kGAMECLASS.inDungeon = false;
-            outputText("You leave the village and take off through the mountains back towards camp.", true);
+            outputText("You leave the village and take off through the mountains back towards camp.");
             doNext(camp.returnToCampUseOneHour);
         }
         
@@ -44,17 +44,17 @@ package classes.Scenes.Dungeons
             
             if (flags[kFLAGS.MINOTOWN_GUARD_DEFEATED] == 0) {
             
-                outputText("Between the two sets of structures there are five of the shaggy beast-men gathered around a fire-pit, roasting some animal and relaxing.  Two of them are vigorously fucking tiny minotaur-like beings with feminine features, spearing their much shorter brethren on their mammoth shafts.", false);
-                if (addict) outputText("The look on the faces of the 'minitaurs' is one you know well, the pure ecstasy of indulging a potent addiction.", false);
+                outputText("Between the two sets of structures there are five of the shaggy beast-men gathered around a fire-pit, roasting some animal and relaxing.  Two of them are vigorously fucking tiny minotaur-like beings with feminine features, spearing their much shorter brethren on their mammoth shafts.");
+                if (addict) outputText("The look on the faces of the 'minitaurs' is one you know well, the pure ecstasy of indulging a potent addiction.");
                 outputText("\n\n");
 	
                 if (flags[kFLAGS.FACTORY_SHUTDOWN] > 0) {
-                    outputText("A third beast has a human-looking victim suspended by her ankles and is roughly fucking her throat.   Her eyes are rolled back, though whether from pleasure or lack of oxygen you're not sure.  A pair of beach-ball-sized breasts bounces on her chest, and a cock big enough to dwarf the minotaur's flops about weakly, dribbling a constant stream of liquid.  She must be one of the slaves that escaped from the factory, though it doesn't look like her life has improved much since her escape.\n\n", false);
+                    outputText("A third beast has a human-looking victim suspended by her ankles and is roughly fucking her throat.   Her eyes are rolled back, though whether from pleasure or lack of oxygen you're not sure.  A pair of beach-ball-sized breasts bounces on her chest, and a cock big enough to dwarf the minotaur's flops about weakly, dribbling a constant stream of liquid.  She must be one of the slaves that escaped from the factory, though it doesn't look like her life has improved much since her escape.\n\n");
                 }
             }
             else {
-                outputText("Between the two sets of structures there are two of the shaggy beast-men near a fire-pit, vigorously fucking tiny minotaur-like beings with feminine features, spearing their much shorter brethren on their mammoth shafts.", false);
-                if (addict) outputText("The look on the faces of the 'minitaurs' is one you know well, the pure ecstasy of indulging a potent addiction.", false);
+                outputText("Between the two sets of structures there are two of the shaggy beast-men near a fire-pit, vigorously fucking tiny minotaur-like beings with feminine features, spearing their much shorter brethren on their mammoth shafts.");
+                if (addict) outputText("The look on the faces of the 'minitaurs' is one you know well, the pure ecstasy of indulging a potent addiction.");
                 outputText("\n\n");
             }
             dungeons.setDungeonButtons(roomFirePit, null, null, null);
@@ -70,13 +70,13 @@ package classes.Scenes.Dungeons
             //var addict:Boolean = (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_STATE] > 0);
             if (getGame().flags[kFLAGS.MINOTOWN_GUARD_DEFEATED] == 0) {
                 clearOutput();
-                outputText("Carefully, you climb down to the fire pit. One of the unoccupied monsters glances your way and gives you a predatory smile.  He puts down the axe he was sharpening and strides over, his loincloth nearly tearing itself from his groin as his member inflates to full size.  Amazingly, this minotaur bothers to speak, \"<i>New fuck-toy.  Suck.</i>\"\n\n", false);
+                outputText("Carefully, you climb down to the fire pit. One of the unoccupied monsters glances your way and gives you a predatory smile.  He puts down the axe he was sharpening and strides over, his loincloth nearly tearing itself from his groin as his member inflates to full size.  Amazingly, this minotaur bothers to speak, \"<i>New fuck-toy.  Suck.</i>\"\n\n");
                 menu();
                 addButton(0, "Suck",  suckMinoGuard);
                 addButton(1, "Fight", fightMinoGuard);
             }
             else {
-                outputText("Fire pit casts uneven shadows around. You hear moans of copulating beasts. You think they are too preoccupied and won't notice an intrusion\n", false);
+                outputText("Fire pit casts uneven shadows around. You hear moans of copulating beasts. You think they are too preoccupied and won't notice an intrusion\n");
                 dungeons.setDungeonButtons(null, roomEntrance, null, roomMazeEntrance);
             }
             
@@ -287,7 +287,7 @@ package classes.Scenes.Dungeons
                 mutations.laBova(tainted, enchanced, player, false);
             }
             else if (choice == 2) {
-                mutations.lactaid(player, false);
+                //lactaidFountain();
             }
             else if (choice == 3) {
                 mutations.minotaurCum(false,player,false);
@@ -333,7 +333,7 @@ package classes.Scenes.Dungeons
             if (flags[kFLAGS.HUNGER_ENABLED] > 0) {
                 player.damageHunger(rand(10) / 10);
                 if (player.hunger < 25) { 
-                    outputText("<b>You have to eat something; your stomach is growling " + (player.hunger < 1 ? "painfully": "loudly") + ". </b>", false);
+                    outputText("<b>You have to eat something; your stomach is growling " + (player.hunger < 1 ? "painfully": "loudly") + ". </b>");
 		            if (player.hunger < 10) {
 			            outputText("<b>You are getting thinner and you're losing muscles. </b>");
 		            }
@@ -403,13 +403,13 @@ package classes.Scenes.Dungeons
         
         public function     suckMinoGuard () : void {
             clearOutput();
-            outputText("The words of minotaur guard are music to your ears.  Crawling forwards, you wallow in the dirt until you're prostrate before him.  Looking up with wide eyes, you grip him in your hands and give him a gentle squeeze.  You open wide, struggling to fit his girthy member into your eager mouth, but you manage.  A drop of pre-cum rewards your efforts, and you happily plunge forwards, opening wider as he slips into the back of your throat.  Miraculously, your powerful needs have overcome your gag reflex, and you're gurgling noisily as your tongue slides along the underside of his cock, massaging him.\n\n", false);
+            outputText("The words of minotaur guard are music to your ears.  Crawling forwards, you wallow in the dirt until you're prostrate before him.  Looking up with wide eyes, you grip him in your hands and give him a gentle squeeze.  You open wide, struggling to fit his girthy member into your eager mouth, but you manage.  A drop of pre-cum rewards your efforts, and you happily plunge forwards, opening wider as he slips into the back of your throat.  Miraculously, your powerful needs have overcome your gag reflex, and you're gurgling noisily as your tongue slides along the underside of his cock, massaging him.\n\n");
 	
-	        outputText("\"<i>Need... more!</i>\" grunts the beast, grabbing you around the neck and pulling you upwards, forcing himself further and further into your throat.   Normally being unable to breathe would incite panic, but the pre-cum dripping into your gullet blasts away the worry in your mind.   You're face-fucked hard and fast until you feel your master's cock swelling with pleasure inside your throat.  It unloads a thick batch of creamy minotaur jism directly into your stomach, rewarding you until your belly bulges out with the appearance of a mild pregnancy.\n\n", false);
+	        outputText("\"<i>Need... more!</i>\" grunts the beast, grabbing you around the neck and pulling you upwards, forcing himself further and further into your throat.   Normally being unable to breathe would incite panic, but the pre-cum dripping into your gullet blasts away the worry in your mind.   You're face-fucked hard and fast until you feel your master's cock swelling with pleasure inside your throat.  It unloads a thick batch of creamy minotaur jism directly into your stomach, rewarding you until your belly bulges out with the appearance of a mild pregnancy.\n\n");
 	
-	        outputText("Your master pulls out and fastens a leather collar around your neck before dragging you through the mud back to his campfire.  Between the tugging of your collar and rough throat-fucking, you're breathless and gasping, but you couldn't be any happier.  Your new owner lifts you up by your " + player.assDescript() + " and forces himself inside your " + player.assholeDescript() + ", stuffing you full of thick minotaur cock.  Still heavily drugged by the load in your gut, you giggle happily as you're bounced up and down, totally relaxed in your master's presence.\n\n", false);
+	        outputText("Your master pulls out and fastens a leather collar around your neck before dragging you through the mud back to his campfire.  Between the tugging of your collar and rough throat-fucking, you're breathless and gasping, but you couldn't be any happier.  Your new owner lifts you up by your " + player.assDescript() + " and forces himself inside your " + player.assholeDescript() + ", stuffing you full of thick minotaur cock.  Still heavily drugged by the load in your gut, you giggle happily as you're bounced up and down, totally relaxed in your master's presence.\n\n");
 	
-	        outputText("He grunts and cums inside you for the second time, somehow still able to flood your bowels with what feels like a gallon of cum.  Drooling brainlessly, happy gurgles trickle from your throat as you're pulled off and tossed to the side.  You don't feel the impact of your body landing in the mud, or even notice when you're passed around the camp-fire, broken in as each of your new monstrous masters has his turn.", false);
+	        outputText("He grunts and cums inside you for the second time, somehow still able to flood your bowels with what feels like a gallon of cum.  Drooling brainlessly, happy gurgles trickle from your throat as you're pulled off and tossed to the side.  You don't feel the impact of your body landing in the mud, or even notice when you're passed around the camp-fire, broken in as each of your new monstrous masters has his turn.");
             dynStats("int", -20, "lib", 5, "sen", 15, "lus", 50, "cor", 10);
             doNext(minoBadEnd);
         }
@@ -420,9 +420,9 @@ package classes.Scenes.Dungeons
 	        spriteSelect(44);
 	        hideUpDown();
 	        clearOutput();
-	        outputText("Days and weeks pass in a half-remembered haze.  You're violated countless time, and after the first day they don't even bother to keep you on a leash.  Why would they need to restrain such an eager slave?  You're tossed to the side whenever you're not needed as a cum-dump, but as soon as you start to come out of your daze, you crawl back, gaping, dripping, and ready for another dose.  For their part, your new masters seem happy to take care of your needs.  The only time you aren't drugged is when the minotaurs are sleeping, but the minitaurs seem all too happy to let you suckle the pre from their tiny horse-cocks in the huddled slave-pile.\n\n", false);
+	        outputText("Days and weeks pass in a half-remembered haze.  You're violated countless time, and after the first day they don't even bother to keep you on a leash.  Why would they need to restrain such an eager slave?  You're tossed to the side whenever you're not needed as a cum-dump, but as soon as you start to come out of your daze, you crawl back, gaping, dripping, and ready for another dose.  For their part, your new masters seem happy to take care of your needs.  The only time you aren't drugged is when the minotaurs are sleeping, but the minitaurs seem all too happy to let you suckle the pre from their tiny horse-cocks in the huddled slave-pile.\n\n");
 	
-	        outputText("You are no longer the Champion of your village.  The only thing you're a champion of is cum-guzzling.  You take immense pride in showing the other cum-sluts just how many thick loads you can coax from your horny masters every day.  Life couldn't be any better.", false);
+	        outputText("You are no longer the Champion of your village.  The only thing you're a champion of is cum-guzzling.  You take immense pride in showing the other cum-sluts just how many thick loads you can coax from your horny masters every day.  Life couldn't be any better.");
 	        getGame().gameOver();
 	        dynStats("int", -1, "lib", 5, "sen", 30, "lus=", 100, "cor", 20);
         }
@@ -440,7 +440,10 @@ package classes.Scenes.Dungeons
             else return 0;
             
         }
-	}
+	
+
+        
+    }
 
 
 }
