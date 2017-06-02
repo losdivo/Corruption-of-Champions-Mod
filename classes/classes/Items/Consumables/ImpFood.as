@@ -52,7 +52,7 @@ package classes.Items.Consumables
 					if (rand(2) === 0) player.skinTone = "red";
 					else player.skinTone = "orange";
 					outputText("begins to lose its color, fading until you're as white as an albino.  Then, starting at the crown of your head, a reddish hue rolls down your body in a wave, turning you completely " + player.skinTone + ".");
-					mutations.updateClaws(player.clawType);
+					mutations.changeClaws(player.clawType);
 					kGAMECLASS.rathazul.addMixologyXP(20);
 				}
 				return false;
@@ -256,7 +256,7 @@ package classes.Items.Consumables
 			}
 			
 			if (rand(5) === 0 && changes < changeLimit) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			
 			//You lotta imp? Time to turn male!

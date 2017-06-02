@@ -2,6 +2,7 @@ package classes.Scenes.NPCs
 {
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
+	import classes.display.SpriteDb;
 	import classes.internals.*;
 
 	public class Ceraph extends Monster
@@ -11,7 +12,7 @@ package classes.Scenes.NPCs
 //[SPECIAL 1] – Ubercharge!
 		private function ceraphSpecial1():void
 		{
-			game.spriteSelect(7);
+			game.spriteSelect(SpriteDb.s_ceraph);
 			if (!hasStatusEffect(StatusEffects.Uber)) {
 				if (rand(2) == 0) {
 					outputText("Ceraph winks and says, \"<i>Have you ever cum without being touched? You will.</i>\"\n\n");

@@ -4,6 +4,8 @@ package classes.Scenes {
 	import classes.GlobalFlags.kGAMECLASS;
 //	import classes.Scenes.NPCs.*;
 	import classes.Items.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	public class Masturbation extends BaseContent {
 		
@@ -2293,7 +2295,7 @@ package classes.Scenes {
 		}
 		
 		private function allNaturalSelfStimulationBeltBadEnd():void {
-			spriteSelect(23);
+			spriteSelect(SpriteDb.s_giacomo);
 			clearOutput();
 			outputText("Whatever the belt is, whatever it does, it no longer matters to you.  The only thing you want is to feel the belt and its creature fuck the hell out of you, day and night.  You quickly don the creature again and it begins working its usual lustful magic on your insatiable little box.  An endless wave of orgasms take you.  All you now know is the endless bliss of an eternal orgasm.\n\n");
 			outputText("Your awareness hopelessly compromised by the belt and your pleasure, you fail to notice a familiar face approach your undulating form.  It is the very person who sold you this infernal toy.  The merchant, Giacomo.\n\n");

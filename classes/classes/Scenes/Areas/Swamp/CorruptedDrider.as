@@ -1,6 +1,7 @@
 package classes.Scenes.Areas.Swamp
 {
 	import classes.*;
+	import classes.display.SpriteDb;
 	import classes.internals.*;
 
 	/**
@@ -110,7 +111,7 @@ package classes.Scenes.Areas.Swamp
 
 		override protected function performCombatAction():void
 		{
-			game.spriteSelect(77);
+			game.spriteSelect(SpriteDb.s_drider);
 			if (lust > 70 && rand(4) == 0) driderMasturbate();
 			//1/4 chance of silence if pc knows spells
 			else if (player.hasSpells() && !player.hasStatusEffect(StatusEffects.WebSilence) && rand(4) == 0) {

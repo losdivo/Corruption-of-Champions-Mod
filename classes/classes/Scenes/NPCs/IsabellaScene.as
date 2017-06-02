@@ -2,6 +2,8 @@ package classes.Scenes.NPCs{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class IsabellaScene extends NPCAwareContent implements TimeAwareInterface {
 //Isabella Flags:
@@ -76,7 +78,7 @@ package classes.Scenes.NPCs{
 	
 		public function timeChangeLarge():Boolean {
 			if (checkedIsabella++ == 0 && model.time.hours == 6 && isabellaFollowerScene.isabellaFollower() && flags[kFLAGS.FOLLOWER_AT_FARM_ISABELLA] == 0 && flags[kFLAGS.ISABELLA_BLOWJOBS_DISABLED] == 0 && player.hasCock() && (model.time.days % 2 == 0 || player.findPerk(PerkLib.MarblesMilk) < 0) && player.shortestCockLength() <= 9 && !prison.inPrison) {
-				spriteSelect(31);
+				spriteSelect(SpriteDb.s_isabella);
 				isabellaFollowerScene.isabellaMorningWakeupCall();
 				return true;
 			}
@@ -102,7 +104,7 @@ package classes.Scenes.NPCs{
 		}
 		
 public function isabellaGreeting():void {
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	clearOutput();
 	var suck:Function = null;
 	//Not approached yet - the prequel!
@@ -120,7 +122,7 @@ public function isabellaGreeting():void {
 		outputText("You unintentionally wind up in Isabella's camp, and the cow-girl still seems pretty steamed at you.  She charges towards you, sliding her arm through the straps on her shield as she approaches.  It's a fight!");
 		startCombat(new Isabella());
 		if (!isabellaFollower()) isabellaFollowerScene.isabellaAffection(-4);
-		spriteSelect(31);
+		spriteSelect(SpriteDb.s_isabella);
 		return;
 	}
 	//[Camp Meeting First Time]
@@ -253,7 +255,7 @@ private function isabellaGreetingFirstTime():void {
 
 //Leave]	
 public function leaveAngryIzzy():void {
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	clearOutput();
 	outputText("You shrug and make it quite clear you're leaving.  Crazy cow.  She shouts, \"<i>And stay avay, demon!  Izabella has no need of your foul tricks!</i>\"");
 	doNext(camp.returnToCampUseOneHour);
@@ -265,7 +267,7 @@ public function unwelcomeFightCowGal():void {
 	if (!isabellaFollower()) isabellaFollowerScene.isabellaAffection(-5);
 	startCombat(new Isabella());
 	flags[kFLAGS.ISABELLA_ANGRY_AT_PC_COUNTER] += 72;
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	doNext(playerMenu);
 }
 //Fuck-fight
@@ -275,13 +277,13 @@ public function fightIsabella():void {
 	outputText("You smirk at Isabella, and ready your " + player.weaponName + ", telling her you intend to have you way with her.  She turns beet red and grabs her shield, announcing, \"<i>You von't find me such easy prey, and I vill punish you for being so naughty!</b>\"");
 	startCombat(new Isabella());
 	flags[kFLAGS.ISABELLA_ANGRY_AT_PC_COUNTER] += 72;
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	doNext(playerMenu);
 }
 //[Talk] 
 public function tryToTalkDownAngryCow():void {
 	clearOutput();
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	//(int below 25)
 	if (player.inte < 25) {
 		outputText("You open your mouth and tell her you won't be leaving until she understands that you aren't her enemy.  She snorts and taunts, \"<i>You zink Izabella vould fall for zuch trickery? HAH!</i>\"\n\n");
@@ -321,7 +323,7 @@ public function tryToTalkDownAngryCow():void {
 
 public function nomOnMommaIzzysTits():void {
 	clearOutput();
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	var x:Number = player.cockThatFits(20);
 	//[Voluntary Nursing – PC is a big one or taur]
 	if (player.tallness > 78 || player.isTaur()) {
@@ -473,7 +475,7 @@ public function nomOnMommaIzzysTits():void {
 
 //[GET ORAL'ED AS A SMALL MALE]
 public function izzyGivesSmallWangsFreeOral():void {
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	var x:Number = player.smallestCockIndex();
 	clearOutput();
 	outputText("You ");
@@ -613,7 +615,7 @@ public function izzyGivesSmallWangsFreeOral():void {
 
 //[Give Isy Oral]
 public function volunteerToSlurpCowCunt():void {
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	clearOutput();
 	outputText("You indicate to Isabella that you're actually more interested in tasting HER, not her milk.  The dusky cow-girl looks at you dumbly, not comprehending what you mean.  Before you can explain, her cheeks bloom with crimson - she finally figured out what you meant.  The red-head quietly asks, ");
 	if (isabellaAccent()) outputText("\"<i>You mean to lick me, down zere?</i>\"  Once again, Isabella preempts your words, though this time she does it with an uplifted skirt-hem and slowly-spreading thighs.  The shadow of the garment conceals the treasure inside, but a faint, feminine smell hits your nose, assuring you that she's looking forward to it as much as you.\n\n");
@@ -1599,7 +1601,7 @@ public function tinyVictoryTittyFuckingFuntimesWithMilk():void {
 
 //[Discuss Isabella]
 public function talkWithIsabella():void {
-	spriteSelect(31);
+	spriteSelect(SpriteDb.s_isabella);
 	clearOutput();
 	flags[kFLAGS.ISABELLA_TIMES_TALKED]++;
 	if (flags[kFLAGS.ISABELLA_TIMES_TALKED] == 1) {

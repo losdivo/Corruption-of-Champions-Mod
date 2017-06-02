@@ -1,6 +1,8 @@
 package classes.Scenes.Places.TelAdre {
 	import classes.GlobalFlags.kFLAGS;
 	import classes.CockTypesEnum;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class Ifris extends TelAdreAbstractContent {
 public function Ifris(){
@@ -20,7 +22,7 @@ public function ifrisIntro():Boolean {
 
 //2-Approach and Greeting-
 public function approachIfris():void {
-	spriteSelect(28);
+	spriteSelect(SpriteDb.s_ifris);
 	clearOutput();
 	if (flags[kFLAGS.MET_IFRIS] == 0) {
 		flags[kFLAGS.MET_IFRIS] = 1;
@@ -63,7 +65,7 @@ public function approachIfris():void {
 }
 //3a-PC responds they want to work out-
 private function workOutForIfris():void {
-	spriteSelect(28);
+	spriteSelect(SpriteDb.s_ifris);
 	clearOutput();
 	outputText("You smile to the devil-looking-girl and tell her you're just here to get your work-out on.\n\n");
 
@@ -77,7 +79,7 @@ private function workOutForIfris():void {
 }
 //3b-PC asks if she'd like to join them-
 private function askIfrisToJoinYou():void {
-	spriteSelect(28);
+	spriteSelect(SpriteDb.s_ifris);
 	clearOutput();
 	outputText("You ask Ifris if she'd like to join you in some exercises. Her eyes glint mischievously, obviously finding unintended meaning in your words, and you can't help but blush.\n\n");
 
@@ -92,7 +94,7 @@ private function askIfrisToJoinYou():void {
 
 //4a-PC does a modest work out-
 private function liftWhileIfrisWatches():void {
-	spriteSelect(28);
+	spriteSelect(SpriteDb.s_ifris);
 	flags[kFLAGS.IFRIS_SHOWED_OFF]++;
 	clearOutput();
 	if (flags[kFLAGS.LIFETIME_GYM_MEMBER] == 0) {
@@ -117,7 +119,7 @@ private function liftWhileIfrisWatches():void {
 }
 //4b-PC decides to show off, possible strength requirement?-
 private function showOffForIfris():void {
-	spriteSelect(28);
+	spriteSelect(SpriteDb.s_ifris);
 	flags[kFLAGS.IFRIS_SHOWED_OFF]++;
 	player.changeFatigue(30);
 	clearOutput();

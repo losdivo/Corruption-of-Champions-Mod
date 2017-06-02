@@ -239,7 +239,7 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//Body type changes.  Teh rarest of the rare.
 			//DA EARZ
@@ -327,7 +327,7 @@ package classes.Items.Consumables
 			}
 			// Remove gills
 			if (rand(4) === 0 && player.hasGills() && changes < changeLimit) {
-				mutations.updateGills();
+				mutations.changeGills(GILLS_NONE);
 			}
 			//FAILSAFE CHANGE
 			if (changes === 0) {

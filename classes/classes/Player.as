@@ -1399,8 +1399,10 @@ use namespace kGAMECLASS;
 		public function spiderScore():Number
 		{
 			var score:Number = 0;
-			if (eyeType == 1)
+			if (eyeType == 7 && eyeCount == 4)
 				score += 2;
+			else if (eyeType == 7)
+				score++;
 			if (faceType == 10)
 				score++;
 			if (armType == 2)

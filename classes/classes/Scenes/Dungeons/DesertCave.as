@@ -8,6 +8,8 @@ package classes.Scenes.Dungeons
 	import classes.Scenes.Dungeons.DungeonAbstractContent;
 	import classes.Scenes.Dungeons.DungeonCore;
 	import classes.Scenes.Dungeons.DesertCave.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	import classes.Scenes.Areas.Desert.CumWitch;
 	
@@ -66,7 +68,7 @@ package classes.Scenes.Dungeons
 			playerMenu();
 		}
 		public function fightCumWitch():void {
-			spriteSelect(108);
+			spriteSelect(SpriteDb.s_cumWitch);
 			clearOutput();
 			outputText("A robed witch crests one of the dunes, her sable skin glistening with moisture in the unforgiving desert sun.  She spies you, and her dusky lips curl up in a smile while a white staff materializes in her hands.  Playfully, the woman calls, \"<i>I'm going to cast a spell on you...</i>\"");
 			startCombat(new CumWitch());
@@ -1071,7 +1073,7 @@ package classes.Scenes.Dungeons
 
 
 		public function defeatedByCumWitch():void {
-			spriteSelect(108);
+			spriteSelect(SpriteDb.s_cumWitch);
 			if (kGAMECLASS.inDungeon) {
 				//Dudally-diddly.
 				if (player.hasCock() && (player.gender == 1 || rand(2) == 0)) cumWitchCumPumpBadEnd();
@@ -1092,7 +1094,7 @@ package classes.Scenes.Dungeons
 
 		//*Victory Intro
 		public function cumWitchDefeated():void {
-			spriteSelect(108);
+			spriteSelect(SpriteDb.s_cumWitch);
 			clearOutput();
 			//(HP)
 			if (monster.HP < 1) outputText("The chocolate-skinned witch collapses down onto her hands and knees with the tattered remnants of her robes swirling about her.  With her clothing destroyed, you're treated to the perfect view of her semi-erect cock and swollen testes swaying enticingly beneath her, paired with the glimmering wetness of her juicy cunny - also on display.  Her udder-like melons sway and jiggle in sympathy to her uncoordinated swaying.  She grumbles, \"<i>You've beaten me, interloper...</i>\"");

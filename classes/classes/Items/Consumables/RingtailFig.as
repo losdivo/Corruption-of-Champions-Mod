@@ -75,7 +75,7 @@ package classes.Items.Consumables
 				changes++;
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//bodypart changes:
 			if (player.tailType !== TAIL_TYPE_RACCOON && rand(4) === 0 && changes < changeLimit) {

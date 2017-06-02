@@ -2,6 +2,8 @@ package classes.Scenes.NPCs{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class KihaScene extends NPCAwareContent {
 
@@ -24,7 +26,7 @@ package classes.Scenes.NPCs{
 public function encounterKiha():void {
 	var temp:Function;
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	if (kihaFollower.followerKiha() && flags[kFLAGS.KIHA_NEEDS_TO_REACT_TO_HORSECOCKING] == 1) {
 		kihaFollower.kihaReactsToHorseDicking();
 		return;
@@ -138,7 +140,7 @@ public function encounterKiha():void {
 //[Buy Passage] 
 private function offerToBuyPassageFromKiha():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You jingle your gem pouch and ask if you could pay her to allow you passage.  Kiha shoulders her axe and scratches at one of her horns, mulling the idea over.  She stops and abruptly shakes her head.  \"<i>Not today.  Now scram, before I change my mind!</i>\"\n\n");
 	//(Unlocks toll option next encounter)
 	flags[kFLAGS.KIHA_TOLL] = 1;
@@ -150,14 +152,14 @@ private function offerToBuyPassageFromKiha():void {
 //[Leave] 
 private function leaveWhenMeetingAgressiveKiha():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You nod and step back, retreating back towards camp.  You've no desire to fight such a fiery opponent.");
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Fight]
 internal function meetKihaAndFight():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You step closer and proclaim that you go where you please.  Kiha snorts and says, \"<i>Cute.  Sadly, misplaced confidence will only make this hurt that much more.</i>\"");
 	//(START COMBAT)
 	startCombat(new Kiha());
@@ -165,7 +167,7 @@ internal function meetKihaAndFight():void {
 //[Ask Why]
 private function askWhy():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You ask why she's trying to drive you off.  Confusion breaks out across Kiha's brow for a moment before her visage hardens back into a confident sneer.  \"<i>I don't need to explain myself to you.  I was strong enough to break out of Lethice's base, and I've been strong enough to murder every lackey she's sent after me.</i>\"\n\n");
 	
 	outputText("Thinking you may have found a way to win into the powerful warrior's good graces, you start to explain that your whole purpose here is to defeat the demon queen.  She cuts you off by exhaling a whirling tornado of fire into the air.  The scorching inferno seems to suck the very breath from your lungs, robbing you of your words.  While the after-image still hangs in your vision, she declares, \"<i>I don't give two licks about why you're here.  I'm gonna beat your ass just for wasting my time!</i>\"");
@@ -176,7 +178,7 @@ private function askWhy():void {
 //[Pay]
 private function payKihaTribute():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You sigh and pay her 200 gems.  She doesn't even mention that it was originally your idea, but still, you're getting what you want - the ability to explore her territory unhindered.  Of course, you have no idea how long this 200 gems will last.\n\n");
 	//(gems -= 200;)
 	player.gems -= 200;
@@ -189,7 +191,7 @@ private function payKihaTribute():void {
 }
 public function kihaExplore(clearScreen:Boolean = true):void {
 	if (clearScreen) clearOutput();
-	//spriteSelect(72);
+	//spriteSelect(SpriteDb.s_kiha);
 	flags[kFLAGS.KIHA_TOLL_DURATION]--;
 	var event:Number = rand(10);
 	var itype:ItemType;
@@ -215,7 +217,7 @@ public function kihaExplore(clearScreen:Boolean = true):void {
 //[This was my idea!]
 private function tellKihaTributeWasYourIdea():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You ask why she changed her mind about your idea.  Kiha's face screws up for a moment, her chocolate-hued visage distorting into an irritated grimace.  This may have been a mistake.  She screams, \"<i>As if someone like you would have an idea worthy of being adopted by me!  I forgot about your insignificant offer as soon as I was away from you.  This tribute was devised solely with my own sizable wit and cunning!</i>\"\n\n");
 	
 	outputText("The dragon-girl yanks her axe from her back and twists her hands, making the edge glow orange in the murky swamp air.  \"<i>You should've kept your mouth shut, worm.  The offer is off the table now!  The only thing I'll trade you is pain!</i>\"");
@@ -226,7 +228,7 @@ private function tellKihaTributeWasYourIdea():void {
 internal function kihaVictoryIntroduction():void {
 	flags[kFLAGS.PC_WIN_LAST_KIHA_FIGHT] = 1;
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("Kiha sways back and forth for a moment, then drops her axe with numb hands.  As soon as she does, the hot glow of the weapon's cutting edge fades to silver, and the weapon lands with a heavy 'thunk' ");
 	if (silly()) outputText("(like Urta's cock!) ");
 	outputText("in the dirt.  The dragoness drops to her knees and slumps back against a tree, her limbs trembling ");
@@ -273,7 +275,7 @@ internal function kihaVictoryIntroduction():void {
 //*Generic PC Loss Intro 
 internal function kihaLossIntro():void {
 	clearOutput();	
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	//(Lust)
 	if (player.lust >= player.maxLust()) outputText("You give up on fighting, too horny to keep fighting.  Kiha strikes the ground with her axe and snorts out a puff of smoke.  \"<i>What a shameless slut!  You're lusting after me even in the heat of battle, like a common imp!  You aren't worthy to lick between my foot-claws!</i>\"\n\n");
 	//(HP)
@@ -313,7 +315,7 @@ private function kihaMilkTitHumiliation():void {
 	//(Does not use the defeat intro - clear screen)
 	clearOutput();
 	outputText(images.showImage("kiha-loss-milking"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	if (player.lust >= player.maxLust()) outputText("You slide to the ground, too turned on to fight and openly touching yourself.");
 	else outputText("You slide to the ground, too defeated to continue to fight.");
 	outputText("  Kiha snorts, expelling a tiny burst of flame and smoke from a nostril as she towers over your prone body.\n\n");
@@ -352,7 +354,7 @@ private function kihaMilkTitHumiliation():void {
 }
 //Genderless - Lukadoc (Zed)
 private function kihaGenderlessBeating():void {
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("\"<i>What a pussy!</i>\" she yells at you, noticing your lack of any gender upon denuding you.  \"<i>What's the problem, runt? Too scared that evil imps and goblins will abuse you?</i>\"  She hits the ground with her tail in frustration and grabs her axe. \"<i>What a waste of time. You're useless both in battle and out of it.</i>\"  She begins kicking you, eventually hitting you hard enough to knock you unconscious.");
 	player.takeDamage(1000);
 	combat.cleanupAfterCombat();
@@ -361,7 +363,7 @@ private function kihaGenderlessBeating():void {
 //*Male - Adj
 private function kihaRapesMen():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText(images.showImage("kiha-loss-male"));
 	var x:Number = player.cockThatFits(monster.vaginalCapacity());
 	if (x < 0) x = 0;
@@ -401,7 +403,7 @@ private function kihaRapesMen():void {
 //*Herm - Adj
 private function kihaRapesHerms():void {
 	clearOutput();
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText(images.showImage("kiha-loss-herm"));
 	outputText("The dragoness rolls her eyes and closes the distance between the two of you with a slow, deliberate pace.  She easily bats away your weakened defenses until she is standing inches from you, her tail whipping back and forth as a cold smile curls on her dusky lips.  \"<i>Strip,</i>\" she commands, her voice a quiet whisper.  When you fail to comply, a crimson thunderbolt cracks across your sight and your face explodes with pain.  Blinking, you stagger back a few steps, Kiha's backhand still raised.  Annoyance playing over her face, she holds you in a smoldering glare as she hisses, \"<i>I don't repeat myself,</i>\" from between clenched teeth.  Rather than antagonize the dragon girl further, you comply, shedding your " + player.armorName + " to bare your exposed body to her.  A flash of delight flickers across her mouth but is quickly quelled by her mask of disdain.  \"<i>Weak, puny, and utterly incapable.  Tch, I suppose it can't be helped,</i>\" she mutters, loudly enough for you to hear.  Advancing on you once again, she places a clawed hand on your " + player.chestDesc() + ", almost tenderly.  Then, in a swift motion, she punches the heel of her palm against your sternum, abruptly knocking you to the ground.  Bending over your prone body, she lowers herself to straddle your " + player.hipDescript() + ", her muscular, scaled legs squeezing your lower body in a clenching grip.\n\n");
 
@@ -440,7 +442,7 @@ private function kihaRapesHerms():void {
 private function tsundereMasturbationChristmasCarol():void {
 	clearOutput();
 	outputText(images.showImage("kiha-mutualmasturbation"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You walk towards the draconic woman, removing your " + player.armorName + " as you observe her firm, ");
 	if (player.lust >= player.maxLust()) outputText("wanton");
 	else outputText("but dispirited");
@@ -493,7 +495,7 @@ private function tsundereMasturbationChristmasCarol():void {
 private function kihaVictoryPomfTail():void {
 	clearOutput();
 	outputText(images.showImage("kiha-taildildo"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("You approach the ");
 	if (monster.lust >= monster.eMaxLust()) outputText("lusty ");
 	else outputText("wounded ");
@@ -543,7 +545,7 @@ private function kihaVictoryPomfTail():void {
 }
 //*Victory Dicking - Fencrafted
 private function victoryDickKiha():void {
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	var x:Number = player.cockThatFits(monster.vaginalCapacity());
 	var y:Number = player.cockThatFits2(monster.vaginalCapacity());
 	clearOutput();
@@ -644,7 +646,7 @@ private function victoryDickKiha():void {
 private function kihaRapesLittleGirlsISawItOnTheNews():void {
 	clearOutput();
 	outputText(images.showImage("kiha-loss-female"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	outputText("\"<i>Well, well... what a cute vagina you have here!</i>\" she exclaims mockingly, pushing her palm against your moist sex.  With a wicked smile, the dragon girl forcibly shoves a pair of fingers inside you, their long, hard tips parting your sensitive flesh mercilessly.  You yelp in both pain and pleasure at her forced entrance, squirming uncomfortably on her hand.  \"<i>Haha!  You're enjoying this?  Don't fret slut, we're just getting started.</i>\"  Pulling back ever so slightly, Kiha slides another finger in, stretching your pussy with the thickness of her digits, furiously working them in and out of your snatch, relishing the gasping blush that spreads across your face.\n\n");
 	
 	outputText("You moan, weakly begging her to stop, or at least to slow down and be gentler.  The pleasure of her relentless stimulus sets your cunny drooling, while the pain of the dragon's brutal indifference forces saliva to bubble in your mouth as you hold your tongue, trying not to give her the satisfaction of watching you scream. She stretches your netherlips and brutally thrusts into your depths, watching your face intently, relishing your weakness. When, at last, you cry out in orgasmic throes, she purses her lips in satisfaction, the faintest trace of an affectionate flush creeping across her dusky cheeks.\n\n");
@@ -674,7 +676,7 @@ private function kihaRapesLittleGirlsISawItOnTheNews():void {
 private function rapeKihaWithWORDS():void {
 	clearOutput();
 	outputText(images.showImage("kiha-forced-talk"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	if (flags[kFLAGS.KIHA_TALK_STAGE] == 0) {
 		outputText("Kneeling down, you meet the defeated dragoness' gaze and ask her why she's so violent and territorial.  Kiha looks up at you in confusion and asks, \"<i>Wait... you defeated me, and you want to... talk?</i>\"\n\n");
 		
@@ -727,7 +729,7 @@ private function analRapuzulaKiha():void {
 	//Requires at least one penis with area <= 20
 	clearOutput();
 	outputText(images.showImage("kiha-buttfuck"));
-	spriteSelect(72);
+	spriteSelect(SpriteDb.s_kiha);
 	//Kiha PC victory anal scene - by Space.
 	//Requires at least one penis with area <= 20
 	var x:Number = player.cockThatFits(monster.analCapacity());

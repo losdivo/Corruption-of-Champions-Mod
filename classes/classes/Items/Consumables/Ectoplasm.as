@@ -61,7 +61,7 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//Appearnace Change
 			//Hair
@@ -87,7 +87,7 @@ package classes.Items.Consumables
 					player.skinType = SKIN_TYPE_PLAIN;
 				}
 				player.underBody.restore();
-				mutations.updateClaws(player.clawType);
+				mutations.changeClaws(player.clawType);
 				changes++;
 			}
 			//Legs

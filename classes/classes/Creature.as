@@ -366,6 +366,7 @@ package classes
 
 		//Eyetype
 		public var eyeType:Number = EYES_HUMAN;
+		public var eyeCount:Number = 2;
 
 		//TongueType
 		public var tongueType:Number = TONGUE_HUMAN;
@@ -2639,6 +2640,13 @@ package classes
 		public function isDrider():Boolean
 		{
 			return (lowerBody == LOWER_BODY_TYPE_DRIDER_LOWER_BODY);
+		}
+
+		public function hasSpiderEyes():Boolean
+		{
+			if (eyeType == EYES_SPIDER && eyeCount == 4)
+				return true;
+			return false;
 		}
 
 		public function isGoo():Boolean

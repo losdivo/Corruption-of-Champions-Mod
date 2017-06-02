@@ -8,6 +8,8 @@ import flash.events.Event;
 	import classes.*;
 	import classes.Scenes.NPCs.IsabellaScene;
 	import classes.GlobalFlags.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	/**
 	 * The new home of Stats and Perks
@@ -21,7 +23,7 @@ import flash.events.Event;
 		// STATS
 		//------------
 		public function displayStats():void {
-			spriteSelect(-1);
+			spriteSelect(null);
 			clearOutput();
 			displayHeader("Stats");
 			// Begin Combat Stats

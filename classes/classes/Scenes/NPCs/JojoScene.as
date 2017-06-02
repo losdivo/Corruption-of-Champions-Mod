@@ -1,8 +1,10 @@
 package classes.Scenes.NPCs{
 	import classes.GlobalFlags.*;
 	import classes.*;
-import classes.Scenes.API.Encounter;
-import classes.Scenes.API.Encounters;
+	import classes.Scenes.API.Encounter;
+	import classes.Scenes.API.Encounters;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class JojoScene extends NPCAwareContent implements TimeAwareInterface {
 
@@ -93,8 +95,8 @@ import classes.Scenes.API.Encounters;
 
 public function jojoSprite():void {
 	if (flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {
-		if (tentacleJojo()) spriteSelect(81);
-		else spriteSelect(34);
+		if (tentacleJojo()) spriteSelect(SpriteDb.s_jojoTentacle);
+		else spriteSelect(SpriteDb.s_jojo);
 	}
 	//No Joy sprite yet.
 }

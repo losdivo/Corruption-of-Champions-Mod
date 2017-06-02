@@ -148,7 +148,7 @@ package classes.Items.Consumables
 			}
 			//If the PC has gills:
 			if (player.hasGills() && rand(4) === 0 && changes < changeLimit) {
-				mutations.updateGills();
+				mutations.changeGills(GILLS_NONE);
 			}
 			//	outputText("\n\nYou grit your teeth as a stinging sensation arises in your gills.  Within moments, the sensation passes, and <b>your gills are gone!</b>");
 			//If the PC has tentacle hair:
@@ -170,10 +170,11 @@ package classes.Items.Consumables
 				changes++;
 			}
 			//If the PC has four eyes:
-			if (player.eyeType === EYES_FOUR_SPIDER_EYES && rand(3) === 0 && changes < changeLimit)
+			if ((player.eyeType === EYES_FOUR_SPIDER_EYES || player.eyeCount > 2) && rand(3) === 0 && changes < changeLimit)
 			{
-				outputText("\n\nYour two forehead eyes start throbbing painfully, your sight in them eventually going dark.  You touch your forehead to inspect your eyes, only to find out that they have disappeared.  <b>You only have two eyes now!</b>");
+				outputText("\n\nYour eyes start throbbing painfully, your sight in them eventually going dark.  You touch your head to inspect your eyes, only to find out that they have changed.  <b>You have human eyes now!</b>");
 				player.eyeType = 0;
+				player.eyeCount = 2;
 				changes++;
 			}
 			//Go into heat
@@ -183,7 +184,7 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//Turn ferret mask to full furface.
 			if (player.faceType === FACE_FERRET_MASK && player.hasFur() && player.earType === EARS_FERRET && player.tailType === TAIL_TYPE_FERRET && player.lowerBody === LOWER_BODY_TYPE_FERRET && rand(4) === 0 && changes < changeLimit)

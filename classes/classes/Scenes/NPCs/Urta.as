@@ -6,6 +6,8 @@ package classes.Scenes.NPCs{
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kACHIEVEMENTS;
 	import classes.GlobalFlags.kGAMECLASS;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class Urta extends NPCAwareContent implements TimeAwareInterface {
 
@@ -102,8 +104,8 @@ package classes.Scenes.NPCs{
 		//End of Interface Implementation
 		
 public function urtaSprite():void {
-	if (urtaDrunk()) spriteSelect(84);
-	else spriteSelect(1);
+	if (urtaDrunk()) spriteSelect(SpriteDb.s_urtaDrunk);
+	else spriteSelect(SpriteDb.s_urta);
 }
 
 public function urtaCapacity():Number {
@@ -4772,7 +4774,7 @@ private function urtasRuinedOrgasmsFromGooPartII():void {
 	if (player.skinTone != "milky white") {
 		outputText("\n\nThen you catch sight of your body...  You hold up a hand in surprise.  Your skin has changed color!  Your time inside Urta's balls has taken its toll, it seems.  <b>You now have milky white skin!</b>");
 		player.skinTone = "milky white";
-		mutations.updateClaws(player.clawType);
+		mutations.changeClaws(CLAW_TYPE_NORMAL, true, "milky white");
 		player.cumMultiplier += 10;
 	}
 	outputText("\n\nUrta and ");

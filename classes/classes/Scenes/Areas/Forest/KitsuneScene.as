@@ -6,8 +6,10 @@ package classes.Scenes.Areas.Forest
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.Items.Armors.LustyMaidensArmor;
-import classes.Scenes.API.Encounter;
+	import classes.Scenes.API.Encounter;
 	import classes.Scenes.Monsters.Imp;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class KitsuneScene extends BaseContent implements Encounter
 	{
@@ -39,9 +41,9 @@ import classes.Scenes.API.Encounter;
 
 		private function kitsuneSprite():void
 		{
-			if (monster.hairColor == "blonde") spriteSelect(105);
-			else if (monster.hairColor == "black") spriteSelect(104);
-			else spriteSelect(106);
+			if (monster.hairColor == "blonde") spriteSelect(SpriteDb.s_kitsune_blonde);
+			else if (monster.hairColor == "black") spriteSelect(SpriteDb.s_kitsune_black);
+			else spriteSelect(SpriteDb.s_kitsune_red);
 		}
 
 //[Enter the Trickster] (Coded)

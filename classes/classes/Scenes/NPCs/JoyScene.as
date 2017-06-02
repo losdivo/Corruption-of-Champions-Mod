@@ -3,6 +3,8 @@ package classes.Scenes.NPCs
 	import classes.GlobalFlags.*;
 	import classes.Items.*;
 	import classes.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	/**
 	 * Bimbo Jojo by LukaDoc
@@ -408,7 +410,7 @@ package classes.Scenes.NPCs
 		
 		//Jojo gets bimbofied! Joy Emerges.
 		private function joyEmerges():void {
-			spriteSelect(-1);
+			spriteSelect(null);
 			clearOutput();
 			outputText("Jojo doubles over and groans; you watch helpless as his fur changes from white to platinum blonde. He sprawls on the floor and you can see his lips getting fuller, his eyelashes longer and his chest begins expanding; a tearing sound rips through the air, as Jojo's new pillowy boobs rip his robes apart, perky nipples erect.");
 			outputText("\n\nYou see his pants suddenly become much less baggy as his butt, hips and thighs grow; his whole figure shifts towards the feminine and a ripping sound confirms his pants have also torn up somewhere.");

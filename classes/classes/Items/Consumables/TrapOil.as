@@ -243,7 +243,7 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//Nipples Turn Black:
 			if (!player.hasStatusEffect(StatusEffects.BlackNipples) && rand(6) === 0 && changes < changeLimit) {
@@ -252,11 +252,10 @@ package classes.Items.Consumables
 				changes++;
 			}
 			//Remove odd eyes
-			if (player.eyeType === EYES_FOUR_SPIDER_EYES && rand(2) === 0 && changes < changeLimit) {
-				outputText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + player.feet() + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
-				if (player.eyeType === EYES_FOUR_SPIDER_EYES) outputText("  Your multiple, arachnid eyes are gone!</b>");
-				outputText("  <b>You have normal, humanoid eyes again.</b>");
+			if ((player.eyeType === EYES_FOUR_SPIDER_EYES || player.eyeType == EYES_SPIDER) && rand(2) === 0 && changes < changeLimit) {
+				outputText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + player.feet() + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow. <b>Your arachnid eyes are gone! You have normal, humanoid eyes again.</b>");
 				player.eyeType = EYES_HUMAN;
+				player.eyeCount = 2;
 				changes++;
 			}
 			//PC Trap Effects

@@ -58,9 +58,9 @@ package classes {
 				if (player.findPerk(PerkLib.Lusty) >= 0) dynStats("lus", player.lib * 0.01, "resisted", false); //Double lust rise if lusty.
 			}
 			//Feathery hairpin Effects
-			if (player.featheryHairPinEquipped() && mutations.lizardHairChange("PlayerEvents-benoitHairPin") != 0)
+			if (player.featheryHairPinEquipped() && (player.hairType !== HAIR_BASILISK_SPINES || player.hairType !== HAIR_BASILISK_PLUME))
 			{
-				needNext = true;
+				mutations.changeHair(HAIR_NORMAL, "brown", false, 0, false, false, true); //hair type/colour doesn't matter since Basilisk hair overrides it all
 			}
 			//Jewelry effect
 			if (player.jewelryEffectId == JewelryLib.CORRUPTION)

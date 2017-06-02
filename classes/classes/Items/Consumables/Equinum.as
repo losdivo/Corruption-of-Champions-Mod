@@ -160,14 +160,14 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			//Restore arms to become human arms again
 			if (rand(4) === 0) {
-				mutations.restoreArms(tfSource);
+				mutations.changeArms(ARM_TYPE_HUMAN, true);
 			}
 			//Remove feathery hair
-			mutations.removeFeatheryHair();
+			mutations.changeHair(HAIR_NORMAL, "brown");
 			//
 			//SEXUAL CHARACTERISTICS
 			//
@@ -426,10 +426,11 @@ package classes.Items.Consumables
 				}
 				else {
 					outputText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + player.feet() + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
-					if (player.eyeType === EYES_FOUR_SPIDER_EYES) outputText("  Your multiple, arachnid eyes are gone!</b>");
+					if (player.eyeType === EYES_FOUR_SPIDER_EYES || player.eyeType === EYES_SPIDER) outputText("  Your arachnid eyes are gone!</b>");
 					outputText("  <b>You have normal, humanoid eyes again.</b>");
 				}
 				player.eyeType = EYES_HUMAN;
+				player.eyeCount = 2;
 				changes++;
 			}
 			//HorseFace - Req's Fur && Ears
@@ -503,7 +504,7 @@ package classes.Items.Consumables
 			}
 			// Remove gills
 			if (rand(4) === 0 && player.hasGills() && changes < changeLimit) {
-				mutations.updateGills();
+				mutations.changeGills(GILLS_NONE);
 			}
 
 			if (rand(3) === 0) outputText(player.modTone(60, 1));

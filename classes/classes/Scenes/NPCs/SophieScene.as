@@ -4,6 +4,8 @@ package classes.Scenes.NPCs{
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Scenes.Areas.HighMountains.Harpy;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class SophieScene extends BaseContent implements TimeAwareInterface {
 
@@ -387,7 +389,7 @@ private function PCIgnoresSophieAndHarpyIsFought():void {
 	clearOutput();
 	outputText("A harpy wings out of the sky and attacks!");
 	startCombat(new Harpy());
-	spriteSelect(26);
+	spriteSelect(SpriteDb.s_harpy);
 }
 
 

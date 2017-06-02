@@ -108,23 +108,6 @@ package classes{
         }
 		
 		[Test] 
-        public function testSetVaginaTypeWithNoVagina():void {
-			assertThat(noVagina.vaginaType(VAGINA_TYPE_EQUINE), equalTo(-1));
-        }
-		
-		[Test] 
-        public function testSetVaginaTypeWithVagina():void {
-			assertThat(oneVagina.vaginaType(VAGINA_TYPE_EQUINE), equalTo(VAGINA_TYPE_EQUINE));
-        }
-		
-		[Test] 
-        public function testReadVaginaTypeAfterSet():void {
-			oneVagina.vaginaType(VAGINA_TYPE_EQUINE);
-			
-			assertThat(oneVagina.vaginaType(), equalTo(VAGINA_TYPE_EQUINE));
-        }
-		
-		[Test] 
         public function testLoosenessVaginaWithNoVagina():void {
 			assertThat(noVagina.looseness(), equalTo(0));
         }

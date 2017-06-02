@@ -3,6 +3,8 @@ package classes.Scenes.Places.Bazaar
 	import classes.GlobalFlags.*;
 	import classes.Items.Mutations;
 	import classes.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	/**
 	 * The Black Cock by Foxxling
 	 * @author Kitteh6660
@@ -56,7 +58,7 @@ package classes.Scenes.Places.Bazaar
 		
 		public function enterTheBlackCock():void {
 			clearOutput();
-			spriteSelect(-1);
+			spriteSelect(null);
 			outputText(images.showImage("location-bazaar-theblackcock"));
 			//General descriptor
 			outputText("You enter the tent to find much of what you'd expect: A bunch of wooden tables and a sectioned-off portion in the back where you presume the cooking happens. Next to the flap leading into the kitchen there is a big \"keep out\" sign stuck into the ground through the tent's bottom. ");
@@ -1457,7 +1459,7 @@ package classes.Scenes.Places.Bazaar
 				changes++;
 			}
 			//Transformations
-			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
+			if (rand(5) == 0) mutations.changeOviPerk(false);
 
 			if (rand(3) == 0 && changes < changeLimit && player.hasScales()) {
 				outputText("\n\nYou feel an odd rolling sensation as your scales begin to shift, spreading and reforming as they grow and disappear, <b>becoming normal human skin</b>.");
@@ -1579,7 +1581,7 @@ package classes.Scenes.Places.Bazaar
 			if (rand(3) == 0 && player.rhinoScore() >= 2 && (rand(2) == 0 || !player.inRut) && player.hasCock()) {
 				player.goIntoRut(true);
 			}
-			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
+			if (rand(5) == 0) mutations.changeOviPerk(false);
 			// Special TFs
 			//------------
 			if (rand(4) == 0 && changes < changeLimit && player.hornType != HORNS_UNICORN && player.earType == EARS_HORSE && (player.lowerBody == LOWER_BODY_TYPE_HOOFED || player.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED || player.horseScore() >= 3)) {
@@ -1628,7 +1630,7 @@ package classes.Scenes.Places.Bazaar
 				player.skinType = SKIN_TYPE_PLAIN;
 				player.skinDesc = "skin";
 				player.underBody.restore();
-				mutations.updateClaws(player.clawType);
+				mutations.changeClaws(player.clawType);
 				changes++;
 			}
 			//Arms change to regular
@@ -1642,8 +1644,7 @@ package classes.Scenes.Places.Bazaar
 						break;
 					default:
 				}
-				player.armType = ARM_TYPE_HUMAN;
-				mutations.updateClaws();
+				mutations.changeArms(ARM_TYPE_HUMAN, true);
 				changes++;
 			}
 			//Change legs to normal
@@ -1686,7 +1687,7 @@ package classes.Scenes.Places.Bazaar
 				changes++;
 			}
 			//Remove gills
-			if (rand(4) == 0 && changes < changeLimit && player.hasGills()) mutations.updateGills();
+			if (rand(4) == 0 && changes < changeLimit && player.hasGills()) mutations.changeGills(GILLS_NONE);
 			// Rhino TFs
 			//------------
 			//Change a cock to rhino.
@@ -1863,11 +1864,12 @@ package classes.Scenes.Places.Bazaar
 				changes++;
 			}
 			//Remove gills
-			if (rand(3) == 0 && changes < changeLimit && player.hasGills()) mutations.updateGills();
+			if (rand(3) == 0 && changes < changeLimit && player.hasGills()) mutations.changeGills(GILLS_NONE);
 
-			if (rand(3) == 0 && changes < changeLimit && player.eyeType == EYES_FOUR_SPIDER_EYES) {
-				outputText("\n\nYour two forehead eyes start throbbing painfully, your sight in them eventually going dark. You touch your forehead to inspect your eyes, only to find out that they have disappeared. <b>You only have two eyes now!</b>");
+			if (rand(3) == 0 && changes < changeLimit && player.eyeType == EYES_FOUR_SPIDER_EYES || player.eyeType == EYES_SPIDER) {
+				outputText("\n\nYour eyes start throbbing painfully, your sight in them eventually going dark. You touch your head to inspect your eyes, only to find out that they have changed. <b>You have human eyes now!</b>");
 				player.eyeType == EYES_HUMAN;
+				player.eyeCount = 2;
 				changes++;
 			}
 			if (rand(3) == 0 && changes < changeLimit && player.averageNipplesPerBreast() > 4) {
@@ -2062,7 +2064,7 @@ package classes.Scenes.Places.Bazaar
 				changes++;
 			}
 			if (rand(4) == 0 && changes < changeLimit && player.echidnaScore() >= 3 && player.hasVagina() && player.findPerk(PerkLib.Oviposition) < 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			if (rand(3) == 0 && (rand(2) == 0 || !player.inHeat) && player.hasVagina() && player.statusEffectv2(StatusEffects.Heat) < 30) {
 				player.goIntoHeat(true);

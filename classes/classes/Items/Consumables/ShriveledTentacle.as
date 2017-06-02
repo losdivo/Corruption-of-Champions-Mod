@@ -53,7 +53,7 @@ package classes.Items.Consumables
 			//"The tingling of the tentacle
 
 			if (rand(5) === 0) {
-				mutations.updateOvipositionPerk(tfSource);
+				mutations.changeOviPerk(false);
 			}
 			
 			//physical changes:
@@ -87,14 +87,14 @@ package classes.Items.Consumables
 			
 			//-feathery gills sprout from chest and drape sensually over nipples (cumulative swimming power boost with fin, if swimming is implemented)
 			if (rand(5) === 0 && player.gillType !== GILLS_ANEMONE && player.skinTone === "aphotic blue-black" && changes < changeLimit) {
-				mutations.updateGills(GILLS_ANEMONE);
+				mutations.changeGills(GILLS_ANEMONE);
 			}
 			
 			//-[aphotic] skin tone (blue-black)
 			if (rand(5) === 0 && changes < changeLimit && player.skinTone !== "aphotic blue-black") {
 				outputText("\n\nYou absently bite down on the last of the tentacle, then pull your hand away, wincing in pain.  How did you bite your finger so hard?  Looking down, the answer becomes obvious; <b>your hand, along with the rest of your skin, is now the same aphotic color as the dormant tentacle was!</b>");
 				player.skinTone = "aphotic blue-black";
-				mutations.updateClaws(player.clawType);
+				mutations.changeClaws(player.clawType);
 				kGAMECLASS.rathazul.addMixologyXP(20);
 				changes++;
 			}

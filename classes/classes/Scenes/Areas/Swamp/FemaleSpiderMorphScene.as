@@ -6,6 +6,8 @@ package classes.Scenes.Areas.Swamp
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class FemaleSpiderMorphScene extends BaseContent implements TimeAwareInterface
 	{
@@ -37,7 +39,7 @@ package classes.Scenes.Areas.Swamp
 		public function fSpiderMorphGreeting():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			//Egg sack sometimes
 			if (pregnancy.event == 2) { //If she's past event 2 then she has laid the eggs
 				findASpiderMorphEggSack();
@@ -69,7 +71,7 @@ package classes.Scenes.Areas.Swamp
 		private function fightFSpiderMorph():void
 		{
 			startCombat(new FemaleSpiderMorph());
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			playerMenu();
 		}
 
@@ -77,7 +79,7 @@ package classes.Scenes.Areas.Swamp
 		private function runFromFSpiderMorph():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			//Selecting has a 50% chance of displaying the following:
 			if (rand(2) == 0) {
 				outputText("You turn around and flee before she can get any closer.  After running for a few moments, you realize the spider-woman isn't trying to pursue you at all.  The last image you see of her is her looking down at the ground with an expression of incredible melancholy.");
@@ -94,7 +96,7 @@ package classes.Scenes.Areas.Swamp
 		private function talkToFSpiderMorph():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			if (rand(2) == 0) {
 				outputText("You hold up your hands non-threateningly and ask the spider-girl why she's trying to sneak up on you.  Her eyes go wide and she claps her chitinous hands over her mouth in shock before she cries, \"<i>Omigosh, I'm so sorry!</i>\"  You smirk at the decidedly girlish response while she recovers and continues to speak, \"<i>I didn't mean to scare you!  I've been living out here by myself for so long... ever since the demons destroyed our village.  C-could we just... umm... talk for a little while?</i>\"\n\n");
 				outputText("The spider-girl twiddles her fingers nervously for a moment until you give her a nod.  You did mean to talk to her, and it seems that it's worked out a little better than you intended.  She takes a few tiny steps forward before sitting down cross-legged on some ferns.  Feeling no threat from the strange monster-girl, you sit down across from her and let her ply you with questions about your adventures, and once she's finished, you do the same.\n\n");
@@ -132,7 +134,7 @@ package classes.Scenes.Areas.Swamp
 		private function voluntaryFemaleSpiderMorphRapesYou():void
 		{
 			startCombat(new FemaleSpiderMorph());
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			getGame().inCombat = false;
 			loseToFemaleSpiderMorph();
 		}
@@ -151,7 +153,7 @@ package classes.Scenes.Areas.Swamp
 		private function defeatFemale():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			//(Noncombat Intro)
 			if (!getGame().inCombat) {
 				outputText("You agree to have sex with the poor, pent-up arachnid maid, and ");
@@ -281,7 +283,7 @@ package classes.Scenes.Areas.Swamp
 		{
 			//*SUMMARY:  PC is tied down and has a web-condom sprayed around their dick, then a webbing cock-ring.  The PC is then ridden hard, bit numerous times, and never able to cum until pain lances through his (balls/cock) from the lack of release.  Finally, she bites PC's neck and the PC cums, inflating web-condom of various size.
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			var x:Number = player.cockThatFits(monster.vaginalCapacity());
 			if (x < 0) x = 0;
 			//(Noncombat Intro:) 
@@ -386,7 +388,7 @@ package classes.Scenes.Areas.Swamp
 		private function femaleSpiderMorphTooBigWebRape():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			var x:Number = player.cockThatFits(monster.vaginalCapacity());
 			if (x < 0) x = 0;
 			//(Consensual)
@@ -479,7 +481,7 @@ package classes.Scenes.Areas.Swamp
 		public function defeatASpiderBitch():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 	
 			if (flags[kFLAGS.SFW_MODE] > 0) {
 				outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.");
@@ -520,7 +522,7 @@ package classes.Scenes.Areas.Swamp
 		private function fSpiderMorphRape():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			outputText("You laugh at her and push her down with your " + player.legs() + ", enjoying the view of the pale maiden's unblemished skin and dark, fetishy-looking exoskeleton when she bounces in swamp loam.  Her legs scissor closed nervously, a weak effort to conceal her sex from you");
 			if (player.lust >= player.maxLust()) outputText(", even as her fingers continue to work her slick lips relentlessly");
 			outputText(".  You slap her hands away and pry her legs open, getting a nice, close look at her vagina.\n\n");
@@ -582,7 +584,7 @@ package classes.Scenes.Areas.Swamp
 			var x:Number = player.cockThatFits(monster.vaginalCapacity());
 			if (x < 0) x = 0;
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			outputText("You push the spider-girl onto her back, getting a good long look at your conquest before you take off your " + player.armorName + ".  At the sight of your " + player.multiCockDescriptLight() + ", she ");
 			if (monster.lust <= 99) outputText("relaxes a bit.  The smell of an aroused female wafts up from her, reminding you that is probably what she wanted from the get-go.");
 			else outputText("salivates, both holes dripping liquid in anticipation of the coming sex.  The smell of sex fills the air, and you realize you're about to give her exactly what she wants.");
@@ -650,7 +652,7 @@ package classes.Scenes.Areas.Swamp
 			if (x == -1) x = 0;
 			var y:Number = player.cockThatFits2(monster.analCapacity());
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			outputText("You peel off your " + player.armorName + " while you gaze disdainfully down at your prize.  ");
 			if (monster.lust >= monster.eMaxLust()) outputText("She's moaning plaintively and happily fingering herself, practically offering her juicy box to you.");
 			else outputText("She's groaning painfully and struggling to move before falling back down, legs akimbo, inadvertently displaying her pussy to you.");
@@ -715,7 +717,7 @@ package classes.Scenes.Areas.Swamp
 		private function findASpiderMorphEggSack():void
 		{
 			clearOutput();
-			spriteSelect(73);
+			spriteSelect(SpriteDb.s_spidergirl);
 			outputText("You stumble upon a huge, webbed sack hanging from a tree.  Examining it closer, you see that bound up inside it are nearly a dozen webs, each containing a wriggling form.  They start moving faster and faster, perhaps reacting to the nearby movement, before the shells finally shatter and unleash their cargo.  Inside each is a tiny, six inch tall humanoid figure, each resembling a child in miniature.  Remarkably, their features remind you of your own, and before the significance of that fact settles in, they drop to the ground and scurry away on their tiny, carapace-covered legs.\n\n");
 
 			outputText("You're left scratching your head when you realize they were your own children, birthed by the spider-morph you fucked not so long ago.\n\n");

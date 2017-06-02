@@ -47,7 +47,7 @@ package classes.Items.Consumables
 			else {
 				if (!game.player.hasGooSkin()) {
 					game.player.skinTone = _color;
-					mutations.updateClaws(game.player.clawType);
+					mutations.changeClaws(game.player.clawType);
 				}
 				switch (game.player.skinType) {
 					case SKIN_TYPE_PLAIN: //Plain

@@ -1013,7 +1013,7 @@ public class ErlKingScene extends BaseContent implements Encounter
 			if (player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
 			// Main TFs
 			//------------
-			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
+			if (rand(5) == 0) mutations.changeOviPerk(false);
 			//Gain deer ears
 			if (rand(3) == 0 && changes < changeLimit && player.earType != EARS_DEER) {
 				if (player.earType == -1) outputText("\n\nTwo painful lumps sprout on the top of your head, forming into tear-drop shaped ears, covered with short fur.  ");

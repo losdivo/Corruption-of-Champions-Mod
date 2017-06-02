@@ -2242,6 +2242,7 @@ package classes
 					[EYES_WOLF, "wolf"],
 					[EYES_DRAGON, "dragon"],
 					[EYES_BASILISK, "basilisk"],
+					[EYES_SPIDER, "spider"],
 				]
 		);
 		public static const DEFAULT_EARS_NAMES:Object = createMapFromPairs(
@@ -2373,7 +2374,6 @@ package classes
 					[LOWER_BODY_TYPE_DOG, "dog"],
 					[LOWER_BODY_TYPE_NAGA, "naga"],
 					[LOWER_BODY_TYPE_WOLF, "wolf"],
-					[LOWER_BODY_TYPE_CENTAUR, "centaur"],
 					[LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS, "demonic high-heels"],
 					[LOWER_BODY_TYPE_DEMONIC_CLAWS, "demonic claws"],
 					[LOWER_BODY_TYPE_BEE, "bee"],
@@ -2392,7 +2392,6 @@ package classes
 					[LOWER_BODY_TYPE_FERRET, "ferret"],
 					[LOWER_BODY_TYPE_CLOVEN_HOOFED, "cloven-hoofed"],
 					[LOWER_BODY_TYPE_ECHIDNA, "echidna"],
-					[LOWER_BODY_TYPE_ECHIDNA, "deertaur"],
 					[LOWER_BODY_TYPE_SALAMANDER, "salamander"],
 					[LOWER_BODY_TYPE_IMP, "imp"],
 				]
@@ -2410,7 +2409,6 @@ package classes
 		public static const DEFAULT_VAGINA_TYPE_NAMES:Object = createMapFromPairs(
 				[
 					[VAGINA_TYPE_HUMAN, "human"],
-					[VAGINA_TYPE_EQUINE, "equine"],
 					[VAGINA_TYPE_BLACK_SAND_TRAP, "black sandtrap"],
 				]
 		);
