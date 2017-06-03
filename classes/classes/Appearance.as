@@ -2409,6 +2409,7 @@ package classes
 		public static const DEFAULT_VAGINA_TYPE_NAMES:Object = createMapFromPairs(
 				[
 					[VAGINA_TYPE_HUMAN, "human"],
+					[VAGINA_TYPE_EQUINE, "equine"],
 					[VAGINA_TYPE_BLACK_SAND_TRAP, "black sandtrap"],
 				]
 		);

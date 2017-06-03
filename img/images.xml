@@ -725,6 +725,10 @@
 				<ImageFile>./img/frida-order-cake</ImageFile>
 				<ImageFile>./img/frida-order-cake_1</ImageFile>
 			</ImageSet>
+			<ImageSet id="gargoyle-cathedral">
+				<ImageFile>./img/gargoyle-cathedral</ImageFile>
+				<ImageFile>./img/gargoyle-cathedral_1</ImageFile>
+			</ImageSet>
 			<ImageSet id="goblin-loss-female-bimbodildo">
 				<ImageFile>./img/goblin-loss-female-bimbodildo</ImageFile>
 				<ImageFile>./img/goblin-loss-female-bimbodildo_1</ImageFile>

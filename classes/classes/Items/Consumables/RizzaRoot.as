@@ -39,7 +39,7 @@ package classes.Items.Consumables
 				changes++;
 				outputText("\n\nA weird tingling runs through your scalp as your " + player.hairDescript() + " shifts slightly.  You reach up and your hand bumps against <b>your new pointed elfin ears</b>.  You bet they look cute!");
 			}
-			if (Utils.rand(5) == 0) mutations.changeOviPerk(false); // I doubt, that this will ever be affected, but well ... just in case
+			if (Utils.rand(5) == 0) mutations.updateOvipositionPerk(tfSource); // I doubt, that this will ever be affected, but well ... just in case
 			if ((changes < changeLimit) && (player.tallness < 108)){
 				player.tallness += changeLimit - changes + Utils.rand(2); //Add remaining changes as additional height
 				if (player.tallness > 108) player.tallness = 108;

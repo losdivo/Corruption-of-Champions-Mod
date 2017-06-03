@@ -117,11 +117,11 @@ package classes.Items.Consumables
 				changes++;
 			}
 			if (rand(5) === 0) {
-				mutations.changeOviPerk(false);
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			//Restore arms to become human arms again
 			if (rand(4) === 0) {
-				mutations.changeArms(ARM_TYPE_HUMAN, true);
+				mutations.restoreArms(tfSource);
 			}
 			//+hooves
 			if (player.lowerBody !== LOWER_BODY_TYPE_HOOFED) {
@@ -409,7 +409,7 @@ package classes.Items.Consumables
 			}
 			// Remove gills
 			if (rand(4) === 0 && player.hasGills() && changes < changeLimit) {
-				mutations.changeGills(GILLS_NONE);
+				mutations.updateGills();
 			}
 
 			if (changes < changeLimit && rand(4) === 0 && ((player.ass.analWetness > 0 && player.findPerk(PerkLib.MaraesGiftButtslut) < 0) || player.ass.analWetness > 1)) {

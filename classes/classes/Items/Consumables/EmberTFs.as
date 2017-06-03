@@ -80,7 +80,7 @@ package classes.Items.Consumables
 				player.cocks[select].cockType = CockTypesEnum.DRAGON;
 				player.cocks[select].knotMultiplier = 1.3;
 			}
-			if (rand(5) == 0) mutations.changeOviPerk(false);
+			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
 			//Gain Dragon Head
 			if (changes < changeLimit && rand(3) == 0 && player.faceType != FACE_DRAGON && flags[kFLAGS.EMBER_ROUNDFACE] == 0) {
 				output.text("\n\nYou scream as your face is suddenly twisted; your facial bones begin rearranging themselves under your skin, restructuring into a long, narrow muzzle.  Spikes of agony rip through your jaws as your teeth are brutally forced from your gums, giving you new rows of fangs - long, narrow and sharp.  Your jawline begins to sprout strange growths; small spikes grow along the underside of your muzzle, giving you an increasingly inhuman visage.\n\nFinally, the pain dies down, and you look for a convenient puddle to examine your changed appearance.\n\nYour head has turned into a reptilian muzzle, with small barbs on the underside of the jaw.  <b>You now have a dragon's face.</b>");
@@ -89,9 +89,7 @@ package classes.Items.Consumables
 			}
 			//-Existing horns become draconic, max of 4, max length of 1'
 			if (!player.hasDragonHorns(true) && changes < changeLimit && rand(5) == 0)
-				mutations.changeHorns(HORNS_DRACONIC_X2, 1);
-			if (player.hornType === HORNS_DRACONIC_X2 && changes < changeLimit && rand(5) == 0)
-				mutations.changeHorns(HORNS_DRACONIC_X4_12_INCH_LONG, 12);
+				mutations.gainDraconicHorns(tfSource);
 			//Gain Dragon Ears
 			if (changes < changeLimit && rand(3) == 0 && player.earType != EARS_DRAGON) {
 				player.earType = EARS_DRAGON;
@@ -214,13 +212,14 @@ package classes.Items.Consumables
 			if (player.armType != ARM_TYPE_PREDATOR && player.hasDragonScales() && player.lowerBody == LOWER_BODY_TYPE_DRAGON && changes < changeLimit && rand(3) == 0) {
 				output.text("\n\nYou scratch your biceps absentmindedly, but no matter how much you scratch, you can't get rid of the itch.  After a longer moment of ignoring it you finally glance down in irritation, only to discover that your arms former appearance has changed into those of some reptilian killer with shield-shaped " + player.skinTone + " scales and powerful, thick, curved steel-gray claws replacing your fingernails.");
 				output.text("\n<b>You now have dragon arms.</b>");
-				mutations.changeArms(ARM_TYPE_PREDATOR, true, CLAW_TYPE_DRAGON, "steely-gray");
+				player.armType = ARM_TYPE_PREDATOR;
+				mutations.updateClaws(CLAW_TYPE_DRAGON);
 				changes++
 			}
 			//Claw transition
 			if (player.armType == ARM_TYPE_PREDATOR && player.hasDragonScales() && player.clawType != CLAW_TYPE_DRAGON && changes < changeLimit && rand(3) == 0) {
 				output.text("\n\nYour " + player.claws() + " change  a little to become more dragon-like.");
-				mutations.changeClaws(CLAW_TYPE_DRAGON);
+				mutations.updateClaws(CLAW_TYPE_DRAGON);
 				output.text(" <b>You now have " + player.claws() + ".</b>");
 				changes++
 			}

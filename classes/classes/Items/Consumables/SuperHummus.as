@@ -42,7 +42,7 @@ package classes.Items.Consumables
 				outputText("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
 			}
 			player.armType = ARM_TYPE_HUMAN;
-			player.clawType = CLAW_TYPE_NORMAL;
+			mutations.updateClaws();
 			player.eyeType = EYES_HUMAN;
 			player.antennae = ANTENNAE_NONE;
 			player.faceType = FACE_HUMAN;
@@ -113,7 +113,7 @@ package classes.Items.Consumables
 			player.removeStatusEffect(StatusEffects.Uniball);
 			player.removeStatusEffect(StatusEffects.BlackNipples);
 			player.vaginaType(0);
-			mutations.changeOviPerk(false);
+			mutations.updateOvipositionPerk(tfSource);
 			
 			return false;
 		}

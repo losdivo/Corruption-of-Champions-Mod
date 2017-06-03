@@ -60,7 +60,7 @@ package classes.Items.Consumables
 				changes++;
 			}
 			if (rand(5) === 0) {
-				mutations.changeOviPerk(false);
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			//Removes wings
 			if (player.wingType > WING_TYPE_NONE && rand(3) === 0 && changes < changeLimit) {
@@ -77,7 +77,7 @@ package classes.Items.Consumables
 			}
 			//9c) II The tongue (sensitivity bonus, stored as a perk?)
 			if (changes === 0 && rand(3) === 0) {
-				mutations.changeTongue(TONGUE_SNAKE);
+				mutations.gainSnakeTongue();
 			}
 			//9c) III The fangs
 			if (changes === 0 && player.tongueType === TONGUE_SNAKE && player.faceType !== FACE_SNAKE_FANGS && rand(3) === 0 && changes < changeLimit) {
@@ -122,12 +122,12 @@ package classes.Items.Consumables
 					});
 				}
 				
-				mutations.changeClaws(player.clawType); // Just auto-fix the clawTone
+				mutations.updateClaws(player.clawType); // Just auto-fix the clawTone
 				changes++;
 			}
 			// Remove gills
 			if (rand(4) === 0 && player.hasGills() && changes < changeLimit) {
-				mutations.changeGills(GILLS_NONE);
+				mutations.updateGills();
 			}
 
 			//Default change - blah

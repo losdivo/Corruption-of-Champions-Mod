@@ -148,7 +148,7 @@ package classes.Items.Consumables
 			}
 			//If the PC has gills:
 			if (player.hasGills() && rand(4) === 0 && changes < changeLimit) {
-				mutations.changeGills(GILLS_NONE);
+				mutations.updateGills();
 			}
 			//	outputText("\n\nYou grit your teeth as a stinging sensation arises in your gills.  Within moments, the sensation passes, and <b>your gills are gone!</b>");
 			//If the PC has tentacle hair:
@@ -184,7 +184,7 @@ package classes.Items.Consumables
 				}
 			}
 			if (rand(5) === 0) {
-				mutations.changeOviPerk(false);
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			//Turn ferret mask to full furface.
 			if (player.faceType === FACE_FERRET_MASK && player.hasFur() && player.earType === EARS_FERRET && player.tailType === TAIL_TYPE_FERRET && player.lowerBody === LOWER_BODY_TYPE_FERRET && rand(4) === 0 && changes < changeLimit)

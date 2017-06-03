@@ -119,7 +119,7 @@ public static const HORNS_SHEEP:int                                             
 public static const HORNS_RAM:int                                                   =  10;
 public static const HORNS_IMP:int                                                   =  11;
 
-// antennae
+// antennae -- ALL ANTENNAE DEPRICATED, USE HORNS_ANTENNAE
 public static const ANTENNAE_NONE:int                                               =   0;
 public static const ANTENNAE_BEE:int                                                =   2;
 
@@ -216,7 +216,7 @@ public static const LOWER_BODY_TYPE_DRAGON:int                                  
 public static const LOWER_BODY_TYPE_RACCOON:int                                     =  19;
 public static const LOWER_BODY_TYPE_FERRET:int                                      =  20;
 public static const LOWER_BODY_TYPE_CLOVEN_HOOFED:int                               =  21;
-//public static const LOWER_BODY_TYPE_RHINO:int                                     =  22;
+//public static const LOWER_BODY_TYPE_RHINO:int                                       =  22;
 public static const LOWER_BODY_TYPE_ECHIDNA:int                                     =  23;
 //public static const LOWER_BODY_TYPE_DEERTAUR:int                                  =  24;//DEPRECATED - USE CLOVEN HOOFED + LEGCOUNT 4
 public static const LOWER_BODY_TYPE_SALAMANDER:int                                  =  25;
@@ -241,6 +241,7 @@ public static const PIERCING_TYPE_CHAIN:int                                     
 
 // vaginatypesNOPEDISABLED
 public static const VAGINA_TYPE_HUMAN:int                                           =   0;
+public static const VAGINA_TYPE_EQUINE:int                                          =   1;
 public static const VAGINA_TYPE_BLACK_SAND_TRAP:int                                 =   5;
 
 // vaginalWetness

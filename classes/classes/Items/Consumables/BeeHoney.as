@@ -180,7 +180,7 @@ package classes.Items.Consumables
 				}
 			}
 			//Lose reptile oviposition!
-			if (Utils.rand(4) == 0) mutations.changeOviPerk(false);
+			if (Utils.rand(4) == 0) mutations.updateOvipositionPerk(tfSource);
 			//Gain bee oviposition!
 			if (changes < changeLimit && player.findPerk(PerkLib.BeeOvipositor) < 0 && player.tailType == CoC.TAIL_TYPE_BEE_ABDOMEN && Utils.rand(2) == 0) {
 				outputText("\n\nAn odd swelling starts in your insectile abdomen, somewhere along the underside.  Curling around, you reach back to your extended, bulbous bee part and run your fingers along the underside.  You gasp when you feel a tender, yielding slit near the stinger.  As you probe this new orifice, a shock of pleasure runs through you, and a tubular, black, semi-hard appendage drops out, pulsating as heavily as any sexual organ.  <b>The new organ is clearly an ovipositor!</b>  A few gentle prods confirm that it's just as sensitive; you can already feel your internals changing, adjusting to begin the production of unfertilized eggs.  You idly wonder what laying them with your new bee ovipositor will feel like...");
@@ -229,7 +229,7 @@ package classes.Items.Consumables
 				player.wingType = CoC.WING_TYPE_NONE;
 			}
 			//Remove gills!
-			if (Utils.rand(4) == 0 && player.hasGills() && changes < changeLimit) mutations.changeGills(GILLS_NONE);
+			if (Utils.rand(4) == 0 && player.hasGills() && changes < changeLimit) mutations.updateGills();
 
 			if (special) { //All the speical honey effects occur after any normal bee transformations (if the player wasn't a full bee morph)
 				//Cock growth multiplier.

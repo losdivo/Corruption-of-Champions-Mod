@@ -37,7 +37,7 @@ package classes.Items.Consumables
 
 			//Cosmetic changes based on 'goopyness'
 			if (rand(5) === 0) {
-				mutations.changeOviPerk(false);
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			//Remove wings
 			if (player.wingType > WING_TYPE_NONE) {
@@ -96,7 +96,7 @@ package classes.Items.Consumables
 					else player.skinTone = "emerald";
 					outputText(player.skinTone + "!");
 					if (player.armType !== ARM_TYPE_HUMAN || player.clawType !== CLAW_TYPE_NORMAL) {
-						mutations.changeArms(ARM_TYPE_HUMAN, true);
+						mutations.restoreArms(tfSource);
 					}
 				}
 				return false;

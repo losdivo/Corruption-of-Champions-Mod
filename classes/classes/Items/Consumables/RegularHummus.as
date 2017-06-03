@@ -45,11 +45,11 @@ package classes.Items.Consumables
 			//-----------------------
 			//1st priority: Change lower body to bipedal.
 			if (rand(4) === 0 && changes < changeLimit) {
-				mutations.changeLegs(LOWER_BODY_TYPE_HUMAN);
+				mutations.restoreLegs(tfSource);
 			}
 			//Remove Oviposition Perk
 			if (rand(5) === 0) {
-				mutations.changeOviPerk(false);
+				mutations.updateOvipositionPerk(tfSource);
 			}
 			//Remove Incorporeality Perk
 			if (player.hasPerk(PerkLib.Incorporeality) && player.perkv4(PerkLib.Incorporeality) === 0 && changes < changeLimit && rand(4) === 0) {
@@ -74,7 +74,7 @@ package classes.Items.Consumables
 				else player.skinTone = "russet";
 				outputText(player.skinTone + " colored.</b>");
 				player.underBody.skin.tone = player.skin.tone;
-				mutations.changeClaws(player.clawType);
+				mutations.updateClaws(player.clawType);
 			}
 			//Change skin to normal
 			if (!player.hasPlainSkin() && (player.earType === EARS_HUMAN || player.earType === EARS_ELFIN) && rand(4) === 0 && changes < changeLimit) {
@@ -89,7 +89,7 @@ package classes.Items.Consumables
 			}
 			//Restore arms to become human arms again
 			if (rand(4) === 0) {
-				mutations.changeArms(ARM_TYPE_HUMAN, true);
+				mutations.restoreArms(tfSource);
 			}
 			//-----------------------
 			// MINOR TRANSFORMATIONS
@@ -128,7 +128,7 @@ package classes.Items.Consumables
 			}
 			//Removes gills
 			if (rand(4) === 0 && player.hasGills() && changes < changeLimit) {
-				mutations.changeGills(GILLS_NONE);
+				mutations.updateGills();
 			}
 			//Nipples Turn Back:
 			if (player.hasStatusEffect(StatusEffects.BlackNipples) && changes < changeLimit && rand(3) === 0) {

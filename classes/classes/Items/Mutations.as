@@ -188,7 +188,7 @@ package classes.Items
 					player.shrinkTits();
 				}
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Demonic changes - higher chance with higher corruption.
 			if (rand(40) + player.cor / 3 > 35 && tainted) demonChanges(player);
 			if (rand(4) == 0 && tainted) outputText(player.modFem(5, 2));
@@ -483,13 +483,13 @@ package classes.Items
 					if (temp == 3 || temp == 4 || temp == 5) player.skinTone = "purple";
 					if (temp > 5) player.skinTone = "blue";
 					outputText("\n\nA tingling sensation runs across your skin in waves, growing stronger as <b>your skin's tone slowly shifts, darkening to become " + player.skinTone + " in color.</b>");
-					changeClaws(player.clawType);
+					updateClaws(player.clawType);
 					if (tainted) dynStats("cor", 1);
 					else dynStats("cor", 0);
 					kGAMECLASS.rathazul.addMixologyXP(20);
 				}
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Demonic changes - higher chance with higher corruption.
 			if (rand(40) + player.cor / 3 > 35 && tainted) demonChanges(player);
 			if (tainted) {
@@ -609,11 +609,11 @@ package classes.Items
 				outputText("dumber.");
 				changes++;
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Restore arms to become human arms again
-			if (rand(4) == 0) changeArms(ARM_TYPE_HUMAN);
+			if (rand(4) == 0) restoreArms(tfSource);
 			//Remove feathery hair
-			changeHair(HAIR_NORMAL, "brown");
+			removeFeatheryHair();
 			//if (type != 2 && type != 4 && type != 5) outputText("\n");
 			//Double Pepper!
 			//Xforms/grows dicks to make you have two dogcocks
@@ -1179,7 +1179,7 @@ package classes.Items
 				outputText("<b>You now have a dog-tail.</b>");
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 
 			if (player.hasFur() && changes < changeLimit && rand(3) == 0) {
 				outputText("\n\nYou become more... solid.  Sinewy.  A memory comes unbidden from your youth of a grizzled wolf you encountered while hunting, covered in scars, yet still moving with an easy grace.  You imagine that must have felt something like this.");
@@ -1593,7 +1593,7 @@ package classes.Items
 					if (player.skinTone == "rough gray") player.skinTone = "gray";
 					player.skinType = SKIN_TYPE_PLAIN;
 					player.underBody.restore();
-					changeClaws(player.clawType);
+					updateClaws(player.clawType);
 				}
 				//chance of hair change
 				else {
@@ -1648,7 +1648,7 @@ package classes.Items
 					if (player.skinTone == "rough gray") player.skinTone = "gray";
 					player.skinType = SKIN_TYPE_PLAIN;
 					player.underBody.restore();
-					changeClaws(player.clawType);
+					updateClaws(player.clawType);
 				}
 				//chance of hair change
 				else {
@@ -1821,7 +1821,7 @@ package classes.Items
 				boobsGrew = true;
 			}
 			//Remove feathery hair
-			changeHair(HAIR_NORMAL, "brown");
+			removeFeatheryHair();
 			//If breasts are D or bigger and are not lactating, they also start lactating:
 			if (player.biggestTitSize() >= 4 && player.breastRows[0].lactationMultiplier < 1 && changes < changeLimit && (rand(3) == 0 || boobsGrew || enhanced)) {
 				outputText("\n\nYou gasp as your " + player.breastDescript(0) + " feel like they are filling up with something.  Within moments, a drop of milk leaks from your " + player.breastDescript(0) + "; <b> you are now lactating</b>.");
@@ -1945,7 +1945,7 @@ package classes.Items
 					dynStats("lus", 10);
 				}
 			}
-			if (tainted && rand(5) == 0) changeOviPerk(false);
+			if (tainted && rand(5) == 0) updateOvipositionPerk(tfSource);
 			//General Appearance (Tail -> Ears -> Paws(fur stripper) -> Face -> Horns
 			//Give the player a bovine tail, same as the minotaur
 			if (tainted && player.tailType != TAIL_TYPE_COW && changes < changeLimit && rand(3) == 0) {
@@ -2066,7 +2066,7 @@ package classes.Items
 				}
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 
 			//Increase the size of the player's ass (less likely then hips), if it is not already somewhat big
 			if (rand(2) == 0 && player.buttRating < 13 && changes < changeLimit) {
@@ -2222,7 +2222,7 @@ package classes.Items
 				dynStats("lib", 2, "sen", 3, "lus", 10);
 				changes++;
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Transformations:
 			//Mouth TF
 			if (player.faceType != FACE_SHARK_TEETH && rand(3) == 0 && changes < changeLimit) {
@@ -2255,7 +2255,7 @@ package classes.Items
 			}
 			//Gills TF
 			if (player.gillType != GILLS_FISH && player.tailType == TAIL_TYPE_SHARK && player.faceType == FACE_SHARK_TEETH && changes < changeLimit && rand(3) == 0)
-				changeGills(GILLS_FISH);
+				updateGills(GILLS_FISH);
 			//Hair
 			if (player.hairColor != "silver" && rand(4) == 0 && changes < changeLimit) {
 				changes++;
@@ -2274,7 +2274,7 @@ package classes.Items
 					player.skinDesc = "skin";
 					player.skinTone = "rough gray";
 					player.underBody.restore();
-					changeClaws(player.clawType);
+					updateClaws(player.clawType);
 					kGAMECLASS.rathazul.addMixologyXP(20);
 					changes++;
 				}
@@ -2284,7 +2284,7 @@ package classes.Items
 					player.skinDesc = "skin";
 					player.skinTone = "orange and black striped";
 					player.underBody.restore();
-					changeClaws(player.clawType);
+					updateClaws(player.clawType);
 					kGAMECLASS.rathazul.addMixologyXP(20);
 					changes++;
 				}
@@ -2462,7 +2462,7 @@ package classes.Items
 				outputText("\n\nYou feel strange.  Fertile... somehow.  You don't know how else to think of it, but you know your body is just aching to be pregnant and give birth.");
 			}
 			//-VAGs
-			if (rand(4) == 0) changeOviPerk(false);
+			if (rand(4) == 0) updateOvipositionPerk(tfSource);
 			if (player.hasVagina() && player.findPerk(PerkLib.BunnyEggs) < 0 && changes < changeLimit && rand(4) == 0 && player.bunnyScore() > 3) {
 				outputText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n\n");
 				outputText("(<b>Perk Gained: Bunny Eggs</b>)");
@@ -2580,7 +2580,7 @@ package classes.Items
 				changes++;
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 			//Bunny Breeder Perk?
 			//FAILSAAAAFE
 			if (changes == 0) {
@@ -2817,7 +2817,7 @@ package classes.Items
 					}
 				}
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//****************
 			//General Appearance:
 			//****************
@@ -2839,7 +2839,7 @@ package classes.Items
 				else if (temp == 2) player.skinTone = "dark";
 				else if (temp == 3) player.skinTone = "light";
 				outputText(player.skinTone + " colored.</b>");
-				changeClaws(player.clawType);
+				updateClaws(player.clawType);
 			}
 			//-Grow hips out if narrow.
 			if (player.hipRating < 10 && changes < changeLimit && rand(3) == 0) {
@@ -2926,7 +2926,7 @@ package classes.Items
 				outputText("\n\nYou smile impishly as you lick the last bits of the nut from your teeth, but when you go to wipe your mouth, instead of the usual texture of your " + player.skinDesc + " on your lips, you feel feathers! You look on in horror while more of the avian plumage sprouts from your " + player.skinDesc + ", covering your forearms until <b>your arms look vaguely like wings</b>. Your hands remain unchanged thankfully. It'd be impossible to be a champion without hands! The feathery limbs might help you maneuver if you were to fly, but there's no way they'd support you alone.");
 				changes++;
 				player.armType = ARM_TYPE_HARPY;
-				changeClaws(CLAW_TYPE_NORMAL);
+				updateClaws();
 			}
 			//-Feathery Hair
 			if (player.hairType != 1 && changes < changeLimit && (type == 1 || player.faceType == FACE_HUMAN) && rand(4) == 0) {
@@ -2947,7 +2947,7 @@ package classes.Items
 				changes++;
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 			//SPECIAL:
 			//Harpy Womb – All eggs are automatically upgraded to large, requires legs + tail to be harpy.
 			if (player.findPerk(PerkLib.HarpyWomb) < 0 && player.lowerBody == LOWER_BODY_TYPE_HARPY && player.tailType == TAIL_TYPE_HARPY && rand(4) == 0 && changes < changeLimit) {
@@ -3001,7 +3001,6 @@ package classes.Items
 		 -Roo face*/
 		public function kangaFruit(type:Number,player:Player):void
 		{
-			trace("kanga freeze time!");
 			var tfSource:String = "kangaFruit";
 			clearOutput();
 			outputText("You squeeze the pod around the middle, forcing the end open.  Scooping out a handful of the yeasty-smelling seeds, you shovel them in your mouth.  Blech!  Tastes like soggy burnt bread... and yet, you find yourself going for another handful...");
@@ -3059,9 +3058,9 @@ package classes.Items
 				changes++;
 			}
 			//-Restore arms to become human arms again
-			if (rand(4) == 0) changeArms(ARM_TYPE_HUMAN);
+			if (rand(4) == 0) restoreArms(tfSource);
 			//-Remove feathery hair
-			changeHair(HAIR_NORMAL, "tan");
+			removeFeatheryHair();
 			//Remove odd eyes
 			if (changes < changeLimit && rand(5) == 0 && player.eyeType > EYES_HUMAN) {
 				if (player.eyeType == EYES_BLACK_EYES_SAND_TRAP) {
@@ -3087,19 +3086,15 @@ package classes.Items
 				changes++;
 			}
 			//-Shorten clits to reasonable size
-			if (player.hasVagina()) { //Prevents errors from being thrown!
-				if (player.getClitLength() >= 4 && changes < changeLimit && rand(5) == 0) {
-				trace("kanga clitlength freeze time!");
-					outputText("\n\nPainful pricks work through your " + player.clitDescript() + ", all the way into its swollen clitoral sheath.  Gods, it feels afire with pain!  Agony runs up and down its length, and by the time the pain finally fades, the feminine organ has lost half its size.");
-					player.setClitLength(player.getClitLength() / 2);
-					changes++;
-				}
+			if (player.getClitLength() >= 4 && changes < changeLimit && rand(5) == 0) {
+				outputText("\n\nPainful pricks work through your " + player.clitDescript() + ", all the way into its swollen clitoral sheath.  Gods, it feels afire with pain!  Agony runs up and down its length, and by the time the pain finally fades, the feminine organ has lost half its size.");
+				player.setClitLength(player.getClitLength() / 2);
+				changes++;
 			}
 			//Find biggest dick!
 			biggestCock = player.biggestCockIndex();
 			//-Shrink dicks down to 8\" max.
 			if (player.hasCock()) {
-			trace("kanga dick stuff freeze time!");
 				if (player.cocks[biggestCock].cockLength >= 16 && changes < changeLimit && rand(5) == 0) {
 					outputText("\n\nA roiling inferno of heat blazes in your " + player.cockDescript(biggestCock) + ", doubling you over in the dirt.  You rock back and forth while tears run unchecked down your cheeks.  Once the pain subsides and you're able to move again, you find the poor member has lost nearly half its size.");
 					player.cocks[biggestCock].cockLength /= 2;
@@ -3128,7 +3123,7 @@ package classes.Items
 					changes++;
 				}
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//****************
 			//Big Kanga Morphs
 			//type 1 ignores normal restrictions
@@ -3196,7 +3191,6 @@ package classes.Items
 			//UBEROOOO
 			//kangaroo perk: - any liquid or food intake will accelerate a pregnancy, but it will not progress otherwise
 			if (player.findPerk(PerkLib.Diapause) < 0 && player.kangaScore() > 4 && rand(4) == 0 && changes < changeLimit && player.hasVagina()) {
-			trace("kanga diapause freeze time!");
 				//Perk name and description:
 				player.createPerk(PerkLib.Diapause, 0, 0, 0, 0);
 				outputText("\n\nYour womb rumbles as something inside it changes.\n<b>(You have gained the Diapause perk.  Pregnancies will not progress when fluid intake is scarce, and will progress much faster when it isn't.)");
@@ -3204,9 +3198,8 @@ package classes.Items
 				//trigger effect: Your body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 			if (changes == 0) {
-			trace("kanga no effects freeze time!");
 				outputText("\n\nIt did not seem to have any effects, but you do feel better rested.");
 				player.changeFatigue(-40);
 			}
@@ -3333,7 +3326,7 @@ package classes.Items
 				player.buttRating++;
 				changes++;
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//***************
 			//Appearance Changes
 			//***************
@@ -3354,7 +3347,7 @@ package classes.Items
 				player.skinType = SKIN_TYPE_PLAIN;
 				player.skinDesc = "skin";
 				player.underBody.restore();
-				changeClaws(player.clawType);
+				updateClaws(player.clawType);
 				changes++;
 			}
 			//(Gain human face)
@@ -3414,11 +3407,10 @@ package classes.Items
 				if (player.armType == ARM_TYPE_HARPY) outputText("The feathers covering your arms fall away, leaving them to return to a far more human appearance.  ");
 				outputText("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, <b>turning the " + player.skinFurScales() + " into a shiny black carapace</b>.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.");
 				player.armType = ARM_TYPE_SPIDER;
-				changeClaws(CLAW_TYPE_NORMAL);
+				updateClaws();
 				changes++;
 			}
-			if (rand(4) == 0 && changes < changeLimit && player.lowerBody != LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS && type == 0) changeLegs(LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS);
-			if (rand(4) == 0 && changes < changeLimit && player.lowerBody != LOWER_BODY_TYPE_DRIDER_LOWER_BODY && type == 1) changeLegs(LOWER_BODY_TYPE_DRIDER_LOWER_BODY);
+			if (rand(4) == 0 && changes < changeLimit && player.lowerBody != LOWER_BODY_TYPE_DRIDER_LOWER_BODY && player.lowerBody != LOWER_BODY_TYPE_CHITINOUS_SPIDER_LEGS) restoreLegs(tfSource);
 			//Drider butt
 			if (type == 1 && player.findPerk(PerkLib.SpiderOvipositor) < 0 && player.isDrider() && player.tailType == TAIL_TYPE_SPIDER_ADBOMEN && changes < changeLimit && rand(3) == 0 && (player.hasVagina || rand(2) == 0)) {
 				outputText("\n\nAn odd swelling sensation floods your spider half.  Curling your abdomen underneath you for a better look, you gasp in recognition at your new 'equipment'!  Your semi-violent run-ins with the swamp's population have left you <i>intimately</i> familiar with the new appendage.  <b>It's a drider ovipositor!</b>  A few light prods confirm that it's just as sensitive as any of your other sexual organs.  You idly wonder what laying eggs with this thing will feel like...");
@@ -3462,7 +3454,7 @@ package classes.Items
 				changes++;
 			}
 			// Remove gills
-			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) changeGills(GILLS_NONE);
+			if (rand(4) == 0 && player.hasGills() && changes < changeLimit) updateGills();
 
 			if (changes == 0) {
 				outputText("\n\nThe sweet silk energizes you, leaving you feeling refreshed.");
@@ -3723,7 +3715,7 @@ package classes.Items
 						changes++;
 				}
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//[Grow Fur]
 			//FOURTH
 			if ((enhanced || player.lowerBody == LOWER_BODY_TYPE_FOX) && !player.hasFur() && changes < changeLimit && rand(4) == 0) {
@@ -3963,7 +3955,7 @@ package classes.Items
 			//**********************
 			//BIG APPEARANCE CHANGES
 			//**********************
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//[Grow Fox Tail]
 			if (player.tailType != TAIL_TYPE_FOX && changes < changeLimit && ((mystic && rand(2) == 0) || (!mystic && rand(4) == 0))) {
 				//if PC has no tail
@@ -4048,7 +4040,7 @@ package classes.Items
 				if (!InCollection(player.skinTone, tone)) player.skinTone = randomChoice(tone);
 				outputText(player.skinTone + " complexion.");
 				outputText("  <b>You now have [skin]!</b>");
-				changeClaws(player.clawType);
+				updateClaws(player.clawType);
 				changes++;
 			}
 			//Change skin tone if not changed you!
@@ -4056,7 +4048,7 @@ package classes.Items
 				outputText("\n\nYou feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  Holding an arm up to your face, you discover that <b>you now have ");
 				player.skinTone = randomChoice(tone);
 				outputText("[skin]!</b>");
-				changeClaws(player.clawType);
+				updateClaws(player.clawType);
 				changes++;
 			}
 			//[Change Skin Color: add "Tattoos"]
@@ -4082,8 +4074,8 @@ package classes.Items
 				changes++;
 			}
 			// Kitsunes should have normal arms and legs. exspecially skinny arms with claws are somewhat weird (Stadler76).
-			if (player.hasPlainSkin() && rand(4) == 0) changeArms(ARM_TYPE_HUMAN, true, CLAW_TYPE_NORMAL, "" + player.clawTone + "");
-			if (player.hasPlainSkin() && rand(4) == 0) changeLegs(LOWER_BODY_TYPE_HUMAN);
+			if (player.hasPlainSkin() && rand(4) == 0) restoreArms(tfSource);
+			if (player.hasPlainSkin() && rand(4) == 0) restoreLegs(tfSource);
 
 			if (changes == 0) {
 				outputText("\n\nOdd.  You don't feel any different.");
@@ -4273,7 +4265,7 @@ package classes.Items
 				player.ballSize++;
 				changes++;
 			}
-			if (rand(5) == 0) changeOviPerk(false);
+			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//-----------------------
 			// TRANSFORMATIONS
 			//-----------------------
@@ -4349,7 +4341,7 @@ package classes.Items
 				}
 				outputText("\n\nYour skin tingles ever so slightly as you skin’s color changes before your eyes. As the tingling diminishes, you find that your skin has turned " + skinToBeChosen + ".");
 				player.skinTone = skinToBeChosen;
-				changeClaws(player.clawType);
+				updateClaws(player.clawType);
 				kGAMECLASS.rathazul.addMixologyXP(20);
 				changes++;
 			}
@@ -4391,7 +4383,7 @@ package classes.Items
 				player.horns = 4 + rand(12);
 				changes++;
 			}
-			if (rand(5) == 0) changeOviPerk(false); // I doubt, that winterPudding will ever be affected, but well ... just in case
+			if (rand(5) == 0) updateOvipositionPerk(tfSource); // I doubt, that winterPudding will ever be affected, but well ... just in case
 			flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 			if (returnToBakery) {
 				doNext(kGAMECLASS.telAdre.bakeryScene.bakeryuuuuuu);
