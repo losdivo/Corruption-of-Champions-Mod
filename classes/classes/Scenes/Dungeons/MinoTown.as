@@ -7,6 +7,7 @@ package classes.Scenes.Dungeons
 	import classes.GlobalFlags.kGAMECLASS;
     import classes.GlobalFlags.kFLAGS;
     import classes.Scenes.Dungeons.DungeonCore;
+    import classes.Scenes.Dungeons.MinoTown.KingMinos;
     import classes.Scenes.Quests.UrtaQuest.MinotaurLord;
     import flash.display.InteractiveObject;
     import classes.Scenes.Dungeons.MinoTown.MinoMazeScene;
@@ -15,6 +16,7 @@ package classes.Scenes.Dungeons
 	public class MinoTown extends DungeonAbstractContent
 	{
 		public var maze:MinoMazeScene = new MinoMazeScene;
+        public var king:KingMinosScene = new KingMinosScene;
         
 		public  function MinoTown() {
             
@@ -87,6 +89,10 @@ package classes.Scenes.Dungeons
 		
         public  function    roomMazeEntrance() : void {
             clearOutput();
+            if (player.hasStatusEffect(StatusEffects.MinoMazeStatsBackup)) {
+                dynStats("str", player.statusEffectv1(StatusEffects.MinoMazeStatsBackup) - player.str);
+                dynStats("tou", player.statusEffectv2(StatusEffects.MinoMazeStatsBackup) - player.tou);
+            }
             kGAMECLASS.dungeonLoc = DungeonCore.DUNGEON_MINO_MAZE_ENTRANCE;
             outputText("You stay before an entrance to a minotaur's cavern. You decide to enter the caverns, but you know you may be lost there forever\n");
             dungeons.setDungeonButtons(null, null, roomFirePit, maze.enterMaze);
@@ -316,8 +322,8 @@ package classes.Scenes.Dungeons
             flags[kFLAGS.MINOTOWN_MAZE_TIMES_PASSED]++;
             
             if (player.hasStatusEffect(StatusEffects.MinoMazeStatsBackup)) {
-                dynStats("str", player.statusEffectv1(StatusEffects.MinoMazeStatsBackup));
-                dynStats("tou", player.statusEffectv2(StatusEffects.MinoMazeStatsBackup));
+                dynStats("str", player.statusEffectv1(StatusEffects.MinoMazeStatsBackup) - player.str + 1);
+                dynStats("tou", player.statusEffectv2(StatusEffects.MinoMazeStatsBackup) - player.tou + 1);
             }
             if (!player.hasStatusEffect(StatusEffects.MinoMazeStatsBackup)) {
                 player.createStatusEffect(StatusEffects.MinoMazeStatsBackup,0,0,0,0); 

@@ -223,7 +223,7 @@ package classes.Scenes.Dungeons.MinoTown
             
             var familiarity: int = 15 - flags[kFLAGS.MINOTOWN_MAZE_TIMES_PASSED] * 2;
             if (familiarity < 5) familiarity = 5;
-            familiarity = 20;
+            //familiarity = 5;
             
             if (direction == EAST && rand(familiarity) == 0) roomType = ROOM_EXIT;
             if (direction == WEST && rand(familiarity) == 0) roomType = ROOM_ENTRANCE;
@@ -246,8 +246,8 @@ package classes.Scenes.Dungeons.MinoTown
                 choice = 1;
             }
             else {
-                if (rand(4) == 0) choice = 2;
-                else if (rand(6) == 0) choice = 1;
+                if (rand(3) == 0) choice = 2;
+                else if (rand(4) == 0) choice = 1;
             }
             
             if  (choice == 1) {
