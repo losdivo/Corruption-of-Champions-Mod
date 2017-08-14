@@ -686,10 +686,10 @@ public function dynStats(... args):void
 		return;
 	}
 	
-	var argNamesFull:Array 	= 	["strength", "toughness", "speed", "intellect", "libido", "sensitivity", "lust", "corruption", "resisted", "noBimbo"]; // In case somebody uses full arg names etc
-	var argNamesShort:Array = 	["str", 	"tou", 	"spe", 	"int", 	"lib", 	"sen", 	"lus", 	"cor", 	"res", 	"bim"]; // Arg names
-	var argVals:Array = 		[0, 		0,	 	0, 		0, 		0, 		0, 		0, 		0, 		true, 	false]; // Default arg values
-	var argOps:Array = 			["+",	"+",    "+",    "+",    "+",    "+",    "+",    "+",    "=",    "="];   // Default operators
+	var argNamesFull:Array 	= 	["strength", "toughness", "speed", "intellect", "libido", "sensitivity", "lust", "corruption", "willpower", "resisted", "noBimbo"]; // In case somebody uses full arg names etc
+	var argNamesShort:Array = 	["str", 	"tou", 	"spe", 	"int", 	"lib", 	"sen", 	"lus", 	"cor", 	"wil",  "res", 	"bim", ]; // Arg names
+	var argVals:Array = 		[0, 		0,	 	0, 		0, 		0, 		0, 		0, 		0, 		0, true, 	false ]; // Default arg values
+	var argOps:Array = 			["+",	"+",    "+",    "+",    "+",    "+",    "+",    "+",    "+", "=",    "=", ];   // Default operators
 	
 	for (var i:int = 0; i < args.length; i += 2)
 	{
@@ -709,6 +709,7 @@ public function dynStats(... args):void
 			if (argsi == "lust") argsi = "lus";
 			if (argsi == "sens") argsi = "sen";
 			if (argsi == "inte") argsi = "int";
+            if (argsi == "will") argsi = "wil";
 			if (argsi.length <= 4) // Short
 			{
 				argIndex = argNamesShort.indexOf(argsi.slice(0, 3));
@@ -750,6 +751,7 @@ public function dynStats(... args):void
 	var newSens:Number = applyOperator(player.sens, argOps[5], argVals[5]);
 	var newLust:Number = applyOperator(player.lust, argOps[6], argVals[6]);
 	var newCor:Number = applyOperator(player.cor, argOps[7], argVals[7]);
+    var newWill:Number = applyOperator(player.will, argOps[8], argVals[8]);
 	// Because lots of checks and mods are made in the stats(), calculate deltas and pass them. However, this means that the '=' operator could be resisted
 	// In future (as I believe) stats() should be replaced with dynStats(), and checks and mods should be made here
 	stats(newStr - player.str,
@@ -760,11 +762,12 @@ public function dynStats(... args):void
 		  newSens - player.sens,
 		  newLust - player.lust,
 		  newCor - player.cor,
+          newWill - player.will,
 		  argVals[8],argVals[9]);
 	End("engineCore","dynStats");
 }
 
-public function stats(stre:Number, toug:Number, spee:Number, intel:Number, libi:Number, sens:Number, lust2:Number, corr:Number, resisted:Boolean = true, noBimbo:Boolean = false):void
+public function stats(stre:Number, toug:Number, spee:Number, intel:Number, libi:Number, sens:Number, lust2:Number, corr:Number, will:Number, resisted:Boolean = true, noBimbo:Boolean = false):void
 {
 	//Easy mode cuts lust gains!
 	if (flags[kFLAGS.EASY_MODE_ENABLE_FLAG] == 1 && lust2 > 0 && resisted) lust2 /= 2;
@@ -786,6 +789,7 @@ public function stats(stre:Number, toug:Number, spee:Number, intel:Number, libi:
 		oldStats.oldLust = player.lust;
 		oldStats.oldFatigue = player.fatigue;
 		oldStats.oldHunger = player.hunger;
+        oldStats.oldWill   = player.will;
 	}
 	//MOD CHANGES FOR PERKS
 	//Bimbos learn slower
@@ -822,6 +826,7 @@ public function stats(stre:Number, toug:Number, spee:Number, intel:Number, libi:
 	player.spe+=spee;
 	player.inte+=intel;
 	player.lib += libi;
+    player.will += will;
 	
 	if (player.sens > 50 && sens > 0) sens/=2;
 	if (player.sens > 75 && sens > 0) sens/=2;
@@ -853,6 +858,8 @@ public function stats(stre:Number, toug:Number, spee:Number, intel:Number, libi:
 	if (player.spe < 1) player.spe = 1;
 	if (player.inte > player.getMaxStats("inte")) player.inte= player.getMaxStats("inte");
 	if (player.inte < 1) player.inte = 1;
+    if (player.will > player.getMaxStats("will")) player.will = player.getMaxStats("will");
+    if (player.will < 1) player.will = 1;
 	if (player.lib > 100) player.lib = 100;
 	if (player.lib < 0) player.lib = 0;
 	//Minimum libido. Rewritten.

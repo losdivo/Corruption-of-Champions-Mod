@@ -2687,6 +2687,7 @@ use namespace kGAMECLASS;
 			else if (stats == "tou" || stats == "toughness") return obj.tou;
 			else if (stats == "spe" || stats == "speed") return obj.spe;
 			else if (stats == "inte" || stats == "int" || stats == "intelligence") return obj.inte;
+            else if (stats == "will") return obj.will;
 			/* [INTERMOD: xianxia]
 			 else if (stats == "wis" || stats == "wisdom") return obj.wis;
 			 else if (stats == "lib" || stats == "libido") return obj.lib;
@@ -2698,6 +2699,7 @@ use namespace kGAMECLASS;
 			var maxTou:int = 100;
 			var maxSpe:int = 100;
 			var maxInt:int = 100;
+            var maxWil:int = 100;
 			//Apply New Game+
 			maxStr += ascensionFactor();
 			maxTou += ascensionFactor();
@@ -2766,7 +2768,8 @@ use namespace kGAMECLASS;
 				str:maxStr,
 				tou:maxTou,
 				spe:maxSpe,
-				inte:maxInt
+				inte:maxInt,
+                will:maxWil
 				/* [INTERMOD: xianxia]
 				wis:maxWis,
 				lib:maxLib

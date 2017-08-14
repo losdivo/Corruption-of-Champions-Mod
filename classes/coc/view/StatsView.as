@@ -105,6 +105,7 @@ public class StatsView extends Block {
 		addElement(touBar = new StatBar({statName: "Toughness:"}));
 		addElement(speBar = new StatBar({statName: "Speed:"}));
 		addElement(intBar = new StatBar({statName: "Intelligence:"}));
+        addElement(willBar = new StatBar({statName: "Willpower"}));
 		/* [INTERMOD: xianxia]
 		addElement(wisBar = new StatBar({statName: "Wisdom:"}));
 		 */
@@ -156,10 +157,10 @@ public class StatsView extends Block {
 			statName: "Self Esteem:",
 			showMax : true
 		}));
-		addElement(willBar = new StatBar({
-			statName: "Willpower:",
-			showMax : true
-		}));
+		//addElement(willBar = new StatBar({
+			//statName: "Willpower:",
+			//showMax : true
+		//}));
 		addElement(obeyBar = new StatBar({
 			statName: "Obedience:",
 			showMax : true
@@ -340,7 +341,9 @@ public class StatsView extends Block {
 		hungerBar.value       = player.hunger;
 		var inPrison:Boolean          = game.prison.inPrison;
 		esteemBar.visible     		  = inPrison;
-		willBar.visible      		  = inPrison;
+		willBar.visible      		  = !inPrison;
+		willBar.maxValue              = 100;
+		willBar.value                 = player.will;
 		obeyBar.visible       		  = inPrison;
 		levelBar.visible      		  = !inPrison;
 		xpBar.visible         		  = !inPrison;
