@@ -110,6 +110,14 @@ import classes.Scenes.API.FnHelpers;
 						call  : findTruffle,
 						chance: 0.35
 					}, {
+                        name  : "redberry",
+                        call  : findRedBerry,
+                        chance: 0.35
+                    }, {
+                        name  : "blueberry",
+                        call  : findBlueBerry,
+                        chance: 0.35
+                    }, {
 						name  : "bigjunk",
 						call  : game.commonEncounters.bigJunkForestScene,
 						chance: game.commonEncounters.bigJunkChance
@@ -143,7 +151,16 @@ import classes.Scenes.API.FnHelpers;
 			player.takeDamage(10);
 			doNext(camp.returnToCampUseOneHour);
 		}
-
+		public function findRedBerry():void {
+			//outputText(images.showImage("item-pigTruffle"));
+			outputText("You spot a glade with red berries. ");
+			inventory.takeItem(consumables.REDBERY, camp.returnToCampUseOneHour);
+		}
+		public function findBlueBerry():void {
+			//outputText(images.showImage("item-pigTruffle"));
+			outputText("You spot a few blue berry shrubs between trees. ");
+			inventory.takeItem(consumables.BLUBERY, camp.returnToCampUseOneHour);
+		}
 		public function findTruffle():void {
 			outputText(images.showImage("item-pigTruffle"));
 			outputText("You spot something unusual. Taking a closer look, it's definitely a truffle of some sort. ");

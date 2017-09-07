@@ -814,6 +814,15 @@ package classes {
 				player.changeStatusValue(StatusEffects.SlimeCraving, 2, 0); //Reset stored hp/toughness values
 				needNext = true;
 			}
+            if (player.hasStatusEffect(StatusEffects.EstrogenSurge)) {
+                player.addStatusValue(StatusEffects.EstrogenSurge, 1, -1);
+                if (player.statusEffectv1(StatusEffects.EstrogenSurge) <= 0) player.removeStatusEffect(StatusEffects.EstrogenSurge);
+            }
+            if (player.hasStatusEffect(StatusEffects.TestosteronSurge)) {
+                player.addStatusValue(StatusEffects.TestosteronSurge, 1, -1);
+                if (player.statusEffectv1(StatusEffects.TestosteronSurge) <= 0) player.removeStatusEffect(StatusEffects.TestosteronSurge);
+            }            
+
 			if (player.hasStatusEffect(StatusEffects.Fullness)) {
 				player.addStatusValue(StatusEffects.Fullness, 1, -1);
 				if (player.statusEffectv1(StatusEffects.Fullness) <= 0) player.removeStatusEffect(StatusEffects.Fullness);
