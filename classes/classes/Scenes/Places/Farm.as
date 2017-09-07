@@ -844,15 +844,15 @@ public function getMilked():void {
 		//Somehow
 		if (player.hasStatusEffect(StatusEffects.Feeder)) {
 			dynStats("int", -1);
-			if (liters > 5) dynStats("int", -1);
-			if (liters > 10) dynStats("int", -1);
-			if (liters > 20) dynStats("int", -1);
+			if (liters > 5) dynStats("int", -1, "will", -1);
+			if (liters > 10) dynStats("int", -1, "will", -1);
+			if (liters > 20) dynStats("int", -1, "will", -1);
 		}
 		//not a cow, bimbotize me!
 		else {
-			if (liters/2 > 10) dynStats("int", -10);
-			else dynStats("int", -liters/2);
-			if (liters > 30) dynStats("int", -2);
+			if (liters/2 > 10) dynStats("int", -10, "will", -10);
+			else dynStats("int", -liters/2, "will", -liters/2);
+			if (liters > 30) dynStats("int", -2,"will", -2);
 		}
 		if (player.inte < 10) {
 			doNext(cowBadEnd1);
@@ -882,6 +882,7 @@ public function getMilked():void {
 	player.addStatusValue(StatusEffects.LactationEndurance,1,.05);
 	player.createStatusEffect(StatusEffects.Milked,8,0,0,0);
 	player.orgasm('Tits',false);
+    dynStats("will", -1);
 	doNext(camp.returnToCampUseOneHour);
 }
 

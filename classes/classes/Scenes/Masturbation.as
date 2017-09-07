@@ -281,6 +281,7 @@ package classes.Scenes {
 				doNext(playerMenu);
 				return;		
 			}
+            dynStats("will", -0.1);
 			if (player.isTaur()) {
 				if (centaurMasturbation()) {
 					flags[kFLAGS.TIMES_MASTURBATED]++;
@@ -2452,6 +2453,7 @@ package classes.Scenes {
 			outputText("You find a flat, comfortable " + description + " to sit down on and meditate.  As always, meditation brings a sense of peace and calm to you, but it eats up two hours of the day.");
 			
 			dynStats("lus", -50, "cor", -.3 - 0.3 * player.countCockSocks("alabaster"));
+            dynStats("will", 0.3);
 			if (player.findPerk(PerkLib.Enlightened) >= 0 && player.cor < (10 + player.corruptionTolerance())) HPChange(50, true);
 			player.changeFatigue(-10);
 			
