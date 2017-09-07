@@ -2069,6 +2069,37 @@ use namespace kGAMECLASS;
 			if (lactationQ() > 0) return true;
 			return false;
 		}
+        public function estrogenScore() : Number  {
+            var total:Number = 0;
+            if (hasVagina()) total += 100;
+            var counter:Number = breastRows.length;
+			while (counter > 0) {
+				counter--;
+				total += 5 * breastRows[counter].breastRating;
+                if (breastRows[counter].breastRating > 5) total += 5 * (breastRows[counter].breastRating - 5);
+			}
+            total += 0.05 * lactationQ();
+            if (buttRating > 3)  total += (buttRating - 3)  * 4;
+            if (buttRating > 5)  total += (buttRating - 5)  * 4;
+            if (buttRating > 10) total += (buttRating - 10) * 4;
+            if (isPregnant())    total += 200;
+            if (isButtPregnant()) total += 100;
+            if (thickness > 50) total += thickness / 2;
+            if (hasStatusEffect(StatusEffects.EstrogenSurge)) {
+                total += statusEffectv1(StatusEffects.EstrogenSurge);
+            }
+            return total;
+        }
+        public function testosteronScore() : Number {
+            var total : Number = 0; 
+            if (hasCock()) total += 100;
+            if (balls > 0) total += ballSize * 20;
+            if (tone > 70) total += tone  - 70;
+            if (hasStatusEffect(StatusEffects.TestosteronSurge)) {
+                total += statusEffectv1(StatusEffects.TestosteronSurge);
+            }
+            return total;
+        }
 
 		public function cuntChange(cArea:Number, display:Boolean, spacingsF:Boolean = false, spacingsB:Boolean = true):Boolean {
 			if (vaginas.length==0) return false;
@@ -2369,7 +2400,7 @@ use namespace kGAMECLASS;
 			previouslyWornClothes.push(armor.shortName);
 		}
 		
-		public function shrinkTits(ignore_hyper_happy:Boolean=false):void
+		public function shrinkTits(ignore_hyper_happy:Boolean=false, amount:Number = 1, output:Boolean = true):void
 		{
 			if (flags[kFLAGS.HYPER_HAPPY] && !ignore_hyper_happy)
 			{
@@ -2380,21 +2411,21 @@ use namespace kGAMECLASS;
 					//Shrink if bigger than N/A cups
 					var temp:Number;
 					temp = 1;
-					breastRows[0].breastRating--;
+					breastRows[0].breastRating -= amount;
 					//Shrink again 50% chance
 					if (breastRows[0].breastRating >= 1 && rand(2) == 0 && !hasPerk(PerkLib.BigTits)) {
 						temp++;
-						breastRows[0].breastRating--;
+						breastRows[0].breastRating -= amount;
 					}
 					if (breastRows[0].breastRating < 0) breastRows[0].breastRating = 0;
 					//Talk about shrinkage
-					if (temp == 1) outputText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.");
-					if (temp == 2) outputText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.");
+					if (temp == 1 && output) outputText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.");
+					if (temp == 2 && output) outputText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.");
 				}
 			}
 			else if (breastRows.length > 1) {
 				//multiple
-				outputText("\n");
+				if (output) outputText("\n");
 				//temp2 = amount changed
 				//temp3 = counter
 				var temp2:Number = 0;
@@ -2402,19 +2433,23 @@ use namespace kGAMECLASS;
 				while(temp3 > 0) {
 					temp3--;
 					if (breastRows[temp3].breastRating > 0) {
-						breastRows[temp3].breastRating--;
+						breastRows[temp3].breastRating -= amount;
 						if (breastRows[temp3].breastRating < 0) breastRows[temp3].breastRating = 0;
 						temp2++;
-						outputText("\n");
-						if (temp3 < breastRows.length - 1) outputText("...and y");
-						else outputText("Y");
-						outputText("our " + breastDescript(temp3) + " shrink, dropping to " + breastCup(temp3) + "s.");
+                        if (output) {
+						    outputText("\n");
+						    if (temp3 < breastRows.length - 1) outputText("...and y");
+						    else outputText("Y");
+						    outputText("our " + breastDescript(temp3) + " shrink, dropping to " + breastCup(temp3) + "s.");
+                        }
 					}
 					if (breastRows[temp3].breastRating < 0) breastRows[temp3].breastRating = 0;
 				}
-				if (temp2 == 2) outputText("\nYou feel so much lighter after the change.");
-				if (temp2 == 3) outputText("\nWithout the extra weight you feel particularly limber.");
-				if (temp2 >= 4) outputText("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
+                if (output) {
+				    if (temp2 == 2) outputText("\nYou feel so much lighter after the change.");
+				    if (temp2 == 3) outputText("\nWithout the extra weight you feel particularly limber.");
+				    if (temp2 >= 4) outputText("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
+                }
 			}
 		}
 
@@ -3243,6 +3278,64 @@ use namespace kGAMECLASS;
 				ballSize = 1;
 			}
 		}
+        
+        
+		/**
+		 * Modifies cock length. If no cock grows clit until it's 1.5, after that deletes a vagina (if keepVagina) and creates a cock
+         * Shrinks a biggest cock if it is not the first. Shrinks all cocks in equal amounts after that until biggest < 1.5.  
+         * After that grows vagina and clit with 1.5. Then shrinks clit until 0.25
+		 * @param	delta the amount to change, can be positive or negative
+		 * @param	keepVagina keep vagina when growing cocks
+		 * @param	output outut info when growing cock
+		 */
+        public  function modCock   (delta:Number, keepVagina:Boolean = false, output:Boolean = false) : void {
+            if (delta > 0) {
+                if (hasCock()) {
+                    if (!keepVagina) removeVagina();
+                    increaseCock(0, delta);
+                }
+                else {
+                    if (getClitLength() < 1.5) changeClitLength(delta);
+                    else {
+                        if (!keepVagina) removeVagina();
+                        createCock(1.5, 0.2);
+                    }
+                    
+                }
+                
+            }
+            else {
+                
+                if (hasCock()) {
+                    var cockIndex:int = biggestCockIndex();
+                    if (cockIndex == 0) {
+                        increaseEachCock(delta);
+                    }
+                    else {
+                        increaseCock(cockIndex, delta);
+                    }
+                    cockIndex = smallestCockIndex();
+                    if (cocks[cockIndex].cockLength <= 1) {
+                        killCocks(1);
+                    }
+                    if (!hasCock()) {
+                        createVagina();
+                        vaginas[0].vaginalLooseness = VAGINA_LOOSENESS_TIGHT;
+				        vaginas[0].vaginalWetness = VAGINA_WETNESS_NORMAL;
+				        vaginas[0].virgin = true;              
+					    setClitLength(1);
+                    }
+                    
+                }
+                else { 
+                    if (getClitLength() > 0.25) changeClitLength(delta);
+                    if (getClitLength() < 0.25) setClitLength(0.25);
+                }
+            }
+            
+        }
+        
+        
 		public function modCumMultiplier(delta:Number):Number
 		{
 			trace("modCumMultiplier called with: " + delta);
