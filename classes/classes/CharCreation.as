@@ -178,7 +178,7 @@ package classes
 			player.hunger = 80;
 			player.obey = 10;
 			player.esteem = 50;
-			player.will = 80;
+			player.will = 50;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) getGame().saves.notes = "No Notes Available.";
 			player.lust = 15;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {

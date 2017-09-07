@@ -931,7 +931,7 @@ public function showUpDown():void { //Moved from StatsView.
 
 //	mainView.statsView.upDownsContainer.visible = true;
 
-	allStats = ["str", "tou", "spe", "inte", "lib", "sens", "cor", "HP", "lust", "fatigue", "hunger"];
+	allStats = ["str", "tou", "spe", "inte", "lib", "sens", "cor", "HP", "lust", "fatigue", "hunger","will"];
 
 	for each(statName in allStats) {
 		oldStatName = _oldStatNameFor(statName);
