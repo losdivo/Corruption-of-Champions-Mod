@@ -90,6 +90,8 @@ private function plantsForMe():void {
 		flags[kFLAGS.ACCEPTED_ESSY_FIRST_MEETING] = 1;
 		outputText("Essrayle giggles, sending ripples through her ample breasts.  \"<i>Oh, why thank you!  It's nothing major - I doubt it'll be much of a burden to you.  But in my travels, I've grown wilted and depleted of the energy to go on.  I'm soooo hungry!  Would you please-?</i>\"  She leaves the question hanging, looking to you imploringly.  Hastily your hand goes to where your supplies are housed, but you stop as she waves a hand dismissively.  \"<i>No, no, I don't mean biscuits or the like.</i>\"  Confused, you frown, but soften as you feel her hand rest upon your [chest].  \"<i>I require a special kind of food to do what I do, one that won't exhaust your supplies in the least.</i>\"\n\n");
 	}
+    if (!player.hasStatusEffect(StatusEffects.EstrogenSurge)) player.createStatusEffect(StatusEffects.EstrogenSurge,0,0,0,0);
+    player.addStatusValue(StatusEffects.EstrogenSurge, 1, 50);
 	//(If breasts
 	if (player.biggestTitSize() > 1) outputText("Your nipples stiffen, breasts puffing out with a heated breath");
 	else outputText("You arch your back gently, unconsciously pressing into her slender fingers a bit further");

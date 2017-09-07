@@ -600,6 +600,8 @@ package classes.Scenes.Areas.Forest
 				player.slimeFeed();
 				//epilogue
 				outputText("You awaken, your nose full of a honey like scent, some strange fluid on your back, and the feeling of something leaking from you.");
+                if (!player.hasStatusEffect(StatusEffects.EstrogenSurge)) player.createStatusEffect(StatusEffects.EstrogenSurge,0,0,0,0); 
+                player.addStatusValue(StatusEffects.EstrogenSurge, 1, 50);
 				player.buttChange(25, true);
 				player.orgasm('Anal');
 				dynStats("int", -.5);
