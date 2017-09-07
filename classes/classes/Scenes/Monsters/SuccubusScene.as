@@ -15,9 +15,16 @@ package classes.Scenes.Monsters
 			if (player.hasCock()) {
 				outputText("She's expressing interest in your [cock] and says, \"<i>Hello dearie. You've got that wonderful cock of yours and I'd like to offer my pussy to you. It'll be very pleasurable. What do you say?</i>\"");
 				menu();
-				addButton(0, "Fight", fightAgainstSuccubus);
 				addButton(1, "Accept", loseToSuccubus, false);
-				addButton(4, "Run", tryToFlee);
+                if (!player.hasWillpower(20, 40)) {
+                    addButtonDisabled(0, "Fight", "You cannot fight with such a generous offer");
+                    addButtonDisabled(4, "Run",   "You don't have enough willpower to flee");
+                    dynStats("will", -1);                        
+                }
+                else {
+				    addButton(0, "Fight", fightAgainstSuccubus);
+				    addButton(4, "Run", tryToFlee);
+                }
 			}
 			else {
 				outputText("She starts to close the distance by charging at you! It's a fight!");

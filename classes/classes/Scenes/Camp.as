@@ -694,6 +694,11 @@ private function doCamp():void { //Only called by playerMenu
 			outputText("<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>\n\n");
 			exploreEvent = null;
 			placesEvent = null;
+            if (!player.hasWillpower(20, 50)) {
+                dynStats("will", -1);
+                doNext(getGame().masturbation.masturbateGo);
+                return;
+            }
 			//This once disabled the ability to rest, sleep or wait, but ir hasn't done that for many many builds
 		}
 	}

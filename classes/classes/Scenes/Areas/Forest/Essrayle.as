@@ -72,7 +72,15 @@ public function essrayleMeetingI():void {
 	}
 	flags[kFLAGS.MET_ESSY]++;
 	//[Yes] [No]
-	doYesNo(plantsForMe, noPlantsForMe);
+    menu();
+	addButton(0, "Yes", plantsForMe);
+    if (!player.hasWillpower(0, 30)) {
+            addButtonDisabled(1, "No", "You don't have enough willpower to refuse");
+            dynStats("will", -1);                        
+        }
+    else {
+        addButton(1, "No", noPlantsForMe);
+    }    
 }
  
 //>If No
@@ -117,8 +125,14 @@ private function plantsForMe():void {
 		outputText("  \"<i>You certainly have a lovely pair, but they could always be better, don't you think?</i>\"");
 		//[Yes] [No]
 		menu();
-		addButton(1,"Yes",plantsForMe2,1);
-		addButton(2,"No",plantsForMe2,2);
+		addButton(1, "Yes", plantsForMe2, 1);
+        if (!player.hasWillpower(0, 30)) {
+            addButtonDisabled(2, "No", "You cannot refuse such generous offer");
+            dynStats("will", -1);                        
+        }
+        else {
+            addButton(2, "No", plantsForMe2, 2);
+        }            
 	}
 	//Else
 	else {

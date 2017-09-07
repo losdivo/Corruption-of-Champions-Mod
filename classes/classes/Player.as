@@ -3404,5 +3404,15 @@ use namespace kGAMECLASS;
 			if (underBodyProps != null)
 				underBody.setProps(underBodyProps);
 		}
+        public function hasWillpower(minWillpower:Number, maxWillpower:Number) : Boolean {
+            // Checks if player has willpower to do some action 
+            
+            if (will < minWillpower) return false;
+            if (will > maxWillpower) return true;
+            var threshold:Number = 100 * (will - minWillpower) / (maxWillpower - minWillpower);
+            if (rand(100) < threshold) return true;
+            return false;
+            
+        }
 	}
 }

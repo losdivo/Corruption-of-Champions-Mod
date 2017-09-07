@@ -810,7 +810,13 @@ package classes.Scenes.Areas.Forest
 				outputText("\n\nDo you accept her offer?");
 				menu();
 				addButton(0, "Yes", beeEncounterClassic);
-				addButton(1, "No", camp.returnToCampUseOneHour);
+                if (!player.hasWillpower(20, 50)) {
+                    addButtonDisabled(1, "No", "You don't have enough willpower to refuse");
+                    dynStats("will", -1);
+                }
+                else {
+                    addButton(1, "No", camp.returnToCampUseOneHour);    
+                }
 			}
 			else {
 				//If you get lucky, chance for free honey and -corruption in exchange for lust.
@@ -818,7 +824,13 @@ package classes.Scenes.Areas.Forest
 					outputText("\"<i>Awww, it zzzeemz you've caught me with my 'pants' down,</i>\" she giggles, \"<i>I'm all out of eggzzz.</i>\"  She pats her smaller-sized abdomen for a moment, thinking.\n\nHer eyes light up with inspiration, \"<i>Zzzince I'm ztill zzzo horny, would you like pure undiluted honey? Itzzz very good,</i>\" she says, spreading her legs and exposing the source of the scent – her puffy black vulva dripping with sticky amber fluid.\n\nDo you collect her honey?");
 					menu();
 					addButton(0, "Yes", freeHoneyEvent);
-					addButton(1, "No", camp.returnToCampUseOneHour);
+                    if (!player.hasWillpower(20, 50)) {
+                        addButtonDisabled(1, "No", "You don't have enough willpower to refuse");
+                        dynStats("will", -1);
+                    }
+                    else {
+					    addButton(1, "No", camp.returnToCampUseOneHour);
+                    }   
 				}
 				//If you get unlucky you just get the choice of getting egg-laid.
 				else {
@@ -831,7 +843,13 @@ package classes.Scenes.Areas.Forest
 					outputText("\n\nDo you accept her offer?");
 					menu();
 					addButton(0, "Yes", beeEncounterClassic);
-					addButton(1, "No", beeEncounterRefusedHerEggs);
+                    if (!player.hasWillpower(20, 50)) {
+                        addButtonDisabled(1, "No", "You don't have enough willpower to refuse");
+                        dynStats("will", -1);                        
+                    }
+                    else {
+					    addButton(1, "No", beeEncounterRefusedHerEggs);
+                    }
 				}
 			}
 		}
