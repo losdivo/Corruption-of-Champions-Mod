@@ -2904,7 +2904,7 @@ public static const UNKNOWN_FLAG_NUMBER_02895:int                               
 public static const UNKNOWN_FLAG_NUMBER_02896:int                                   = 2896;
 public static const UNKNOWN_FLAG_NUMBER_02897:int                                   = 2897;
 public static const UNKNOWN_FLAG_NUMBER_02898:int                                   = 2898;
-public static const UNKNOWN_FLAG_NUMBER_02899:int                                   = 2899;
+public static const TIIMES_DRANK_BIMBO_CHAMPAIGN:int                                = 2899;
 public static const TIMES_ORGASM_VAGINAL:int                                        = 2900;
 public static const TIMES_ORGASM_ANAL:int                                           = 2901;
 public static const TIMES_ORGASM_DICK:int                                           = 2902;

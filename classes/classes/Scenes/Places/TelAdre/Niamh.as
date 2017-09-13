@@ -479,12 +479,15 @@ public function bimboChampagne(player:Player,clearScreen:Boolean,intro:Boolean):
 		else if (!player.hasStatusEffect(StatusEffects.BimboChampagne)) outputText("You uncork the bottle and breathe in the fizzy, spicy aroma of the sparkling liquor.  Breathing deeply, you open your mouth and begin pouring the ever-effervescent fluid inside.  It's sweet and slightly gooey, and the feel of it sliding down your throat is intensely... awesome?  Like, totally!");
 		else outputText("You find yourself falling even further into the dense bimbo mindset.  You do feel, like, super-good and all, though!\n\nMoaning lewdly, you begin to sway your hips from side to side, putting on a show for anyone who might manage to see you.   You just feel so... sexy.  Too sexy to hide it.  Your body aches to show itself and feel the gaze of someone, anyone upon it.  Mmmm, it makes you so wet!  You sink your fingers into your sloppy cunt with a groan of satisfaction.  Somehow, you feel like you could fuck anyone right now!");
 	}
+    flags[kFLAGS.TIIMES_DRANK_BIMBO_CHAMPAIGN]++;
 	if (player.hasStatusEffect(StatusEffects.BimboChampagne)) {
+        
 		player.addStatusValue(StatusEffects.BimboChampagne,1,4);
 		dynStats("spe", -2, "lib", 1, "lus", 10);
 	}
 	else {
-		player.createStatusEffect(StatusEffects.BimboChampagne,8,0,0,0);
+        
+		player.createStatusEffect(StatusEffects.BimboChampagne,8 + 4*rand(flags[kFLAGS.TIIMES_DRANK_BIMBO_CHAMPAIGN]-1),0,0,0);
 		//(Player has breasts smaller than DD-cup:
 		if (player.breastRows[0].breastRating < 5) {
 			outputText("\n\nYou feel this, like, totally sweet tingling in your boobies... And then your [armor] gets, like, tighter; wow, it seems like Niamh's booze is making your boobies grow!  That's so awesome!  You giggle and gulp down as much as you can... Aw; your boobies are <b>kinda</b> big now, but, like, you wanted great big bouncy sloshy boobies like Niamh has.  That'd be so hot!");
