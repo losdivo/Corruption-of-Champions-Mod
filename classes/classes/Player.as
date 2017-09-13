@@ -2732,7 +2732,7 @@ use namespace kGAMECLASS;
 			return min;
 		}
 
-		override public function modStats(dstr:Number, dtou:Number, dspe:Number, dinte:Number, dlib:Number, dsens:Number, dlust:Number, dcor:Number, scale:Boolean = true):void {
+		override public function modStats(dstr:Number, dtou:Number, dspe:Number, dinte:Number, dlib:Number, dsens:Number, dlust:Number, dcor:Number, dwill:Number, scale:Boolean = true):void {
 
 			//Set original values to begin tracking for up/down values if
 			//they aren't set yet.
@@ -2748,6 +2748,7 @@ use namespace kGAMECLASS;
 				oldStats.oldLib = lib;
 				oldStats.oldSens = sens;
 				oldStats.oldCor = cor;
+                oldStats.oldWill = will;
 				oldStats.oldHP = HP;
 				oldStats.oldLust = lust;
 				oldStats.oldFatigue = fatigue;
@@ -2797,7 +2798,7 @@ use namespace kGAMECLASS;
 				if (findPerk(PerkLib.Lusty) >= 0 && dlib >= 0) dlib*=1+perk(findPerk(PerkLib.Lusty)).value1;
 				if (findPerk(PerkLib.Sensitive) >= 0 && dsens >= 0) dsens*= 1+ perk(findPerk(PerkLib.Sensitive)).value1;
 			}
-			super.modStats(dstr, dtou, dspe, dinte, dlib, dsens, dlust, dcor, false);
+			super.modStats(dstr, dtou, dspe, dinte, dlib, dsens, dlust, dcor, dwill, false);
 		}
 
 
