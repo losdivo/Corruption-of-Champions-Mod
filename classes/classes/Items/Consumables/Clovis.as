@@ -1,5 +1,6 @@
 package classes.Items.Consumables
 {
+	import classes.GlobalFlags.kFLAGS;
 	import classes.Items.Consumable;
 	import classes.Items.ConsumableLib;
 	import classes.PerkLib;
@@ -69,6 +70,8 @@ package classes.Items.Consumables
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0)
 				mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.rearBody.type != REAR_BODY_NONE && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			if (player.earType !== EARS_SHEEP && rand(3) === 0 && changes < changeLimit) {
 				if (player.earType === -1) { outputText("\n\nTwo painful nubs begin sprouting from your head, growing out in a tear-drop shape and flopping over. To top it off, wool coats them."); } else { outputText("\n\nYou feel your ears shift and elongate, becoming much floppier. They take on a more tear drop shape, flopping at the side of your head cutely as a light coat of downy wool forms on them.");	}		
 				player.earType = EARS_SHEEP;
@@ -152,7 +155,7 @@ package classes.Items.Consumables
 				outputText("\n\nYour breasts feel constrained and painful against your top as they grow larger by the moment, finally stopping as they reach " + player.breastCup(0) + "-cup. You rub the tender orbs as you get used to your larger breast flesh.");
 				changes++;
 			}
-			
+			game.flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 			return false;
 		}
 	}

@@ -1,5 +1,6 @@
 package classes.Items.Consumables 
 {
+	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Items.Consumable;
 	import classes.Items.ConsumableLib;
@@ -61,14 +62,22 @@ package classes.Items.Consumables
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) === 0) {
 				mutations.updateOvipositionPerk(tfSource);
 			}
-			//Removes wings
-			if (player.wingType > WING_TYPE_NONE && rand(3) === 0 && changes < changeLimit) {
-				if (player.wingType === WING_TYPE_SHARK_FIN) outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine.  After a moment the pain passes, though your fin is gone!");
-				else outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades.  After a moment the pain passes, though your wings are gone!");
+			//Removes wings and shark fin
+			if ((player.wingType != WING_TYPE_NONE || player.rearBody.type == REAR_BODY_SHARK_FIN) && rand(3) === 0 && changes < changeLimit) {
+				if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine."
+					          +" After a moment the pain passes, though your fin is gone!");
+					player.rearBody.restore();
+				} else {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your"
+					          +" shoulder-blades.  After a moment the pain passes, though your wings are gone!");
+				}
 				player.wingType = WING_TYPE_NONE;
 				changes++;
 			}
@@ -134,7 +143,7 @@ package classes.Items.Consumables
 			//Default change - blah
 			if (changes === 0) outputText("\n\nRemakarbly, the snake-oil has no effect.  Should you really be surprised at snake-oil NOT doing anything?");
 			player.refillHunger(5);
-			
+			game.flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 			return false;
 		}
 	}

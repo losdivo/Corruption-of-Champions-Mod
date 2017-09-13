@@ -1,4 +1,4 @@
-package classes.Scenes.Quests{
+﻿package classes.Scenes.Quests{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -444,7 +444,7 @@ private function getHelBangedAsUrta():void {
 	outputText(".  You sit and listen for a long few minutes, sipping at the beer until the liquid courage starts to work its wonders, giving you a little tingle... and helping to open you up, too.  Soon, you're drawn into the conversation, joking and teasing with the other girls as if you'd been friends for ages.");
 
 	outputText("\n\nEventually, though, a particularly lewd joke from the salamander causes your old \"<i>friend</i>\" to remind you of your quest, hitting the underside of the table with an audible THUMP! that shocks the others. They look at you with questioning eyes.... It's time to either hit the road or get some much-needed relief, because this boner isn't going anywhere without your help.");
-	dynStats("lus", 20, "resisted", false);
+	dynStats("lus", 20, "scale", false);
 	flags[kFLAGS.URTA_MET_HEL] = 1;
 	//[Head Out] [Get \"<i>Help</i>\"]
 	menu();
@@ -1564,7 +1564,7 @@ public function nagaPleaseNagaStoleMyDick():void {
 	outputText("\n\n\"<i>You invade my territory... ssstep on my tail... and have the gall to tell me you're not going to make up for it!</i>\"  He hisses ominously.  \"<i>Hey, it was an acci-</i>\"  \"<i>Worthlesss female!  You are mine!</i>\"  He charges at you!");
 
 	outputText("\n\n<b>It's a fight!</b>");
-	kGAMECLASS.combat.clearStatuses(false);
+	kGAMECLASS.combat.clearStatuses();
 	startCombat(new Sirius());
 }
 
@@ -1648,7 +1648,7 @@ private function urtaWinFucksSirius():void {
 	outputText("\n\nYou shake your head, feeling kind of dizzy, but good... also, still kind of horny.  Wow, he looks really cute with his face splashed with semen... and his belly starting to bulge from the load you shot down his throat...  That's so... hot...  Your cock starts to harden up again, anticipating your intentions.  Funny... you vaguely remember needing to do something... something besides fucking this sexy snake here.  Eh, it can wait; round two, coming up!");
 
 	outputText("\n\nSirius coughs pathetically, spitting a small gob of seed in the process.  Then he licks his lips and looks up, only to meet your hungry stare.  \"<i>Why are you looking at me like that?  No... oh nononononono... Wa - GH!</i>\"  You cram his mouth full again, already humping his face as if your life depends on it... mmm, his throat feels so good wrapped around your cock...");
-	dynStats("lus=", player.maxLust(), "resisted", false);
+	dynStats("lus=", player.maxLust(), "scale", false);
 	//Next Page button to trigger scene finish
 	menu();
 	addButton(0,"Next",fuckSiriusRadioII);
@@ -1781,7 +1781,7 @@ private function gnollAlphaBitchIntro():void {
 
 	outputText("\n\nHow wrong you are.  A spear smacks into the ground, the tip exploding into some sticky, restraining substance by your foot.  A high pitched war-cry chases the missile, barely giving you the warning you need to avoid the onrushing gnoll!  This one doesn't quite look like what you'd expect from their race, but she's moving too fast to really dwell on it.");
 	outputText("\n\n<b>It's a fight!</b>");
-	kGAMECLASS.combat.clearStatuses(false);
+	kGAMECLASS.combat.clearStatuses();
 	startCombat(new GnollSpearThrower());
 	monster.bonusHP = 350;
 	monster.short = "alpha gnoll";
@@ -2221,7 +2221,7 @@ private function introSuccubiAndMinotaur():void {
 	outputText("\n\nThe minotaur lord thunders towards you, picking up the loose chain to use a weapon.  It's a fight!");
 
 	//{start fight}
-	kGAMECLASS.combat.clearStatuses(false);
+	kGAMECLASS.combat.clearStatuses();
 	startCombat(new MinotaurLord());
 }
 
@@ -2488,7 +2488,7 @@ public function beatMinoLordOnToSuccubi():void {
 	outputText("\n\n\"<i>We'll see how your tune changes when you're licking my heels and begging for a drop of my milk!</i>\"  She snaps her whip angrily.");
 
 	outputText("\n\n<b>It's a fight!</b>");
-	kGAMECLASS.combat.clearStatuses(false);
+	kGAMECLASS.combat.clearStatuses();
 	player.setWeapon(weapons.URTAHLB);
 	//player.weapon = weapons.URTAHLB;
 	startCombat(new MilkySuccubus(),true);
@@ -2534,7 +2534,7 @@ public function urtaBeatsUpCowcubi():void {
 	outputText("\n\nYou take a deep breath of relief at taking out both the succubus-cow and her pet minotaur... which proves to be a mistake, since the air is saturated with pheromones from the cow's milk and minotaur's cum.  You can't help but groan as you feel your loins burn with desire.  Demon or not, the woman kneeling before you is extraordinarily attractive; those huge full breasts - you've never seen a woman that busty before - and that gloriously squeezable ass...  If she keeps a minotaur as a fucktoy, then surely she has to be loose enough to take even your king-sized cock; the waterfall of lubricant drooling out of her cunt seems to whisper to you, begging you to fill her full of your cum.");
 
 	outputText("\n\nIt's risky, but... surely one fuck can't hurt?  You do want to be faithful to " + player2.short + ", you do, but " + player2.mf("he","she") + "'s not here, is " + player2.mf("he","she") + "?  Still, you're sure you can be strong and leave it, you do have the willpower... oh, but the temptation...");
-	dynStats("lus", 40, "resisted", false);
+	dynStats("lus", 40, "scale", false);
 	//[Leave] [Fuck]
 	menu();
 	addButton(0,"Fuck",fuckTheCowCubi);
@@ -2726,7 +2726,7 @@ private function deadGodsDreaming():void {
 	outputText("\n\nThen you awake with a start, still kneeling before the unmoving statue.  Was it all a dream?  You don't know...  Your head is throbbing like mad, and you can't think clearly.  But even as the pain dims, you become aware of another, more pressing matter.  Lust.  That familiar yearning burns inside your arm-length prick like a raging inferno, the tower of equine fuckmeat thrusting boldly before you and steadily gushing precum onto the ground.  Naked, hungry NEED screams and claws and gibbers behind your eyes... " + player2.short + ", you must have " + player2.short + "!");
 
 	outputText("\n\nAbsently licking drool from your lips, you stagger upright and, using your halberd for support, start loping home from the shrine.  In your wake you leave a slug-like trail of sexual lubricants, too focused on finding and fucking your lover to care about the glistening slime caking your dick and plastering your inner thighs.");
-	dynStats("lus=", player.maxLust(), "resisted", false);
+	dynStats("lus=", player.maxLust(), "scale", false);
 	//Revert to PC control and change page to Urta Arrives At Camp
 	menu();
 	addButton(0,"Next",urtaArrivesAtCampForFukks);

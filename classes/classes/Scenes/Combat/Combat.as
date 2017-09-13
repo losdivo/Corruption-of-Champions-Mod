@@ -1,39 +1,23 @@
 ﻿//Combat 2.0
 package classes.Scenes.Combat 
 {
-	import classes.*;
-	import classes.internals.*;
-	import classes.GlobalFlags.*;
-	import classes.Items.*;
-	import classes.Scenes.Areas.Bog.*;
-	import classes.Scenes.Areas.Desert;
-	import classes.Scenes.Areas.Desert.*;
-	import classes.Scenes.Areas.Forest.*;
-	import classes.Scenes.Areas.GlacialRift.*;
-	import classes.Scenes.Areas.HighMountains.*;
-	import classes.Scenes.Areas.Lake.*;
-	import classes.Scenes.Areas.Mountain.*;
-	import classes.Scenes.Areas.Plains.*;
-	import classes.Scenes.Areas.Swamp.*;
-	import classes.Scenes.Areas.VolcanicCrag.*;
-	import classes.Scenes.Dungeons.DeepCave.*;
-	import classes.Scenes.Dungeons.DesertCave.*;
-	import classes.Scenes.Dungeons.D3.*;
-	import classes.Scenes.Dungeons.Factory.*;
-	import classes.Scenes.Dungeons.HelDungeon.*;
-	import classes.Scenes.Monsters.*;
-	import classes.Scenes.NPCs.*;
-	import classes.Scenes.Places.Boat.*;
-	import classes.Scenes.Places.Farm.*;
-	import classes.Scenes.Places.Owca.*;
-	import classes.Scenes.Places.Prison.*;
-	import classes.Scenes.Quests.UrtaQuest.*;
-	import classes.Scenes.Places.TelAdre.UmasShop;
+import classes.*;
+import classes.GlobalFlags.*;
+import classes.Items.*;
+import classes.Scenes.Areas.Desert.*;
+import classes.Scenes.Areas.Forest.*;
+import classes.Scenes.Areas.GlacialRift.*;
+import classes.Scenes.Areas.HighMountains.*;
+import classes.Scenes.Areas.Mountain.*;
+import classes.Scenes.Dungeons.D3.*;
+import classes.Scenes.Dungeons.HelDungeon.*;
+import classes.Scenes.Monsters.*;
+import classes.Scenes.NPCs.*;
+import classes.Scenes.Places.TelAdre.UmasShop;
 
-	import coc.view.MainView;
-	import classes.internals.Utils;
+import coc.view.MainView;
 
-	public class Combat extends BaseContent
+public class Combat extends BaseContent
 	{
 		public function Combat() {}
 		
@@ -88,7 +72,7 @@ package classes.Scenes.Combat
 			if (prison.inPrison && prison.prisonCombatWinEvent != null) nextFunc = prison.prisonCombatWinEvent;
 			if (inCombat) {
 				//clear status
-				clearStatuses(false);
+				clearStatuses();
 				
 				//reset the stored image for next monster
 				imageText = "";
@@ -764,7 +748,8 @@ package classes.Scenes.Combat
 				if (monster.hasStatusEffect(StatusEffects.Blind))
 					outputText("Blind basilisk can't use his eyes, so you can actually aim your strikes!  ");
 				//basilisk counter attack (block attack, significant speed loss): 
-				else if (player.inte/5 + rand(20) < 25) {
+				else if (player.inte / 5 + rand(20) < 25) {
+					outputText("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You find yourself staring directly into the basilisk's face!  Quickly you snap your eyes shut and recoil backwards, swinging madly at the lizard to force it back, but the damage has been done; you can see the terrible grey eyes behind your closed lids, and you feel a great weight settle on your bones as it becomes harder to move.");
 					Basilisk.speedReduce(player,20);
 					player.removeStatusEffect(StatusEffects.FirstAttack);
 					combatRoundOver();
@@ -1110,7 +1095,7 @@ package classes.Scenes.Combat
 		public function getCritChance():Number {
 			var critChance:Number = 5;
 			if (player.findPerk(PerkLib.Tactician) >= 0 && player.inte >= 50) critChance += (player.inte - 50) / 5;
-			if (player.findPerk(PerkLib.Blademaster) >= 0 && (player.weaponVerb == "slash" || player.weaponVerb == "cleave" || player.weaponVerb == "keen cut") && player.shield == ShieldLib.NOTHING) critChance += 5;
+			if (player.findPerk(PerkLib.Blademaster) >= 0 && (player.weaponVerb.search("slash") >= 0 || player.weaponVerb.search("cleave") >= 0 || player.weaponVerb == "keen cut") && player.shield == ShieldLib.NOTHING) critChance += 5;
 			if (player.jewelry.effectId == JewelryLib.MODIFIER_CRITICAL) critChance += player.jewelry.effectMagnitude;
 			return critChance;
 		}
@@ -1369,12 +1354,16 @@ package classes.Scenes.Combat
 			player.gems += monster.gems;
 			player.XP += monster.XP;
 			mainView.statsView.showStatUp('xp');
-			dynStats("lust", 0, "resisted", false); //Forces up arrow.
+			dynStats("lust", 0, "scale", false); //Forces up arrow.
 		}
 
 		//Clear statuses
-		public function clearStatuses(visibility:Boolean):void {
-			player.clearStatuses(visibility);
+		public function clearStatuses():void {
+			player.clearStatuses();
+			for (var a:/*StatusEffectClass*/Array=monster.statusEffects.slice(),n:int=a.length,i:int=0;i<n;i++) {
+				// Using a copy of array because some effects will be removed
+				a[i].onCombatEnd();
+			}
 		}
 		//Update combat status effects
 		private function combatStatusesUpdate():void {
@@ -1621,26 +1610,7 @@ package classes.Scenes.Combat
 				if (monster.plural) outputText("our " + player.multiCockDescriptLight() + " dribbles pre-cum as you think about plowing " + monster.a + monster.short + " right here and now, fucking " + monster.pronoun3 + " " + monster.vaginaDescript() + "s until they're totally fertilized and pregnant.\n\n");
 				else outputText("our " + player.multiCockDescriptLight() + " dribbles pre-cum as you think about plowing " + monster.a + monster.short + " right here and now, fucking " + monster.pronoun3 + " " + monster.vaginaDescript() + " until it's totally fertilized and pregnant.\n\n");
 			}
-			if (player.hasStatusEffect(StatusEffects.NagaVenom)) {
-				//Chance to cleanse!
-				if (player.findPerk(PerkLib.Medicine) >= 0 && rand(100) <= 14) {
-					outputText("You manage to cleanse the naga venom from your system with your knowledge of medicine!\n\n");
-					player.spe += player.statusEffectv1(StatusEffects.NagaVenom);
-					mainView.statsView.showStatUp( 'spe' );
-					// speUp.visible = true;
-					// speDown.visible = false;
-					player.removeStatusEffect(StatusEffects.NagaVenom);
-				}
-				else if (player.spe > 3) {
-					player.addStatusValue(StatusEffects.NagaVenom,1,2);
-					//stats(0,0,-2,0,0,0,0,0);
-					player.spe -= 2;
-				}
-				else takeDamage(5);
-				outputText("You wince in pain and try to collect yourself, the naga's venom still plaguing you.\n\n");
-				takeDamage(2);
-			}
-			else if (player.hasStatusEffect(StatusEffects.TemporaryHeat)) {
+			if (player.hasStatusEffect(StatusEffects.TemporaryHeat)) {
 				//Chance to cleanse!
 				if (player.findPerk(PerkLib.Medicine) >= 0 && rand(100) <= 14) {
 					outputText("You manage to cleanse the heat and rut drug from your system with your knowledge of medicine!\n\n");
@@ -1682,15 +1652,6 @@ package classes.Scenes.Combat
 			if (player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				outputText("<b>There is a large boulder coming your way. If you don't avoid it in time, you might take some serious damage.</b>\n\n");
 			}
-			if (player.hasStatusEffect(StatusEffects.DriderIncubusVenom)) {
-				//Chance to cleanse!
-				if (player.findPerk(PerkLib.Medicine) >= 0 && rand(100) <= 14) {
-					outputText("You manage to cleanse the drider incubus venom from your system with your knowledge of medicine!\n\n");
-					player.str += player.statusEffectv1(StatusEffects.DriderIncubusVenom);
-					mainView.statsView.showStatUp('str');
-					player.removeStatusEffect(StatusEffects.DriderIncubusVenom);
-				}
-			}
 			//Drider Incubus' purple haze
 			if (player.hasStatusEffect(StatusEffects.PurpleHaze)) {
 				outputText("<b>The purple haze is filling your vision with unsubtle erotic imagery, arousing you.</b>");
@@ -1726,6 +1687,13 @@ package classes.Scenes.Combat
 					outputText("The cord has finally came loose and falls off your neck. It dissipates immediately. You can cast spells again now!\n\n");
 					player.removeStatusEffect(StatusEffects.WhipSilence);
 				}
+			}
+			for (var a:/*StatusEffectClass*/Array=player.statusEffects.slice(),n:int=a.length,i:int=0;i<n;i++) {
+				// Using a copy of array because some effects will be removed
+				a[i].onCombatRound();
+			}
+			for (a=monster.statusEffects.slice(),n=a.length,i=0;i<n;i++) {
+				a[i].onCombatRound();
 			}
 			regeneration(true);
 			if (player.lust >= player.maxLust()) doNext(endLustLoss);
@@ -1791,15 +1759,15 @@ package classes.Scenes.Combat
 				if (monster.armorDef <= 10) monster.armorDef = 0;
 				else monster.armorDef -= 10;
 			}
+			//Raises lust~ Not disabled because it's an item perk :3
+			if (player.findPerk(PerkLib.WellspringOfLust) >= 0 && player.lust < 50) {
+				player.lust = 50;
+			}
 			if (player.findPerk(PerkLib.Battlemage) >= 0 && player.lust >= 50) {
 				combatAbilities.spellMight(true); // XXX: message?
 			}
 			if (player.findPerk(PerkLib.Spellsword) >= 0 && player.lust100 < combatAbilities.getWhiteMagicLustCap()) {
 				combatAbilities.spellChargeWeapon(true); // XXX: message?
-			}
-			//Raises lust~ Not disabled because it's an item perk :3
-			if (player.findPerk(PerkLib.WellspringOfLust) >= 0 && player.lust < 50) {
-				player.lust = 50;
 			}
 			monster.str += 25 * player.newGamePlusMod();
 			monster.tou += 25 * player.newGamePlusMod();
@@ -1819,7 +1787,7 @@ package classes.Scenes.Combat
 			if (player.weaponName == "flintlock pistol") flags[kFLAGS.FLINTLOCK_PISTOL_AMMO] = 4;
 			if (player.weaponName == "blunderbuss") flags[kFLAGS.FLINTLOCK_PISTOL_AMMO] = 12;
 			if (prison.inPrison && prison.prisonCombatAutoLose) {
-				dynStats("lus", player.maxLust(), "resisted", false);
+				dynStats("lus", player.maxLust(), "scale", false);
 				doNext(endLustLoss);
 				return;
 			}
@@ -2103,7 +2071,7 @@ package classes.Scenes.Combat
 				clearOutput();
 				outputText("You flex the muscles in your back and, shaking clear of the sand, burst into the air!  Wasting no time you fly free of the sandtrap and its treacherous pit.  \"One day your wings will fall off, little ant,\" the snarling voice of the thwarted androgyne carries up to you as you make your escape.  \"And I will be waiting for you when they do!\"");
 				inCombat = false;
-				clearStatuses(false);
+				clearStatuses();
 				doNext(camp.returnToCampUseOneHour);
 				return;
 			}
@@ -2136,7 +2104,7 @@ package classes.Scenes.Combat
 				//(Free run away) 
 				outputText("You slink away while the pack of brutes is arguing.  Once they finish that argument, they'll be sorely disappointed!");
 				inCombat = false;
-				clearStatuses(false);
+				clearStatuses();
 				doNext(camp.returnToCampUseOneHour);
 				return;
 			}
@@ -2175,7 +2143,7 @@ package classes.Scenes.Combat
 			if (monster.short == "lizan rogue") {
 				outputText("As you retreat the lizan doesn't even attempt to stop you. When you look back to see if he's still there you find nothing but the empty bog around you.");
 				inCombat = false;
-				clearStatuses(false);
+				clearStatuses();
 				doNext(camp.returnToCampUseOneHour);
 				return;
 			}
@@ -2223,7 +2191,7 @@ package classes.Scenes.Combat
 				if (player.lust100 < 60) {
 					outputText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.");
 					inCombat = false;
-					clearStatuses(false);
+					clearStatuses();
 					doNext(camp.returnToCampUseOneHour);
 					return;
 				}
@@ -2232,7 +2200,7 @@ package classes.Scenes.Combat
 					//Success
 					if (player.spe > rand(monster.spe+escapeMod)) {
 						inCombat = false;
-						clearStatuses(false);
+						clearStatuses();
 						outputText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.");
 						doNext(camp.returnToCampUseOneHour);
 						return;
@@ -2252,7 +2220,7 @@ package classes.Scenes.Combat
 				if (player.hasStatusEffect(StatusEffects.KnockedBack)) {
 					outputText("It's not very difficult to run from the immobile creature.");
 					inCombat = false;
-					clearStatuses(false);
+					clearStatuses();
 					doNext(camp.returnToCampUseOneHour);
 				} else {
 					if (player.spe > rand(monster.spe + escapeMod) || player.getEvasionRoll()) {
@@ -2275,7 +2243,7 @@ package classes.Scenes.Combat
 					outputText("You easily outpace the dragon, who begins hurling imprecations at you.  \"What the hell, [name], you weenie; are you so scared that you can't even stick out your punishment?\"");
 					outputText("\n\nNot to be outdone, you call back, \"Sucks to you!  If even the mighty Last Ember of Hope can't catch me, why do I need to train?  Later, little bird!\"");
 					inCombat = false;
-					clearStatuses(false);
+					clearStatuses();
 					doNext(camp.returnToCampUseOneHour);
 				}
 				//Fail: 
@@ -2291,7 +2259,7 @@ package classes.Scenes.Combat
 				if (prison.inPrison) {
 					outputText("You quickly bolt out of the main entrance and after hiding for a good while, there's no sign of " + monster.a + " " + monster.short + ". You sneak back inside to retrieve whatever you had before you were captured. ");
 					inCombat = false;
-					clearStatuses(false);
+					clearStatuses();
 					prison.prisonEscapeSuccessText();
 					doNext(prison.prisonEscapeFinalePart1);
 					return;
@@ -2309,7 +2277,7 @@ package classes.Scenes.Combat
 				}
 				if (monster is Ghoul) ghoulReveal = false;
 				inCombat = false;
-				clearStatuses(false);
+				clearStatuses();
 				doNext(camp.returnToCampUseOneHour);
 				return;
 			}
@@ -2320,7 +2288,7 @@ package classes.Scenes.Combat
 				if (monster.short == "Izma") {
 					outputText("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.");
 				}
-				clearStatuses(false);
+				clearStatuses();
 				doNext(camp.returnToCampUseOneHour);
 				return;
 			}

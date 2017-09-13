@@ -64,7 +64,7 @@ package classes.Items.Consumables
 			}
 
 			if (game.player.wings.canDye()) {
-				outputText("\n\nYou have " + game.player.wingColor + " wings.");
+				outputText("\n\nYou have [wingColor] wings.");
 				if (!game.player.wings.hasDyeColor(_color)) game.addButton(3, "Wings", dyeWings);
 				else game.addButtonDisabled(3, "Wings", "Your already have " + _color + " wings!");
 			} else {
@@ -79,6 +79,15 @@ package classes.Items.Consumables
 			} else {
 				outputText("\n\nYour neck can't be dyed.");
 				game.addButtonDisabled(5, "Neck", "Your neck can't be dyed!");
+			}
+
+			if (game.player.rearBody.canDye()) {
+				outputText("\n\nYou have a [rearBodyColor] rear body.");
+				if (!game.player.rearBody.hasDyeColor(_color)) game.addButton(6, "Rear Body", dyeRearBody);
+				else game.addButtonDisabled(6, "Rear Body", "Your already have a " + _color + " rear body!");
+			} else {
+				outputText("\n\nYour rear body can't be dyed.");
+				game.addButtonDisabled(6, "Rear Body", "Your rear body can't be dyed!");
 			}
 
 			game.addButton(4, "Nevermind", dyeCancel);
@@ -155,6 +164,15 @@ package classes.Items.Consumables
 			outputText("You rub the dye onto your [neck], then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
 			game.player.neck.applyDye(_color);
 			outputText("You now have a [neckColor] neck.");
+			finalize();
+		}
+
+		private function dyeRearBody():void
+		{
+			clearOutput();
+			outputText("You rub the dye onto your [rearBody], then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
+			game.player.rearBody.applyDye(_color);
+			outputText("You now have a [rearBodyColor] rear body.");
 			finalize();
 		}
 

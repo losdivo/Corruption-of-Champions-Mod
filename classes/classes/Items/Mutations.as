@@ -190,6 +190,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Demonic changes - higher chance with higher corruption.
@@ -492,6 +494,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Demonic changes - higher chance with higher corruption.
@@ -615,6 +619,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Restore arms to become human arms again
@@ -1200,6 +1206,7 @@ package classes.Items
 				dynStats("lus", 3);
 			}
 			player.refillHunger(15);
+			flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 		}
 	
 		public function succubisDelight(tainted:Boolean,player:Player):void
@@ -1951,6 +1958,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (tainted && rand(5) == 0) updateOvipositionPerk(tfSource);
 			//General Appearance (Tail -> Ears -> Paws(fur stripper) -> Face -> Horns
@@ -2099,6 +2108,7 @@ package classes.Items
 			if (rand(3) == 0) outputText(player.modThickness(70, 4));
 			if (rand(5) == 0) outputText(player.modTone(10, 5));
 			player.refillHunger(20);
+			flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 		}
 
 		public function lustDraft(fuck:Boolean,player:Player):void
@@ -2109,7 +2119,7 @@ package classes.Items
 			if (fuck) outputText("red");
 			else outputText("pink");
 			outputText(" potion, and its unnatural warmth immediately flows to your groin.");
-			dynStats("lus", (30 + rand(player.lib / 10)), "resisted", false);
+			dynStats("lus", (30 + rand(player.lib / 10)), "scale", false);
 
 			//Heat/Rut for those that can have them if "fuck draft"
 			if (fuck) {
@@ -2231,6 +2241,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//Transformations:
@@ -2300,11 +2312,11 @@ package classes.Items
 				}
 			}
 			//FINZ R WINGS
-			if (player.wingType != WING_TYPE_SHARK_FIN && changes < changeLimit && rand(3) == 0) {
+			if ((player.wingType != WING_TYPE_NONE || player.rearBody.type != REAR_BODY_SHARK_FIN) && changes < changeLimit && rand(3) == 0) {
 				outputText("\n\n");
-				if (player.wingType > WING_TYPE_NONE) outputText("Your wings fold into themselves, merging together with your back.  ");
+				if (player.wingType != WING_TYPE_NONE) outputText("Your wings fold into themselves, merging together with your back.  ");
 				outputText("You groan and slump down in pain, almost instantly regretting eating the tooth. You start sweating profusely and panting loudly, feeling the space between your shoulder blades shifting about. You hastily remove your " + player.armorName + " just in time before a strange fin-like structure bursts from in-between your shoulders. You examine it carefully and make a few modifications to your " + player.armorName + " to accommodate your new fin.");
-				player.wingType = WING_TYPE_SHARK_FIN;
+				player.rearBody.type = REAR_BODY_SHARK_FIN;
 				changes++;
 			}
 			if (changes == 0) {
@@ -2474,6 +2486,8 @@ package classes.Items
 			//-VAGs
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(4) == 0) updateOvipositionPerk(tfSource);
 			if (player.hasVagina() && player.findPerk(PerkLib.BunnyEggs) < 0 && changes < changeLimit && rand(4) == 0 && player.bunnyScore() > 3) {
@@ -2832,6 +2846,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//****************
@@ -2935,9 +2951,15 @@ package classes.Items
 				changes++;
 			}
 			//-Remove old wings
-			if (player.wingType != WING_TYPE_FEATHERED_LARGE && player.wingType > WING_TYPE_NONE && changes < changeLimit && rand(4) == 0) {
-				if (player.wingType != WING_TYPE_SHARK_FIN) outputText("\n\nSensation fades from your [wings] slowly but surely, leaving them dried out husks that break off to fall on the ground. Your back closes up to conceal the loss, as smooth and unbroken as the day you entered the portal.");
-				else outputText("\n\nSensation fades from your large fin slowly but surely, leaving it a dried out husk that breaks off to fall on the ground. Your back closes up to conceal the loss, as smooth and unbroken as the day you entered the portal.");
+			if (([WING_TYPE_NONE, WING_TYPE_FEATHERED_LARGE].indexOf(player.wingType) == -1 || player.rearBody.type == REAR_BODY_SHARK_FIN) && changes < changeLimit && rand(4) == 0) {
+				if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nSensation fades from your large fin slowly but surely, leaving it a dried out husk that breaks off to fall on the"
+					          +" ground. Your back closes up to conceal the loss, as smooth and unbroken as the day you entered the portal.");
+					player.rearBody.restore();
+				} else {
+					outputText("\n\nSensation fades from your [wings] slowly but surely, leaving them dried out husks that break off to fall on the"
+					          +" ground. Your back closes up to conceal the loss, as smooth and unbroken as the day you entered the portal.");
+				}
 				player.wings.restore();
 				changes++;
 			}
@@ -3145,6 +3167,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//****************
@@ -3351,6 +3375,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//***************
@@ -3743,6 +3769,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//[Grow Fur]
@@ -3986,6 +4014,8 @@ package classes.Items
 			//**********************
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//[Grow Fox Tail]
@@ -4209,19 +4239,19 @@ package classes.Items
 				flags[kFLAGS.TIMES_TRANSFORMED]++;
 			}
 			//Grow demon wings
-			if (player.wingType != WING_TYPE_BAT_LIKE_LARGE && rand(8) == 0 && player.cor >= (50 - player.corruptionTolerance())) {
+			if ((player.wingType != WING_TYPE_BAT_LIKE_LARGE || player.rearBody.type == REAR_BODY_SHARK_FIN) && rand(8) == 0 && player.cor >= (50 - player.corruptionTolerance())) {
 				//grow smalls to large
 				if (player.wingType == WING_TYPE_BAT_LIKE_TINY && player.cor >= (75 - player.corruptionTolerance())) {
 					outputText("\n\n");
 					outputText("Your small demonic wings stretch and grow, tingling with the pleasure of being attached to such a tainted body.  You stretch over your shoulder to stroke them as they unfurl, turning into full-sized demon-wings.  <b>Your demonic wings have grown!</b>");
 					player.wingType = WING_TYPE_BAT_LIKE_LARGE;
 				}
-				else if (player.wingType == WING_TYPE_SHARK_FIN) {
-					outputText("\n\n");
-					outputText("The muscles around your shoulders bunch up uncomfortably, changing to support the new bat-like wings growing from your back.  You twist your head as far as you can for a look and realize your fin has changed into ");
-					outputText("small ");
+				else if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nThe muscles around your shoulders bunch up uncomfortably, changing to support the new bat-like wings growing from"
+					          +" your back.  You twist your head as far as you can for a look"
+					          +" and realize your fin has changed into small bat-like demon-wings!");
+					player.rearBody.restore();
 					player.wingType = WING_TYPE_BAT_LIKE_TINY;
-					outputText("bat-like demon-wings!");
 				}
 				//No wings
 				else if (player.wingType == WING_TYPE_NONE) {
@@ -4299,6 +4329,8 @@ package classes.Items
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) updateOvipositionPerk(tfSource);
 			//-----------------------
@@ -4400,7 +4432,7 @@ package classes.Items
 			}
 			outputText("\n\nYou lick your lips clean, savoring the taste of the Winter Pudding.  You feel kinda antsy...");
 			//[Decrease player tone by 5, Increase Lust by 20, Destroy item.]
-			dynStats("lus", (10+player.lib/10), "resisted", false);
+			dynStats("lus", (10+player.lib/10), "scale", false);
 			
 			//[Optional, give the player antlers! (30% chance) Show this description if the player doesn't have horns already.]
 			if (player.horns == 0 && rand(2) == 0) {

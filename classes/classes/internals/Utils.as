@@ -23,7 +23,11 @@ package classes.internals
 				return func.apply(null,args.concat(args2));
 			};
 		}
-		
+		public static function bindThis(func:Function,thiz:Object):Function {
+			return function(...args2):* {
+				return func.apply(thiz,args2);
+			}
+		}
 		public static function formatStringArray(stringList:Array):String { //Changes an array of values into "1", "1 and 2" or "1, (x, )y and z"
 			switch (stringList.length) {
 				case  0: return "";
@@ -54,6 +58,19 @@ package classes.internals
 		public static function boundFloat(min:Number, x:Number, max:Number):Number {
 			if (!isFinite(x)) return min;
 			return x < min ? min : x > max ? max : x;
+		}
+		/**
+		 * Deleting obj[key] with default.
+		 *
+		 * If `key` in `obj`: return `obj[key]` and delete `obj[key]`
+		 * Otherwise return `defaultValue`
+		 */
+		public static function moveValue(obj:Object,key:String,defaultValue:*):* {
+			if (key in obj) {
+				defaultValue = obj[key];
+				delete obj[key];
+			}
+			return defaultValue;
 		}
 		/**
 		 * Performs a shallow copy of properties from `src` to `dest`, then from `srcRest` to `dest`
@@ -202,6 +219,11 @@ package classes.internals
 				returnArray.push((list[i] is Array) ? formatStringArray(list[i]) : list[i]);
 
 			return returnArray;
+		}
+
+		public static function isObject(val:*):Boolean
+		{
+			return typeof val == "object" && val != null;
 		}
 
 		public static function num2Text(number:int):String {

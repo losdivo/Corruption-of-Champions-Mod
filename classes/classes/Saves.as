@@ -895,10 +895,9 @@ public function saveGameObject(slot:String, isFile:Boolean):void
 		saveFile.data.antennae = player.antennae;
 		saveFile.data.horns = player.horns;
 		saveFile.data.hornType = player.hornType;
-		// <mod name="BodyParts.Skin and UnderBody" author="Stadler76">
-		saveFile.data.underBody = player.underBody;
-		// </mod>
-		saveFile.data.neck = player.neck;
+		saveFile.data.underBody = player.underBody.toObject();
+		saveFile.data.neck = player.neck.toObject();
+		saveFile.data.rearBody = player.rearBody.toObject();
 		// <mod name="Predator arms" author="Stadler76">
 		saveFile.data.clawTone = player.clawTone;
 		saveFile.data.clawType = player.clawType;
@@ -1357,6 +1356,7 @@ public function onDataLoaded(evt:Event):void
 	}
 	catch (error:Error)
 	{
+		LOGGER.error(error.message+"\n"+error.getStackTrace());
 		clearOutput();
 		outputText("<b>!</b> Unhandled Exception");
 		outputText("[pg]Failed to load save. The file may be corrupt!");
@@ -1778,12 +1778,12 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		else
 			player.hornType = saveFile.data.hornType;
 
-		// <mod name="BodyParts.Skin and UnderBody" author="Stadler76">
-		if (saveFile.data.underBody is UnderBody)
+		if (isObject(saveFile.data.underBody))
 			player.underBody.setAllProps(saveFile.data.underBody);
-		// </mod>
-		if (saveFile.data.neck is Neck)
+		if (isObject(saveFile.data.neck))
 			player.neck.setAllProps(saveFile.data.neck);
+		if (isObject(saveFile.data.rearBody))
+			player.rearBody.setAllProps(saveFile.data.rearBody);
 		// <mod name="Predator arms" author="Stadler76">
 		player.clawTone = (saveFile.data.clawTone == undefined) ? ""               : saveFile.data.clawTone;
 		player.clawType = (saveFile.data.clawType == undefined) ? CLAW_TYPE_NORMAL : saveFile.data.clawType;
@@ -1798,6 +1798,12 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 		player.hipRating = saveFile.data.hipRating;
 		player.buttRating = saveFile.data.buttRating;
 		
+
+		if (player.wingType == 8) {
+			player.wings.restore();
+			player.rearBody.setAllProps({type: REAR_BODY_SHARK_FIN});
+		}
+
 		if (player.lowerBody === 4) {
 			player.lowerBody = LOWER_BODY_TYPE_HOOFED;
 			player.legCount = 4;
@@ -2090,7 +2096,8 @@ public function loadGameObject(saveData:Object, slot:String = "VOID"):void
 					saveFile.data.statusAffects[i].value1,
 					saveFile.data.statusAffects[i].value2,
 					saveFile.data.statusAffects[i].value3,
-					saveFile.data.statusAffects[i].value4);
+					saveFile.data.statusAffects[i].value4,
+					false);
 				//trace("StatusEffect " + player.statusEffect(i).stype.id + " loaded.");
 		}
 		//Make sure keyitems exist!

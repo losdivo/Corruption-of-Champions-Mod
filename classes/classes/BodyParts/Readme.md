@@ -67,6 +67,15 @@ Returns `true` if the bodypart already has the color to be applied
 ### applyDye(_color:String) / applyOil(_color:String)
 Applies the color to the bodypart
 
+### toObject()
+Returns an object with all the public propertys that should be stored in a save file.
+
+Used in:
+- `Neck`
+- `RearBody`
+- `Skin`
+- `UnderBody`
+
 BodyParts
 ---------
 
@@ -247,8 +256,14 @@ Checks, if the neck has reached its max length for the type
 Currently only the dragon neck (`NECK_TYPE_DRACONIC`) uses the methods `modify` and `isFullyGrown` and the propertys `len` and `pos`. Ideas for more races with inhuman necks would be appreciated.
 
 ### RearBody
-placeholder
+#### Property table
+| Property | Access example          | Description / Examples                                                                      |
+|----------|-------------------------|---------------------------------------------------------------------------------------------|
+| `type`   | `player.rearBody.type`  | **The type**<br>`player.rearBody.type = REAR_BODY_DRACONIC_MANE;`                           |
+| `color`  | `player.rearBody.color` | **The color (e. g. the hair of a hair draconic mane**<br>`player.rearBody.color = "green";` |
 
+#### Additional methods
+None so far
 
 Changed or new related methods
 ------------------------------

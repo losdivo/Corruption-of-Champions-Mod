@@ -890,6 +890,11 @@ import classes.GlobalFlags.kFLAGS;
 		{
 			return Appearance.neckDescript(this);
 		}
+
+		public function rearBodyDescript():String
+		{
+			return Appearance.rearBodyDescript(this);
+		}
 		
 		public function wingsDescript():String
 		{

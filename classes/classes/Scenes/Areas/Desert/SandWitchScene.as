@@ -140,7 +140,7 @@ package classes.Scenes.Areas.Desert {
 		
 internal function sandwitchRape():void {
 	spriteSelect(SpriteDb.s_sandwich);
-	player.clearStatuses(false);
+	player.clearStatuses();
 	//LUST DEFEAT
 	if (player.lust >= player.maxLust()) {
 		var titsOrgasm:Boolean = false;

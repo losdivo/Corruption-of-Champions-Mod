@@ -1387,7 +1387,7 @@ package classes.Scenes.Areas.Forest
 				outputText("You smile in satisfaction as the " + monster.short + " spreads her legs and starts frigging her honey-soaked cunt.  The sweet scent oozing from between her legs is too much to bear, arousing you painfully, and you see an easy way to relieve it..\n\nWhat do you do to her?");
 			}
 			
-			dynStats("lus", 50, "resisted", false);
+			dynStats("lus", 50, "scale", false);
 			
 			//OPTIONS HERE!
 			menu();

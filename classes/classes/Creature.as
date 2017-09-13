@@ -2,19 +2,21 @@
 package classes
 {
 	import classes.BodyParts.Neck;
+	import classes.BodyParts.RearBody;
 	import classes.BodyParts.Skin;
 	import classes.BodyParts.UnderBody;
 	import classes.BodyParts.Wings;
-	import classes.GlobalFlags.kGAMECLASS;
+import classes.GlobalFlags.kGAMECLASS;
+import classes.GlobalFlags.kGAMECLASS;
 	import classes.GlobalFlags.kFLAGS;
-	import classes.PerkType;
-	import classes.StatusEffectType;
 	import classes.Items.JewelryLib;
-	import classes.internals.Utils;
-	import classes.VaginaClass;
+import classes.internals.Profiling;
+import classes.internals.Utils;
 	import classes.Scenes.Places.TelAdre.UmasShop;
-	import flash.display.InteractiveObject;
-	import flash.errors.IllegalOperationError;
+import classes.internals.profiling.Begin;
+import classes.internals.profiling.End;
+
+import flash.errors.IllegalOperationError;
 
 	public class Creature extends Utils
 	{
@@ -151,6 +153,103 @@ package classes
 		public function get hp100():Number { return 100*HP/maxHP(); }
 		public function get lust100():Number { return 100*lust/maxLust(); }
 
+		/**
+		 * @return keys: str, tou, spe, inte
+		 */
+		public function getAllMaxStats():Object {
+			return {
+				str:100,
+				tou:100,
+				spe:100,
+				inte:100
+			};
+		}
+
+		/**
+		 * Modify stats.
+		 *
+		 * Arguments should come in pairs nameOp:String, value:Number/Boolean <br/>
+		 * where nameOp is ( stat_name + [operator] ) and value is operator argument<br/>
+		 * valid operators are "=" (set), "+", "-", "*", "/", add is default.<br/>
+		 * valid stat_names are "str", "tou", "spe", "int", "lib", "sen", "lus", "cor" or their full names;
+		 * also "scaled"/"sca" (default true: apply resistances, perks; false - force values)
+		 *
+		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sens, lust, cor
+		 * */
+		public function dynStats(... args):Object {
+			Begin("Creature","dynStats");
+			var argz:Object = parseDynStatsArgs(this, args);
+			var prevStr:Number  = str;
+			var prevTou:Number  = tou;
+			var prevSpe:Number  = spe;
+			var prevInte:Number  = inte;
+			var prevLib:Number  = lib;
+			var prevSens:Number  = sens;
+			var prevLust:Number  = lust;
+			var prevCor:Number  = cor;
+			modStats(argz.str, argz.tou, argz.spe, argz.inte, argz.lib, argz.sens, argz.lust, argz.cor, argz.sca);
+			End("Creature","dynStats");
+			return {
+				str:str-prevStr,
+				tou:tou-prevTou,
+				spe:spe-prevSpe,
+				inte:inte-prevInte,
+				lib:lib-prevLib,
+				sens:sens-prevSens,
+				lust:lust-prevLust,
+				cor:cor-prevCor
+			};
+		}
+		public function modStats(dstr:Number, dtou:Number, dspe:Number, dinte:Number, dlib:Number, dsens:Number, dlust:Number, dcor:Number, scale:Boolean = true):void {
+
+			var maxes:Object = getAllMaxStats();
+			str = Utils.boundFloat(1,str+dstr,maxes.str);
+			tou = Utils.boundFloat(1,tou+dtou,maxes.tou);
+			spe = Utils.boundFloat(1,spe+dspe,maxes.spe);
+			inte = Utils.boundFloat(1,inte+dinte,maxes.inte);
+			lib = Utils.boundFloat(minLib(),lib+dlib,100);
+			sens = Utils.boundFloat(minSens(),sens+dsens,100);
+			lust = Utils.boundFloat(minLust(),lust+dlust,maxLust());
+			cor = Utils.boundFloat(0,cor+dcor,100);
+			if (dtou>0) HP = Utils.boundFloat(-Infinity,HP+dtou*2,maxHP());
+		}
+		/**
+		 * Modify Strength by `delta`. If scale = true, apply perk & effect modifiers. Return actual increase applied.
+		 */
+		public function modStr(delta:Number,scale:Boolean=true):Number {
+			if (scale) return dynStats('str',delta).str;
+			var s0:Number = str;
+			str = Utils.boundFloat(1,str+delta,getMaxStats('str'));
+			return str-s0;
+		}
+		/**
+		 * Modify Toughness by `delta`. If scale = true, apply perk & effect modifiers. Return actual increase applied.
+		 */
+		public function modTou(delta:Number,scale:Boolean=true):Number {
+			if (scale) return dynStats('tou',delta).tou;
+			var s0:Number = tou;
+			tou = Utils.boundFloat(1,tou+delta,getMaxStats('tou'));
+			return tou-s0;
+		}
+		/**
+		 * Modify Speed by `delta`. If scale = true, apply perk & effect modifiers. Return actual increase applied.
+		 */
+		public function modSpe(delta:Number,scale:Boolean=true):Number {
+			if (scale) return dynStats('spe',delta).spe;
+			var s0:Number = spe;
+			spe = Utils.boundFloat(1,spe+delta,getMaxStats('spe'));
+			return spe-s0;
+		}
+		/**
+		 * Modify Intelligence by `delta`. If scale = true, apply perk & effect modifiers. Return actual increase applied.
+		 */
+		public function modInt(delta:Number,scale:Boolean=true):Number {
+			if (scale) return dynStats('inte',delta).inte;
+			var s0:Number = inte;
+			inte = Utils.boundFloat(1,inte+delta,getMaxStats('int'));
+			return inte-s0;
+		}
+
 		//Appearance Variables
 		/**
 		 * Get the gender of the creature, based on its genitalia or lack thereof. Not to be confused with gender identity by femininity.
@@ -232,6 +331,7 @@ package classes
 		public var clawTone:String = "";
 		public var clawType:Number = CLAW_TYPE_NORMAL;
 		// </mod>
+		public var rearBody:RearBody = new RearBody();
 		public var neck:Neck = new Neck();
 		public var underBody:UnderBody = new UnderBody();
 
@@ -590,7 +690,7 @@ package classes
 		//Functions			
 		public function orgasmReal():void
 		{
-			game.dynStats("lus=", 0, "res", false);
+			dynStats("lus=", 0, "res", false);
 			hoursSinceCum = 0;
 			flags[kFLAGS.TIMES_ORGASMED]++;
 			
@@ -915,21 +1015,44 @@ package classes
 	}
 		
 		//{region StatusEffects
-		//Create a status
-		public function createStatusEffect(stype:StatusEffectType, value1:Number, value2:Number, value3:Number, value4:Number):void
+		public function createOrFindStatusEffect(stype:StatusEffectType):StatusEffectClass
 		{
-			var newStatusEffect:StatusEffectClass = new StatusEffectClass(stype,value1,value2,value3,value4);
-			statusEffects.push(newStatusEffect);
-			//trace("createStatusEffect -> "+statusEffects.join(","));
-			//trace("NEW STATUS APPLIED TO PLAYER!: " + statusName);
+			var sec:StatusEffectClass = statusEffectByType(stype);
+			if (!sec) sec = createStatusEffect(stype,0,0,0,0);
+			return sec;
 		}
-		
+		//Create a status
+		public function createStatusEffect(stype:StatusEffectType, value1:Number, value2:Number, value3:Number, value4:Number, fireEvent:Boolean = true):StatusEffectClass
+		{
+			var newStatusEffect:StatusEffectClass = stype.create(value1,value2,value3,value4);
+			statusEffects.push(newStatusEffect);
+			newStatusEffect.addedToHostList(this,fireEvent);
+			return newStatusEffect;
+		}
+		public function addStatusEffect(sec:StatusEffectClass/*,fireEvent:Boolean = true*/):void {
+			if (sec.host != this) {
+				sec.remove();
+				sec.attach(this/*,fireEvent*/);
+			} else {
+				statusEffects.push(sec);
+				sec.addedToHostList(this,true);
+			}
+		}
 		//Remove a status
-		public function removeStatusEffect(stype:StatusEffectType):void {
+		public function removeStatusEffect(stype:StatusEffectType/*, fireEvent:Boolean = true*/):StatusEffectClass
+		{
 			var counter:Number = indexOfStatusEffect(stype);
-			if (counter < 0) return;
+			if (counter < 0) return null;
+			var sec:StatusEffectClass = statusEffects[counter];
 			statusEffects.splice(counter, 1);
-			//trace("removeStatusEffect -> "+statusEffects.join(","));
+			sec.removedFromHostList(true);
+			return sec;
+		}
+		public function removeStatusEffectInstance(sec:StatusEffectClass/*, fireEvent:Boolean = true*/):void {
+			var i:int = statusEffects.indexOf(sec);
+			if (i < 0) return;
+			statusEffects.splice(i, 1);
+			sec.removedFromHostList(true);
 		}
 		
 		public function indexOfStatusEffect(stype:StatusEffectType):int {
@@ -1016,15 +1139,13 @@ package classes
 			return (effect==null)?defaultValue:effect.value4;
 		}
 
-		public function removeStatuses():void
+		public function removeStatuses(fireEvent:Boolean):void
 		{
-			var counter:Number = statusEffects.length;
-			while (counter > 0)
-			{
-				counter--;
-				statusEffects.splice(counter, 1);
+			var a:/*StatusEffectClass*/Array=statusEffects.splice(0,statusEffects.length);
+			for (var n:int=a.length,i:int=0;i<n;i++) {
+				a[i].removedFromHostList(fireEvent);
 			}
-		}		
+		}
 		
 		public function biggestTitSize():Number
 		{
@@ -2824,6 +2945,7 @@ package classes
 				case CLAW_TYPE_NORMAL: return "fingernails";
 				case CLAW_TYPE_LIZARD: return "short curved" + toneText + "claws";
 				case CLAW_TYPE_DRAGON: return "powerful, thick curved" + toneText + "claws";
+				case CLAW_TYPE_IMP:    return "long" + toneText + "claws";
 				// Since mander and cockatrice arms are hardcoded and the others are NYI, we're done here for now
 			}
 			return "fingernails";
@@ -3663,7 +3785,7 @@ package classes
 			//Take damage you masochist!
 			if (hasPerk(PerkLib.Masochist) && lib >= 60) {
 				mult *= 0.8;
-				if (short == game.player.short && !displayMode) game.dynStats("lus", 2);
+				if (short == game.player.short && !displayMode) dynStats("lus", 2);
 			}
 			if (hasPerk(PerkLib.ImmovableObject) && tou >= 75) {
 				mult *= 0.9;
@@ -3816,6 +3938,7 @@ package classes
 		public function getMaxStats(stats:String):int {
 			return 100;
 		}
+
 		public function maxHP():Number
 		{
 			var max:Number = 0;
@@ -3834,6 +3957,16 @@ package classes
 			return max;
 		}
 
+		public function minLib():Number {
+			return 1;
+		}
+		public function minSens():Number {
+			return 10;
+		}
+		public function minLust():Number {
+			return 100;
+		}
+
 		public function maxLust():Number
 		{
 			var max:Number = 100;
@@ -3845,6 +3978,15 @@ package classes
 			if (max > 999) max = 999;
 			return max;
 		}
+		public function takeDamage(damage:Number, display:Boolean = false):Number {
+			HP = boundFloat(0,HP-Math.round(damage),HP);
+			return (damage > 0 && damage < 1) ? 1 : damage;
+		}
+		public function takeLustDamage(lustDmg:Number, display:Boolean = true, applyRes:Boolean = true):Number{
+			if (applyRes) lustDmg *= lustPercent()/100;
+			lust = boundFloat(minLust(),lust+Math.round(lustDmg),maxLust());
+			return (lustDmg > 0 && lustDmg < 1) ? 1 : lustDmg;
+		}
 		/**
 		 *Get the remaining fatigue of the Creature.
 		 *@return maximum amount of fatigue that still can be used
@@ -3852,6 +3994,132 @@ package classes
 		public function fatigueLeft():Number
 		{
 			return maxFatigue() - fatigue;
+		}
+
+		public function spellMod():Number {
+			var mod:Number = 1;
+			if (hasPerk(PerkLib.Archmage) && inte >= 75) mod += .5;
+			if (hasPerk(PerkLib.Channeling) && inte >= 60) mod += .5;
+			if (hasPerk(PerkLib.Mage) && inte >= 50) mod += .5;
+			if (hasPerk(PerkLib.Spellpower) && inte >= 50) mod += .5;
+			if (hasPerk(PerkLib.WizardsFocus)) {
+				mod += perkv1(PerkLib.WizardsFocus);
+			}
+			if (hasPerk(PerkLib.ChiReflowMagic)) mod += UmasShop.NEEDLEWORK_MAGIC_SPELL_MULTI;
+			if (jewelryEffectId == JewelryLib.MODIFIER_SPELL_POWER) mod += (jewelryEffectMagnitude / 100);
+			if (countCockSocks("blue") > 0) mod += (countCockSocks("blue") * .05);
+			if (hasPerk(PerkLib.AscensionMysticality)) mod *= 1 + (perkv1(PerkLib.AscensionMysticality) * 0.05);
+			return mod;
+		}
+		// returns OLD OP VAL
+		public static function applyOperator(old:Number, op:String, val:Number):Number {
+			switch(op) {
+				case "=":
+					return val;
+				case "+":
+					return old + val;
+				case "-":
+					return old - val;
+				case "*":
+					return old * val;
+				case "/":
+					return old / val;
+				default:
+					trace("applyOperator(" + old + ",'" + op + "'," + val + ") unknown op");
+					return old;
+			}
+		}
+		/**
+		 * Generate increments for stats
+		 *
+		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sens, lust, cor, scale
+		 * */
+		public static function parseDynStatsArgs(c:Creature, args:Array):Object {
+			// Check num of args, we should have a multiple of 2
+			if ((args.length % 2) != 0)
+			{
+				trace("dynStats aborted. Keys->Arguments could not be matched");
+				return {str:0,tou:0,spe:0,inte:0,lib:0,sens:0,lust:0,cor:0,scale:true};
+			}
+
+			var argNamesFull:Array 	= 	["strength", "toughness", "speed", "intellect", "libido", "sensitivity", "lust", "corruption", "scale"]; // In case somebody uses full arg names etc
+			var argNamesShort:Array = 	["str", 	"tou", 	"spe", 	"int", 	"lib", 	"sen", 	"lus", 	"cor", 	"res", 	"sca"]; // Arg names
+			var argVals:Array = 		[0, 		0,	 	0, 		0, 		0, 		0, 		0, 		0, 		true, ]; // Default arg values
+			var argOps:Array = 			["+",	"+",    "+",    "+",    "+",    "+",    "+",    "+",    "="];   // Default operators
+
+			for (var i:int = 0; i < args.length; i += 2)
+			{
+				if (typeof(args[i]) == "string")
+				{
+					// Make sure the next arg has the POSSIBILITY of being correct
+					if ((typeof(args[i + 1]) != "number") && (typeof(args[i + 1]) != "boolean"))
+					{
+						trace("dynStats aborted. Next argument after argName is invalid! arg is type " + typeof(args[i + 1]));
+						continue;
+					}
+
+					var argIndex:int = -1;
+
+					// Figure out which array to search
+					var argsi:String = (args[i] as String);
+					if (argsi == "lust") argsi = "lus";
+					if (argsi == "sens") argsi = "sen";
+					if (argsi == "inte") argsi = "int";
+					if (argsi == "resisted") argsi = "sca";
+					if (argsi == "res") argsi = "sca";
+					if (argsi.length <= 4) // Short
+					{
+						argIndex = argNamesShort.indexOf(argsi.slice(0, 3));
+						if (argsi.length == 4 && argIndex != -1) argOps[argIndex] = argsi.charAt(3);
+					}
+					else // Full
+					{
+						if ("+-*/=".indexOf(argsi.charAt(argsi.length - 1)) != -1) {
+							argIndex = argNamesFull.indexOf(argsi.slice(0, argsi.length - 1));
+							if (argIndex != -1) argOps[argIndex] = argsi.charAt(argsi.length - 1);
+						} else {
+							argIndex = argNamesFull.indexOf(argsi);
+						}
+					}
+
+					if (argIndex == -1) // Shit fucked up, welp
+					{
+						trace("Couldn't find the arg name " + argsi + " in the index arrays. Welp!");
+						continue;
+					}
+					else // Stuff the value into our "values" array
+					{
+						argVals[argIndex] = args[i + 1];
+					}
+				}
+				else
+				{
+					trace("dynStats aborted. Expected a key and got SHIT");
+					return {str:0,tou:0,spe:0,inte:0,lib:0,sen:0,lus:0,cor:0,scale:true};
+				}
+			}
+			// Got this far, we have values to statsify
+			var newStr:Number = applyOperator(c.str, argOps[0], argVals[0]);
+			var newTou:Number = applyOperator(c.tou, argOps[1], argVals[1]);
+			var newSpe:Number = applyOperator(c.spe, argOps[2], argVals[2]);
+			var newInte:Number = applyOperator(c.inte, argOps[3], argVals[3]);
+			var newLib:Number = applyOperator(c.lib, argOps[4], argVals[4]);
+			var newSens:Number = applyOperator(c.sens, argOps[5], argVals[5]);
+			var newLust:Number = applyOperator(c.lust, argOps[6], argVals[6]);
+			var newCor:Number = applyOperator(c.cor, argOps[7], argVals[7]);
+			// Because lots of checks and mods are made in the stats(), calculate deltas and pass them. However, this means that the '=' operator could be resisted
+			// In future (as I believe) stats() should be replaced with dynStats(), and checks and mods should be made here
+			return {
+				str     : newStr - c.str,
+				tou     : newTou - c.tou,
+				spe     : newSpe - c.spe,
+				inte    : newInte - c.inte,
+				lib     : newLib - c.lib,
+				sens    : newSens - c.sens,
+				lust    : newLust - c.lust,
+				cor     : newCor - c.cor,
+				scale   : argVals[8]
+			};
 		}
 	}
 }

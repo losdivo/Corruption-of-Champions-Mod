@@ -8,7 +8,8 @@
 package classes
 {
 	// BREAKING ALL THE RULES.
-	import classes.GlobalFlags.kFLAGS;
+import classes.CoC_Settings;
+import classes.GlobalFlags.kFLAGS;
 	import classes.display.SpriteDb;
 	import classes.internals.*;
 
@@ -432,6 +433,7 @@ the text from being too boring.
 			this.model = new GameModel();
 			try {
 				this.mainView = new MainView(/*this.model*/);
+				if (CoC_Settings.charviewEnabled) this.mainView.charView.reload();
 			} catch (e:Error) {
 				trace(e, e.getStackTrace());
 				return;
@@ -466,8 +468,8 @@ the text from being too boring.
 			 * Debug, Version, etc
 			 */
 			debug = false; //DEBUG, used all over the place
-			ver = "1.0.2_mod_1.4.8"; //Version NUMBER
-			version = ver + " (<b>COCKatrices ahoy</b>)"; //Version TEXT
+			ver = "1.0.2_mod_1.4.9"; //Version NUMBER
+			version = ver + " (<b>Bug Fixfest</b>)"; //Version TEXT
 
 			//Indicates if building for mobile?
 			mobile = false;
@@ -583,10 +585,6 @@ the text from being too boring.
 			registerClassAlias("Player", Player);
 			registerClassAlias("StatusEffectClass", StatusEffectClass);
 			registerClassAlias("VaginaClass", VaginaClass);
-			registerClassAlias("Neck", Neck);
-			registerClassAlias("Skin", Skin);
-			registerClassAlias("UnderBody", UnderBody);
-			//registerClassAlias("Enum", Enum);
 
 			//Hide sprites
 			mainView.hideSprite();

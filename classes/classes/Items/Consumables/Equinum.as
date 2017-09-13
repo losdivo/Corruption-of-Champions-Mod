@@ -161,6 +161,8 @@ package classes.Items.Consumables
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) === 0) {
 				mutations.updateOvipositionPerk(tfSource);
@@ -518,6 +520,7 @@ package classes.Items.Consumables
 				dynStats("lus", 3);
 			}
 			player.refillHunger(15);
+			game.flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 			return false;
 		}
 	}

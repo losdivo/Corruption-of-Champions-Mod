@@ -67,6 +67,8 @@ package classes.Items.Consumables
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) === 0) {
 				mutations.updateOvipositionPerk(tfSource);
@@ -113,10 +115,18 @@ package classes.Items.Consumables
 			//GENERAL APPEARANCE STUFF BELOW
 			//REMOVAL STUFF
 			//Removes wings!
-			if ((player.wingType === WING_TYPE_BEE_LIKE_SMALL || player.wingType === WING_TYPE_BEE_LIKE_LARGE || player.wingType >= WING_TYPE_HARPY) && changes < changeLimit && rand(4) === 0) {
-				if (player.wingType === WING_TYPE_SHARK_FIN) outputText("\n\nYour back tingles, feeling lighter.  Something lands behind you with a 'thump', and when you turn to look, you see your fin has fallen off.  This might be the best (and worst) booze you've ever had!  <b>You no longer have a fin!</b>");
-				else outputText("\n\nYour shoulders tingle, feeling lighter.  Something lands behind you with a 'thump', and when you turn to look you see your wings have fallen off.  This might be the best (and worst) booze you've ever had!  <b>You no longer have wings!</b>");
-				player.wingType = WING_TYPE_NONE;
+			if ((player.wingType != WING_TYPE_NONE) && changes < changeLimit && rand(4) === 0) {
+				if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nYour back tingles, feeling lighter.  Something lands behind you with a 'thump', and when you turn to look, you"
+					          +" see your fin has fallen off.  This might be the best (and worst) booze you've ever had!"
+					          +"  <b>You no longer have a fin!</b>");
+					player.rearBody.restore();
+				} else {
+					outputText("\n\nYour shoulders tingle, feeling lighter.  Something lands behind you with a 'thump', and when you turn to look you"
+					          +" see your wings have fallen off.  This might be the best (and worst) booze you've ever had!"
+					          +"  <b>You no longer have wings!</b>");
+				}
+				player.wings.restore();
 				changes++;
 			}
 			//Removes antennae!
@@ -217,7 +227,7 @@ package classes.Items.Consumables
 				if (rand(2) === 0) player.modTone(15, 5);
 			}
 			player.refillHunger(15);
-			
+			game.flags[kFLAGS.TIMES_TRANSFORMED] += changes;
 			return false;
 		}
 	}

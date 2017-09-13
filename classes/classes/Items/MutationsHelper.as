@@ -159,7 +159,7 @@ package classes.Items
 
 			switch (player.neck.type) {
 				case NECK_TYPE_DRACONIC:
-					if (tfSource == "EmberTFs" || (!forceRestore && player.dragonScore() >= 9))
+					if (tfSource == "EmberTFs" || (!forceRestore && player.dragonScore() >= 11))
 						return false;
 
 					outputText("\n\n<b>Your draconic neck[if (neckPos) and its position on your head revert|reverts] to its normal"
@@ -181,6 +181,48 @@ package classes.Items
 
 			if (!forceRestore) changes++;
 			player.neck.restore();
+			return true;
+		}
+
+		public function restoreRearBody(tfSource:String):Boolean
+		{
+			trace('called restoreRearBody("' + tfSource + '")');
+			var tsParts:Array = tfSource.split("-");
+			tfSource = tsParts[0];
+
+			var forceRestore:Boolean = tsParts.indexOf("forceRestoreRearBody") != -1;
+
+			switch (player.rearBody.type) {
+				case REAR_BODY_SHARK_FIN:
+					if (tfSource == "sharkTooth" || (!forceRestore && player.sharkScore() >= 3))
+						return false;
+
+					outputText("A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine."
+					          +" After a moment the pain passes, though your fin is gone!");
+					break;
+
+				case REAR_BODY_DRACONIC_MANE:
+				case REAR_BODY_DRACONIC_SPIKES:
+					if (tfSource == "EmberTFs" || (!forceRestore && player.dragonScore() >= 11))
+						return false;
+
+					if (player.rearBody.type == REAR_BODY_DRACONIC_MANE)
+						outputText("\n\nYou feel a tingling just above your spine. Your glimpse at your back and see hair falling down from it."
+						          +" First in strands, then in bigger and bigger chunks until"
+						          +" <b>your hairy draconic mane has completely disappeared.</b>");
+					else
+						outputText("\n\nYour spine starts to make painful cracking sounds and you feel something retracting back into your rear."
+						          +" Soon after the pain ceased the skin above your spine fuses and closes the holes where your spikes once were."
+						          +" <b>The spikes on your rear have disappeared.</b>");
+					break;
+
+				default:
+					player.rearBody.restore();
+					return false;
+			}
+
+			if (!forceRestore) changes++;
+			player.rearBody.restore();
 			return true;
 		}
 

@@ -549,9 +549,12 @@ package classes.Scenes.NPCs {
 			 	outputText("\n\n\"<i>Little bitch!</i>\"  The cowgirl snarls, standing up to her full impressive height.  \"<i>I will teach you not to try something like this again.</i>\"  Isabella grabs her shield and brandishes it prominently, ready to use it for defense and to bludgeon.");
 			}
 			//if (Jojo is in camp)
-			if (player.hasStatusEffect(StatusEffects.CampRathazul))
+			if (player.hasStatusEffect(StatusEffects.PureCampJojo))
 			{
-			 	outputText("\n\n\"<i>I wouldn’t have done that if I were you,</i>\" Jojo says, rising off the ground and retrieving his staff.  Falling into a combat pose, his face contorts into an almost uncharacteristic visage of anger directed at the woman before you.");
+				if (flags[kFLAGS.JOJO_BIMBO_STATE] >= 3)
+					outputText("\n\n\"<i>Like, I wouldn’t have done that if I were you,</i>\" Joy says, rising off the ground and retrieving her staff.  Falling into a combat but suggestive pose, her face contorts into an almost uncharacteristic visage of anger directed at the woman before you.");
+				else
+					outputText("\n\n\"<i>I wouldn’t have done that if I were you,</i>\" Jojo says, rising off the ground and retrieving his staff.  Falling into a combat pose, his face contorts into an almost uncharacteristic visage of anger directed at the woman before you.");
 			}
 			//if (Kiha is in camp)
 			if (followerKiha())
@@ -1352,7 +1355,7 @@ package classes.Scenes.NPCs {
 		flags[kFLAGS.MARBLE_PURIFIED] = 1;
 		player.changeStatusValue(StatusEffects.Marble,4,10);
 		getGame().inCombat = false;
-		player.clearStatuses(false);
+		player.clearStatuses();
 		//Marble's breast size is set to 0 (integer, 0=DD cups, 1=G cups, 2=HH, 3=J)
 		//advance time of day by 4 hours
 		//end event
@@ -1512,7 +1515,7 @@ package classes.Scenes.NPCs {
 			//Restore 30 fatigue
 			player.changeFatigue(-30);
 			//increase lust by 15
-			kGAMECLASS.stats(0,0,0,0,0,0,15,0,0);
+			dynStats("lus",15);
 			//increase Marble lust by 10
 			flags[kFLAGS.MARBLE_LUST] += 10;
 			flags[kFLAGS.MARBLE_TIME_SINCE_NURSED_IN_HOURS] = 0;

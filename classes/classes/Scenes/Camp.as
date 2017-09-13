@@ -1,4 +1,4 @@
-package classes.Scenes{
+﻿package classes.Scenes{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kACHIEVEMENTS;
@@ -106,6 +106,7 @@ private function doCamp():void { //Only called by playerMenu
 	//Update saves
 	if (flags[kFLAGS.ERLKING_CANE_OBTAINED] == 0 && player.hasKeyItem("Golden Antlers") >= 0) {
 		clearOutput();
+		outputText(images.showImage("item-gAntlers"));
 		outputText("Out of nowhere, a cane appears on your " + bedDesc() + ". It looks like it once belonged to the Erlking. Perhaps the cane has been introduced into the game and you've committed a revenge on the Erlking? Regardless, you take it anyway. ");
 		flags[kFLAGS.ERLKING_CANE_OBTAINED] = 1;
 		inventory.takeItem(weapons.HNTCANE, doCamp);
@@ -533,7 +534,8 @@ private function doCamp():void { //Only called by playerMenu
 	clearOutput();
 	updateAchievements();
 	
-	outputText(images.showImage("camping"));
+	if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0) outputText(images.showImage("camp-cabin"));
+	else outputText(images.showImage("camp-tent"));
 	//Isabella upgrades camp level!
 
 
@@ -662,13 +664,6 @@ private function doCamp():void { //Only called by playerMenu
 	
 	campSlavesMenu(true);
 
-	//Clear bee-status
-	if (player.hasStatusEffect(StatusEffects.ParalyzeVenom)) {
-		dynStats("str", player.statusEffectv1(StatusEffects.ParalyzeVenom),"spe", player.statusEffectv2(StatusEffects.ParalyzeVenom));
-		player.removeStatusEffect(StatusEffects.ParalyzeVenom);
-		outputText("<b>You feel quicker and stronger as the paralyzation venom in your veins wears off.</b>\n\n");
-	}
-	
 	//Hunger check!
 	if (flags[kFLAGS.HUNGER_ENABLED] > 0 && player.hunger < 25)
 	{
@@ -777,6 +772,7 @@ private function doCamp():void { //Only called by playerMenu
 	{
 		flags[kFLAGS.CAMP_CABIN_PROGRESS] = 1;
 		clearOutput();
+		outputText(images.showImage("camp-dream"));
 		outputText("You realize that you have spent two weeks sleeping in tent every night. You think of something so you can sleep nicely and comfortably. Perhaps a cabin will suffice?");
 		doNext(playerMenu);
 		return;
@@ -1342,6 +1338,7 @@ private function campActions():void {
 	hideMenus();
 	menu();
 	clearOutput();
+	outputText(images.showImage("camp-doings"));
 	outputText("What would you like to do?")
 	addButton(0, "SwimInStream", swimInStream, null, null, null, "Swim in stream and relax to pass time.", "Swim In Stream");
 	addButton(1, "ExaminePortal", examinePortal, null, null, null, "Examine the portal. This scene is placeholder.", "Examine Portal"); //Examine portal.
@@ -1379,6 +1376,9 @@ private function swimInStream():void {
 	outputText("You ponder over the nearby stream that's flowing. Deciding you'd like a dip, ");
 	if (player.armorName == "slutty swimwear") outputText("you are going to swim while wearing just your swimwear. ");
 	else outputText("you strip off your [armor] until you are completely naked. ");
+		if (player.gender == 3) outputText(images.showImage("camp-stream-herm"));
+		else if (player.gender == 2) outputText(images.showImage("camp-stream-female"));
+		else outputText(images.showImage("camp-stream-male"));
 	outputText("You step into the flowing waters. You shiver at first but you step in deeper. Incredibly, it's not too deep. ");
 	if (player.tallness < 60) outputText("Your feet aren't even touching the riverbed. ");
 	if (player.tallness >= 60 && player.tallness < 72) outputText("Your feet are touching the riverbed and your head is barely above the water. ");
@@ -1494,7 +1494,7 @@ private function swimInStreamFinish():void {
 	{
 		outputText("You feel a bit dirtier after swimming in the tainted waters. \n\n");
 		dynStats("cor", 0.5);
-		dynStats("lust", 15, "resisted", true);
+		dynStats("lust", 15, "scale", true);
 	}
 	outputText("Eventually, you swim back to the riverbank and dry yourself off");
 	if (player.armorName != "slutty swimwear") outputText(" before you re-dress yourself in your " + player.armorName);
@@ -1503,15 +1503,15 @@ private function swimInStreamFinish():void {
 }
 
 private function examinePortal():void {
+	clearOutput();
+	outputText(images.showImage("camp-portal"));
 	if (flags[kFLAGS.CAMP_PORTAL_PROGRESS] <= 0) {
-		clearOutput();
 		outputText("You walk over to the portal, reminded by how and why you came. You wonder if you can go back to Ingnam. You start by picking up a small pebble and throw it through the portal. It passes through the portal. As you walk around the portal, you spot the pebble at the other side. Seems like you can't get back right now.");
 		flags[kFLAGS.CAMP_PORTAL_PROGRESS] = 1;
 		doNext(camp.returnToCampUseOneHour);
 		return;
 	}
 	else {
-		clearOutput();
 		outputText("You walk over to the portal, reminded by how and why you came. You let out a sigh, knowing you can't return to Ingnam.");
 	}
 	doNext(playerMenu);
@@ -1528,17 +1528,17 @@ private function watchSunset():void {
 		if (player.cor < 33) 
 		{
 			outputText("A wave of nostalgia washes over you as you remember your greatest moments from your childhood.");
-			dynStats("cor", -1, "lib", -1, "lust", -30, "resisted", false);
+			dynStats("cor", -1, "lib", -1, "lust", -30, "scale", false);
 		}
 		if (player.cor >= 33 && player.cor < 66) 
 		{
 			outputText("A wave of nostalgia washes over you as you remember your greatest moments from your childhood. Suddenly, your memories are somewhat twisted from some of the perverted moments. You shake your head and just relax.");
-			dynStats("cor", -0.5, "lib", -1, "lust", -20, "resisted", false);
+			dynStats("cor", -0.5, "lib", -1, "lust", -20, "scale", false);
 		}
 		if (player.cor >= 66) 
 		{
 			outputText("A wave of nostalgia washes over you as you remember your greatest moments from your childhood. Suddenly, your memories twist into some of the dark and perverted moments. You chuckle at that moment but you shake your head and focus on relaxing.");
-			dynStats("cor", 0, "lib", -1, "lust", -10, "resisted", false);
+			dynStats("cor", 0, "lib", -1, "lust", -10, "scale", false);
 		}
 	}
 	//Greatest moments GO!
@@ -1547,17 +1547,17 @@ private function watchSunset():void {
 		if (player.cor < 33) 
 		{
 			outputText("You reflect back on your greatest adventures and how curiosity got the best of you. You remember some of the greatest places you discovered.");
-			dynStats("lust", -30, "resisted", false);
+			dynStats("lust", -30, "scale", false);
 		}
 		if (player.cor >= 33 && player.cor < 66) 
 		{
 			outputText("You reflect back on your greatest adventures. Of course, some of them involved fucking and getting fucked by the denizens of Mareth. You suddenly open your eyes from the memory and just relax, wondering why you thought of that in the first place.");
-			dynStats("lust", -20, "resisted", false);
+			dynStats("lust", -20, "scale", false);
 		}
 		if (player.cor >= 66) 
 		{
 			outputText("You reflect back on your greatest adventures. You chuckle at the moments you were dominating and the moments you were submitting. You suddenly open your eyes from the memory and just relax.");
-			dynStats("lust", -10, "resisted", false);
+			dynStats("lust", -10, "scale", false);
 		}
 	}
 	//Greatest moments GO!
@@ -1567,7 +1567,7 @@ private function watchSunset():void {
 		if (rand(2) == 0) outputText("do");
 		else outputText("accomplish");
 		outputText(" before you went through the portal. You felt a bit sad that you didn't get to achieve your old goals.");
-		dynStats("lust", -30, "resisted", false);
+		dynStats("lust", -30, "scale", false);
 
 	}
 	outputText("\n\nAfter the thought, you spend a good while relaxing and watching the sun setting. By now, the sun has already set below the horizon. The sky is glowing orange after the sunset. It looks like you could explore more for a while.")
@@ -1598,7 +1598,7 @@ private function watchStars():void {
 			outputText("\n\nSomehow, one of them spells out \"ERROR\". Maybe you should let Kitteh6660 know?");
 	}
 	outputText("\n\nYou let your mind wander and relax.");
-	dynStats("lus", -15, "resisted", false);
+	dynStats("lus", -15, "scale", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1677,6 +1677,7 @@ public function rest():void {
 	}
 	else {
 		clearOutput();
+		outputText(images.showImage("camp-resting"));
 		if (timeQ != 1) outputText("You continue to rest for " + num2Text(timeQ) + " more hours.\n");
 		else outputText("You continue to rest for another hour.\n");
 	}
@@ -1689,6 +1690,7 @@ public function rest():void {
 public function doWait():void {
 	campQ = true;
 	clearOutput();
+	outputText(images.showImage("camp-waiting"));
 	//Fatigue recovery
 	var fatRecovery:Number = 2;
 	if (player.findPerk(PerkLib.SpeedyRecovery) >= 0) fatRecovery *= 1.5;
@@ -1800,17 +1802,20 @@ public function doSleep(clrScreen:Boolean = true):void {
 		}
 		//Marble Sleepies
 		if (marbleScene.marbleAtCamp() && player.hasStatusEffect(StatusEffects.CampMarble) && flags[kFLAGS.SLEEP_WITH] == "Marble" && flags[kFLAGS.FOLLOWER_AT_FARM_MARBLE] == 0) {
+			outputText(images.showImage("camp-sleep-marble"));
 			if (marbleScene.marbleNightSleepFlavor()) {
 				sleepRecovery(false);
 				return;
 			}
 		}
 		else if (flags[kFLAGS.SLEEP_WITH] == "Arian" && arianScene.arianFollower()) {
+			outputText(images.showImage("camp-sleep-arian"));
 			arianScene.sleepWithArian();
 			return;
 		}
 		else if (flags[kFLAGS.SLEEP_WITH] == "Ember" && flags[kFLAGS.EMBER_AFFECTION] >= 75 && followerEmber()) {
 			if (flags[kFLAGS.TIMES_SLEPT_WITH_EMBER] > 3) {
+				outputText(images.showImage("camp-sleep-ember"));
 				outputText("You curl up next to Ember, planning to sleep for " + num2Text(timeQ) + " hour. Ember drapes one of " + emberScene.emberMF("his", "her") + " wing over you, keeping you warm. ");
 			}
 			else {
@@ -1824,6 +1829,7 @@ public function doSleep(clrScreen:Boolean = true):void {
 		}
 		else if (flags[kFLAGS.SLEEP_WITH] == "Sophie" && (bimboSophie() || sophieFollower()) && flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] == 0) {
 			//Night Time Snuggle Alerts!*
+			outputText(images.showImage("camp-sleep-sophie"));
 			//(1) 
 			if (rand(4) == 0) {
 				outputText("You curl up next to Sophie, planning to sleep for " + num2Text(timeQ) + " hour");
@@ -1852,6 +1858,7 @@ public function doSleep(clrScreen:Boolean = true):void {
 		}
 		else {
 			if (flags[kFLAGS.SLEEP_WITH] == "Helia" && kGAMECLASS.helScene.followerHel()) {
+				outputText(images.showImage("camp-sleep-helia"));
 				outputText("You curl up next to Helia, planning to sleep for " + num2Text(timeQ) + " ");
 			}
 			//Normal sleep message
@@ -1936,6 +1943,7 @@ public function sleepRecovery(display:Boolean = false):void {
 //Bad End if your balls are too big. Only happens in Realistic Mode.
 public function badEndGIANTBALLZ():void {
 	clearOutput();
+	outputText(images.showImage("badend-hBalls"));
 	outputText("You suddenly fall over due to your extremely large " + player.ballsDescriptLight() + ".  You struggle to get back up but the size made it impossible.  Panic spreads throughout your mind and your heart races.\n\n")
 	outputText("You know that you can't move and you're aware that you're going to eventually starve to death.")
 	menu();
@@ -1955,6 +1963,7 @@ public function badEndGIANTBALLZ():void {
 }
 private function applyReductoAndEscapeBadEnd():void {
 	clearOutput();
+	outputText(images.showImage("item-reducto"));
 	outputText("You smear the foul-smelling paste onto your " + player.sackDescript() + ".  It feels cool at first but rapidly warms to an uncomfortable level of heat.\n\n");
 	player.ballSize -= (4 + rand(6));
 	if (player.ballSize < 1) player.ballSize = 1;
@@ -1967,6 +1976,7 @@ private function applyReductoAndEscapeBadEnd():void {
 }
 private function callRathazulAndEscapeBadEnd():void {
 	clearOutput();
+	outputText(images.showImage("rathazul-himself"));
 	outputText("You shout as loud as you can to call Rathazul.  Your call is answered as the alchemist walks up to you.\n\n");
 	outputText("\"<i>My, my... Look at yourself! Don't worry, I can help, </i>\" he says.  He rushes to his alchemy equipment and mixes ingredients.  He returns to you with a Reducto.\n\n")
 	outputText("He rubs the paste all over your massive balls. It's incredibly effective. \n\n")
@@ -1982,6 +1992,7 @@ private function callRathazulAndEscapeBadEnd():void {
 //Bad End if you starved to death.
 public function badEndHunger():void {
 	clearOutput();
+	outputText(images.showImage("badend-starve"));
 	player.hunger = 0.1; //For Easy Mode/Debug Mode.
 	outputText("Too weak to be able to stand up, you collapse onto the ground. Your vision blurs as the world around you finally fades to black. ");
 	if (companionsCount() > 0) {
@@ -2000,6 +2011,7 @@ public function badEndHunger():void {
 //Bad End if you have 100 min lust.
 public function badEndMinLust():void {
 	clearOutput();
+	outputText(images.showImage("badend-masti"));
 	outputText("The thought of release overwhelms you. You frantically remove your " + player.armorName + " and begin masturbating furiously.  The first orgasm hits you but the desire persists.  You continue to masturbate but unfortunately, no matter how hard or how many times you orgasm, your desires will not go away.  Frustrated, you keep masturbating furiously but you are unable to stop.  Your minimum lust is too high.  No matter how hard you try, you cannot even satisfy your desires.");
 	outputText("\n\nYou spend the rest of your life masturbating, unable to stop.");
 	player.orgasm('Generic');
@@ -2009,6 +2021,7 @@ public function badEndMinLust():void {
 
 public function allNaturalSelfStimulationBeltContinuation():void {
 	clearOutput();
+	outputText(images.showImage("masti-stimBelt-allNatural"));
 	outputText("In shock, you scream as you realize the nodule has instantly grown into a massive, organic dildo. It bottoms out easily and rests against your cervix as you recover from the initial shock of its penetration. As the pangs subside, the infernal appendage begins working itself. It begins undulating in long, slow strokes. It takes great care to adjust itself to fit every curve of your womb. Overwhelmed, your body begins reacting against your conscious thought and slowly thrusts your pelvis in tune to the thing.\n\n");
 	outputText("As suddenly as it penetrated you, it shifts into a different phase of operation. It buries itself as deep as it can and begins short, rapid strokes. The toy hammers your insides faster than any man could ever hope to do. You orgasm immediately and produce successive climaxes. Your body loses what motor control it had and bucks and undulates wildly as the device pistons your cunt without end. You scream at the top of your lungs. Each yell calls to creation the depth of your pleasure and lust.\n\n");
 	outputText("The fiendish belt shifts again. It buries itself as deep as it can go and you feel pressure against the depths of your womanhood. You feel a hot fluid spray inside you. Reflexively, you shout, \"<b>IT'S CUMMING! IT'S CUMMING INSIDE ME!</b>\" Indeed, each push of the prodding member floods your box with juice. It cums... and cums... and cums... and cums...\n\n");
@@ -2022,6 +2035,7 @@ public function allNaturalSelfStimulationBeltContinuation():void {
 public function allNaturalSelfStimulationBeltBadEnd():void {
 	spriteSelect(SpriteDb.s_giacomo);
 	clearOutput();
+	outputText(images.showImage("badend-stimBelt"));
 	outputText("Whatever the belt is, whatever it does, it no longer matters to you.  The only thing you want is to feel the belt and its creature fuck the hell out of you, day and night.  You quickly don the creature again and it begins working its usual lustful magic on your insatiable little box.  An endless wave of orgasms take you.  All you now know is the endless bliss of an eternal orgasm.\n\n");
 	outputText("Your awareness hopelessly compromised by the belt and your pleasure, you fail to notice a familiar face approach your undulating form.  It is the very person who sold you this infernal toy.  The merchant, Giacomo.\n\n");
 	outputText("\"<i>Well, well,</i>\" Giacomo says.  \"<i>The Libertines are right.  The creature's fluids are addictive. This poor " + player.mf("man", "woman") + " is a total slave to the beast!</i>\"\n\n");
@@ -2078,6 +2092,7 @@ public function placesCount():int {
 public function places():Boolean {
 	hideMenus();
 	clearOutput();
+	outputText(images.showImage("camp-pathfinder"));
 	outputText("Which place would you like to visit?");
 	//if (flags[kFLAGS.PLACES_PAGE] != 0)
 	//{
@@ -2148,6 +2163,7 @@ private function exgartuanCampUpdate():void {
 		if (player.statusEffectv1(StatusEffects.Exgartuan) == 1 && (player.cockArea(0) < 100 || player.cocks.length == 0))
 		{
 			clearOutput();
+			outputText(images.showImage("camp-exgartuan-urine"));
 			outputText("<b>You suddenly feel the urge to urinate, and stop over by some bushes.  It takes wayyyy longer than normal, and once you've finished, you realize you're alone with yourself for the first time in a long time.");
 			if (player.hasCock()) outputText("  Perhaps you got too small for Exgartuan to handle?</b>\n");
 			else outputText("  It looks like the demon didn't want to stick around without your manhood.</b>\n");
@@ -2158,6 +2174,7 @@ private function exgartuanCampUpdate():void {
 		else if (player.statusEffectv1(StatusEffects.Exgartuan) == 2 && player.biggestTitSize() < 12)
 		{
 			clearOutput();
+			outputText(images.showImage("camp-exgartuan-milk"));
 			outputText("<b>Black milk dribbles from your " + player.nippleDescript(0) + ".  It immediately dissipates into the air, leaving you feeling alone.  It looks like you became too small for Exgartuan!\n</b>");
 			player.removeStatusEffect(StatusEffects.Exgartuan);
 		}		
@@ -2168,6 +2185,7 @@ private function exgartuanCampUpdate():void {
 //Wake up from a bad end.
 public function wakeFromBadEnd():void {
 	clearOutput();
+	outputText(images.showImage("camp-nightmare"));
 	trace("Escaping bad end!");
 	outputText("No, it can't be.  It's all just a dream!  You've got to wake up!");
 	outputText("\n\nYou wake up and scream.  You pull out a mirror and take a look at yourself.  Yep, you look normal again.  That was the craziest dream you ever had.");
@@ -2193,7 +2211,7 @@ public function wakeFromBadEnd():void {
 	inRoomedDungeon = false;
 	inRoomedDungeonResume = null;
 	if (getGame().inCombat) {
-		player.clearStatuses(false);
+		player.clearStatuses();
 		getGame().inCombat = false;
 	}
 	//Restore stats
@@ -2227,10 +2245,13 @@ private function buildCampWallPrompt():void {
 		return;
 	}
 	if (flags[kFLAGS.CAMP_WALL_PROGRESS] == 0) {
+		outputText(images.showImage("camp-wall-part0"));
 		outputText("A feeling of unrest grows within you as the population of your camp is growing. Maybe it's time you build a wall to secure the perimeter?\n\n");
 		flags[kFLAGS.CAMP_WALL_PROGRESS] = 1;
 	}
 	else {
+		if (flags[kFLAGS.CAMP_WALL_PROGRESS] <= 20) outputText(images.showImage("camp-wall-part1"));
+		else outputText(images.showImage("camp-wall-part2"));
 		outputText("You can continue work on building the wall that surrounds your camp.\n\n");
 		outputText("Segments complete: " + Math.floor(flags[kFLAGS.CAMP_WALL_PROGRESS] / 20) + "/5\n\n");
 	}
@@ -2265,6 +2286,7 @@ private function buildCampWall():void {
 	player.addKeyValue("Carpenter's Toolbox", 1, -50);
 	clearOutput();
 	if (flags[kFLAGS.CAMP_WALL_PROGRESS] == 1) {
+		outputText(images.showImage("item-carpentersBook"));
 		outputText("You pull out a book titled \"Carpenter's Guide\" and flip pages until you come across instructions on how to build a wall. You spend minutes looking at the instructions and memorize the procedures.");
 		flags[kFLAGS.CAMP_WALL_PROGRESS] = 20;
 	}
@@ -2299,6 +2321,7 @@ private function buildCampWall():void {
 		doNext(camp.returnToCampUseFourHours);
 	}
 	if (flags[kFLAGS.CAMP_WALL_PROGRESS] >= 100) {
+		outputText(images.showImage("camp-wall-part3"));
 		outputText("\n\n<b>Well done! You have finished the wall! You can build a gate and decorate wall with imp skulls to further deter whoever might try to come and rape you.</b>");
 		output.flush();
 	}
@@ -2344,6 +2367,7 @@ private function buildCampGate():void {
 	flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 100;
 	player.addKeyValue("Carpenter's Toolbox", 1, -100);
 	clearOutput();
+	outputText(images.showImage("camp-wall-part4"));
 	outputText("You pull out a book titled \"Carpenter's Guide\" and flip pages until you come across instructions on how to build a gate that can be opened and closed. You spend minutes looking at the instructions and memorize the procedures.");
 	flags[kFLAGS.CAMP_WALL_GATE] = 1;
 	outputText("\n\nYou take the wood from supplies, saw the wood and cut them into planks before nailing them together. ");
@@ -2366,6 +2390,7 @@ private function buildCampGate():void {
 
 private function promptHangImpSkull():void {
 	clearOutput();
+	outputText(images.showImage("item-impSkull"));
 	if (flags[kFLAGS.CAMP_WALL_SKULLS] >= 100) {
 		outputText("There is no room; you have already hung a total of 100 imp skulls! No imp shall dare approaching you at night!");
 		doNext(doCamp);
@@ -2466,6 +2491,7 @@ private function ascendForReal():void {
 	player.knockUpForce(); //Clear pregnancy
 	//Scene GO!
 	clearOutput();
+	outputText(images.showImage("camp-ascending"));
 	outputText("It's time for you to ascend. You walk to the center of the camp, announce that you're going to ascend to a higher plane of existence, and lay down. ");
 	if (companionsCount() == 1) outputText("\n\nYour fellow companion comes to witness.");
 	else if (companionsCount() > 1) outputText("\n\nYour fellow companions come to witness.");
@@ -2979,9 +3005,9 @@ private function updateAchievements():void {
 	if (flags[kFLAGS.KATHERINE_UNLOCKED] > 0 && flags[kFLAGS.KATHERINE_DICK_COUNT] <= 0) NPCsDedicked++;
 	if (flags[kFLAGS.MET_KITSUNES] > 0 && flags[kFLAGS.redheadIsFuta] == 0) NPCsDedicked++;
 	if (flags[kFLAGS.KELT_BREAK_LEVEL] == 4) NPCsDedicked++;
+	if (flags[kFLAGS.CAMP_WALL_STATUES] >= 100) awardAchievement("Terracotta Impy", kACHIEVEMENTS.GENERAL_TERRACOTTA_IMPY);
 	if (NPCsDedicked >= 3) awardAchievement("Dick Banisher", kACHIEVEMENTS.GENERAL_DICK_BANISHER);
 	if (NPCsDedicked >= 7) awardAchievement("You Bastard", kACHIEVEMENTS.GENERAL_YOU_BASTARD); //Take that, dedickers!
-	if (flags[kFLAGS.CAMP_WALL_STATUES] >= 100) awardAchievement("Terracotta Impy", kACHIEVEMENTS.GENERAL_TERRACOTTA_IMPY);
 }
 
 /*

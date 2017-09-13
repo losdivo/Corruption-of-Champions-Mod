@@ -60,6 +60,8 @@ package classes.Items.Consumables
 			//Restore neck
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(5) == 0)
 				mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//-Skin color change – light, fair, olive, dark, ebony, mahogany, russet
 			if ((player.skinTone !== "light" && player.skinTone !== "fair" && player.skinTone !== "olive" && player.skinTone !== "dark" && player.skinTone !== "ebony" && player.skinTone !== "mahogany" && player.skinTone !== "russet") && changes < changeLimit && rand(5) === 0) {
 				changes++;
@@ -172,9 +174,15 @@ package classes.Items.Consumables
 				changes++;
 			}
 			//Removes wings
-			if (player.wingType !== WING_TYPE_NONE && rand(5) === 0 && changes < changeLimit) {
-				if (player.wingType === WING_TYPE_SHARK_FIN) outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine.  After a moment the pain passes, though your fin is gone!");
-				else outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades.  After a moment the pain passes, though your wings are gone!");
+			if ((player.wingType !== WING_TYPE_NONE || player.rearBody.type == REAR_BODY_SHARK_FIN) && rand(5) === 0 && changes < changeLimit) {
+				if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine."
+					          +" After a moment the pain passes, though your fin is gone!");
+					player.rearBody.restore();
+				} else {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your"
+					          +" shoulder-blades.  After a moment the pain passes, though your wings are gone!");
+				}
 				player.wingType = WING_TYPE_NONE;
 				changes++;
 			}

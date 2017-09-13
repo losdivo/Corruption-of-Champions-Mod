@@ -346,7 +346,7 @@ package classes.Scenes.Places.Bazaar
 					outputText("\n\nThe songbird's dirty blond wings spread, each flap sending an undulation through her soft tits and enticing ass as she takes to the air, wings beating hard as she hovers in place while spinning around. The place explodes into applause and wolf whistles as the Anita shows that those sexy wings aren't just for show.");
 					outputText("\n\n\"<i>She'll be squirtin' like a fountain when she cuuuums \nShe'll be squirtin' like a fountain when she cuuuums \nShe'll be squirtin' like a fountain \nShe'll be squirtin' like a fountain \nShe'll be squirtin' like a fountain when she cuuuuuuuuuuuuuuuuuuuuuums.</i>\"");
 					outputText("\n\nExplosive applause rips through the tent and you find yourself clapping and hollering along with the crowd. Despite the repetitive, simplistic nature of the song you have to admit you enjoyed yourself. As the applause dies down you realize that you feel a little riled up now.");
-					dynStats("lus", 10, "resisted", false);
+					dynStats("lus", 10, "scale", false);
 					dynStats("lus", (player.lib / 5) + (player.cor / 10));
 					break;
 				case 1: //Rockin Robin
@@ -361,7 +361,7 @@ package classes.Scenes.Places.Bazaar
 					outputText("\n\nShe rocks in the tree tops all night long \npurty lips wrapped around daddy's big schlong \nAll the little birdies on JayBird street \nLove that lil robin ‘cause she tastes so sweet");
 					outputText("\n\nRockin Robin, tweet tweet tweetleelee \nRockin Robin, tweet tweet tweetleelee \nWith that rockin robin you know ya really gonna rock tonight</i>\"");
 					outputText("\n\nExplosive applause rips through the tent and you find yourself clapping and hollering along with the crowd. Despite the repetitive, simplistic nature of the song you have to admit you enjoyed yourself. As the applause dies down you realize that you feel a little riled up now.");
-					dynStats("lus", 10, "resisted", false);
+					dynStats("lus", 10, "scale", false);
 					dynStats("lus", (player.lib / 5) + (player.cor / 10));
 					break;
 				default:
@@ -618,7 +618,7 @@ package classes.Scenes.Places.Bazaar
 			else {
 				outputText("You hold your hand out for the pipe. Andy scoots closer to you and passes it, leaning back against the barrels. As you take your hit the warm happy heat blooms in your [fullChest] and you hand the pipe back with a giant smile.");
 			}
-			dynStats("lus", 10, "resisted", false);
+			dynStats("lus", 10, "scale", false);
 			dynStats("lus", 10 + (player.lib / 5) + (player.cor / 10));
 			switch(rand(2)) {
 				case 0:
@@ -662,7 +662,7 @@ package classes.Scenes.Places.Bazaar
 			outputText("\n\nThis makes you laugh again. Suddenly everything is funny and the world is beautiful beyond words. Every star in the sky seems to be vying for your attention. Every blade of grass seems to dance beneath your [feet]. You don't feel like a stranger invading some strange land. You don't feel anything but joy for being here in this alien world with a lung full of happy smoke and this friendly satyr sitting next to you.");
 			outputText("\n\n\"<i>In my defense,</i>\" Andy says as he takes the pipe, \"<i>When I wear pants everyone calls me George and I love my dad but I don't like that shit. I'm Andy damnit, Andy fucking Mathis</i>\"");
 			outputText("\n\nYou can't help the guffaws of laughter erupting from your face. The two of you continue to smoke, chat and laugh until the happiness inducing drug is gone. Once the two of you have finished Andy says something about getting back to work and you find yourself feeling a little hungry.");
-			dynStats("lus", 10, "resisted", false);
+			dynStats("lus", 10, "scale", false);
 			dynStats("lus", 10 + (player.lib / 5) + (player.cor / 10));
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -742,7 +742,7 @@ package classes.Scenes.Places.Bazaar
 			}
 			outputText("\n\n\"<i>Asses are nice too. I like knowing how people react to having my tongue pressed against their rear door. It's one of those little pleasures people don't expect to like. There's something about having a nice hot ass grinding into my lips, bouncing on my tongue. Eating ass is an art my dad used to say. It's something that can be easily done with just a swirl of the tongue but only a master can bring someone to orgasm with just a rimjob. I used to practice on this tiger guy somewhere around here. He was pretty rough, shoving and pushing against my tongue. He would talk shit and curse and complain… but he loved it. We only stopped when he started playing poker with these other guys; he's a bit of a bitch nowadays. He doesn't let anyone near those gorgeous globes from what I hear. It's a pity too, that was one nice ass.</i>\"");
 			outputText("\n\nHe looks up at you expectantly and you have to admit you got a little horny listening to his stories and his past. What do you want him to do now?");
-			dynStats("lus", 20, "resisted", false);
+			dynStats("lus", 20, "scale", false);
 			menu();
 			if (player.hasCock()) addButton(0, "Suck my Cock", haveAndySuckYouOff, null, null, null, "Have Andy suck you off.");
 			else addButtonDisabled(0, "Suck my Cock", "You'll need a cock to have Andy do this.");
@@ -1461,6 +1461,8 @@ package classes.Scenes.Places.Bazaar
 			//Transformations
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
 
@@ -1584,6 +1586,8 @@ package classes.Scenes.Places.Bazaar
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk loss
 			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
 			// Special TFs
@@ -1602,10 +1606,16 @@ package classes.Scenes.Places.Bazaar
 			// Normal TFs
 			//------------
 			//Removes wings
-			if (rand(4) == 0 && changes < changeLimit && player.wingType > WING_TYPE_NONE) {
-				if (player.wingType == WING_TYPE_SHARK_FIN) outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine. After a moment the pain passes, though your fin is gone!");
-				else outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your shoulder-blades. After a moment the pain passes, though your wings are gone!");
-				player.wingType = WING_TYPE_NONE;
+			if (rand(4) == 0 && changes < changeLimit && (player.wingType != WING_TYPE_NONE || player.rearBody.type == REAR_BODY_SHARK_FIN)) {
+				if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine."
+					          +" After a moment the pain passes, though your fin is gone!");
+					player.rearBody.restore();
+				} else {
+					outputText("\n\nA wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into each of your"
+					          +" shoulder-blades. After a moment the pain passes, though your wings are gone!");
+				}
+				player.wings.restore();
 				changes++;
 			}
 			//Fur/scales fall out
@@ -1739,7 +1749,7 @@ package classes.Scenes.Places.Bazaar
 				outputText("\n\nYou begin to feel an annoying tingling sensation at the edge of your nose, above your field of vision. Reaching up you feel the sharp edge of a curved horn growing out the edge of your face. The itchy tingle continues as you feel both of your horns become sharp and tall. You estimate your older horn to be a mere seven inches and your new horn to be around a foot long. They’ll be useful natural weapons.");
 				outputText("\n<b>(Gained physical special: Upheaval! Any time you lose your rhino face or horns, you will lose this ability.)</b>");
 				player.horns = 2;
-				player.tailType = HORNS_RHINO;
+				player.hornType = HORNS_RHINO;
 				changes++;
 			}
 			// Other Changes
@@ -2068,6 +2078,8 @@ package classes.Scenes.Places.Bazaar
 			}
 			//Neck restore
 			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
 			//Ovi perk gain
 			if (rand(4) == 0 && changes < changeLimit && player.echidnaScore() >= 3 && player.hasVagina() && player.findPerk(PerkLib.Oviposition) < 0) {
 				mutations.updateOvipositionPerk(tfSource);

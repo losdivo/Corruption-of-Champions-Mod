@@ -1144,7 +1144,7 @@ package classes.Scenes
 							//genderless: 
 							else outputText("  Your [vagina] begins twitching, aching for something to push through it over and over again.");
 							outputText("  Seated in your own slime, you moan softly, unable to keep your hands off yourself.");
-							dynStats("lus=", player.maxLust(), "resisted", false);
+							dynStats("lus=", player.maxLust(), "scale", false);
 							displayedUpdate = true;
 						}
 						else {
@@ -1259,7 +1259,7 @@ package classes.Scenes
 						//genderless: 
 						else outputText("  Your asshole begins twitching, aching for something to push through it over and over again.");
 						outputText("  Seated in your own slime, you moan softly, unable to keep your hands off yourself.");
-						dynStats("lus=", player.maxLust(), "resisted", false);
+						dynStats("lus=", player.maxLust(), "scale", false);
 						displayedUpdate = true;
 					}
 				}
@@ -2033,7 +2033,7 @@ package classes.Scenes
 							outputText("You are interrupted as you find yourself overtaken by an uncontrollable urge to undress and squat.   You berate yourself for giving in to the urge for a moment before feeling something shift.  You hear the splash of fluid on the ground and look down to see a thick greenish fluid puddling underneath you.  There is no time to ponder this development as a rounded object passes down your birth canal, spreading your feminine lips apart and forcing a blush to your cheeks.  It plops into the puddle with a splash, and you find yourself feeling visibly delighted to be laying such healthy eggs.   Another egg works its way down and you realize the process is turning you on more and more.   In total you lay ");
 							outputText(eggDescript()); 
 							outputText(", driving yourself to the very edge of orgasm.");
-							dynStats("lus=", player.maxLust(), "resisted", false);
+							dynStats("lus=", player.maxLust(), "scale", false);
 						}
 						//High quantity
 						else {
@@ -2043,7 +2043,7 @@ package classes.Scenes
 							if (player.getClitLength() <= 2) outputText("pulling your folds wide and playing with your clit as another egg pops free from your diminishing belly.  You make wet 'schlick'ing sounds as you spread the slime around, vigorously frigging yourself until "); 
 							outputText("you quiver in orgasm, popping out the last of your eggs as your body twitches nervelessly on the ground.   In total you lay " + eggDescript() + ".");
 							player.orgasm('Vaginal');
-							dynStats("resisted", false);
+							dynStats("scale", false);
 						}
 					}
 					//Large egg scene
@@ -2060,7 +2060,7 @@ package classes.Scenes
 						if (player.statusEffectv3(StatusEffects.Eggs) >= 11) outputText("Your swollen belly doesn't seem to be done with you, as yet another egg pushes its way to freedom.   The stimulation so soon after orgasm pushes you into a pleasure-stupor.  If anyone or anything discovered you now, they would see you collapsed next to a pile of eggs, your fingers tracing the outline of your " + player.vaginaDescript(0) + " as more and more eggs pop free.  In time your wits return, leaving you with the realization that you are no longer pregnant.  ");
 						outputText("\n\nYou gaze down at the mess, counting " + eggDescript() + ".");
 						player.orgasm('Vaginal');
-						dynStats("resisted", false);
+						dynStats("scale", false);
 					}
 					outputText("\n\n<b>You feel compelled to leave the eggs behind, ");
 					if (player.hasStatusEffect(StatusEffects.AteEgg)) outputText("but you remember the effects of the last one you ate.\n</b>");

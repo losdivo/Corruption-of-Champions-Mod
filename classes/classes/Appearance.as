@@ -2045,6 +2045,11 @@ package classes
 			return description;
 		}
 
+		public static function rearBodyDescript(i_creature:Creature):String
+		{
+			return DEFAULT_REAR_BODY_NAMES[i_creature.rearBody.type];
+		}
+
 		public static function neckDescript(i_creature:Creature):String
 		{
 			return DEFAULT_NECK_NAMES[i_creature.neck.type] + " neck";
@@ -2355,6 +2360,14 @@ package classes
 					[TAIL_TYPE_COCKATRICE, "cockatrice"],
 				]
 		);
+		public static const DEFAULT_REAR_BODY_NAMES:Object = createMapFromPairs(
+				[
+					[REAR_BODY_NONE, "none"],
+					[REAR_BODY_DRACONIC_MANE, "draconic hairy mane"],
+					[REAR_BODY_DRACONIC_SPIKES, "draconic spiky mane"],
+					[REAR_BODY_SHARK_FIN, "shark fin"],
+				]
+		);
 		public static const DEFAULT_NECK_NAMES:Object = createMapFromPairs(
 				[
 					[NECK_TYPE_NORMAL, "normal"],
@@ -2372,7 +2385,6 @@ package classes
 					[WING_TYPE_IMP_LARGE, "large imp"],
 					[WING_TYPE_BAT_LIKE_TINY, "tiny bat-like"],
 					[WING_TYPE_BAT_LIKE_LARGE, "large bat-like"],
-					[WING_TYPE_SHARK_FIN, "shark fin"],
 					[WING_TYPE_FEATHERED_LARGE, "large feathered"],
 					[WING_TYPE_DRACONIC_SMALL, "small draconic"],
 					[WING_TYPE_DRACONIC_LARGE, "large draconic"],
@@ -2389,7 +2401,6 @@ package classes
 					[WING_TYPE_IMP_LARGE, "large"],
 					[WING_TYPE_BAT_LIKE_TINY, "tiny, bat-like"],
 					[WING_TYPE_BAT_LIKE_LARGE, "large, bat-like"],
-					[WING_TYPE_SHARK_FIN, ""],
 					[WING_TYPE_FEATHERED_LARGE, "large, feathered"],
 					[WING_TYPE_DRACONIC_SMALL, "small, draconic"],
 					[WING_TYPE_DRACONIC_LARGE, "large, draconic"],
