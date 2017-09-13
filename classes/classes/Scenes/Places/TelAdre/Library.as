@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Places.TelAdre{
+package classes.Scenes.Places.TelAdre{
 	import classes.*;
 	import classes.GlobalFlags.kFLAGS;
 	import classes.Items.WeaponLib;
@@ -33,7 +33,7 @@ public function visitZeMagesTower():void {
 //(first visit)
 private function firstTowerVisit():void {
 	clearOutput();
-	outputText("You make your way to the largest fixture of the city, the impressive tower in the center.  The large spire could easily hold everyone you know ten times over and still have room to spare.  It is far too large for a city with Tel'adre's population – but then, you reflect, so is Tel'adre itself.");
+	outputText("You make your way to the largest fixture of the city, the impressive tower in the center.  The large spire could easily hold everyone you know ten times over and still have room to spare.  It is far too large for a city with Tel'Adre's population – but then, you reflect, so is Tel'Adre itself.");
 	
 	outputText("\n\nThe front entryway appears to be fairly heavily guarded, and the two elites at the entryway turn you aside, directing you towards a different entrance - a public library.  Following the directions, you quickly come upon a different face of the tower.  You might have expected some epic pair of double doors, ten times your height, barely opening with a dramatic creak as you push them out of your way.  Instead you see a polite little entryway with hinges so well maintained they shine.  No frowning gargoyle door knockers, simply a small knob and a keyhole, as though it was someone's apartment.");
 	
@@ -120,38 +120,38 @@ private function studyInTA():void {
 			dynStats("int", 3+rand(4));
 			//(Intelligence increase)
 			//Smart enough for arouse and doesnt have it
-			if (player.inte >= 25 && player.findStatusEffect(StatusEffects.KnowsArouse) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>", false);
+			if (player.inte >= 25 && !player.hasStatusEffect(StatusEffects.KnowsArouse)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>");
 				player.createStatusEffect(StatusEffects.KnowsArouse,0,0,0,0);
 			}
 			//Smart enough for arouse and doesnt have it
-			else if (player.inte >= 30 && player.findStatusEffect(StatusEffects.KnowsHeal) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>", false);
+			else if (player.inte >= 30 && !player.hasStatusEffect(StatusEffects.KnowsHeal)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>");
 				player.createStatusEffect(StatusEffects.KnowsHeal,0,0,0,0);
 			}
 			//Smart enough for arouse and doesnt have it
-			else if (player.inte >= 40 && player.findStatusEffect(StatusEffects.KnowsMight) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>", false);
+			else if (player.inte >= 40 && !player.hasStatusEffect(StatusEffects.KnowsMight)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>");
 				player.createStatusEffect(StatusEffects.KnowsMight,0,0,0,0);
 			}
 			//Smart enough for arouse and doesnt have it
-			else if (player.inte >= 25 && player.findStatusEffect(StatusEffects.KnowsCharge) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>", false);
+			else if (player.inte >= 25 && !player.hasStatusEffect(StatusEffects.KnowsCharge)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>");
 				player.createStatusEffect(StatusEffects.KnowsCharge,0,0,0,0);
 			}
 			//Smart enough for arouse and doesnt have it
-			else if (player.inte >= 30 && player.findStatusEffect(StatusEffects.KnowsBlind) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>", false);
+			else if (player.inte >= 30 && !player.hasStatusEffect(StatusEffects.KnowsBlind)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>");
 				player.createStatusEffect(StatusEffects.KnowsBlind,0,0,0,0);
 			}
 			//Smart enough for arouse and doesnt have it
-			else if (player.inte >= 40 && player.findStatusEffect(StatusEffects.KnowsWhitefire) < 0) {
-				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>", false);
+			else if (player.inte >= 40 && !player.hasStatusEffect(StatusEffects.KnowsWhitefire)) {
+				outputText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>");
 				player.createStatusEffect(StatusEffects.KnowsWhitefire,0,0,0,0);
 			}
 		}
 		//OR (player is bimbo/bimbro/whatever) 
-		else if ((player.lib > 75 || player.cor > 75 || player.findPerk(PerkLib.BimboBrains) >= 0 || player.findPerk(PerkLib.FutaFaculties) >= 0 || player.findPerk(PerkLib.BroBrains) >= 0) && rand(2) == 0) outputText("\n\nYou pick up a book from a table randomly and open it up.  Incredibly disappointed, you soon realize that there are no pictures of people fucking at all.  Reading sucks.  You eventually toss the book aside and resolve to go do something more fun.");
+		else if ((player.lib > 75 || player.cor > (75 + player.corruptionTolerance()) || player.findPerk(PerkLib.BimboBrains) >= 0 || player.findPerk(PerkLib.FutaFaculties) >= 0 || player.findPerk(PerkLib.BroBrains) >= 0) && rand(2) == 0) outputText("\n\nYou pick up a book from a table randomly and open it up.  Incredibly disappointed, you soon realize that there are no pictures of people fucking at all.  Reading sucks.  You eventually toss the book aside and resolve to go do something more fun.");
 		//OR (history) 
 		else outputText("\n\nSelecting a book randomly from the scattered tomes, you find a historical text documenting life in Mareth.  It's dreadfully dull, and though you do your best to learn what you can the dry work is putting you to sleep.  Eventually you close the book and accept that you're not going to be learning anything tonight.");
 		menu();
@@ -185,7 +185,7 @@ private function talkToMali():void {
 		outputText("\n\nIt takes a few moments for anything to respond, but eventually the knob turns and the door opens. Behind it a harried but smiling Mali stands, raising her eyebrows curiously.  \"<i>Yes?</i>\" she asks, \"<i>What is it, Quinn?</i>\"");
 		outputText("\n\n\"<i>You have a visitor, dear,</i>\" Quinn says, gesturing to you.  \"<i>Please do remember that you have a shift later and it would be unwise to tire yourself out.</i>\"");
 		
-		outputText("\n\nMali closes her eyes for a moment and breathes in, but she's still smiling when she opens them.  \"<i>I will Quinn, thank you.</i>\"  She turns to you and steps out of the doorway.  \"<i>Please then, come in.</i>\"  As soon as you're out of the way she closes the door, walking briskly back to her desk.  Mali's room is cluttered with items whose nature is unclear to you, alien in their design and intent.  They seem magical, which if you think about it makes a hell of a lot of sense, given her job.  \"<i>It's [name], yes?</i>\" she smiles.  \"<i>It's been a little bit since we talked, I'm glad to see you showed up.</i>\"  The sorceress adjusts the moss scarf over her chest, sitting upright and folding her hands together.  \"<i>Let me formally introduce myself.  I am Inquisitor Asa Mali, officiator of security in Tel'adre.  I work closely with the city guard and serve as arbiter when determining punishment for crimes in the city.  In addition I work personally to resolve situations that may arise in which the city guard is for whatever reason not capable of contributing normally.</i>\"");
+		outputText("\n\nMali closes her eyes for a moment and breathes in, but she's still smiling when she opens them.  \"<i>I will Quinn, thank you.</i>\"  She turns to you and steps out of the doorway.  \"<i>Please then, come in.</i>\"  As soon as you're out of the way she closes the door, walking briskly back to her desk.  Mali's room is cluttered with items whose nature is unclear to you, alien in their design and intent.  They seem magical, which if you think about it makes a hell of a lot of sense, given her job.  \"<i>It's [name], yes?</i>\" she smiles.  \"<i>It's been a little bit since we talked, I'm glad to see you showed up.</i>\"  The sorceress adjusts the moss scarf over her chest, sitting upright and folding her hands together.  \"<i>Let me formally introduce myself.  I am Inquisitor Asa Mali, officiator of security in Tel'Adre.  I work closely with the city guard and serve as arbiter when determining punishment for crimes in the city.  In addition I work personally to resolve situations that may arise in which the city guard is for whatever reason not capable of contributing normally.</i>\"");
 		
 		outputText("\n\nShe leans back, rubbing her split lips together for a moment in thought.  \"<i>I approached you about one such situation earlier,</i>\" she continues.  \"<i>The cabalist Dominika.  Typically I would not be investing in the aid of citizens to resolve this matter, but I am afraid I initially misjudged what would be required for the case.  This sorceress is...</i>\" Mali glances away for a moment, thinking of the words.  Her hand idly moves down to a key on her desk, rolling it between her fingers.  \"<i>Clever,</i>\" she finally settled on, \"<i>More than I initially gave her credit for, at least.  I'm not entirely sure of her intentions, but I do not believe they will serve the city well.</i>\"");
 		

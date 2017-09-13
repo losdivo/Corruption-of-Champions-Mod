@@ -4,9 +4,15 @@
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Items.Armor;
 	import classes.Scenes.Areas.Lake.GooGirl;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class Valeria extends NPCAwareContent implements TimeAwareInterface {
 
+		public static const GOOSTUFFED_EFFECT_MIN_DURATION:int = 10;
+		public static const GOOSTUFFED_EFFECT_MAX_DURATION_DELTA:int = 300;
+		public static const GOOSTUFFED_PREGNANCY_DURATION:int = int.MAX_VALUE;
+		
 		public function Valeria()
 		{
 			CoC.timeAwareClassAdd(this);
@@ -40,7 +46,7 @@
 
 //Camp Menu -- [Followers] -- [Valeria]
 public function valeriaFollower():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText("You walk over to Valeria.  Seeing you approach, the armor-goo turns a slightly brighter shade of blue beneath her plates and grins.");
 	outputText("\n\n\"<i>Hey there, partner! Need anything while we're safe at camp?</i>\"");
@@ -62,7 +68,7 @@ public function feedValeria(amnt:Number):void {
 //[Valeria] -- [Appearance]
 private function valeriaAppearance():void {
 	clearOutput();
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	outputText(images.showImage("monster-gooarmor"));
 	outputText("Valeria is a 6 foot tall goo-girl composed of a viscous blue goop.  She is currently wearing a suit of plated armor, and wields her gooey greatsword as a weapon.  She has a beautiful feminine face with strong, angular features, and has affected short-cropped gooey hair, hanging just past her cheeks.  Her hips are average, with a muscular, gropable bum.  Unlike most goos, Valeria has formed two normal human legs ending in normal human feet out of her gooey lower body.");
 	outputText("\n\nShe has a pair of C-cup breasts, with a single 0.5 inch nipple on each breast.");
@@ -75,7 +81,7 @@ private function valeriaAppearance():void {
 //Valeria] -- [Spar]
 private function valeriaSpar():void {
 	clearOutput();
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	outputText("You ask Valeria if she would be up for a bit of battle practice.");
 	outputText("\n\n\"<i>Hey, that'd be great, partner. Gotta keep our skills sharp if we wanna have a chance against the demons, after all! Let's do it.</i>\"");
 	outputText("\n\nYou take Valeria out to the fringe of camp and ready your [weapon] as she forms a gooey greatsword in her hands.");
@@ -89,7 +95,7 @@ private function valeriaSpar():void {
 //[Valeria] -- [Spar] -- PC Victorious
 internal function pcWinsValeriaSpar():void {
 	clearOutput();
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	outputText("\"<i>Oof!</i>\" Valeria grunts, nearly losing her human shape as she tumbles to the hard-packed dirt.  \"<i>All right, all right, you win!  Take it easy, partner,</i>\" she laughs, letting her greatsword dissipate back into her body.");
 	outputText("\n\nYou offer to help her up, but she easily reconstitutes herself into a standing pose, giving you a little wink afterwards.  \"<i>Thanks for the ass-whoopin', [name],</i>\" she laughs.  \"<i>C'mon, let's get back to it.  Demons aren't gonna defeat themselves, after all.</i>\"");
 	combat.cleanupAfterCombat();
@@ -98,7 +104,7 @@ internal function pcWinsValeriaSpar():void {
 //[Valeria] -- [Spar] -- PC Defeated
 public function pcWinsValeriaSparDefeat(offCamp:Boolean = false):void {
 	clearOutput();
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	if (!offCamp) {
 		outputText("You collapse, ");
 		if (player.HP < 1) outputText("in too much pain");
@@ -125,7 +131,7 @@ public function pcWinsValeriaSparDefeat(offCamp:Boolean = false):void {
 
 //Followers -- [Valeria] -- [Sex]
 private function followersValeriaSex(display:Boolean = true):void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	if (display) {
 		clearOutput();
 		outputText("With a lusty grin, you ask your gooey friend if ");
@@ -134,19 +140,6 @@ private function followersValeriaSex(display:Boolean = true):void {
 		outputText(".");
 		outputText("\n\n\"<i>Hmm... I suppose that could be arranged. What did you have in mind, partner?</i>\"");
 	}
-	//(Display Options: \"<i>[Penetrate Her](Cockwielder PC Only)  [Get Fucked]  [Gooflation] 
-	//[Get Dominated](Must have a gender)  [Dick/No Dick])
-	/*var penetrate:Function = null;
-	if (player.hasCock()) penetrate = penetrateValeria;
-	var getFucked:Function = valeriaGetFucked;
-	var gooFlation:Function = gooFlation;
-	var dominated:Function = null;
-	if (player.gender > 0) dominated = valeriaSexDominated;
-	var dickToggle:Function = valeriaDickToggle;
-	var dickText:String = "Grow Dick";
-	if (flags[kFLAGS.VELARIA_FUTA] == 1) {
-		dickText = "Lose Dick";
-	}*/
 	menu();
 	if (player.hasCock()) addButton(0, "PenetrateHer", penetrateValeria, null, null, null, "Fuck the goo girl with your penis!");
 	addButton(1, "Get Fucked", valeriaGetFucked, null, null, null, player.hasVagina() ? "Have her penetrate you vaginally.": "Have her penetrate you anally.");
@@ -154,13 +147,12 @@ private function followersValeriaSex(display:Boolean = true):void {
 	if (player.gender > 0) addButton(3, "GetDominated", valeriaSexDominated, null, null, null, "Submit to the armor-goo and have her take charge.");
 	if (flags[kFLAGS.VELARIA_FUTA] == 1) addButton(4, "Lose Dick", valeriaDickToggle, null, null, null, "Ask her to hide that gooey cock of hers.");
 	else addButton(4, "Grow Dick", valeriaDickToggle, null, null, null, "Ask her to grow a gooey cock.");
-	//choices("PenetrateHer",penetrate,"Get Fucked",getFucked,"Gooflation",gooFlation,"GetDominated",dominated,dickText,dickToggle,"",0,"",0,"",0,"",0,"Back",valeriaFollower);
 	addButton(14, "Back", valeriaFollower);
 }
 
 //Valeria -- [Sex] -- [Dick/No Dick]
 private function valeriaDickToggle():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	//[If Valeria has a dick:] 
 	if (flags[kFLAGS.VELARIA_FUTA] == 1) {
@@ -198,7 +190,7 @@ private function valeriaDickToggle():void {
 
 //Valeria -- [Sex] -- [Get Fucked]
 public function valeriaGetFucked():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText(images.showImage("valeria-sex-getfucked"));
 	outputText("You disrobe and, ");
@@ -283,14 +275,14 @@ public function valeriaGetFucked():void {
 	}
 	outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, all right?</i>\"");
 
-	player.orgasm();
+	player.orgasm('VaginalAnal');
 	dynStats("sen", -1);
 	HPChange(25 + (player.newGamePlusMod() * 15),false);
 	doNext(camp.returnToCampUseOneHour);
 }
 
 public function gooFlation(clearText:Boolean = true):void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	if (clearText) {
 		clearOutput();
 		outputText("\"<i>Just relax, partner,</i>\" she grins, reaching up to run a hand through your [hair].  \"<i>Just let ol' Valeria take care of everything...</i>\"");
@@ -314,7 +306,7 @@ public function gooFlation(clearText:Boolean = true):void {
 		outputText("\n\nYou collapse, goop flowing freely from your abused body.  Laughing, Valeria pours out of your lap, ");
 		if (player.gender > 0) outputText("patting her belly full of your juices, ");
 		outputText("and looms over you.  \"<i>That was fun, partner,</i>\" she says, leaning down to give you a wet peck on the cheek. \"<i>Let's do that again soon, alright?</i>\"");
-		player.orgasm();
+		player.orgasm('Generic');
 		dynStats("sen", 1);
 		HPChange(25 + (player.newGamePlusMod() * 15),false);
 		doNext(camp.returnToCampUseOneHour);
@@ -323,7 +315,7 @@ public function gooFlation(clearText:Boolean = true):void {
 
 //Valeria -- [Sex] -- [Penetrate Her] (Dickwielders only)
 public function penetrateValeria():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText(images.showImage("valeria-sex-penetration"));
 	outputText("\"<i>Mmm, that's a tasty-looking cock,</i>\" Valeria says as you disrobe, letting your " + player.cockDescript(0) + " flop free.  \"<i>I just might have to get a sample,</i>\" she chuckles, squatting down before you and taking your shaft in hand.  Rather than giving you a simple handy, however, the goo-girl places her palm against the head of your cock and presses forward.");
@@ -340,7 +332,7 @@ public function penetrateValeria():void {
 	outputText("\n\nWith a relieved, exhausted sigh, you collapse backwards, popping out of Valeria's body with a wet squelch.  As you lie on your back, panting from the rough sex, you notice Valeria reconstituting her body into her normal human form, a mist of cum rolling happily in her full belly.  She makes a show of rubbing her tummy before coming over and plopping down on top of you, her gropable bum pressing lightly on your gut.");
 	outputText("\n\n\"<i>That was fun, partner,</i>\" she laughs.  \"<i>Tasty, too,</i>\" she adds, reaching into her belly to pull out a strand of your cum.  She slurps it back down, giving you a little wink.");
 	outputText("\n\nYou run your hand along her curves as she digests her meal, but eventually you know you need to get on with your duties.  You roll Valeria off of you and start to redress.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", 1);
 	HPChange(25 + (player.newGamePlusMod() * 15), false);
 	feedValeria(Math.sqrt(player.cumQ()) + 5);
@@ -349,7 +341,7 @@ public function penetrateValeria():void {
 
 //[Valeria] -- [Sex] -- [Get Dominated]
 public function valeriaSexDominated(offCamp:Boolean = false):void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText(images.showImage("valeria-sex-domination"));
 	outputText("Making a show of playing hesitant and nervous, you tell Valeria you'd like her to take charge.  A wide grin quickly spreads across her girlish features.  \"<i>Mmm, feeling subby today, partner?  Good, good... You just let Valeria take good care of you, " + player.mf("handsome","cutie") + ".</i>\"");
@@ -406,7 +398,7 @@ public function valeriaSexDominated(offCamp:Boolean = false):void {
 	}
 	HPChange(25 + (player.newGamePlusMod() * 15), false);
 	feedValeria(Math.sqrt(player.cumQ()) + 5 + (player.averageVaginalWetness() * 5));
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", 1);
 	if (offCamp || !getGame().inCombat)
 		doNext(camp.returnToCampUseOneHour);
@@ -415,7 +407,7 @@ public function valeriaSexDominated(offCamp:Boolean = false):void {
 
 //Followers -- [Valeria] -- [Talk]
 private function talkWithValeria():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText(images.showImage("valeria-talk"));
 	outputText("You ask Valeria if she wouldn't mind just talking for a little bit.");
@@ -438,7 +430,7 @@ private function talkWithValeria():void {
 
 //[Flirt]
 private function flirtWithValeria():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText("You slip an arm around Valeria's slender shoulders and pull her close.  Patting your crotch, you tell her you're practically a gourmet chef for a girl like her.  She giggles and slips a hand easily into your [armor], ");
 	if (player.hasCock()) outputText("brushing along the length of your rapidly-hardening cock");
@@ -452,10 +444,10 @@ private function flirtWithValeria():void {
 
 //[Accept]
 private function acceptValeriasNeeds():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText("You smile and tell Valeria that you're perfectly all right with her special needs");
-	if (player.findStatusEffect(StatusEffects.SlimeCraving) >= 0) outputText(" after all, you have the same ones");
+	if (player.hasStatusEffect(StatusEffects.SlimeCraving)) outputText(" after all, you have the same ones");
 	outputText(", as long as they don't interfere with your mission as Champion.");
 	outputText("\n\n\"<i>They won't, partner,</i>\" Valeria says with a little wink. \"<i>I give you my word.</i>\"");
 	outputText("\n\nNodding, you ruffle her gooey hair and get back to business.");
@@ -463,7 +455,7 @@ private function acceptValeriasNeeds():void {
 }
 //[Gross]
 private function declineValeriasNeeds():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText("You grimace and push the goo-girl away.  You've got no interest in her corrupted 'needs,' especially with a look like that on her face.  She gasps as you push her, nearly falling over; she catches herself and glowers angrily.");
 	outputText("\n\n\"<i>Well, fuck you kindly, [name],</i>\" she says with a huff.  \"<i>Pardon me for being... me.</i>\"  She turns up her chin and saunters off to a part of camp about as far away from you as possible.");
@@ -472,7 +464,7 @@ private function declineValeriasNeeds():void {
 }
 
 private function takeValeria():void {
-	spriteSelect(79);
+	spriteSelect(SpriteDb.s_valeria);
 	clearOutput();
 	outputText(images.showImage("valeria-take"));
 	armors.GOOARMR.useText();
@@ -558,7 +550,7 @@ private function valeriaGooRapeII():void {
 	
 	if (flags[kFLAGS.TIMES_VALERIA_GOO_THREESOMED] == 0) outputText("\n\nYou hold tight anyway, at least until she yanks your cheeks wide-open and twists whatever it is she's trying to force inside you, slowly spreading you open with a soft, organic, anal drilling.");
 	else outputText("You hold tight, keeping up your faux resistance until she yanks your cheeks open and twists her gooey reaming-tool into a sphincter-penetrating drill bit.");
-	outputText(" Spinning faster and faster, the intruding, cylindrical slime dilates your [asshole] to its maximum gape in four or five seconds, hardening its exterior into an butt-stuffing goo-pipe. You can feel it snaking around through your bowels, plumbing deeper inside you than you would have thought possible before stopping what feels like halfway through your large intestine.");
+	outputText(" Spinning faster and faster, the intruding, cylindrical slime dilates your [asshole] to its maximum gape in four or five seconds, hardening its exterior into a butt-stuffing goo-pipe. You can feel it snaking around through your bowels, plumbing deeper inside you than you would have thought possible before stopping what feels like halfway through your large intestine.");
 	//{Butt-change: full anal size}
 	player.buttChange(player.analCapacity() * .75,true,true,false);
 	//Lay pipes in cooch! {reqiores non pregnant}
@@ -592,7 +584,7 @@ private function valeriaGooRapeII():void {
 		if (player.totalCocks() > 1) outputText("s");
 		outputText(", circling your urethra");
 		if (player.totalCocks() > 1) outputText("s");
-		outputText(". You inadvertantly clench your muscles in a way that makes your " + player.multiCockDescriptLight() + " so very swollen, in turn making it that much easier for the gelatinous fiend to have her way with your cumslit");
+		outputText(". You inadvertently clench your muscles in a way that makes your " + player.multiCockDescriptLight() + " so very swollen, in turn making it that much easier for the gelatinous fiend to have her way with your cumslit");
 		if (player.totalCocks() > 1) outputText("s");
 		outputText(". You feel that warm, wet fluid slowly peel it open and push inside. It doesn't hurt at all, but it is a little weird having your " + player.multiCockDescriptLight() + " slowly stuffed in such a way. The warmth travels the whole way down your dick");
 		if (player.totalCocks() > 1) outputText("s");
@@ -660,6 +652,7 @@ private function valeriaGooRapeII():void {
 			player.breastRows[x].breastRating += 3 + rand(3);
 		}
 		outputText(" Your tits have grown much larger, " + player.breastCup(0) + "-cups at least.");
+		player.orgasm('Tits',false);
 	}
 	if (player.hasCock() && player.balls > 0) {
 		player.ballSize += 3 + rand(2);
@@ -677,16 +670,16 @@ private function valeriaGooRapeII():void {
 	//Prevent pregnancy if has a vagina when it happens.
 	//Be sure to track what holes get filled, as body parts may change before birth!
 	flags[kFLAGS.TIMES_VALERIA_GOO_THREESOMED]++;
-	player.orgasm();
+	player.orgasm('Anal');
 	//v1 = time till birth.
 	//v2 = cock fill = 1, balls fill = 2
 	//v3 = cunt fill?
 	//v4 = tit fill?
-	player.createStatusEffect(StatusEffects.GooStuffed, 10 + rand(300), 0, 0, 0);
-	player.buttKnockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, 500); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+	player.createStatusEffect(StatusEffects.GooStuffed, GOOSTUFFED_EFFECT_MIN_DURATION + rand(GOOSTUFFED_EFFECT_MAX_DURATION_DELTA), 0, 0, 0);
+	player.buttKnockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, GOOSTUFFED_PREGNANCY_DURATION); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
 	if (player.hasVagina()) {
 		player.changeStatusValue(StatusEffects.GooStuffed, 3, 1);
-		player.knockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, 500); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
+		player.knockUpForce(PregnancyStore.PREGNANCY_GOO_STUFFED, GOOSTUFFED_PREGNANCY_DURATION); //Blocks other pregnancies - Way higher than GooStuffed status can last. Cleared when GooStuffed removed
 	}
 	if (player.hasCock()) {
 		if (player.balls > 0) player.changeStatusValue(StatusEffects.GooStuffed,2,2);

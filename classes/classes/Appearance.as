@@ -1,4 +1,4 @@
-﻿package classes
+package classes
 {
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -84,6 +84,14 @@
 						"shock of feathers",
 					];
 					return description + randomChoice(options);
+				case HAIR_WOOL:
+					options = [
+						"woolen hair",
+						"poofy hair",
+						"soft wool",
+						"untameable woolen hair",
+					];
+					return description + randomChoice(options);
 			}
 			// TODO: Fix the spaghetti-code below to use a switch-case-return and it'll be
 			// case HAIR_GOO: return description + "goo-mane";
@@ -95,6 +103,7 @@
 				else if (i_creature.hairType == HAIR_GOO) description += "goo-";
 				else if (i_creature.hairType == HAIR_ANEMONE) description += "tentacle-";
 				else if (i_creature.hairType == HAIR_QUILL) description += "quill-";
+				else if (i_creature.hairType == HAIR_WOOL) description += "wool-";
 				description += "mane";
 				return description;
 			}
@@ -110,6 +119,7 @@
 			else if (i_creature.hairType == HAIR_GOO) description += "goo-";
 			else if (i_creature.hairType == HAIR_ANEMONE) description += "tentacle-";
 			else if (i_creature.hairType == HAIR_QUILL) description += "quill-";
+			else if (i_creature.hairType == HAIR_WOOL) description += "woolen ";
 			description += "hair";
 
 			return description;
@@ -176,7 +186,7 @@
 		public static function tongueDescription(i_character:Character):String
 		{
 			// fallback for tongueTypes not fully implemented yet
-			if (i_character.tongueType == TONGUE_HUMAN || !DEFAULT_TONGUE_NAMES.hasOwnProperty(i_character.tongueType))
+			if (i_character.tongueType == TONGUE_HUMAN || !DEFAULT_TONGUE_NAMES.hasOwnProperty(''+i_character.tongueType))
 				return "tongue";
 
 			return DEFAULT_TONGUE_NAMES[i_character.tongueType] + " tongue";
@@ -301,7 +311,7 @@
 			}
 			//Possible arousal descriptors
 			else if (rand(3) == 0 && !haveDescription) {
-				if (i_creature.lust > 50 && i_creature.lust < 75) {
+				if (i_creature.lust100 > 50 && i_creature.lust100 < 75) {
 					options = ["erect ",
 						"perky ",
 						"erect ",
@@ -310,7 +320,7 @@
 					description += randomChoice(options);
 					haveDescription = true;
 				}
-				if (i_creature.lust >= 75) {
+				if (i_creature.lust100 >= 75) {
 					options = ["throbbing ",
 						"trembling ",
 						"needy ",
@@ -330,7 +340,7 @@
 					"slippery "];
 				description += randomChoice(options);
 			}
-			if (!haveDescription && i_creature.findStatusEffect(StatusEffects.BlackNipples) >= 0) {
+			if (!haveDescription && i_creature.hasStatusEffect(StatusEffects.BlackNipples)) {
 				options = ["black ",
 					"ebony ",
 					"sable "];
@@ -706,6 +716,19 @@
 					"bulged rhino cock",
 					"bulged rhino dick");
 			}
+			else if (cockType == CockTypesEnum.WOLF) {
+				return randomChoice("wolf-shaped dong",
+					"canine shaft",
+					"pointed prick",
+					"knotty wolf-shaft",
+					"bestial cock",
+					"animalistic wolf-pecker",
+					"pointed wolf-dick",
+					"pointed shaft",
+					"canine member",
+					"canine cock",
+					"knotted wolf-cock");
+			}
 			else if (cockType == CockTypesEnum.ECHIDNA) {
 				return randomChoice("strange echidna dick",
 					"strange echidna cock",
@@ -995,7 +1018,7 @@
 			 }*/
 			//FINAL FALLBACKS - lust descriptors
 			//Lust stuff
-			else if (i_creature.lust > 90) {
+			else if (i_creature.lust100 > 90) {
 				//lots of cum? drippy.
 				if (i_creature.cumQ() > 50 && i_creature.cumQ() < 200 && rand(2) == 0) {
 					//for hroses and dogs
@@ -1018,7 +1041,7 @@
 				}
 			}
 			//A little less lusty, but still lusty.
-			else if (i_creature.lust > 75) {
+			else if (i_creature.lust100 > 75) {
 				if (descripts == 0 && i_creature.cumQ() > 50 && i_creature.cumQ() < 200 && rand(2) == 0) {
 					description += "pre-leaking";
 					descripts = 1;
@@ -1034,7 +1057,7 @@
 				}
 			}
 			//Not lusty at all, fallback adjective
-			else if (i_creature.lust > 50) description += "hard";
+			else if (i_creature.lust100 > 50) description += "hard";
 			else description += "ready";
 			return description;
 		}
@@ -1165,6 +1188,20 @@
 					"oblong dick"];
 				description += randomChoice(options);
 			}
+			else if (cockType == CockTypesEnum.WOLF) {
+				options = ["wolf dong",
+					"canine shaft",
+					"pointed prick",
+					"wolf-shaft",
+					"wolf-cock",
+					"wolf-pecker",
+					"wolf-dick",
+					"pointed shaft",
+					"canine cock",
+					"canine cock",
+					"wolf cock"];
+				description += randomChoice(options);
+			}
 			else {
 				description += randomChoice("cock", "prick", "pecker", "shaft");
 			}
@@ -1188,7 +1225,7 @@
 			var description:String = "";
 			var options:Array;
 
-			if (i_plural && (i_creature.findStatusEffect(StatusEffects.Uniball) < 0)) {
+			if (i_plural && (!i_creature.hasStatusEffect(StatusEffects.Uniball))) {
 				if (i_creature.balls == 1) {
 					if (i_withArticle) {
 						options = ["a single",
@@ -1270,7 +1307,7 @@
 
 			}
 			//UNIBALL
-			if (i_creature.findStatusEffect(StatusEffects.Uniball) >= 0) {
+			if (i_creature.hasStatusEffect(StatusEffects.Uniball)) {
 				if (description) description += " ";
 				options = ["tightly-compressed",
 					"snug",
@@ -1290,7 +1327,7 @@
 
 			}
 			//lusty
-			if (i_creature.lust > 90 && (description == "") && rand(2) == 0 && !i_forcedSize) {
+			if (i_creature.lust100 > 90 && (description == "") && rand(2) == 0 && !i_forcedSize) {
 				options = ["eager",
 					"full",
 					"needy",
@@ -1329,7 +1366,7 @@
 			description += randomChoice(options);
 			if (i_plural) description += "s";
 
-			if (i_creature.findStatusEffect(StatusEffects.Uniball) >= 0 && rand(2) == 0) {
+			if (i_creature.hasStatusEffect(StatusEffects.Uniball) && rand(2) == 0) {
 				if (rand(3) == 0)
 					description += " merged into a cute, spherical package";
 				else if (rand(2) == 0)
@@ -1484,7 +1521,7 @@
 			//Length Adjective - 50% chance
 			if (rand(2) == 0) {
 				//small clits!
-				if (i_creature.clitLength <= .5) {
+				if (i_creature.getClitLength() <= .5) {
 					options = ["tiny ",
 						"little ",
 						"petite ",
@@ -1493,11 +1530,11 @@
 					description += randomChoice(options);
 				}
 				//"average".
-				if (i_creature.clitLength > .5 && i_creature.clitLength < 1.5) {
+				if (i_creature.getClitLength() > .5 && i_creature.getClitLength() < 1.5) {
 					//no size comment
 				}
 				//Biggies!
-				if (i_creature.clitLength >= 1.5 && i_creature.clitLength < 4) {
+				if (i_creature.getClitLength() >= 1.5 && i_creature.getClitLength() < 4) {
 					options = ["large ",
 						"large ",
 						"substantial ",
@@ -1506,7 +1543,7 @@
 					description += randomChoice(options);
 				}
 				//'Uge
-				if (i_creature.clitLength >= 4) {
+				if (i_creature.getClitLength() >= 4) {
 					options = ["monster ",
 						"tremendous ",
 						"colossal ",
@@ -1529,7 +1566,7 @@
 				 descript += "mare-";
 				 }*/
 				//Horny descriptors - 75% chance
-				if (i_creature.lust > 70 && rand(4) < 3 && !haveDescription) {
+				if (i_creature.lust100 > 70 && rand(4) < 3 && !haveDescription) {
 					options = ["throbbing ",
 						"pulsating ",
 						"hard "];
@@ -1537,7 +1574,7 @@
 					haveDescription = true;
 				}
 				//High libido - always use if no other descript
-				if (i_creature.lib > 50 && rand(2) == 0 && !haveDescription) {
+				if (i_creature.lib100 > 50 && rand(2) == 0 && !haveDescription) {
 					options = ["insatiable ",
 						"greedy ",
 						"demanding ",
@@ -1834,7 +1871,7 @@
 					if (rand(7) == 0) return "colossal, muscly ass";
 					options = ["ginormous, muscle-bound ",
 						"colossal yet toned ",
-						"strong, tremdously large ",
+						"strong, tremendously large ",
 						"tremendous, muscled ",
 						"ginormous, toned ",
 						"colossal, well-defined "];
@@ -2007,6 +2044,16 @@
 			}
 			return description;
 		}
+
+		public static function rearBodyDescript(i_creature:Creature):String
+		{
+			return DEFAULT_REAR_BODY_NAMES[i_creature.rearBody.type];
+		}
+
+		public static function neckDescript(i_creature:Creature):String
+		{
+			return DEFAULT_NECK_NAMES[i_creature.neck.type] + " neck";
+		}
 		
 		public static function wingsDescript(i_creature:Creature):String
 		{
@@ -2018,113 +2065,23 @@
 			return DEFAULT_EYES_NAMES[i_creature.eyeType] + " eyes";
 		}
 
-/* All of these functions have been replaced with direct calls to the appropriate form of cockNoun().
-		private static function humanDescript(cockNum:Number):String
+		public static function extraEyesDescript(i_creature:Creature):String
 		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.HUMAN);
-			return descript;
+			return num2Text(i_creature.eyeCount - 2) + " " + DEFAULT_EYES_NAMES[i_creature.eyeType] + (i_creature.eyeCount == 3 ? " eye" : " eyes");
 		}
 
-		private static function kangaDescript(cockNum:Number):String
+		public static function extraEyesDescriptShort(i_creature:Creature):String
 		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.KANGAROO);
-			return descript;
+			return num2Text(i_creature.eyeCount - 2) + (i_creature.eyeCount == 3 ? " eye" : " eyes");
 		}
 
-		public static function dogDescript(cockNum:Number):String
+		public static function nagaLowerBodyColor2(i_creature:Creature):String
 		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.DOG);
-			return descript;
-		}
+			if (i_creature.underBody.skin.tone in NAGA_LOWER_BODY_COLORS)
+				return NAGA_LOWER_BODY_COLORS[i_creature.underBody.skin.tone];
 
-		private static function foxDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.FOX);
-			return descript;
+			return i_creature.underBody.skin.tone;
 		}
-
-		private static function tentacleDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.TENTACLE);
-			return descript;
-		}
-
-		private static function demonDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.DEMON);
-			return descript;
-		}
-
-
-		//Horsecock + Descript
-		public static function horseDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.HORSE);
-			return descript;
-		}
-
-		private static function catDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.CAT);
-			return descript;
-		}
-
-		private static function anemoneDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.ANEMONE);
-			return descript;
-		}
-
-		private static function dragonDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.DRAGON);
-			return descript;
-		}
-
-		private static function displacerDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.DISPLACER);
-			return descript;
-		}
-
-		private static function snakeDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.LIZARD);
-			return descript;
-		}
-
-		private static function pigDescript(cockNum:Number):String
-		{
-			var descript:String = "";
-			//if (rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-			descript += cockNoun(CockTypesEnum.PIG);
-			return descript;
-		}
-*/
 		
 		public static const BREAST_CUP_NAMES:Array = [
 			"flat",//0
@@ -2182,12 +2139,34 @@
 			return result;
 		}
 
+		public static const NAGA_LOWER_BODY_COLORS:Object = createMapFromPairs(
+				[
+					["red",          "orange"],
+					["orange",       "yellow"],
+					["yellow",       "yellowgreen"],
+					["yellowgreen",  "yellow"],
+					["green",        "light green"],
+					["spring green", "cyan"],
+					["cyan",         "ocean blue"],
+					["ocean blue",   "light blue"],
+					["blue",         "light blue"],
+					["purple",       "light purple"],
+					["magenta",      "blue"],
+					["deep pink",    "pink"],
+					["black",        "dark gray"],
+					["white",        "light gray"],
+					["gray",         "light gray"],
+					["light gray",   "white"],
+					["dark gray",    "gray"],
+					["pink",         "pale pink"],
+				]
+		);
 		public static const DEFAULT_GENDER_NAMES:Object = createMapFromPairs(
 				[
 					[GENDER_NONE, "genderless"],
 					[GENDER_MALE, "male"],
 					[GENDER_FEMALE, "female"],
-					[GENDER_HERM, "hermaphrodite"]
+					[GENDER_HERM, "hermaphrodite"],
 				]
 		);
 		public static const DEFAULT_SKIN_NAMES:Object = createMapFromPairs(
@@ -2199,6 +2178,8 @@
 					[SKIN_TYPE_UNDEFINED, "undefined flesh"],
 					[SKIN_TYPE_DRAGON_SCALES, "scales"],
 					[SKIN_TYPE_FISH_SCALES, "scales"],
+					[SKIN_TYPE_WOOL, "wool"],
+					[SKIN_TYPE_FEATHERED, "feathers"],
 				]
 		);
 		public static const DEFAULT_SKIN_DESCS:Object = createMapFromPairs(
@@ -2210,6 +2191,7 @@
 					[SKIN_TYPE_UNDEFINED, "skin"],
 					[SKIN_TYPE_DRAGON_SCALES, "scales"],
 					[SKIN_TYPE_FISH_SCALES, "scales"],
+					[SKIN_TYPE_WOOL, "wool-covered skin"],
 				]
 		);
 		public static const DEFAULT_HAIR_NAMES:Object = createMapFromPairs(
@@ -2222,6 +2204,7 @@
 					[HAIR_QUILL, "quill"],
 					[HAIR_BASILISK_SPINES, "spiny basilisk"],
 					[HAIR_BASILISK_PLUME, "feathery plume"],
+					[HAIR_WOOL, "woolen"],
 				]
 		);
 		public static const DEFAULT_BEARD_NAMES:Object = createMapFromPairs(
@@ -2229,7 +2212,7 @@
 					[BEARD_NORMAL, "normal"],
 					[BEARD_GOATEE, "goatee"],
 					[BEARD_CLEANCUT, "clean-cut"],
-					[BEARD_MOUNTAINMAN, "mountain-man"]
+					[BEARD_MOUNTAINMAN, "mountain-man"],
 				]
 		);
 		public static const DEFAULT_FACE_NAMES:Object = createMapFromPairs(
@@ -2256,8 +2239,10 @@
 					[FACE_PIG, "pig"],
 					[FACE_BOAR, "boar"],
 					[FACE_RHINO, "rhino"],
+					[FACE_WOLF, "wolf"],
 					[FACE_ECHIDNA, "echidna"],
-					[FACE_DEER, "deer"]
+					[FACE_DEER, "deer"],
+					[FACE_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_TONGUE_NAMES:Object = createMapFromPairs(
@@ -2276,8 +2261,11 @@
 					[EYES_FOUR_SPIDER_EYES, "4 spider"],
 					[EYES_BLACK_EYES_SAND_TRAP, "sandtrap black"],
 					[EYES_LIZARD, "lizard"],
+					[EYES_WOLF, "wolf"],
 					[EYES_DRAGON, "dragon"],
 					[EYES_BASILISK, "basilisk"],
+					[EYES_SPIDER, "spider"],
+					[EYES_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_EARS_NAMES:Object = createMapFromPairs(
@@ -2298,26 +2286,34 @@
 					[EARS_FERRET, "ferret"],
 					[EARS_PIG, "pig"],
 					[EARS_RHINO, "rhino"],
+					[EARS_WOLF, "wolf"],
 					[EARS_ECHIDNA, "echidna"],
-					[EARS_DEER, "deer"]
+					[EARS_DEER, "deer"],
+					[EARS_SHEEP, "sheep"],
+					[EARS_IMP, "imp"],
+					[EARS_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_HORNS_NAMES:Object = createMapFromPairs(
 				[
-					[HORNS_NONE, "non-existant"],
+					[HORNS_NONE, "non-existent"],
 					[HORNS_DEMON, "demon"],
 					[HORNS_COW_MINOTAUR, "cow"],
 					[HORNS_DRACONIC_X2, "2 draconic"],
 					[HORNS_DRACONIC_X4_12_INCH_LONG, "four 12\" long draconic"],
 					[HORNS_ANTLERS, "deer"],
 					[HORNS_GOAT, "goat"],
-					[HORNS_RHINO, "rhino"]
+					[HORNS_RHINO, "rhino"],
+					[HORNS_SHEEP, "sheep"],
+					[HORNS_RAM, "ram"],
+					[HORNS_IMP, "imp"],
 				]
 		);
 		public static const DEFAULT_ANTENNAE_NAMES:Object = createMapFromPairs(
 				[
-					[ANTENNAE_NONE, "non-existant"],
-					[ANTENNAE_BEE, "bee"]
+					[ANTENNAE_NONE, "non-existent"],
+					[ANTENNAE_BEE, "bee"],
+					[ANTENNAE_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_ARM_NAMES:Object = createMapFromPairs(
@@ -2325,13 +2321,15 @@
 					[ARM_TYPE_HUMAN, "human"],
 					[ARM_TYPE_HARPY, "harpy"],
 					[ARM_TYPE_SPIDER, "spider"],
+					[ARM_TYPE_WOLF, "wolf"],
 					[ARM_TYPE_PREDATOR, "predator"],
-					[ARM_TYPE_SALAMANDER, "salamander"]
+					[ARM_TYPE_SALAMANDER, "salamander"],
+					[ARM_TYPE_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_TAIL_NAMES:Object = createMapFromPairs(
 				[
-					[TAIL_TYPE_NONE, "non-existant"],
+					[TAIL_TYPE_NONE, "non-existent"],
 					[TAIL_TYPE_HORSE, "horse"],
 					[TAIL_TYPE_DOG, "dog"],
 					[TAIL_TYPE_DEMONIC, "demonic"],
@@ -2353,41 +2351,60 @@
 					[TAIL_TYPE_SCORPION, "scorpion"],
 					[TAIL_TYPE_GOAT, "goat"],
 					[TAIL_TYPE_RHINO, "rhino"],
+					[TAIL_TYPE_WOLF, "wolf"],
 					[TAIL_TYPE_ECHIDNA, "echidna"],
 					[TAIL_TYPE_DEER, "deer"],
-					[TAIL_TYPE_SALAMANDER, "salamander"]
+					[TAIL_TYPE_SALAMANDER, "salamander"],
+					[TAIL_TYPE_SHEEP, "sheep"],
+					[TAIL_TYPE_IMP, "imp"],
+					[TAIL_TYPE_COCKATRICE, "cockatrice"],
+				]
+		);
+		public static const DEFAULT_REAR_BODY_NAMES:Object = createMapFromPairs(
+				[
+					[REAR_BODY_NONE, "none"],
+					[REAR_BODY_DRACONIC_MANE, "draconic hairy mane"],
+					[REAR_BODY_DRACONIC_SPIKES, "draconic spiky mane"],
+					[REAR_BODY_SHARK_FIN, "shark fin"],
+				]
+		);
+		public static const DEFAULT_NECK_NAMES:Object = createMapFromPairs(
+				[
+					[NECK_TYPE_NORMAL, "normal"],
+					[NECK_TYPE_DRACONIC, "long draconic"],
+					[NECK_TYPE_COCKATRICE, "feathery cockatrice"],
 				]
 		);
 		public static const DEFAULT_WING_NAMES:Object = createMapFromPairs(
 				[
-					[WING_TYPE_NONE, "non-existant"],
+					[WING_TYPE_NONE, "non-existent"],
 					[WING_TYPE_BEE_LIKE_SMALL, "small bee-like"],
 					[WING_TYPE_BEE_LIKE_LARGE, "large bee-like"],
 					[WING_TYPE_HARPY, "harpy"],
 					[WING_TYPE_IMP, "imp"],
+					[WING_TYPE_IMP_LARGE, "large imp"],
 					[WING_TYPE_BAT_LIKE_TINY, "tiny bat-like"],
 					[WING_TYPE_BAT_LIKE_LARGE, "large bat-like"],
-					[WING_TYPE_SHARK_FIN, "shark fin"],
 					[WING_TYPE_FEATHERED_LARGE, "large feathered"],
 					[WING_TYPE_DRACONIC_SMALL, "small draconic"],
 					[WING_TYPE_DRACONIC_LARGE, "large draconic"],
-					[WING_TYPE_GIANT_DRAGONFLY, "giant dragonfly"]
+					[WING_TYPE_GIANT_DRAGONFLY, "giant dragonfly"],
 				]
 		);
 		public static const DEFAULT_WING_DESCS:Object = createMapFromPairs(
 				[
-					[WING_TYPE_NONE, "non-existant"],
+					[WING_TYPE_NONE, "non-existent"],
 					[WING_TYPE_BEE_LIKE_SMALL, "small bee-like"],
 					[WING_TYPE_BEE_LIKE_LARGE, "large bee-like"],
 					[WING_TYPE_HARPY, "large feathery"],
 					[WING_TYPE_IMP, "small"],
+					[WING_TYPE_IMP_LARGE, "large"],
 					[WING_TYPE_BAT_LIKE_TINY, "tiny, bat-like"],
 					[WING_TYPE_BAT_LIKE_LARGE, "large, bat-like"],
-					[WING_TYPE_SHARK_FIN, ""],
 					[WING_TYPE_FEATHERED_LARGE, "large, feathered"],
 					[WING_TYPE_DRACONIC_SMALL, "small, draconic"],
 					[WING_TYPE_DRACONIC_LARGE, "large, draconic"],
-					[WING_TYPE_GIANT_DRAGONFLY, "giant dragonfly"]
+					[WING_TYPE_GIANT_DRAGONFLY, "giant dragonfly"],
 				]
 		);
 		public static const DEFAULT_LOWER_BODY_NAMES:Object = createMapFromPairs(
@@ -2396,7 +2413,7 @@
 					[LOWER_BODY_TYPE_HOOFED, "hoofed"],
 					[LOWER_BODY_TYPE_DOG, "dog"],
 					[LOWER_BODY_TYPE_NAGA, "naga"],
-					[LOWER_BODY_TYPE_CENTAUR, "centaur"],
+					[LOWER_BODY_TYPE_WOLF, "wolf"],
 					[LOWER_BODY_TYPE_DEMONIC_HIGH_HEELS, "demonic high-heels"],
 					[LOWER_BODY_TYPE_DEMONIC_CLAWS, "demonic claws"],
 					[LOWER_BODY_TYPE_BEE, "bee"],
@@ -2415,8 +2432,9 @@
 					[LOWER_BODY_TYPE_FERRET, "ferret"],
 					[LOWER_BODY_TYPE_CLOVEN_HOOFED, "cloven-hoofed"],
 					[LOWER_BODY_TYPE_ECHIDNA, "echidna"],
-					[LOWER_BODY_TYPE_ECHIDNA, "deertaur"],
-					[LOWER_BODY_TYPE_SALAMANDER, "salamander"]
+					[LOWER_BODY_TYPE_SALAMANDER, "salamander"],
+					[LOWER_BODY_TYPE_IMP, "imp"],
+					[LOWER_BODY_TYPE_COCKATRICE, "cockatrice"],
 				]
 		);
 		public static const DEFAULT_PIERCING_NAMES:Object = createMapFromPairs(
@@ -2426,14 +2444,14 @@
 					[PIERCING_TYPE_RING, "ring"],
 					[PIERCING_TYPE_LADDER, "ladder"],
 					[PIERCING_TYPE_HOOP, "hoop"],
-					[PIERCING_TYPE_CHAIN, "chain"]
+					[PIERCING_TYPE_CHAIN, "chain"],
 				]
 		);
 		public static const DEFAULT_VAGINA_TYPE_NAMES:Object = createMapFromPairs(
 				[
 					[VAGINA_TYPE_HUMAN, "human"],
 					[VAGINA_TYPE_EQUINE, "equine"],
-					[VAGINA_TYPE_BLACK_SAND_TRAP, "black sandtrap"]
+					[VAGINA_TYPE_BLACK_SAND_TRAP, "black sandtrap"],
 				]
 		);
 		public static const DEFAULT_VAGINA_WETNESS_SCALES:Array = [
@@ -2450,13 +2468,13 @@
 			[VAGINA_LOOSENESS_LOOSE, "loose"],
 			[VAGINA_LOOSENESS_GAPING, "gaping"],
 			[VAGINA_LOOSENESS_GAPING_WIDE, "gaping wide"],
-			[VAGINA_LOOSENESS_LEVEL_CLOWN_CAR, "clown-car level"]
+			[VAGINA_LOOSENESS_LEVEL_CLOWN_CAR, "clown-car level"],
 		];
 		public static const DEFAULT_ANAL_WETNESS_SCALES:Array = [
 			[ANAL_WETNESS_DRY, "dry"],
 			[ANAL_WETNESS_NORMAL, "normal"],
 			[ANAL_WETNESS_MOIST, "moist"],
-			[ANAL_WETNESS_SLIMY, "slimym"],
+			[ANAL_WETNESS_SLIMY, "slimy"],
 			[ANAL_WETNESS_DROOLING, "drooling"],
 			[ANAL_WETNESS_SLIME_DROOLING, "slime-drooling"],
 		];
@@ -2466,7 +2484,7 @@
 			[ANAL_LOOSENESS_NORMAL, "normal"],
 			[ANAL_LOOSENESS_LOOSE, "loose"],
 			[ANAL_LOOSENESS_STRETCHED, "stretched"],
-			[ANAL_LOOSENESS_GAPING, "gaping"]
+			[ANAL_LOOSENESS_GAPING, "gaping"],
 		];
 		public static const DEFAULT_HIP_RATING_SCALES:Array = [
 			[HIP_RATING_BOYISH, "boyish"],
@@ -2475,7 +2493,7 @@
 			[HIP_RATING_AMPLE, "ample"],
 			[HIP_RATING_CURVY, "curvy"],
 			[HIP_RATING_FERTILE, "fertile"],
-			[HIP_RATING_INHUMANLY_WIDE, "inhumanly wide"]
+			[HIP_RATING_INHUMANLY_WIDE, "inhumanly wide"],
 		];
 		public static const DEFAULT_BUTT_RATING_SCALES:Array = [
 			[BUTT_RATING_BUTTLESS, "buttless"],
@@ -2486,7 +2504,7 @@
 			[BUTT_RATING_JIGGLY, "jiggly"],
 			[BUTT_RATING_EXPANSIVE, "expansive"],
 			[BUTT_RATING_HUGE, "huge"],
-			[BUTT_RATING_INCONCEIVABLY_BIG, "inconceivably big"]
+			[BUTT_RATING_INCONCEIVABLY_BIG, "inconceivably big"],
 		];
 
 		/**
@@ -2501,7 +2519,7 @@
 		 */
 		public static function describeByScale(value:Number, scale:Array, lessThan:String = "less than", moreThan:String = "more than"):String
 		{
-			if (scale.length == 0) return "undescribeale";
+			if (scale.length == 0) return "indescribable";
 			if (scale.length == 1) return "about " + scale[0][1];
 			if (value < scale[0][0]) return lessThan + " " + scale[0][1];
 			if (value == scale[0][0]) return scale[0][1];
@@ -2756,10 +2774,12 @@
 			var currCock:Number = 0;
 			var totCock:Number = creature.cocks.length;
 			var dogCocks:Number = 0;
+			var wolfCocks:Number = 0;
 			var horseCocks:Number = 0;
 			var normalCocks:Number = 0;
 			var normalCockKey:Number = 0;
 			var dogCockKey:Number = 0;
+			var wolfCockKey:Number = 0;
 			var horseCockKey:Number = 0;
 			var averageLength:Number = 0;
 			var averageThickness:Number = 0;
@@ -2783,6 +2803,10 @@
 					dogCocks++;
 					dogCockKey = currCock;
 				}
+				if (creature.cocks[currCock].cockType == CockTypesEnum.WOLF) {
+					wolfCocks++;
+					wolfCockKey = currCock;
+				}
 				averageLength += creature.cocks[currCock].cockLength;
 				averageThickness += creature.cocks[currCock].cockThickness;
 				//If cocks are matched make sure they still are
@@ -2794,6 +2818,7 @@
 			averageThickness /= currCock;
 			//Quantity descriptors
 			if (creature.cockTotal() == 1) {
+				if (wolfCocks == 1) return cockNoun(CockTypesEnum.WOLF);
 				if (dogCocks == 1) return cockNoun(CockTypesEnum.DOG);
 				if (horseCocks == 1) return cockNoun(CockTypesEnum.HORSE);
 				if (normalCocks == 1) return creature.cockDescript(0);
@@ -2808,6 +2833,7 @@
 					if (normalCocks == 2) descript += " " + cockNoun(CockTypesEnum.HUMAN) + "s";
 					if (horseCocks == 2) descript += ", " + cockNoun(CockTypesEnum.HORSE) + "s";
 					if (dogCocks == 2) descript += ", " + cockNoun(CockTypesEnum.DOG) + "s";
+					if (wolfCocks == 2) descript += ", " + cockNoun(CockTypesEnum.WOLF) + "s";
 					//Failsafe
 					if (creature.cocks[0].cockType.Index > 2) descript += ", " + cockNoun(creature.cocks[0].cockType) + "s";
 				}
@@ -2826,6 +2852,7 @@
 					if (normalCocks == 3) descript += " " + cockNoun(CockTypesEnum.HUMAN) + "s";
 					if (horseCocks == 3) descript += ", " + cockNoun(CockTypesEnum.HORSE) + "s";
 					if (dogCocks == 3) descript += ", " + cockNoun(CockTypesEnum.DOG) + "s";
+					if (wolfCocks == 3) descript += ", " + cockNoun(CockTypesEnum.WOLF) + "s";
 					//Tentacles
 					if (creature.cocks[0].cockType.Index > 2) descript += ", " + cockNoun(creature.cocks[0].cockType) + "s";
 				}
@@ -2850,6 +2877,11 @@
 					if (currCock == dogCocks) {
 						descript += creature.cockAdjective() + ", ";
 						descript += cockNoun(CockTypesEnum.DOG) + "s";
+						descripted = true;
+					}
+					if (currCock == wolfCocks) {
+						descript += creature.cockAdjective() + ", ";
+						descript += cockNoun(CockTypesEnum.WOLF) + "s";
 						descripted = true;
 					}
 					if (currCock == horseCocks) {
@@ -2883,10 +2915,12 @@
 			var currCock:Number = 0;
 			var totCock:Number = creature.cocks.length;
 			var dogCocks:Number = 0;
+			var wolfCocks:Number = 0;
 			var horseCocks:Number = 0;
 			var normalCocks:Number = 0;
 			var normalCockKey:Number = 0;
 			var dogCockKey:Number = 0;
+			var wolfCockKey:Number = 0;
 			var horseCockKey:Number = 0;
 			var averageLength:Number = 0;
 			var averageThickness:Number = 0;
@@ -2909,6 +2943,10 @@
 					dogCocks++;
 					dogCockKey = currCock;
 				}
+				if (creature.cocks[currCock].cockType == CockTypesEnum.WOLF) {
+					wolfCocks++;
+					wolfCockKey = currCock;
+				}
 				averageLength += creature.cocks[currCock].cockLength;
 				averageThickness += creature.cocks[currCock].cockThickness;
 				//If cocks are matched make sure they still are
@@ -2921,6 +2959,7 @@
 			//Quantity descriptors
 			if (currCock == 1) {
 				if (dogCocks == 1) return cockNoun(CockTypesEnum.DOG);
+				if (wolfCocks == 1) return cockNoun(CockTypesEnum.WOLF);
 				if (horseCocks == 1) return cockNoun(CockTypesEnum.HORSE);
 				if (normalCocks == 1) return cockDescript(creature,0);
 				//Catch-all for when I add more cocks.  Let cock descript do the sorting.
@@ -2934,6 +2973,7 @@
 					if (normalCocks == 2) descript += " " + cockNoun(CockTypesEnum.HUMAN) + "s";
 					if (horseCocks == 2) descript += ", " + cockNoun(CockTypesEnum.HORSE) + "s";
 					if (dogCocks == 2) descript += ", " + cockNoun(CockTypesEnum.DOG) + "s";
+					if (wolfCocks == 2) descript += ", " + cockNoun(CockTypesEnum.WOLF) + "s";
 					//Tentacles
 					if (creature.cocks[0].cockType.Index > 2)
 						descript += ", " + cockNoun(creature.cocks[0].cockType) + "s";
@@ -2956,6 +2996,8 @@
 						descript += ", " + cockNoun(CockTypesEnum.HORSE) + "s";
 					if (dogCocks == 3)
 						descript += ", " + cockNoun(CockTypesEnum.DOG) + "s";
+					if (wolfCocks == 3)
+						descript += ", " + cockNoun(CockTypesEnum.WOLF) + "s";
 					//Tentacles
 					if (creature.cocks[0].cockType.Index > 2) descript += ", " + cockNoun(creature.cocks[0].cockType) + "s";   // Not sure what's going on here, referencing index *may* be a bug.
 
@@ -2981,6 +3023,11 @@
 					if (creature.cocks[0].cockType == CockTypesEnum.DOG) {
 						descript += cockAdjectives(averageLength, averageThickness, CockTypesEnum.DOG, creature) + ", ";
 						descript += cockNoun(CockTypesEnum.DOG) + "s";
+						descripted = true;
+					}
+					if (creature.cocks[0].cockType == CockTypesEnum.WOLF) {
+						descript += cockAdjectives(averageLength, averageThickness, CockTypesEnum.WOLF, creature) + ", ";
+						descript += cockNoun(CockTypesEnum.WOLF) + "s";
 						descripted = true;
 					}
 					if (creature.cocks[0].cockType == CockTypesEnum.HORSE) {

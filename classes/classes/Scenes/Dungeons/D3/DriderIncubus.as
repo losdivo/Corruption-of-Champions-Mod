@@ -85,11 +85,11 @@ package classes.Scenes.Dungeons.D3
 		override protected function performCombatAction():void
 		{
 			this._combatRound++;
-			if (this.lust < 65 && this.HP < 33)
+			if (this.lust100 < 65 && this.HP < 33)
 			{
 				this.gainHpAndLust();
 			}
-			else if (this.lust >= 65 && this.HP >= 33)
+			else if (this.lust100 >= 65 && this.HP >= 33)
 			{
 				this.dropHpAndLust();
 			}
@@ -120,7 +120,8 @@ package classes.Scenes.Dungeons.D3
 			}
 			else
 			{
-				opts = [this.bite,spiderMorphWebAttack,this.kick,this.kick,this.doubleStrike,this.doubleStrike];
+				opts = [spiderMorphWebAttack, this.kick, this.kick, this.doubleStrike, this.doubleStrike];
+				if (this.fatigue100 < 100) opts.push(this.bite);
 				opts[rand(opts.length)]();
 			}
 		}
@@ -135,7 +136,7 @@ package classes.Scenes.Dungeons.D3
 			else
 			{
 				opts = [this.arouseSpell,this.arouseSpell];
-				if (player.findStatusEffect(StatusEffects.TaintedMind) < 0 && !this._seenResolute)
+				if (!player.hasStatusEffect(StatusEffects.TaintedMind) && !this._seenResolute)
 				{
 					opts.push(this.taintedMind);
 				}
@@ -159,7 +160,7 @@ package classes.Scenes.Dungeons.D3
 		
 		private function gainHpAndLust():void
 		{
-			this.addHP(this.eMaxHP() * 0.1);
+			this.addHP(this.maxHP() * 0.1);
 			this.lust += 8;
 			if (this._hpGains == 0)
 			{
@@ -179,7 +180,7 @@ package classes.Scenes.Dungeons.D3
 			}
 			this._hpGains++;
 			outputText(" The demon gestures wildly, drawing a rune across his own chest. It flares, blood red and pulsing. Your foe’s wounds slowly edge close, fueled by magic. When the luminous symbol fades, the drider pants, his black skin flushing purple in places.");
-			if (this.lust > 65)
+			if (this.lust100 > 65)
 			{
 				if (this._goblinFree)
 				{
@@ -196,7 +197,7 @@ package classes.Scenes.Dungeons.D3
 		
 		private function dropHpAndLust():void
 		{
-			this.HP = this.HP - this.eMaxHP() * 0.08;
+			this.HP   = this.HP - this.maxHP() * 0.08;
 			this.lust = this.lust - 10;
 			outputText("The demon snarls and draws his spear back, placing it blade down against his arm. Grinning malevolently, he slides the razor-sharp edge along his skin, leaving a trail of glittering ruby on his wounded flesh. <i>“Pain brings clarity of mind - something you couldn’t understand.”</i> He grins wider, mastering his baser emotions. <i>“Let me teach you.”</i>\n\n");
 		}
@@ -227,26 +228,12 @@ package classes.Scenes.Dungeons.D3
 		
 		private function bite():void
 		{
+			this.fatigue += 20;
 			var amount:Number = 0;
 			var evade:String = player.getEvasionReason();
-			if (player.findStatusEffect(StatusEffects.Stunned) >= 0 || player.spe <= 1 && player.findStatusEffect(StatusEffects.Web) >= 2)
+			if (player.hasStatusEffect(StatusEffects.Stunned) || player.spe <= 1 && player.statusEffectv1(StatusEffects.Web) >= 2)
 			{
-				if (player.findStatusEffect(StatusEffects.DriderIncubusVenom) >= 0)
-				{
-					player.changeStatusValue(StatusEffects.DriderIncubusVenom,1,5);
-				}
-				else
-				{
-					player.createStatusEffect(StatusEffects.DriderIncubusVenom,5,0,0,0);
-				}
-				amount = 30;
-				if (player.str - amount < 1)
-				{
-					amount = player.str - 1;
-				}
-				player.str = player.str - amount;
-				showStatDown("str");
-				player.addStatusValue(StatusEffects.DriderIncubusVenom,2,amount);
+				player.createOrFindStatusEffect(StatusEffects.DriderIncubusVenom);
 				outputText("Taking his time, the arachnid demon bares his fangs, easily biting deeply into you. His tongue slides sensually around the wounds as he pumps you full of venom, tasting your fear and desperation. You wince while the venom robs you of your strength.");
 				if (player.str <= 25)
 				{
@@ -279,16 +266,7 @@ package classes.Scenes.Dungeons.D3
 				else {
 					outputText(" Those needle-like canines punch into you, delivering their venomous payload! You already feel weaker, your muscles not responding as effectively.");
 					outputText("<i>“I do love watching you struggle.”</i> He flashes a crooked smile.");
-					if (player.findStatusEffect(StatusEffects.DriderIncubusVenom) >= 0)
-						player.changeStatusValue(StatusEffects.DriderIncubusVenom,1,5);
-					else
-						player.createStatusEffect(StatusEffects.DriderIncubusVenom,5,0,0,0);
-					amount = 30;
-					if (player.str - amount < 1)
-						amount = player.str - 1;
-					player.str = player.str - amount;
-					showStatDown("str");
-					player.addStatusValue(StatusEffects.DriderIncubusVenom,2,amount);
+					player.createOrFindStatusEffect(StatusEffects.DriderIncubusVenom);
 				}
 			}
 		}
@@ -396,9 +374,9 @@ package classes.Scenes.Dungeons.D3
 					outputText(" [vagina]");
 				outputText(" ache to be touched");
 			}
-			game.dynStats("lus",player.lib / 10 + player.cor / 10 + 15);
+			player.takeLustDamage(player.lib / 10 + player.cor / 10 + 15, true);
 			outputText(". Your body rebels against you under the unholy influence");
-			if (player.lust < 100)
+			if (player.lust100 < 100)
 				outputText(", but the effect is fleeting, thankfully. You try to ignore the residual tingles. You can’t afford to lose this close to your goal!");
 			else
 				outputText(".");
@@ -415,7 +393,7 @@ package classes.Scenes.Dungeons.D3
 		public function taintedMindAttackAttempt():void
 		{
 			outputText("You ready an attack, but find your hands groping your own body instead. Somehow the demon’s magic has made it impossible to strike at him, crossing wires that weren’t meant to be crossed. Frowning, you look down at your more aroused form, determined not to fall for this a second time.");
-			game.dynStats("lus",15);
+			player.takeLustDamage(15, true);
 		}
 		
 		private function constrictingThoughts():void
@@ -430,7 +408,7 @@ package classes.Scenes.Dungeons.D3
 			else
 			{
 				outputText(" The intensity overwhelms your ability to act, arousing and stunning you.");
-				game.dynStats("lus",player.lib / 15 + player.cor / 15 + 15);
+				player.takeLustDamage(player.lib / 15 + player.cor / 15 + 15, true);
 				player.createStatusEffect(StatusEffects.Stunned,0,0,0,0);
 			}
 		}
@@ -449,7 +427,7 @@ package classes.Scenes.Dungeons.D3
 			else
 			{
 				outputText(" You concentrate to try and throw it off, but he overwhelms your mental defenses. Clouds of swirling pink filled with unsubtle erotic silhouettes fill your vision, effectively blinding you!");
-				game.dynStats("lus",25);
+				player.takeLustDamage(25, true);
 				player.createStatusEffect(StatusEffects.PurpleHaze,2 + rand(2),0,0,0);
 				player.createStatusEffect(StatusEffects.Blind,player.statusEffectv1(StatusEffects.PurpleHaze),0,0,0);
 			}
@@ -465,7 +443,7 @@ package classes.Scenes.Dungeons.D3
 		{
 			outputText("The determined goblin love-slave opens wide, launching a tongue that must be at least three feet long toward her master’s member with pinpoint accuracy. It makes contact with a wet ‘snap’ and wraps round the oozing, demonic length before either you or the drider can react. His motions slow from the attention, and he nearly stumbles, giving the goblin time to close to the distance, mummifying his member under layers of hot pink pleasure.");
 			lust += 5;
-			if (lust <= 100)
+			if (lust100 <= 100)
 			{
 				outputText("\n\nThe drider skitters back, the motion dropping the goblin to her knees. Her tongue stretches taut a long moment, then slips from his shaft, snapping back into her mouth hard enough to make her recoil. Both parties look disappointed with the outcome, none moreso than the goblin. Fortunately for her, she’ll get another chance - the drider is focusing on you once more.");
 			}
@@ -477,7 +455,7 @@ package classes.Scenes.Dungeons.D3
 		
 		private function bootyTwerking():void
 		{
-			outputText("The goblin gives up on her futile chase for the moment. Instead of trying to lay her hands on her treasured scepter, she spins around, raising her cushy-looking ass into the air. She twists and gyrates, making her voluminous asscheeks bounce independantly. Sometimes they audibly clap together. A few assembled demonic slaves applaud her performance, and the drider can’t help but spare her a few hungry glances.");
+			outputText("The goblin gives up on her futile chase for the moment. Instead of trying to lay her hands on her treasured scepter, she spins around, raising her cushy-looking ass into the air. She twists and gyrates, making her voluminous asscheeks bounce independently. Sometimes they audibly clap together. A few assembled demonic slaves applaud her performance, and the drider can’t help but spare her a few hungry glances.");
 			lust += 5;
 		}
 		
@@ -506,7 +484,7 @@ package classes.Scenes.Dungeons.D3
 			outputText("Darting into the crowd, the goblin comes back with a bottle of unusual shape and design. She pops the cork and upends it across her petite but all-too-stacked form, smearing it across her more-than-ample tits with one hand, making them shine in the flickering candlelight. Her eyes are bright and mischievous while she spreads it over the rest of her form, leaving the whole of her body slick and ready for love.");
 			outputText("\n\nShe dances and spins to the side, cooing, <i>“Don’t you want me anymore, baby? Look how ready I am”</i> Her nipples are taut and stiff, and the junction between her thighs absolutely drenched. Neither you nor your foe can keep from sparing lusty glances her way.");
 			lust += 7;
-			game.dynStats("lus", 7);
+			player.takeLustDamage(7, true);
 		}
 		
 		public function freeGoblin():void

@@ -84,7 +84,7 @@ package classes.Scenes.Places.Prison
 		public function prisonCaptorPetOptedOut():Boolean
 		{
 			var testVal:* = undefined;
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -98,7 +98,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetScore():Number
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -107,7 +107,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetScoreSet(newVal:Number):void
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -117,7 +117,7 @@ package classes.Scenes.Places.Prison
 		public function prisonCaptorPetScoreChange(changeVal:Number):void
 		{
 			var newVal:* = undefined;
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -135,7 +135,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetTier():Number
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -144,7 +144,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetTierSet(newVal:Number):void
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -189,7 +189,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetEvent():Number
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -198,7 +198,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetEventSet(newVal:Number):void
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -208,7 +208,7 @@ package classes.Scenes.Places.Prison
 		public function prisonCaptorPetEventChange(changeVal:Number):void
 		{
 			var newVal:* = undefined;
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -226,7 +226,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetScratch():Number
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -235,7 +235,7 @@ package classes.Scenes.Places.Prison
 		
 		public function prisonCaptorPetScratchSet(newVal:Number):void
 		{
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -245,7 +245,7 @@ package classes.Scenes.Places.Prison
 		public function prisonCaptorPetScratchChange(changeVal:Number):void
 		{
 			var newVal:* = undefined;
-			if (player.findStatusEffect(StatusEffects.PrisonCaptorEllyPet) < 0)
+			if (!player.hasStatusEffect(StatusEffects.PrisonCaptorEllyPet))
 			{
 				player.createStatusEffect(StatusEffects.PrisonCaptorEllyPet,0,0,0,0);
 			}
@@ -981,7 +981,7 @@ package classes.Scenes.Places.Prison
 		{
 			var behaviorCounter:int = undefined;
 			outputText("(Placeholder) (Training Crate Masturbate) Overwhelmed with desire, you sheepishly masturbate, staining your bedding with your fluids.\n\n");
-			player.orgasm();
+			player.orgasm('Generic');
 			behaviorCounter = player.statusEffectv3(StatusEffects.PrisonCaptorEllyStatus) - 2;
 			outputText("(Placeholder) new behavior value is " + behaviorCounter + "\n\n");
 			player.changeStatusValue(StatusEffects.PrisonCaptorEllyStatus,3,behaviorCounter);
@@ -1103,7 +1103,7 @@ package classes.Scenes.Places.Prison
 					behaviorCounter = player.statusEffectv3(StatusEffects.PrisonCaptorEllyStatus) + 1;
 					outputText("(Placeholder) new behavior value is " + behaviorCounter + "\n\n");
 					player.changeStatusValue(StatusEffects.PrisonCaptorEllyStatus,3,behaviorCounter);
-					player.orgasm();
+					player.orgasm('Generic');
 					corChange = -0.25;
 					dynStats("cor", corChange);
 				}
@@ -1434,7 +1434,7 @@ package classes.Scenes.Places.Prison
 				outputText(" and a soft pressure against your belly-button; they pull upward in unison.\n\n");
 				outputText(" \"<i>Aaaaah!</i>\" you moan with an undignified lilt, your jaw dropping as you shudder from the mix of sensations. The bite of your treat returns to your face, though now it appears coated like a proper pastry. \"<i>Aah!</i>\" you cry in refusal as you realize the nature of the frosting, but by then she's already pressed it hard to your tongue. \"<i>A-ah-uuh...uhh...</i>\"\n\n");
 				outputText("Mistress Elly fixes you with a gaze of casual, almost indifferent triumph -- as if she's used to constantly proving you wrong about yourself. You feel <i>yourself</i> getting frightfully used to it, too, but seeing it mean so little to her very nearly breaks your luminous reverie. But before you have time to reflect, she slowly closes her own mouth, shifts her jaw around to imitate chewing, and slowly withdraws her fingers, teasing out a long strand of saliva before flicking it over your nose and lips. Your will to struggle with this heartbreaking charade any further finally and thoroughly devastated, you feel your quivering jaw repeat her motions, the cum-coated bread crumbling and soaking into your mouth, and then a knot in your throat.\n\n");
-				outputText("It's delicious. Her seed did nothing to the dense, fluffy texture, but the <i>flavor</i>. What was once a simple, filling snack now tastes like an lush, cinnamon delicacy. It hurts to admit it, but as your throat relaxes you manage to swallow and the delectable sensation travels all the way down your gullet, you want <b>more</b>.\n\n");
+				outputText("It's delicious. Her seed did nothing to the dense, fluffy texture, but the <i>flavor</i>. What was once a simple, filling snack now tastes like a lush, cinnamon delicacy. It hurts to admit it, but as your throat relaxes you manage to swallow and the delectable sensation travels all the way down your gullet, you want <b>more</b>.\n\n");
 				outputText("Your Mistress merely smirks at your dazed expression, rising and again stepping around to your side. As she does so, she plucks off another piece, swirls it affectionately on your cheek for a moment, then places it against your lips, which immediately open to accept her deposit. You feel your hair being ruffled as the click of her steps ceases directly behind you. A soft brush swipes under your drippy chin, then pulls up, tilting your head back to see your Mistress looking down at you with predatory delight.\n\n");
 				outputText("\"<i>You know,</i>\" she says, holding another succulent morsel before your lips.\n");
 				outputText("\"<i>I really did think you were only pretending.</i>\" You open your mouth to accept, your ravenous eyes imploring her with suppliant innocence.\n");
@@ -1476,7 +1476,7 @@ package classes.Scenes.Places.Prison
 				prison.changeWill(10);
 				player.refillHunger(40);
 				prisonCaptorPetScoreChange(2);
-				player.orgasm();
+				player.orgasm('Lips');
 				prisonCaptorPetTierUpdate();
 				shortName = consumables.C_BREAD;
 			}

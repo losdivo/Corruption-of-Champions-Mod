@@ -139,7 +139,7 @@ package classes.Scenes.Seasonal {
 				doNext(camp.returnToCampUseEightHours);
 			}
 			//Rathazul
-			else if (player.findStatusEffect(StatusEffects.CampRathazul) >= 0 && flags[kFLAGS.JACK_FROST_PROGRESS] == 2) {
+			else if (player.hasStatusEffect(StatusEffects.CampRathazul) && flags[kFLAGS.JACK_FROST_PROGRESS] == 2) {
 				outputText("Rathazul approaches you.  \"<i>[name]?  What is going on?  It hasn't snowed in Mareth for years now.  And why only around the camp?  I wandered out to investigate, but outside there is no snow at all...</i>\" he asks, concerned.");
 				
 				outputText("\n\nYou tell Rathazul that you met a friendly... er... wizard up in the mountains who wanted to try and bring snow back to Mareth.  You offered to let him cast it out over your camp, so it's basically being flung from the mountains to land here.  But, really, why is he worrying about it?  This is the first time it's happened in years, doesn't he want to enjoy it while it lasts, before it melts away?");
@@ -180,23 +180,41 @@ package classes.Scenes.Seasonal {
 				return;
 			}
 			//Jojo
-			else if ((player.findStatusEffect(StatusEffects.PureCampJojo) >= 0 || getGame().jojoScene.campCorruptJojo()) && flags[kFLAGS.JACK_FROST_PROGRESS] <= 4) {
+			else if ((player.hasStatusEffect(StatusEffects.PureCampJojo) || getGame().jojoScene.campCorruptJojo()) && flags[kFLAGS.JACK_FROST_PROGRESS] <= 4) {
 				//Pure
-				if (player.findStatusEffect(StatusEffects.PureCampJojo) >= 0) {
-					outputText("Jojo is sitting on his usual rock, one hand out to catch snowflakes with a beatific smile of awe on his face.  \"<i>Look, [name], snow!  I haven't seen snow since I was a very, very small boy.</i>\"  He tells you.");
-					
-					outputText("\n\nSo is he enjoying it?  You ask.  If so, then it was worth it getting someone to make it snow on your camp.");
-					outputText("\n\n\"<i>Yes, I'm enjoying it - it's a wonderful reminder of purer times.</i>\"  The mouse says, still catching flakes and watching them melt in the palms of his hands.");
-					
-					outputText("\n\nOut of the monk's sight you take a small bit of snow and slowly roll it into a ball.  Then taking your time to place your shot carefully, you swing your arm at full speed, hurling the small ball of snow right at the back of the white-furred monk's head.");
-					outputText("\n\nThe snowball explodes as it lands, knocking Jojo right off his perch with a startled squeak.  \"<i>[name], what was that for!?</i>\" he splutters.");
-					outputText("\n\nYou can't resist laughing out loud.  You were just testing to see if he had his guard up.");
-					
-					outputText("\n\nFaster than you would have expected, Jojo stoops down, rolls a snowball and smacks you right in the face with it.  \"<i>Two can play at that game,</i>\" he says, a faint grin playing on his features.");
-					
-					outputText("\n\nYou calmly wipe the snow off your face and smile evilly at the monk, asking him if he realizes this means war...");
-					outputText("\n\n\"<i>Bring it on,</i>\" Jojo states, already bouncing another snowball in his palm.");
-					outputText("\n\nLaughter echoes as the two of you exchange snowballs...");
+				if (player.hasStatusEffect(StatusEffects.PureCampJojo)) {
+					if (flags[kFLAGS.JOJO_BIMBO_STATE] < 3) {
+						outputText("Jojo is sitting on his usual rock, one hand out to catch snowflakes with a beatific smile of awe on his face.  \"<i>Look, [name], snow!  I haven't seen snow since I was a very, very small boy.</i>\"  He tells you.");
+						
+						outputText("\n\nSo is he enjoying it?  You ask.  If so, then it was worth it getting someone to make it snow on your camp.");
+						outputText("\n\n\"<i>Yes, I'm enjoying it - it's a wonderful reminder of purer times.</i>\"  The mouse says, still catching flakes and watching them melt in the palms of his hands.");
+						
+						outputText("\n\nOut of the monk's sight you take a small bit of snow and slowly roll it into a ball.  Then taking your time to place your shot carefully, you swing your arm at full speed, hurling the small ball of snow right at the back of the white-furred monk's head.");
+						outputText("\n\nThe snowball explodes as it lands, knocking Jojo right off his perch with a startled squeak.  \"<i>[name], what was that for!?</i>\" he splutters.");
+						outputText("\n\nYou can't resist laughing out loud.  You were just testing to see if he had his guard up.");
+						
+						outputText("\n\nFaster than you would have expected, Jojo stoops down, rolls a snowball and smacks you right in the face with it.  \"<i>Two can play at that game,</i>\" he says, a faint grin playing on his features.");
+						
+						outputText("\n\nYou calmly wipe the snow off your face and smile evilly at the monk, asking him if he realizes this means war...");
+						outputText("\n\n\"<i>Bring it on,</i>\" Jojo states, already bouncing another snowball in his palm.");
+						outputText("\n\nLaughter echoes as the two of you exchange snowballs...");
+					}
+					else { // Bimbo Jojo
+						outputText("Joy is sitting on her usual rock, one hand out to catch snowflakes with a beatific smile of awe on her face.  \"<i>Look, [name], snow!  I haven't, like, seen snow since I was a very, very small mouse!</i>\"  She tells you excitedly.");
+						
+						outputText("\n\nSo is she enjoying it?  You ask.  If so, then it was worth it getting someone to make it snow on your camp.");
+						outputText("\n\n\"<i>Yes, I'm enjoying it - it's beautiful and pure, all cold!</i>\"  The mouse says, still catching flakes and watching them melt in the palms of her hands.");
+						
+						outputText("\n\nOut of the monk's sight you take a small bit of snow and slowly roll it into a ball.  Then taking your time to place your shot carefully, you swing your arm at full speed, hurling the small ball of snow right at the back of the white-furred monk's head.");
+						outputText("\n\nThe snowball explodes as it lands, knocking Joy right off her perch with a startled squeak.  \"<i>Hey [name]! Like, what was that for!?</i>\" she splutters.");
+						outputText("\n\nYou can't resist laughing out loud.  You were just testing to see if she had her guard up.");
+						
+						outputText("\n\nFaster than you would have expected, Joy stoops down, rolls a snowball and smacks you right in the face with it.  \"<i>Two can play at that game,</i>\" she says, a faint grin playing on her features.");
+						
+						outputText("\n\nYou calmly wipe the snow off your face and smile evilly at the monk, asking her if she realizes this means war...");
+						outputText("\n\n\"<i>Bring it on,</i>\" Joy states, already bouncing another snowball in her palm.");
+						outputText("\n\nLaughter echoes as the two of you exchange snowballs...");
+					}
 					menu();
 					addButton(0,"Next",processJackFrostEvent);
 					flags[kFLAGS.JACK_FROST_PROGRESS] = 5;
@@ -258,7 +276,7 @@ package classes.Scenes.Seasonal {
 						if (player.hasCock()) {
 							outputText("\n\nYou strip off your lower garments, exposing your " + player.multiCockDescriptLight() + " to the hungry eyes of your cumslut.  You tell her you would like her to give you a \"<i>hand</i>\", with the extraction process...");
 							outputText("\n\nAmily bows respectfully.  \"<i>Right away, [master].</i>\"");
-							outputText("\n\nShe promptly takes hold of your [cock] with awe-filled respect, her long, dextrous fingers quickly falling into the familiar rhythym of dancing along your cock to fill you with the most wonderous sensations.  Her spaded tail wiggles idly for several moments, then slithers through the air to brush its feather-like tip against the tip and underside of your shaft");
+							outputText("\n\nShe promptly takes hold of your [cock] with awe-filled respect, her long, dextrous fingers quickly falling into the familiar rhythm of dancing along your cock to fill you with the most wondrous sensations.  Her spaded tail wiggles idly for several moments, then slithers through the air to brush its feather-like tip against the tip and underside of your shaft");
 							if (player.balls > 0) outputText(", even tickling your [balls]");
 							else if (player.hasVagina()) outputText(", even tickling your [cunt] for added tantalization");
 							outputText(".");
@@ -316,7 +334,7 @@ package classes.Scenes.Seasonal {
 				addButton(0,"Next",processJackFrostEvent);
 			}
 			//Marble (Written by TDM himself)
-			else if (flags[kFLAGS.JACK_FROST_PROGRESS] <= 7 && player.findStatusEffect(StatusEffects.CampMarble) >= 0) {
+			else if (flags[kFLAGS.JACK_FROST_PROGRESS] <= 7 && player.hasStatusEffect(StatusEffects.CampMarble)) {
 				flags[kFLAGS.JACK_FROST_PROGRESS] = 8;
 				//With Kids
 				if (flags[kFLAGS.MARBLE_KIDS] > 0 && flags[kFLAGS.MARBLE_NURSERY_CONSTRUCTION] >= 100) {
@@ -578,7 +596,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>I... oh, [name], I'm close!</i>\" Kiha gasps.  You try to reply and tell her so are you, but words fail you.  Instead you moan at her and thrust yourself as far into her as you can, painting her walls white with your seed as you spew rope upon rope towards her ready womb.  The dragoness manages to throw you a lustful smirk.  \"<i>Cumming already, lo-oh oh OH!</i>\"  She screams, arching her back and spewing flames out into the snowy sky above as she cums violently, flooding your crotch with all the lubricants and orgasm-fluids she can produce.");
 			outputText("\n\nOnce her orgasm has subsided, the dragon-girl comes crashing down on top of you.  You laugh lightly and ask her what was she saying?  \"<i>...I guess that this snow stuff isn't so bad after all,</i>\" she admits, then sneaks a smooch to try and keep you from laughing at her.  You're happy to return the kiss and lay with her for a while longer, basking the heat of your each other, as well as your afterglow...");
 			getGame().kihaFollower.kihaKnockUpAttempt();
-			player.orgasm();
+			player.orgasm('Dick');
 			doNext(processJackFrostEvent);
 		}
 		//[=Lick Boobs and Finger Pussy=]
@@ -621,7 +639,7 @@ package classes.Scenes.Seasonal {
 			
 			outputText("\n\nYou tell Amily, \"<i>Happy Holidays,</i>\" hugging her in post-coital affection.  \"<i>Happy Holidays, [name]... whatever that is,</i>\" she giggles.  \"<i>But, you know, we might just have a little late Winterfest present brewing after that bit of fun.</i>\"  She bats her eyes at you flirtatiously, patting her cum-stuffed belly.");
 			outputText("\n\nYou agree with her and enjoy your closeness a while longer...");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("lib", -1);
 			doNext(processJackFrostEvent);
 		}
@@ -673,7 +691,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nLaughing at his reaction, you ask if he has learned how to properly fuck in the snow.  Jojo lifts his face, covered in half-frozen spunk-slush, and nods at you, too tired from his recent fucking to speak.");
 			
 			outputText("\n\nGood, now he should get his face cleaned up.  You order him to lick himself clean.  Without hesitation, Jojo starts doing exactly what you said, slurping up all of the cum-slush on his face and using his fingers to scrape the rest into his reach.  He then begins licking at his arms and chest, clearly not intending to stop until he has it all.   You nod in satisfaction, telling him to keep at it, you want to see him eat it all up...");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("lib", -3, "sen", -1, "cor", 1);
 			doNext(processJackFrostEvent);
 			flags[kFLAGS.JACK_FROST_PROGRESS] = 5;
@@ -701,7 +719,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nYou wait until you're sure you dripped the last few drops of femcum from your cunt, then, with a groan, noisily pull yourself off of the mouse's now-limp dick.  Moving so that you are hovering it over Jojo's face, you authoritatively command your slave to clean up all the mouse-spunk he stuffed into your cunt.  The panting mouse-slut breaks out of his trance with a start, and quickly raises to get started and do your bidding, even as drops of your mixed juice and his slutty baby-batter drip on his face.  He drinks the spunk with joy, moaning in enjoyment at the act.");
 			
 			outputText("\n\nYou just stand and watch as he works, waiting for him to finish cleaning you up so you can get started on your next task...");
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("lib", -3, "sen", -1, "cor", 1);
 			doNext(processJackFrostEvent);
 			flags[kFLAGS.JACK_FROST_PROGRESS] = 5;
@@ -728,7 +746,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nWith a gasp and a howl, Jojo does as you command, a fountain of tainted mouse-spooge gushing from his cock, soaking into the snow to create a great slushy puddle.  He cums and he cums until he's totally exhausted his strength, collapsing bonelessly into the puddle he's just created, his tail slipping off of your wrist as he does so.");
 			
 			outputText("\n\nYou laugh at the mouse-slut's blissed out face of pleasure, feeling like you managed to chip away another part of his broken will.  Before you leave him to pass out on his snowy puddle of mouse-cum you ask him, what is his name?  \"<i>S - Slut...</i>\"  Is the moaning reply.  Satisfied, you decide to leave for the moment.  Maybe you'll get back to him and break him in a little more later...");
-			dynStats("lus=", player.maxLust(), "resisted", true);
+			dynStats("lus=", player.maxLust(), "scale", true);
 			flags[kFLAGS.JACK_FROST_PROGRESS] = 5;
 			doNext(processJackFrostEvent);
 		}

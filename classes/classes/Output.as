@@ -1,6 +1,8 @@
 package classes 
 {
-	/**
+import flash.utils.setTimeout;
+
+/**
 	 * Class to replace the old and somewhat outdated output-system, which mostly uses the include-file includes/engineCore.as
 	 * @since  08.08.2016
 	 * @author Stadler76
@@ -13,6 +15,7 @@ package classes
 		import coc.view.MainView;
 
 		private static var _instance:Output = new Output();
+		private static const HISTORY_MAX:int = 20;
 
 		public function Output()
 		{
@@ -25,10 +28,8 @@ package classes
 		public static function init():Output { return _instance; }
 
 		protected var _currentText:String = "";
-		public function get currentText():String { return _currentText; }
-		public function set currentText(value:String):void { _currentText = value; }
+		protected var _history:Array = [""];
 
-		public function get mainViewManager():MainViewManager { return kGAMECLASS.mainViewManager; }
 		public function forceUpdate():void { kGAMECLASS.forceUpdate(); }
 
 		/**
@@ -43,18 +44,19 @@ package classes
 		 *
 		 * This must not be made possible to be called directly from the outside, use wrapper-methods instead.
 		 *
-		 * @param   text              The text to be added
-		 * @param   parseAsMarkdown   set this to true, if you want the text to be formatted, using a markdown parser (NYI, sry)
+		 * @param   text    The text to be added
 		 * @return  The instance of the class to support the 'Fluent interface' aka method-chaining
 		 */
-		protected function _addText(text:String, parseAsMarkdown:Boolean = false):Output
+		protected function _addText(text:String):Output
 		{
 			// This is cleaup in case someone hits the Data or new-game button when the event-test window is shown. 
 			// It's needed since those buttons are available even when in the event-tester
 			mainView.hideTestInputPanel();
 
-			_currentText += kGAMECLASS.parser.recursiveParser(text, parseAsMarkdown);
-			if (debug) mainView.setOutputText(_currentText);
+			text = kGAMECLASS.parser.recursiveParser(text);
+			record(text);
+			_currentText += text;
+			//if (debug) mainView.setOutputText(_currentText);
 
 			return this;
 		}
@@ -73,20 +75,6 @@ package classes
 		}
 
 		/**
-		 * Add markdown formatted text (NYI!) to the output-buffer
-		 *
-		 * Actually this is a wrapper around _addText(text, true)
-		 * Unfortunately no one succeded to support markdown formatting for CoC, so as of speaking, this does exactly the same, as text("...")
-		 *
-		 * @param   text    The text to be formatted with markdown (NYI!)
-		 * @return  The instance of the class to support the 'Fluent interface' aka method-chaining
-		 */
-		public function markdown(text:String):Output
-		{
-			return _addText(text, true);
-		}
-
-		/**
 		 * Flushes the buffered output to the GUI aka displaying it
 		 *
 		 * This doesn't clear the output buffer, so you can add more text after that and flush it again.
@@ -94,18 +82,7 @@ package classes
 		 */
 		public function flush():void
 		{
-			var fmt:TextFormat = mainView.mainText.getTextFormat();
-
-			if (flags[kFLAGS.CUSTOM_FONT_SIZE] != 0)
-				fmt.size = flags[kFLAGS.CUSTOM_FONT_SIZE];
-
-			mainView.setOutputText(_currentText);
-
-			if (flags[kFLAGS.CUSTOM_FONT_SIZE] != 0)
-				mainView.mainText.setTextFormat(fmt);
-
-			if (mainViewManager.mainColorArray[flags[kFLAGS.BACKGROUND_STYLE]] != null)
-				mainView.mainText.textColor = mainViewManager.mainColorArray[flags[kFLAGS.BACKGROUND_STYLE]];
+			mainViewManager.setText(_currentText);
 		}
 
 		/**
@@ -135,7 +112,7 @@ package classes
 				mainView.hideMenuButton(MainView.MENU_PERKS);
 				mainView.hideMenuButton(MainView.MENU_STATS);
 			}
-
+			nextEntry();
 			_currentText = "";
 			mainView.clearOutputText();
 			return this;
@@ -153,9 +130,78 @@ package classes
 		public function raw(text:String):Output
 		{
 			_currentText += text;
-			mainView.setOutputText(_currentText);
+			record(text);
+			//mainView.setOutputText(_currentText);
 			return this;
 		}
 
+		/**
+		 * Appends a raw text to history, appending to last entry
+		 * @param text The text to be added to history
+		 * @return this
+		 */
+		public function record(text:String):Output {
+			if (_history.length==0) _history=[""];
+			_history[_history.length-1] += text;
+			return this;
+		}
+		/**
+		 * Appends a new text entry to the history
+		 * @param text The text to be added to history as a separate and complete entry
+		 * @return this
+		 */
+		public function entry(text:String):Output {
+			nextEntry();
+			record(text);
+			nextEntry();
+			return this;
+		}
+
+		/**
+		 * Finishes the history entry, starting a new one and removing old entries as
+		 * history grows
+		 * @return this
+		 */
+		public function nextEntry():Output {
+			if (_history.length==0) _history=[""];
+			if (_history[_history.length-1].length>0) _history.push("");
+			while(_history.length > HISTORY_MAX) _history.shift();
+			return this;
+		}
+
+		/**
+		 * Clears current history enter -- removes everything recorded since last 'clearOutput', 'entry', or 'nextEntry'
+		 * @return this
+		 */
+		public function clearCurrentEntry():Output {
+			if (_history.length==0) _history=[""];
+			_history[_history.length-1] = "";
+			return this;
+		}
+		/**
+		 * @return this
+		 */
+		public function clearHistory():Output {
+			_history = [""];
+			return this;
+		}
+
+		/**
+		 * Displays all recorded history (with current text at the end), and scrolls to the bottom.
+		 * @return this
+		 */
+		public function showHistory():Output
+		{
+			clear();
+			var txt:String = _history.join("<br>");
+			nextEntry();
+			raw(txt);
+			clearCurrentEntry();
+			// On the next animation frame
+			setTimeout(function():void {
+				mainView.scrollBar.scrollPosition = mainView.scrollBar.maxScrollPosition;
+			},0);
+			return this;
+		}
 	}
 }

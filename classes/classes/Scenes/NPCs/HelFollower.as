@@ -83,7 +83,7 @@ public function heliaFollowerIntro():void {
 	
 	outputText("\n\nYou rest your back against the crumbling wall and watch as Hel fidgets.  She seems different somehow, though you can't quite put your finger on it.  Her eyes shift constantly, warily looking all around her - at anything that isn't you - as she wraps her arms around herself, perhaps for warmth, though you're nearly sweating from the heat of her burning tail.");
 	
-	outputText("\n\n\"<i>So, [name], I've been thinking,</i>\" Helia murmers, still avoiding your gaze.  \"<i>I just... I guess I just wanted to say thanks.  For helping me ");
+	outputText("\n\n\"<i>So, [name], I've been thinking,</i>\" Helia murmurs, still avoiding your gaze.  \"<i>I just... I guess I just wanted to say thanks.  For helping me ");
 	if (flags[kFLAGS.HARPY_QUEEN_EXECUTED] > 0) outputText("kill");
 	else outputText("bring down");
 	outputText(" the Harpy Queen... and getting my sister out of that shithole.  For giving me a chance to meet my dad.  For everything.</i>\"  You start to tell her that you're happy to help, but Hel cuts you off, speaking quickly: <i>\"Kiri, Dad, and I have been trying to make it work, living out on the plains - we really have - but Dad's not in any shape to fight and Kiri's no good at it; the plains are just too dangerous for them and Dad's been having nightmares about mom, and...\"</i> she pauses to take a gasping breath, unaccustomed to talking so quickly.");
@@ -268,7 +268,7 @@ public function helFollowersIntro():void {
 		}
 	}
 	//If Rath is in Camp
-	else if (flags[kFLAGS.HEL_INTROS_LEVEL] < 3 && player.findStatusEffect(StatusEffects.CampRathazul) >= 0) {
+	else if (flags[kFLAGS.HEL_INTROS_LEVEL] < 3 && player.hasStatusEffect(StatusEffects.CampRathazul)) {
 		flags[kFLAGS.HEL_INTROS_LEVEL] = 3;
 		outputText("You take Hel over to the small section of camp Rathazul has cordoned off for his 'laboratory,' surrounding himself with glass tubes and beakers and other, stranger instruments.  You poke through the array of equipment to find old Rath sitting in front of some experiment or another, furiously scribbling notes.  With a light cough, you alert him to your presence.");
 		
@@ -481,7 +481,7 @@ public function heliaFollowerMenu(display:Boolean = true):void {
 	if (display) 
 	{
 		clearOutput();
-		spriteSelect(68);
+		helScene.spriteChooser();
 	}
 	if (flags[kFLAGS.HEL_FOLLOWER_LEVEL] == 2) {
 		if (flags[kFLAGS.HELIA_ANAL_TRAINING_OFFERED] == 0 && display && player.biggestCockArea() > heliaAnalCapacity()) {
@@ -531,7 +531,9 @@ public function heliaFollowerMenu(display:Boolean = true):void {
 				if (display) outputText("\n\n<b>You are in Hardcore Mode. Are you sure you want to embark on the quest? You cannot return until you defeat the opponents and if you get defeated, your save file is permanently deleted.</b>");
 			}
 			//(Display Options: [Dungeon] [Not Yet])
-			simpleChoices("Dungeon", kGAMECLASS.dungeons.heltower.goToHeliaDungeon, "", null, "", null, "", null, "Not Yet", kGAMECLASS.dungeons.heltower.notYet);
+			menu();
+			addButton(0, "Dungeon", kGAMECLASS.dungeons.heltower.goToHeliaDungeon);
+			addButton(1, "Not Yet", kGAMECLASS.dungeons.heltower.notYet);
 		}
 	}
 }
@@ -644,7 +646,7 @@ private function talkToHel():void {
 		outputText("\n\nFirst, you ask her how she's settling in.  She smiles at the question, <i>\"It's good to be here, [name].  It's nice to know someone's got my back while I sleep, that I have someone who can take care of me if I get sick or hurt...  But most of all, I'm loving being so close to my best friend.\"</i>  She leans over and plants a little kiss on your cheek.");
 		
 		//(If Rath's at camp):
-		if (player.findStatusEffect(StatusEffects.CampRathazul) >= 0) {
+		if (player.hasStatusEffect(StatusEffects.CampRathazul)) {
 			outputText("\n\n<i>\"Oh!  And check out what the old man helped me set up!\"</i>  Hel adds, quickly hopping down and going to a large metal cask sitting under the hammock.");
 		}
 		else
@@ -1171,7 +1173,7 @@ private function possessIzma():void {
 	
 	outputText("\n\n\"<i>That's what you get for submitting to other people without my permission,</i>\" you say, pushing Hel's tail-cockring off of Izma's cock.  \"<i>Now be a good girl and do something about... that...</i>\"");
 	
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1212,7 +1214,7 @@ private function inCampHelNagaLuv():void {
 	
 	outputText("\n\nBefore you know it, you're drifting off to sleep in your lover's embrace...  The last thing you hear is her quiet whisper: \"<i>Nagas really do give the best hugs...</i>\"");
 	
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1243,7 +1245,7 @@ private function nagaCoilForHelCampWithGirls():void {
 	
 	outputText("\n\nBefore you know it, you're drifting off to sleep in your lover's embrace.... The last thing you hear is her quiet whisper:  \"<i>Nagas really do give the best hugs...</i>\"");
 	
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1286,7 +1288,7 @@ private function centaurMountsCampHel():void {
 	
 	outputText("\n\n\"<i>Holy shit,</i>\" she gasps, breathing hard, You look down from your loft position on centaur-back as Hel rolls over, idly fingering out thick globs of seed still leaking from her well-abused hole.  \"<i>Thanks for the ride, lover mine.</i>\"");
 	
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1313,14 +1315,14 @@ private function femtaurPlusCampHel():void {
 	
 	outputText("\n\nYou have time only to let out a desperate curse before the toy rams itself back into you.  You try to leap forward from the massive, mind-numbingly pleasurable impact, but its strong hands hold you fast.  You yelp and scream as the statue begins to fuck you roughly, making forceful thrusts deep into your [vagina] until the dildo is battering your cervix.  Its motions into you carry its second cock forward, too, slamming into Hel until her gut visibly distends under the sudden impact, forcing a scream from her lips - and a brutal thrashing of her tail, her thick shaft going wild inside your anus, wriggling madly about inside you, completely out of her control.");
 	
-	outputText("\n\nIn minutes you've arched your back and cried out, screaming an orgasmm to the heavens as the twin members inside you hammer wildly into you.  But the statue keeps fucking, and Hel keeps thrashing wildly, and soon you've cum again, driven to mind-blanking pleasure by the intense fucking meted out by the magical apparatus.");
+	outputText("\n\nIn minutes you've arched your back and cried out, screaming an orgasm to the heavens as the twin members inside you hammer wildly into you.  But the statue keeps fucking, and Hel keeps thrashing wildly, and soon you've cum again, driven to mind-blanking pleasure by the intense fucking meted out by the magical apparatus.");
 	
 	outputText("\n\nNearly an hour passes before you collapse, finally falling off the toy as gallons of fake-spooge leak out of your horsecunt, your fiery lover tumbling off your back to land in a pool of the statue's leavings leaking from her abused cunt.");
 	
 	outputText("\n\n\"<i>I have got... to get... one of those,</i>\" Hel pants, her eyes still rolled up in her head.");
 	
 	outputText("\n\nBreathing heavily, you pat her on the cheek and stumble off to get cleaned up.");
-	player.orgasm();
+	player.orgasm('Vaginal');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1346,7 +1348,7 @@ private function heliaFollowerTentafuck():void {
 	outputText("\n\nWith a contented sigh, you yank your wilting pricks out of your fiery lover, letting her flop to the ground in a puddle of sticky spunk.  She groans loudly, rolling over and blinking hard.  \"<i>You're just a miniature tentacle monster, you know that?  And I love it!  You gotta do that again some time... just like a walking gang bang.</i>\"");
 	
 	outputText("\n\nYou roll your eyes and go to get cleaned up.");
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -1);
 	if (getGame().inCombat)
 		combat.cleanupAfterCombat();
@@ -1412,7 +1414,7 @@ private function muddyLizardFeet():void {
 	
 	outputText("\n\n\"<i>You're mine, [name]!</i>\" she laughs, struggling to stand, one soft sole planted firmly on your chest, pressing you down into the muddy soil beside the stream.  You groan as the salamander looms over you, hands planted firmly on her wide hips.  \"<i>Now... what should I do with my weak little prize, hmm? Should I... oh, why. hello there,</i>\" Hel chuckles as your [cock biggest] stiffens unconsciously, so used to the touch of Helia's body signaling imminent pleasure that her holding you down in the mud sparks a rather confused boner.");
 	
-	outputText("\n\nHel grins down at you and shifts her weight onto the foot that had been on your chest, her other coming up between your [legs], the smooth flats of her claws caressing the underside of your turgid cock, quickly bringing it to full stiffness.  She coos merrily as her claws stroke the stiff shaft of your manhood, leaving thick, slimy trails of salamander-warmed mud trickling down your prick.  Seeing your reaction - or at least, that of your rock-hard [cock biggest], Hel presses down ever so slightly, moving her heel to the base of your cock and flattening it against your belly.  A little gasp escapes your mouth as your lover applies the tiniest amount of pressure, leaning in to tighly press your rod against you.");
+	outputText("\n\nHel grins down at you and shifts her weight onto the foot that had been on your chest, her other coming up between your [legs], the smooth flats of her claws caressing the underside of your turgid cock, quickly bringing it to full stiffness.  She coos merrily as her claws stroke the stiff shaft of your manhood, leaving thick, slimy trails of salamander-warmed mud trickling down your prick.  Seeing your reaction - or at least, that of your rock-hard [cock biggest], Hel presses down ever so slightly, moving her heel to the base of your cock and flattening it against your belly.  A little gasp escapes your mouth as your lover applies the tiniest amount of pressure, leaning in to tightly press your rod against you.");
 	
 	outputText("\n\n\"<i>Aww, he likes it,</i>\" Hel laughs, clutching your girth between her clawed, scaled toes.  Slowly, she moves her foot along your length with tantalizing slowness, her soft, warm soles made slick by the thick mud now slathered on your dick.  Her actions are smooth and fluid, her well-lubricated underside gliding easily down to the base of your prick, ");
 	if (player.balls > 0) outputText("her heel coming to caress your taut sack");
@@ -1431,7 +1433,7 @@ private function muddyLizardFeet():void {
 	
 	outputText("\n\nYou stroke the salamander's cheek, planting a kiss on her lips as you finally start to move, rocking your hips back just a few inches before gently sliding back in, gliding easily into the welcoming embrace of her sodden slit.  Slowly, you move in and out of her, gently and lovingly, reveling in the sensation of her warm embrace, just as she glories in the thick shaft inside her, letting soft moans escape her lips to the beat of your quickening thrusts.");
 	
-	outputText("\n\nGrinning, you start to build up to a rougher pace, starting to fuck Hel with greater speed and power.  Your rhythm intensifies, as does the salamaner's grip on you, until you feel her claws digging into your back.  \"<i>Yeah, come on, [name]!  Just like that!  Just... like... that!</i>\"");
+	outputText("\n\nGrinning, you start to build up to a rougher pace, starting to fuck Hel with greater speed and power.  Your rhythm intensifies, as does the salamander's grip on you, until you feel her claws digging into your back.  \"<i>Yeah, come on, [name]!  Just like that!  Just... like... that!</i>\"");
 	
 	outputText("\n\nBefore you can blink, Hel shifts her grip on you and rolls you over, suddenly planting you back in the mud, leaving her on top, straddling your [hips], cock half-buried inside her.  She gives you a wink as she lifts up, letting your [cockHead biggest] taste the cool air.  You shudder with the sudden frigid sensation along your manhood as the salamander turns around, whispering, \"<i>I'm not ready for this to end just yet....</i>\"  She comes back down a second later, reaching back to spread her cheeks so that your [cock biggest] slides readily into her taut, muscular butt, trapped behind her as she gently grinds on you.  You groan, brought down from your near-orgasmic high by the sudden cold; Hel's butt is nothing compared to the sweltering embrace of her inner depths.");
 	
@@ -1469,7 +1471,7 @@ private function muddyLizardFeet():void {
 	
 	outputText("\n\nYou brush her hair and nod, happy to enjoy the loving embrace of your lover.");
 	
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -2);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1680,7 +1682,7 @@ private function heliaAndVapula():void {
 	
 		outputText("\n\n\"<i>Don't worry, I can take care of myself.  And if I get stuck in your camp, who cares?  If we did this every time I stumbled upon your place I would get lost more often!</i>\" she says with a cute little wink; she's still limping and giggling as she heads toward the plains.  Meanwhile, Vapula is a sorry mess.  Still digesting her copious cum-meal, she doesn't seem to mind the sexual filth coating her face.  You shrug and leave your pet to her digestion.");
 	}
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -2, "cor", 1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1745,7 +1747,8 @@ private function girlsThreesomeHelAndKiha():void {
 	outputText("\n\nYou grab Kiha's horns to steady yourself as your cunt and ass spasm around the thick tail-cocks crammed inside you, your [legs] wobbling weakly after the double-penetration.  Even as you recover, though, the dragoness mashes Hel's face into her belly, commanding, \"<i>Come on, firebutt, clean it off!</i>\"");
 	
 	outputText("\n\nWith the two lizard-girls distracted, you languidly pull their limp tails out of your holes, relishing the blessedly empty feeling left before you collapse into a pool of your own juices... just to catch your breath, you insist.");
-	player.orgasm();
+	player.orgasm('Vaginal');
+	player.orgasm('Anal',false);
 	dynStats("sen", -2);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1785,7 +1788,7 @@ private function dudeHeliaAndKihaThreeSome():void {
 	outputText("\n\n\"<i>I'm not.  A Lizard,</i>\" Kiha growls.  Rather than answer, Hel hooks her leg around and gives Kiha a foot-full of cum on the face before bounding away, laughing madly.");
 
 	outputText("\n\n\"<i>FIREBUUUUUUUTTT!!!</i>\"");
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -2);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1849,7 +1852,7 @@ private function helXValeriaFemalePC():void {
 	outputText("\n\n\"<i>Oh, for fuck's sake!</i>\" Hel snaps, trying to pull out again and again, tearing at the goo covering her body, only for it to reform a moment later.");
 	
 	outputText("\n\nHanging her head, Hel moves with you so that you can both get on all fours. Hel swings a leg over your ass, making it so that you're sitting butt-to-butt, the knots in both your asses slowly deflating - a bit too realistically for comfort...");
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", -3);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -1940,7 +1943,7 @@ private function giveHeliaAnalTraining():void {
 	outputText("</i>”");
 	
 	player.consumeItem(consumables.GOB_ALE,1);
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1);
 	doNext(camp.returnToCampUseOneHour);	
 }
@@ -1999,7 +2002,7 @@ private function yesMakeHeliaAGapeSlut():void {
 	else outputText("allows you to hose her down with your ongoing waves of salty jism, soaking her in your sexual scent.");
 	outputText(" Helia burps. “<i>Fuck me that was awesome! Whoah, don’t mind me, but I, uh... I think I’m gonna stay here for a little while, maybe just rock up and down till I come down off this buzz. She blushes and begins to finger her snatch again. Just let me... just let me get used to.</i>” She shoos you away and goes back to toying with herself, getting used to her new “flexibility”.");
 	outputText("\n\n“<i>You’re gonna fall in love with my asshole, lover mine,</i>” Helia calls after you.");
-	player.orgasm();
+	player.orgasm('Dick');
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -2221,13 +2224,18 @@ private function leaveWithGirls():void {
 	outputText("\n\nShe stands and, turning toward the crowd, announces: \"<i>Thank you all so very, very much for coming out.  I can't even begin to tell you how much it means to me to see you all... I honestly didn't know anybody would come.  I hardly remembered myself. I love you all, and thanks again.</i>\"");
 	
 	outputText("\n\nThere's a general murmur of approval as Hel picks up another beer, kicks it back, and then takes your hand.  The fox-girls giggle drunkenly as Hel practically hefts them off their feet and carries them upstairs to the great amusement of the party-goers.  A moment later and you're stumbling into a rented room above the Bitch, struggling out of your [armor] as a pair of tight panties suddenly fly your way, flopping onto your face as Hel practically hangs her chain bikini on your head.  Your give a primal growl at that and quickly push the girls down onto the bed, deciding what to do with them.  By the lusty looks and sensual caresses they're giving each other, they're up for just about anything.");
-	if (player.gender == 3) {
-		outputText("\n\n\"<i>So what parts do you want to use?</i>\" she asks, looking to your mixed endowments.", false);
-		//(Display Options: [As Male] [As Female])
-		simpleChoices("As Male", helScene.foxyFluffsFoursomeAsMale, "As Female", helScene.foxyFluffGirlsFuckSex, "", null, "", null, "", null);
+	//(Display Options: [As Male] [As Female])
+	menu();
+	if (player.hasCock()) {
+		addButton(0, "As Male", helScene.foxyFluffsFoursomeAsMale);
+	} else {
+		addDisabledButton(0, "As Male");
 	}
-	else if (player.gender == 2) doNext(helScene.foxyFluffGirlsFuckSex);
-	else doNext(helScene.foxyFluffsFoursomeAsMale);
+	if (player.hasVagina()) {
+		addButton(1, "As Female", helScene.foxyFluffGirlsFuckSex);
+	} else {
+		addDisabledButton(1, "As Female");
+	}
 }
 
 private function helAndSluttyHarpy():void
@@ -2336,7 +2344,7 @@ private function helAndSluttyHarpyMale():void
 
 	outputText("\n\n<i>“Don’t think I’ll just do this whenever you want”</i> She says when the kiss is broken, but she’s smiling as she says it, so you smile back and retrieve your armor. Sophie has fallen asleep on top of Helia, who seems to also have resigned to take a nap.");
 
-	player.orgasm();
+	player.orgasm('Generic');
 	menu();
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -2399,7 +2407,7 @@ private function helAndSluttyHarpyFemale():void
 
 	outputText("\n\n<i>“But don't think this means I want to do it again,”</i> she says before shakily sauntering off to find somewhere to collapse. Sophie simply giggles and curls up to sleep in the puddle of juices the three of you made. You massage your aching muscles and get back to your champion duties.");
 
-	player.orgasm();
+	player.orgasm('Generic');
 	menu();
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -2424,7 +2432,7 @@ outputText("\n\nHer body doesn’t know how to react to the sunshine-stained che
 
 outputText("\n\nYour hand slides across Sophie’s stomach to squeeze one of her massive mammaries. The busty harpy responds by doing the same to Hel, squeezing one of her sizeable tits. You double your efforts on Helia and she practically melts despite her natural body heat. The steamy salamander crumples, falling to the side and pulling Sophie with her. You lean over and kiss both girls on the forehead before leaving them to rest, and hopefully feel more open about each other.");
 
-	player.orgasm();
+	player.orgasm('Generic');
 	menu();
 	doNext(camp.returnToCampUseOneHour);
 }

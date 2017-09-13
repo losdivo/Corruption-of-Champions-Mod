@@ -43,29 +43,44 @@ package classes.Scenes.Areas.HighMountains
 		//VICTORY!
 		public function winAgainstPhoenix():void {
 			flags[kFLAGS.PHOENIX_HP_LOSS_COUNTER] = 0; //Reset counter if you win.
-			outputText("With one final grunt, the phoenix collapses against a nearby rock, barely able to support herself. The once-proud soldier has been reduced to a " + (monster.lust >= monster.eMaxLust() ? "dazed, lust-crazed slut, desperately pulling at her clothing in a mad attempt to expose herself": "a beaten, battered heap; completely unable to resist your advances") + ". ");
-			if (player.lust >= 33 && flags[kFLAGS.SFW_MODE] <= 0) {
-				outputText("What do you do? \n\n");
+	
+			if (flags[kFLAGS.SFW_MODE] > 0) {
+				clearOutput();
+				outputText("You smile in satisfaction as the " + monster.short + " collapses, unable to continue fighting.");
+				combat.cleanupAfterCombat();
+				return;
+			}
+
+outputText("With one final grunt, the phoenix collapses against a nearby rock, barely able to support herself. The once-proud soldier has been reduced to a " + (monster.lust >= monster.maxLust() ? "dazed, lust-crazed slut, desperately pulling at her clothing in a mad attempt to expose herself" : "a beaten, battered heap; completely unable to resist your advances") + ". ");
+			outputText("What do you do? \n\n");
+			
+			menu();
+			addDisabledButton(0, "Missionary", "This scene requires you to have fitting cock and sufficient arousal.");
+			addDisabledButton(1, "Fuck Ass", "This scene requires you to have fitting cock and sufficient arousal.");
+			addDisabledButton(2, "Get Wanked", "This scene requires you to have cock and sufficient arousal.");
+			addDisabledButton(3, "Ride Anal", "This scene requires you to have sufficient arousal.");
+			addDisabledButton(4, "Ride Vaginal", "This scene requires you to have vagina and sufficient arousal.");
+			
+			if (player.lust >= 33) {
 				if (player.hasCock()) {
 					if (player.cockThatFits(monster.vaginalCapacity()) >= 0) addButton(0, "Missionary", missionaryWithPhoenix);
-					else outputText("<b>Unfortunately, " + (player.cocks.length == 1 ? "your cock doesn't": "none of your cocks") + " fit in her vagina.</b>\n");
+					else addDisabledButton(0, "Missionary", "Unfortunately, " + (player.cocks.length == 1 ? "your cock doesn't": "none of your cocks") + " fit in her vagina.");
 					if (player.cockThatFits(monster.analCapacity()) >= 0) addButton(1, "Fuck Ass", fuckPhoenixsButt);
-					else outputText("<b>Unfortunately, " + (player.cocks.length == 1 ? "your cock doesn't": "none of your cocks") + " fit in her ass.</b>\n");
+					else addDisabledButton(1, "Fuck Ass", "Unfortunately, " + (player.cocks.length == 1 ? "your cock doesn't": "none of your cocks") + " fit in her ass.");
 					addButton(2, "Get Wanked", getWanked);
 				}
 				addButton(3, "Ride Anal", rideAnal);
 				if (player.hasVagina()) addButton(4, "Ride Vaginal", rideVaginal);
-				//addButton(5, "Suck Her Dick", rideAnal);
-				addButton(14, "Leave", combat.cleanupAfterCombat);
 			}
-			else combat.cleanupAfterCombat();
+			
+			addButton(14, "Leave", combat.cleanupAfterCombat);
 		}
 		
 		public function missionaryWithPhoenix():void {
 			clearOutput();
 			outputText("You charge at the defenseless phoenix, quickly disarming her before throwing the defeated girl to the ground, leaving her moaning in the dirt on her back. She grunts, shaking her head vigourously to try and clear her mind, before looking up at you with grim, fierce eyes. ");
-			outputText("\n\n\"<i>I’ll never submit! I am a noble phoenix, not some-</i>\" Completely ignoring her you yank her chain shirt up, revealing the heaving, plush D-cups beneath " + (monster.lust >= monster.eMaxLust() ? " nipples already standing at attention in the cool air": "") + ". The phoenix gasps at the sudden exposure and turns her head away, squeezing her eyes closed, determined to not look you in the eye as you take your pleasure.");
-			outputText("\n\nKneeling before her you tear away her loincloth, forcing her legs apart to reveal her " + (monster.lust >= monster.eMaxLust() ? " slick pussy and half-rigid cock, clearly aroused despite her insistence on not enjoying herself": " tight slit and slowly engorging lizard-shaft, apparently her current condition is more enticing than she wants to admit") + ". You run a pair of fingers along her cleft, trailing it all the way up to the tip of her stirring member before circling around her tip and sliding back down. The phoenix whines pitifully as her prick reacts accordingly, twitching as it hardens at your teasing touch before you bring your fingers back to her slickening entrance and ease them between her soft lips. She groans, gritting her teeth as you go deeper and deeper inside her, wiggling against her walls whilst she soaks your hand with arousal.");
+			outputText("\n\n\"<i>I’ll never submit! I am a noble phoenix, not some-</i>\" Completely ignoring her you yank her chain shirt up, revealing the heaving, plush D-cups beneath " + (monster.lust >= monster.maxLust() ? " nipples already standing at attention in the cool air" : "") + ". The phoenix gasps at the sudden exposure and turns her head away, squeezing her eyes closed, determined to not look you in the eye as you take your pleasure.");
+			outputText("\n\nKneeling before her you tear away her loincloth, forcing her legs apart to reveal her " + (monster.lust >= monster.maxLust() ? " slick pussy and half-rigid cock, clearly aroused despite her insistence on not enjoying herself" : " tight slit and slowly engorging lizard-shaft, apparently her current condition is more enticing than she wants to admit") + ". You run a pair of fingers along her cleft, trailing it all the way up to the tip of her stirring member before circling around her tip and sliding back down. The phoenix whines pitifully as her prick reacts accordingly, twitching as it hardens at your teasing touch before you bring your fingers back to her slickening entrance and ease them between her soft lips. She groans, gritting her teeth as you go deeper and deeper inside her, wiggling against her walls whilst she soaks your hand with arousal.");
 			outputText("\n\nHer neck cranes as she struggles to control herself; slow, heavy breathing accentuating her tits as they tremble gently with each mouthful of air. With a grin you whip your fingers out of her and, as she writhes at the sudden emptiness, force them into her gasping mouth. Eyes shooting wide open, she sputters and shakes her head, but you don’t let up until she’s had a good, long taste, wrapping her reptilian tongue around your dripping digits to make sure she gets a full sampling of her own flavour. The way her tongue constricts your sodden fingers floods your groin with warmth and you feel your " + (player.cocks.length == 1 ? "member": "members") + " starting to thicken as she slurps at her own spunk.");
 			outputText("\n\nWithdrawing your hand you chide her, asking that if she doesn’t want it so much, why is she so wet?");
 			outputText("\n\n\"<i>I-I am not! It’s natural!</i>\" As she speaks, her tongue darts out to lick her lips, almost as if searching for more of her delicious juice.");
@@ -97,7 +112,7 @@ package classes.Scenes.Areas.HighMountains
 			outputText("\n\nThrusting harshly against her, trying to bury your cum into her as deeply as possible, you feel her reptile prick still trembling between you, painting your bodies with white ropes of phoenix cream. Her load is so copious that you begin to squelch each time you hilt in the girl, though the sound is barely noticeable over her squealing voice.");
 			outputText("\n\nEventually, your orgasm finished, leaving you panting atop the phoenix girl. Finally satisfied, you release the her wrists and heave yourself off her, glancing down to see that she’s passed out from the nigh-unending orgasm. Her leaking, cum-stuffed hole" + (player.cocks.length == 1 ? "": "s") + " still quiver" + (player.cocks.length == 1 ? "s": "") + " around your shaft" + (player.cocks.length == 1 ? "": "s") + ", her thick, purple lizard dick half-erect and spurting cum onto her chest in time with her breathing. Her tits glisten slightly in the sunlight as they rise and fall, sweat, saliva and cum clinging to the wobbling orbs. Grinning, you withdraw yourself from the girl, pulling your cock" + (player.cocks.length == 1 ? "": "s") + " out of her ravaged entrance" + (player.cocks.length == 1 ? "": "s") + ", triggering a rush of your semen as her widened snatch " + (player.cocks.length == 1 ? "": "and ass") + " lose the plugs that held the deluge back. You can still see her labia twitching as your seed drips down her cheeks, the thick goo swiftly pooling between her thighs.");
 			outputText("\n\nYou wipe your cock" + (player.cocks.length == 1 ? "": "s") + " on some of the girl's less-stained feathers before tucking " + (player.cocks.length == 1 ? "it": "them") + " away, snatching a gempurse from her discarded armour before starting on your journey back to camp, whistling all the way.");
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("sens", -2);
 			combat.cleanupAfterCombat();
 		}
@@ -115,7 +130,7 @@ package classes.Scenes.Areas.HighMountains
 			if (player.armorName == "goo armor") outputText("\n\nThe goo closes up around your nether regions.  ");
 			else outputText("\n\nYou take the time to re-dress your lower half.  ");
 			outputText("Satisfied, you make your way back to your camp.");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sens", -2);
 			combat.cleanupAfterCombat();
 		}
@@ -133,7 +148,7 @@ package classes.Scenes.Areas.HighMountains
 			outputText("\n\nAs you continue to daydream, your hand keeps teasing the girl's bullet-like nipple, flicking across the sensitive nub as your mental images grow more and more explicit. However, you're rudely ripped from your thoughts by the feeling of being confined, as if you had been suddenly surrounded by walls. Opening your eyes, you find your view of the mountains and sky has been blocked out by large, crimson feathers; the girl has enclosed you within her wings! Before you can respond to her actions, your fingers are batted away from her chest, your grip on her nipple easily dislodged in your distracted state. Moments later, you gasp as her breasts start to move around your [cock], the precum slathered between them covering it as they slide over you. Looking down, you see that the phoenix has taken a hold of her tits and is finally getting into pleasuring you, a begrudging smirk on her face that widens slightly as her soft mounds brush over your [cockhead], another gasping moan bursting from you.");
 			outputText("\n\nYour " + player.cockDescript() + " explodes, pumping a thick load into the shocked phoenix’s mouth. She gags on your cum, finally swallowing it as the last of your sperm drips into her mouth. With a grin, you tell her what a good job she did as you withdraw your " + player.cockDescript() + " from her grip. With little rivulets of cum dripping down her face, the halfbreed collapses onto her back, rapidly fingering herself.");
 			flags[kFLAGS.PHOENIX_WANKED_COUNTER]++;
-			player.orgasm();
+			player.orgasm('Dick');
 			combat.cleanupAfterCombat();			
 		}
 		
@@ -152,7 +167,7 @@ package classes.Scenes.Areas.HighMountains
 			outputText("\n\nNow that you’re into the swing of things, you give your phoenix lover a hand up, pulling her into a sitting position and burying her face into your [chest]. She struggles for a moment but, after seeing how nice cuddling against your warm flesh is, she relaxes into your embrace. You start to bounce on her cock, smushing her face into your breasts at the apex of each bounce, and slamming her prick deep inside you as you fall.");
 			outputText("\n\nUnable to take the cumulative pleasure, the phoenix cums. You go wide-eyed as her burning-hot cum pours into your waiting womb, scalding your depths with her sizzling, potent seed. You can only keep riding her, letting her jizz flow into you until the heat and pleasure sends you over the edge too. You hug the phoenix tight as orgasm hits you, shuddering and gasping as ecstasy threatens to overwhelm you. Your [vagina] milks your lover for every last drop until, breathless, you release your death-hold on your lover, letting her flop insensate to the ground.");
 			outputText("\n\nYou stand, a bit bow-legged, and watch as a bucket’s worth of her extra seed pours out of your sodden twat, pooling on the phoenix’s breasts and belly. Giggling, you stumble off her and collect your " + player.armorName + ".");
-			player.orgasm();
+			player.orgasm('Vaginal');
 			combat.cleanupAfterCombat();
 		}
 		
@@ -170,7 +185,7 @@ package classes.Scenes.Areas.HighMountains
 			outputText("\n\nHelpless under the phoenix’s surprise attack, you can do little more than grit your teeth and let the pleasure take you. You return her embrace, taking one of her nipples into your mouth to play with as she fucks you raw. You can feel an anal orgasm mounting, and quickly try and relax yourself, letting in more and more of her cock until she is again hilting you, her hips slamming into your [butt].");
 			outputText("\n\nUnable to hold on for long, you bite down on her pink nipple and cum, letting waves of pleasure wash over you from your rectal intruder. Your sphincter crunches down hard on the lizard prick inside you, milking it just like a pussy would until, spurred on by your orgasm and bite to her most sensitive flesh, the phoenix-girl cums. You yelp as her burning-hot cum rushes into your ass, scalding your walls until you feel a massive wave of pleasure crash into you -- a second orgasm! Your mind goes utterly numb, nearly blacking out as tremors of ecsatcy pump into you from her dick.");
 			outputText("\n\nWhen you come to your senses a few minutes later, the phoenix girl is asleep, still holding you tight. You pull her deflated lizard dick out of your ass and shudder as a torrent of her sizzling-hot spunk dribbles out onto her thighs and hips. You wriggle out of her tight embrace and give her a little kiss on the cheek before collecting your " + player.armorName + " and heading out.");
-			player.orgasm();
+			player.orgasm('Anal');
 			combat.cleanupAfterCombat();
 		}
 		
@@ -226,7 +241,7 @@ package classes.Scenes.Areas.HighMountains
 			outputText("\n\nEventually, thankfully, her orgasm finishes, shaft finally growing soft in her hands after plastering your face with a thick coating of her warm milk. Her cunt still trembles occasionally around your cock, keeping the abused flesh from going completely soft. You can feel the massive amount of seed that you released inside her as she moves, hips wiggling from side to side as if to stimulate your exhausted body even further. After a few minutes of heaving breaths, she begins to lift off your half-erect prick, her tail mercifully withdrawing itself for your still-spasming sphincter at the same time. ");
 			outputText("\n\nHowever, just before her lips fully remove themselves from your flagging cock, the mass of semen inside her starting to dribble out and down your already soaked shaft, she suddenly drives herself back down you and re-reams your ass with her still-burning tail. You gasp as your [cock] jumps back to attention inside her, the sheer amount of semen sloshing around meaning her tight walls find almost no purchase on you.");
 			outputText("\n\n\"<i>Oh, sorry, did you think this was just going to be a quickie?</i>\" She rolls her hips against you, slapping her quickly hardening cock against your cum-stained stomach as she speaks. \"<i>I told you I was going to use you to make more phoenixes, but I can't risk your sperm being as worthless as you are and not getting me knocked up.</i>\" Each bounce forces another ragged breath out of you, vision beginning to dim from the combination of your fatigued body and the rough treatment you're receiving. \"<i>I'm going to have to get every single drop out of you, just to make sure. I told you I'd make it unpleasant, at least for you.</i>\" Her voice descends into a barrage of snide chuckles as she resumes riding you in earnest, her tail still rubbing against your prostate to ensure that you'll be thoroughly milked, regardless of how awake you are for it. The thought of being used as nothing more than a pleasurable seed factory for this bird bitch is the last thing that flashes through your mind before the dark fog descends.");
-			player.orgasm();
+			player.orgasm('Dick');
 			doNext(cockwielderLossScenePart3);
 		}
 		
@@ -270,7 +285,7 @@ package classes.Scenes.Areas.HighMountains
 			if (player.gender == 0) outputText("r body spasms with pleasure");
 			outputText(". \"<i>I hope you've learned your lesson,</i>\" she says as she pulls her cock out of your leaking backdoor. She wipes her cock clean on your [armor], before she moves her loincloth back in place. \"<i>See you around!</i>\" The phoenix says with a wink as she walks off.");
 			dynStats("str", -1);
-			player.orgasm();
+			player.orgasm('Anal');
 			combat.cleanupAfterCombat();
 		}
 		

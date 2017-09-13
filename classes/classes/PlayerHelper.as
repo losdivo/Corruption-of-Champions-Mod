@@ -11,6 +11,42 @@ package classes
 	{
 		public function PlayerHelper() {}
 
+		public function hasDifferentUnderBody():Boolean
+		{
+			if ([UNDER_BODY_TYPE_NONE, UNDER_BODY_TYPE_NAGA].indexOf(underBody.type) != -1)
+				return false;
+
+			/* // Example for later use
+			if ([UNDER_BODY_TYPE_MERMAID, UNDER_BODY_TYPE_WHATEVER].indexOf(underBody.type) != -1)
+				return false; // The underBody is (mis)used for secondary skin, not for the underBody itself
+			*/
+
+			return underBody.skin.type != skin.type || underBody.skin.tone != skin.tone ||
+			       underBody.skin.adj  != skin.adj  || underBody.skin.desc != skin.desc ||
+			       (underBody.skin.hasFur() && hasFur() && underBody.skin.furColor != skin.furColor);
+		}
+
+		public function hasUnderBody(noSnakes:Boolean = false):Boolean
+		{
+			var normalUnderBodies:Array = [UNDER_BODY_TYPE_NONE];
+
+			if (noSnakes) {
+				normalUnderBodies.push(UNDER_BODY_TYPE_NAGA);
+			}
+
+			return normalUnderBodies.indexOf(underBody.type) == -1;
+		}
+
+		public function hasFurryUnderBody(noSnakes:Boolean = false):Boolean
+		{
+			return hasUnderBody(noSnakes) && underBody.skin.hasFur();
+		}
+
+		public function hasFeatheredUnderBody(noSnakes:Boolean = false):Boolean
+		{
+			return hasUnderBody(noSnakes) && underBody.skin.hasFeathers();
+		}
+
 		public function hasDragonHorns(fourHorns:Boolean = false):Boolean
 		{
 			return (!fourHorns && horns > 0 && hornType == HORNS_DRACONIC_X2) || hornType == HORNS_DRACONIC_X4_12_INCH_LONG;
@@ -29,6 +65,29 @@ package classes
 		public function hasReptileFace():Boolean
 		{
 			return [FACE_SNAKE_FANGS, FACE_LIZARD, FACE_DRAGON].indexOf(faceType) != -1;
+		}
+
+		public function hasReptileUnderBody(withSnakes:Boolean = false):Boolean
+		{
+			var underBodies:Array = [
+				UNDER_BODY_TYPE_REPTILE,
+			];
+
+			if (withSnakes) {
+				underBodies.push(UNDER_BODY_TYPE_NAGA);
+			}
+
+			return underBodies.indexOf(underBody.type) != -1;
+		}
+
+		public function hasCockatriceSkin():Boolean
+		{
+			return skinType == SKIN_TYPE_LIZARD_SCALES && underBody.type == UNDER_BODY_TYPE_COCKATRICE;
+		}
+
+		public function hasNonCockatriceAntennae():Boolean
+		{
+			return [ANTENNAE_NONE, ANTENNAE_COCKATRICE].indexOf(antennae) == -1
 		}
 
 		public function hasDragonWings(large:Boolean = false):Boolean
@@ -78,19 +137,55 @@ package classes
 			return game.bazaar.benoit.benoitBigFamily() && eyeType == EYES_BASILISK;
 		}
 
+		public function hasReptileTail():Boolean
+		{
+			return [TAIL_TYPE_LIZARD, TAIL_TYPE_DRACONIC, TAIL_TYPE_SALAMANDER].indexOf(tailType) != -1;
+		}
+
+		// For reptiles with predator arms I recommend to require hasReptileScales() before doing the armType TF to ARM_TYPE_PREDATOR
+		public function hasReptileArms():Boolean
+		{
+			return armType == ARM_TYPE_SALAMANDER || (armType == ARM_TYPE_PREDATOR && hasReptileScales());
+		}
+
+		public function hasReptileLegs():Boolean
+		{
+			return [LOWER_BODY_TYPE_LIZARD, LOWER_BODY_TYPE_DRAGON, LOWER_BODY_TYPE_SALAMANDER].indexOf(lowerBody) != -1;
+		}
+
+		public function hasDraconicBackSide():Boolean
+		{
+			return hasDragonWings(true) && hasDragonScales() && hasReptileTail() && hasReptileArms() && hasReptileLegs();
+		}
+
+		public function hasDragonNeck():Boolean
+		{
+			return neck.type == NECK_TYPE_DRACONIC && neck.isFullyGrown();
+		}
+
+		public function hasNormalNeck():Boolean
+		{
+			return neck.len <= 2;
+		}
+
+		public function hasDragonRearBody():Boolean
+		{
+			return [REAR_BODY_DRACONIC_MANE, REAR_BODY_DRACONIC_SPIKES].indexOf(rearBody.type) != -1;
+		}
+
+		public function hasNonSharkRearBody():Boolean
+		{
+			return [REAR_BODY_NONE, REAR_BODY_SHARK_FIN].indexOf(rearBody.type) == -1;
+		}
+
+		public function fetchEmberRearBody():Number
+		{
+			return flags[kFLAGS.EMBER_HAIR] == 2 ? REAR_BODY_DRACONIC_MANE : REAR_BODY_DRACONIC_SPIKES;
+		}
+
 		public function featheryHairPinEquipped():Boolean
 		{
 			return hasKeyItem("Feathery hair-pin") >= 0 && keyItemv1("Feathery hair-pin") == 1;
-		}
-
-		public function isMaleOrHerm():Boolean
-		{
-			return (gender & GENDER_MALE) != 0;
-		}
-
-		public function isFemaleOrHerm():Boolean
-		{
-			return (gender & GENDER_FEMALE) != 0;
 		}
 	}
 }

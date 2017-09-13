@@ -4,6 +4,11 @@ import classes.Player;
 import classes.Items.Consumable;
 import classes.Scenes.Areas.Lake;
 import classes.Scenes.Camp.ScarredBlade;
+import classes.internals.profiling.Begin;
+import classes.internals.profiling.End;
+import classes.display.SpriteDb;
+import classes.internals.*;
+
 import coc.view.MainView;
 
 //Used to jump the fuck out of pregnancy scenarios for menus.
@@ -11,7 +16,8 @@ import coc.view.MainView;
 //const PHYLLA_GEMS_HUNTED_TODAY:int = 893;
 
 public function playerMenu():void {
-	if (!inCombat) spriteSelect(-1);
+	mainViewManager.hidePlayerDoll();
+	if (!inCombat) spriteSelect(null);
 	mainView.setMenuButton(MainView.MENU_NEW_MAIN, "New Game", charCreation.newGameGo);
 	mainView.nameBox.visible = false;
 	showStats();
@@ -20,6 +26,7 @@ public function playerMenu():void {
 		return;
 	}
 	combat.plotFight = false; //Clear restriction on item overlaps if not in combat
+	flags[kFLAGS.BONUS_ITEM_AFTER_COMBAT_ID] = ""; //Clear item if stuck
 	if (inDungeon) {
 		kGAMECLASS.dungeons.checkRoom();
 		return;
@@ -35,18 +42,26 @@ public function playerMenu():void {
 }
 
 public function gameOver(clear:Boolean = false):void { //Leaves text on screen unless clear is set to true
-	var textChoices:Number = rand(4);
+	var textChoices:Number = rand(5);
+	if (silly && rand(5) == 0 && flags[kFLAGS.HARDCORE_MODE] == 0) textChoices = 5 + rand(4); //20% chance of humourous bad end texts.
 	if (clear) clearOutput();
-	outputText("\n\n<font color=\"#800000\">")
+	outputText("\n\n<font color=\"#800000\">");
+	//Standard
 	if (textChoices == 0) outputText("<b>GAME OVER</b>");
 	if (textChoices == 1) outputText("<b>Game over, man! Game over!</b>");
 	if (textChoices == 2) outputText("<b>You just got Bad-Ended!</b>");
-	if (textChoices == 3) outputText("<b>Your adventures have came to an end...</b>");
+	if (textChoices == 3) outputText("<b>Your adventures have come to an end...</b>");
+	if (textChoices == 4) outputText("<b>Oh dear, you are bad-ended!</b>");	//Runescape
+	//Silly Mode
+	if (textChoices == 5) outputText("<b>Don't lose hope... " + player.short + "! Stay determined!</b>"); //Undertale
+	if (textChoices == 6) outputText("<b>Wasted</b>"); //Grand Theft Auto V
+	if (textChoices == 7) outputText("<b>Ya dun goofed</b>"); //One of the memes
+	if (textChoices == 8) outputText("<b>Git gud</b>");	//One of the memes
 	outputText("</font>");
 	//Delete save on hardcore.
 	if (flags[kFLAGS.HARDCORE_MODE] > 0) {
 		outputText("\n\n<b>Error deleting save file.</b>");
-		/*outputText("\n\n<b>Your save file has been deleted as you are on Hardcore Mode!</b>", false);
+		/*outputText("\n\n<b>Your save file has been deleted, as you are on Hardcore Mode!</b>");
 		flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION] = flags[kFLAGS.HARDCORE_SLOT];
 		var test:* = SharedObject.getLocal(flags[kFLAGS.TEMP_STORAGE_SAVE_DELETION], "/");
 		if (test.data.exists)
@@ -107,6 +122,12 @@ public function errorPrint(details:* = null):void
 //Argument is time passed.  Pass to event parser if nothing happens.
 // The time argument is never actually used atm, everything is done with timeQ instead...
 public function goNext(time:Number, needNext:Boolean):Boolean  {
+	Begin("eventParser","goNext",time);
+	var rslt:Boolean = goNextWrapped(time,needNext);
+	End("eventParser","goNext");
+	return rslt;
+}
+private function goNextWrapped(time:Number, needNext:Boolean):Boolean  {
 	//Update system time
 	//date = new Date();
 	//trace ("MONTH: " + date.month + " DATE: " + date.date + " MINUTES: " + date.minutes);
@@ -121,7 +142,6 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 		timeQ--;
 		model.time.hours++;
 
-		genderCheck();
 		kGAMECLASS.combat.regeneration(false);
 		//Inform all time aware classes that a new hour has arrived
 		for (var tac:int = 0; tac < _timeAwareClassList.length; tac++) if (_timeAwareClassList[tac].timeChange()) needNext = true;
@@ -170,8 +190,8 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 				anemoneScene.goblinNightAnemone();
 				needNext = true;
 			}
-			else if (temp > rand(100) && player.findStatusEffect(StatusEffects.DefenseCanopy) < 0) {
-				if (player.gender > 0 && (player.findStatusEffect(StatusEffects.JojoNightWatch) < 0 || player.findStatusEffect(StatusEffects.PureCampJojo) < 0) && (flags[kFLAGS.HEL_GUARDING] == 0 || !helFollower.followerHel()) && flags[kFLAGS.ANEMONE_WATCH] == 0 && (flags[kFLAGS.HOLLI_DEFENSE_ON] == 0 || flags[kFLAGS.FUCK_FLOWER_KILLED] > 0) && (flags[kFLAGS.KIHA_CAMP_WATCH] == 0 || !kihaFollower.followerKiha()) && !(flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && (flags[kFLAGS.SLEEP_WITH] == "Marble" || flags[kFLAGS.SLEEP_WITH] == "")) && (flags[kFLAGS.IN_INGNAM] == 0 && flags[kFLAGS.IN_PRISON] == 0)) {
+			else if (temp > rand(100) && !player.hasStatusEffect(StatusEffects.DefenseCanopy)) {
+				if (player.gender > 0 && !(player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) && (flags[kFLAGS.HEL_GUARDING] == 0 || !helFollower.followerHel()) && flags[kFLAGS.ANEMONE_WATCH] == 0 && (flags[kFLAGS.HOLLI_DEFENSE_ON] == 0 || flags[kFLAGS.FUCK_FLOWER_KILLED] > 0) && (flags[kFLAGS.KIHA_CAMP_WATCH] == 0 || !kihaFollower.followerKiha()) && !(flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && (flags[kFLAGS.SLEEP_WITH] == "Marble" || flags[kFLAGS.SLEEP_WITH] == "")) && (flags[kFLAGS.IN_INGNAM] == 0 && flags[kFLAGS.IN_PRISON] == 0)) {
 					impScene.impGangabangaEXPLOSIONS();
 					doNext(playerMenu);
 					return true;
@@ -184,7 +204,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 					outputText("\n<b>Helia informs you over a mug of beer that she whupped some major imp asshole last night.  She wiggles her tail for emphasis.</b>\n");
 					needNext = true;
 				}
-				else if (player.gender > 0 && player.findStatusEffect(StatusEffects.JojoNightWatch) >= 0 && player.findStatusEffect(StatusEffects.PureCampJojo) >= 0) {
+				else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) {
 					outputText("\n<b>Jojo informs you that he dispatched a crowd of imps as they tried to sneak into camp in the night.</b>\n");
 					needNext = true;
 				}
@@ -197,13 +217,13 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 					needNext = true;
 				}
 				else if (flags[kFLAGS.CAMP_BUILT_CABIN] > 0 && flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && (flags[kFLAGS.SLEEP_WITH] == "Marble" || flags[kFLAGS.SLEEP_WITH] == "") && (player.inte / 5) >= rand(15)) {
-					outputText("\n<b>Your sleep is momentarily disturbed by the sound of imp hands banging against your cabin door. Fortunately, you've locked the door before you've went to sleep.</b>\n");
+					outputText("\n<b>Your sleep is momentarily disturbed by the sound of imp hands banging against your cabin door. Fortunately, you locked the door before you went to sleep.</b>\n");
 					needNext = true;
 				}
 			}
 			//wormgasms
-			else if (flags[kFLAGS.EVER_INFESTED] == 1 && rand(100) <= 4 && player.hasCock() && player.findStatusEffect(StatusEffects.Infested) < 0) {
-				if (player.hasCock() && (player.findStatusEffect(StatusEffects.JojoNightWatch) < 0 || player.findStatusEffect(StatusEffects.PureCampJojo) < 0) && (flags[kFLAGS.HEL_GUARDING] == 0 || !helFollower.followerHel()) && flags[kFLAGS.ANEMONE_WATCH] == 0 && (flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && flags[kFLAGS.SLEEP_WITH] == "")) {
+			else if (flags[kFLAGS.EVER_INFESTED] == 1 && rand(100) <= 4 && player.hasCock() && !player.hasStatusEffect(StatusEffects.Infested)) {
+				if (player.hasCock() && !(player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) && (flags[kFLAGS.HEL_GUARDING] == 0 || !helFollower.followerHel()) && flags[kFLAGS.ANEMONE_WATCH] == 0 && (flags[kFLAGS.CAMP_CABIN_FURNITURE_BED] > 0 && flags[kFLAGS.SLEEP_WITH] == "")) {
 					kGAMECLASS.mountain.wormsScene.nightTimeInfestation();
 					return true;
 				}
@@ -215,7 +235,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 					outputText("\n<b>Helia informs you over a mug of beer that she stomped a horde of gross worms into paste.  She shudders after at the memory.</b>\n");
 					needNext = true;
 				}
-				else if (player.gender > 0 && player.findStatusEffect(StatusEffects.JojoNightWatch) >= 0 && player.findStatusEffect(StatusEffects.PureCampJojo) >= 0) {
+				else if (player.gender > 0 && player.hasStatusEffect(StatusEffects.JojoNightWatch) && player.hasStatusEffect(StatusEffects.PureCampJojo)) {
 					outputText("\n<b>Jojo informs you that he dispatched a horde of tiny, white worms as they tried to sneak into camp in the night.</b>\n");
 					needNext = true;
 				}
@@ -267,7 +287,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 		else if (flags[kFLAGS.DIAPAUSE_FLUID_AMOUNT] > 0 && (player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0)) {
 			if (flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] == 1) {
 				flags[kFLAGS.DIAPAUSE_NEEDS_DISPLAYING] = 0;
-				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.", false);
+				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.");
 				needNext = true;
 			}
 			if (flags[kFLAGS.EVENT_PARSER_ESCAPE] == 1) {
@@ -322,9 +342,9 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 			}
 		}
 		//Egg loot!
-		if (player.findStatusEffect(StatusEffects.LootEgg) >= 0) {
+		if (player.hasStatusEffect(StatusEffects.LootEgg)) {
 			trace("EGG LOOT HAS");
-			if (player.findStatusEffect(StatusEffects.Eggs) < 0) { //Handling of errors.
+			if (!player.hasStatusEffect(StatusEffects.Eggs)) { //Handling of errors.
 				outputText("Oops, looks like something went wrong with the coding regarding gathering eggs after pregnancy. Hopefully this should never happen again. If you encounter this again, please let Kitteh6660 know so he can fix it.");
 				player.removeStatusEffect(StatusEffects.LootEgg);
 				doNext(playerMenu);
@@ -335,7 +355,7 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 					[
 						[consumables.BROWNEG,consumables.PURPLEG,consumables.BLUEEGG,consumables.PINKEGG,consumables.WHITEEG,consumables.BLACKEG],
 						[consumables.L_BRNEG,consumables.L_PRPEG,consumables.L_BLUEG,consumables.L_PNKEG,consumables.L_WHTEG,consumables.L_BLKEG]]
-							[player.statusEffect(player.findStatusEffect(StatusEffects.Eggs)).value2 || 0][player.statusEffect(player.findStatusEffect(StatusEffects.Eggs)).value1 || 0] ||
+							[player.statusEffectByType(StatusEffects.Eggs).value2 || 0][player.statusEffectByType(StatusEffects.Eggs).value1 || 0] ||
 							consumables.BROWNEG;
 			player.removeStatusEffect(StatusEffects.LootEgg);
 			player.removeStatusEffect(StatusEffects.Eggs);
@@ -349,13 +369,13 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 	
 	// Hanging the Uma massage update here, I think it should work...
 	telAdre.umasShop.updateBonusDuration(time);
-	if (player.findStatusEffect(StatusEffects.UmasMassage) >= 0)
+	if (player.hasStatusEffect(StatusEffects.UmasMassage))
 	{
 		trace("Uma's massage bonus time remaining: " + player.statusEffectv3(StatusEffects.UmasMassage));
 	}
 	
 	highMountains.izumiScenes.updateSmokeDuration(time);
-	if (player.findStatusEffect(StatusEffects.IzumisPipeSmoke) >= 0)
+	if (player.hasStatusEffect(StatusEffects.IzumisPipeSmoke))
 	{
 		trace("Izumis pipe smoke time remaining: " + player.statusEffectv1(StatusEffects.IzumisPipeSmoke));
 	}
@@ -382,8 +402,20 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 		return true;
 	}
 	//Drop beautiful sword if corrupted!
-	if (player.weaponPerk == "holySword" && player.cor >= 35) {
+	if (player.weaponPerk == "holySword" && player.cor >= (35 + player.corruptionTolerance())) {
 		outputText("<b>\nThe <u>" + player.weaponName + "</u> grows hot in your hand, until you are forced to drop it.  Whatever power inhabits this blade appears to be unhappy with you.  Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
+		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
+		return true;
+	}
+	//Drop ugly sword if uncorrupt
+	if (player.weaponPerk == "uglySword" && player.cor < (70 - player.corruptionTolerance())) {
+		outputText("<b>\nThe <u>" + player.weaponName + "</u> grows hot in your hand, until you are forced to drop it. Whatever power inhabits this blade appears to be disgusted with your purity. Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
+		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
+		return true;
+	}
+	//Drop midnight rapier if uncorrupt
+	if (player.weaponPerk == "midnightRapier" && player.cor < (90 - player.corruptionTolerance())) {
+		outputText("<b>\nThe <u>" + player.weaponName + "</u> grows hot in your hand, until you are forced to drop it. Whatever power inhabits this blade appears to be disgusted with your purity. Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}
@@ -428,6 +460,28 @@ public function goNext(time:Number, needNext:Boolean):Boolean  {
 			inventory.takeItem(player.setUndergarment(UndergarmentLib.NOTHING, 1), playerMenu);
 			return true;
 		}
+	}
+	//Unequip undergarment if bimbo skirt & corruption
+	if (player.armorName == "bimbo skirt" && player.cor >= 10 && player.upperGarment != UndergarmentLib.NOTHING) {
+		outputText("\nYou are feeling strange heat in your [breasts]. The thought of how much more pleasure you'll have without the embarassing strain from your " + player.upperGarmentName + " drives you into the frenzy. You take of the top of your dress, put off the garment and start teasing your [nipples], feeling lost in the waves warmth radiating through you body. Eventually, the pleasure subsides, but you decide to stay without your " + player.upperGarmentName + " for a while.\n\n");
+		kGAMECLASS.dynStats("lus", 10);
+		inventory.takeItem(player.setUndergarment(UndergarmentLib.NOTHING, 0), playerMenu);
+		return true;
+	}
+	if (player.armorName == "bimbo skirt" && player.cor >= 10 && player.lowerGarment != UndergarmentLib.NOTHING) {
+		outputText("\nLost in strange thought, you reach with your hand under the skirt. You take of you " + player.lowerGarmentName + " and immediately feel the increased sensitivity of your skin. You think how irresistible seductive you'll become without that embarassing underwear, and decide to stay that way.\n\n");
+		kGAMECLASS.dynStats("lus", 10);
+		inventory.takeItem(player.setUndergarment(UndergarmentLib.NOTHING, 1), playerMenu);
+		return true;
+	}
+	if (player.armorName == "bimbo skirt" && player.upperGarment != UndergarmentLib.NOTHING && flags[kFLAGS.TIMES_ORGASM_TITS] > 10) {
+		outputText("\nThe pressure building in your [breasts] becomes unbearable. Hastily, you take off your " + player.upperGarmentName + " and start teasing your nipples. ");
+		if (kGAMECLASS.bimboProgress.ableToProgress()) {
+			kGAMECLASS.bimboProgress.titsOrgasm();
+			
+		}
+		inventory.takeItem(player.setUndergarment(UndergarmentLib.NOTHING, 0), playerMenu);
+		return true;
 	}
 	//Unequip shield if you're wielding a large weapon.
 	if (player.weaponPerk == "Large" && player.shield != ShieldLib.NOTHING) {

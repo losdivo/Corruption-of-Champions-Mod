@@ -134,7 +134,7 @@ package classes.Scenes.Dungeons.D3
 				outputText(" Lethice thanks you for preparing Whitney’s farm");
 			}
 			outputText(", or worse. You go limp, defeated");
-			if (player.lust >= 90)
+			if (player.lust100 >= 90)
 			{
 				outputText(" and horny");
 			}
@@ -174,7 +174,7 @@ package classes.Scenes.Dungeons.D3
 			{
 				outputText(" judging by the way pre is pouring out of your [cocks], she’s not the only one.");
 			}
-			else if (player.lust >= 95)
+			else if (player.lust100 >= 95)
 			{
 				outputText(" judging by how much you’re salivating, she’s not the only one.");
 			}
@@ -256,7 +256,7 @@ package classes.Scenes.Dungeons.D3
 			}
 			else
 			{
-				outputText("<i>“No!”</i> the corrupted drider cries before collapsing to the floor, writhing widly. He’s too aroused for any kind of proper coordination");
+				outputText("<i>“No!”</i> the corrupted drider cries before collapsing to the floor, writhing wildly. He’s too aroused for any kind of proper coordination");
 				if (!m.goblinFree)
 				{
 					outputText(", but he pushes the goblin off his cock all the same");
@@ -310,10 +310,14 @@ package classes.Scenes.Dungeons.D3
 				if (player.vaginas.length > 0)
 				{
 					addButton(1,"Ride Drider",rideDrider);
+				} else {
+					addDisabledButton(1, "Ride Drider", "This scene requires you to have vagina.");
 				}
 				if (player.cocks.length > 0)
 				{
 					addButton(2,"Buttfuck Drider",buttfuckDrider);
+				} else {
+					addDisabledButton(2, "Buttfuck Drider", "This scene requires you to have cock.");
 				}
 			}
 			else
@@ -328,10 +332,15 @@ package classes.Scenes.Dungeons.D3
 					{
 						addButton(5,"Fuck Goblin",fuckMitzi);
 						addButton(6,"Goblin Tittyfuck",titfuckMitzi);
+					} else {
+						addDisabledButton(5, "Fuck Goblin", "This scene requires you to have cock.");
+						addDisabledButton(6, "Goblin Tittyfuck", "This scene requires you to have cock.");
 					}
 					if (player.vaginas.length > 0)
 					{
 						addButton(7,"Goblin Licks",mitziEatsPussy);
+					} else {
+						addDisabledButton(7, "Goblin Licks", "This scene requires you to have vagina.");
 					}
 				}
 				addButton(8,"Recruit Goblin",recruitMitzi);
@@ -566,7 +575,7 @@ package classes.Scenes.Dungeons.D3
 		{
 			clearOutput();
 			outputText("You grin at the goblin and push your [armor] out of the way to expose your [cocks], explaining that you’d like to see her please your [cock biggest] with her tits before you make any decisions about taking her as a slave of your own. After all, her and her master are responsible for your current, rigid state");
-			if (player.balls > 0 && player.lust >= 75)
+			if (player.balls > 0 && player.lust100 >= 75)
 			{
 				outputText(" and too-full feeling balls");
 			}
@@ -867,7 +876,7 @@ package classes.Scenes.Dungeons.D3
 				outputText(" aroused");
 			}
 			outputText(" lips spreading against him, the way your petals push open to reveal the delicate smoothness of your inner flower.");
-			if (player.clitLength > 3)
+			if (player.getClitLength() > 3)
 			{
 				outputText("\n\nThe best part is the way your [clit] is smashed up against the upper half of his dick, rubbing against the thick, veiny shaft in the most delicious way. You can barely stand the avalanche of sensations coming from your oversized button while you frot it against the needy demon, but isn’t that what you wanted? To get off so powerfully that Lethice would have nothing left to tempt you with?");
 				outputText("\n\nThe mounting hunger in your channel for some kind of penetration jars you from your surprisingly heterosexual frottage. You want him inside you. He can always manage your cock-sized clitty with one of his hands while you mount him again and again, trading a little corruption for the kind of");
@@ -928,15 +937,15 @@ package classes.Scenes.Dungeons.D3
 			outputText("\n\n<i>“Don’t fight it. You’re not an incubus anymore, just a slut that’ll whore out his dick for anyone and everyone to use, right?”</i> You bounce up and down, squeezing tight for emphasis. <i>“Even a mortal... or a goblin.”</i> You gesture at Mitzi, who even now is trying to work beneath you to lick at his balls. You let her. <i>“Just let go. Moan for your audience and let yourself enjoy it.”</i> Your juices are puddling thick below you. It’s getting harder and harder to keep this line of thought together. <i>“Be my slut.”</i>");
 			outputText("\n\nThat does it. His insect legs splay wide as the tension leaves them, and the demon himself throws back his head, groaning, <i>“Yessssssss...”</i> loud enough to be heard over the din. Chuckles of mirth surround you, but your corrupt toy wallows in it this time, twisting to expose the immense drider-cock beneath the spidery portion of his body. The goblin, Mitzi, is on it in a second, abandoning her sloppy seconds for a cut of the real deal. Shivers wrack the drider’s form from the simultaneous fuck from both ends, his cock jerking wildly inside you, slamming aggressively against your g-spot as if it knows exactly where to push to set you off.");
 			outputText("\n\nButterslick heat slams into the wall of your sensitive slit a half-second later as the slut-drider erupts, squirting and moaning, aggressively twisting");
-			if (player.clitLength > 3 || player.cocks.length > 0)
+			if (player.getClitLength() > 3 || player.cocks.length > 0)
 			{
 				outputText(" one of");
 			}
 			outputText(" his nipples");
-			if (player.clitLength > 3 || player.cocks.length > 0)
+			if (player.getClitLength() > 3 || player.cocks.length > 0)
 			{
 				outputText(" while still trying to");
-				if (player.clitLength > 3)
+				if (player.getClitLength() > 3)
 				{
 					outputText(" pump your [clit]");
 				}
@@ -977,7 +986,7 @@ package classes.Scenes.Dungeons.D3
 			}
 			flags[kFLAGS.DRIDERINCUBUS_FUCKED] = 1;
 			getGame().dynStats("cor+",20);
-			player.orgasm();
+			player.orgasm('Vaginal');
 			player.knockUp(PregnancyStore.PREGNANCY_IMP,PregnancyStore.INCUBATION_IMP);
 			driderDefeatMenu();
 		}
@@ -1078,7 +1087,7 @@ package classes.Scenes.Dungeons.D3
 				outputText(" You can\'t wait to see how the Demon Queen feels when she\'s skewered on your rod!");
 			}
 			getGame().dynStats("cor+",20);
-			player.orgasm();
+			player.orgasm('Dick');
 			player.knockUp(PregnancyStore.PREGNANCY_IMP,PregnancyStore.INCUBATION_IMP);
 			driderDefeatMenu();
 		}

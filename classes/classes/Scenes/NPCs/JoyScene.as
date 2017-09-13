@@ -3,6 +3,8 @@ package classes.Scenes.NPCs
 	import classes.GlobalFlags.*;
 	import classes.Items.*;
 	import classes.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	/**
 	 * Bimbo Jojo by LukaDoc
@@ -41,7 +43,7 @@ package classes.Scenes.NPCs
 		}
 		
 		private function initializeJoy():void {
-			if (player.findStatusEffect(StatusEffects.JojoNightWatch) >= 0) player.removeStatusEffect(StatusEffects.JojoNightWatch);
+			if (player.hasStatusEffect(StatusEffects.JojoNightWatch)) player.removeStatusEffect(StatusEffects.JojoNightWatch);
 			flags[kFLAGS.JOY_COCK_SIZE] = 5.5;
 			flags[kFLAGS.JOY_BREAST_SIZE] = BREAST_CUP_DD;
 			flags[kFLAGS.JOY_VAGINAL_WETNESS] = 3;
@@ -408,7 +410,7 @@ package classes.Scenes.NPCs
 		
 		//Jojo gets bimbofied! Joy Emerges.
 		private function joyEmerges():void {
-			spriteSelect(-1);
+			spriteSelect(null);
 			clearOutput();
 			outputText("Jojo doubles over and groans; you watch helpless as his fur changes from white to platinum blonde. He sprawls on the floor and you can see his lips getting fuller, his eyelashes longer and his chest begins expanding; a tearing sound rips through the air, as Jojo's new pillowy boobs rip his robes apart, perky nipples erect.");
 			outputText("\n\nYou see his pants suddenly become much less baggy as his butt, hips and thighs grow; his whole figure shifts towards the feminine and a ripping sound confirms his pants have also torn up somewhere.");
@@ -497,15 +499,23 @@ package classes.Scenes.NPCs
 		//------------
 		// TALK
 		//------------
-		private function joyTalkMenu():void {
-			clearOutput();
-			outputText("You tell Joy you'd like to talk to her for a moment.");
-			outputText("\n\nThe bimbo mouse gives you a brainlessly happy grin. \"<i>Like, sure, [name]! So, what do you, like, wanna talk about?</i>\" She asks.");
+		private function joyTalkMenu(from:Function = null):void {
+			if (from == null) {
+				clearOutput();
+				outputText("You tell Joy you'd like to talk to her for a moment.");
+				outputText("\n\nThe bimbo mouse gives you a brainlessly happy grin. \"<i>Like, sure, [name]! So, what do you, like, wanna talk about?</i>\" She asks.");
+			}
 			menu();
-			addButton(0, "Yourself", askJoyAboutYourself);
-			if (joyTalkCounter() > 0) addButton(1, "Old Life", askJoyAboutOldLife);
-			addButton(2, "Demons", askJoyAboutDemons);
-			if (flags[kFLAGS.JOY_TWINS_BIRTHED] > 0 || player.isPregnant() || jojoScene.pregnancy.isPregnant) addButton(3, "Babies", askJoyAboutBabies);
+			// Copypaste this shit to use it for other talk menu.
+			var talkButton:Function = function(pos:int, text:String = "", func1:Function = null, arg1:* = -9000, arg2:* = -9000, arg3:* = -9000, toolTipText:String = "", toolTipHeader:String = ""):* {
+				if(from != func1) addButton(pos, text, func1, arg1, arg2, arg3, toolTipText, toolTipHeader);
+				else addDisabledButton(pos, text, toolTipText, toolTipHeader);	
+			}
+			talkButton(0, "Yourself", askJoyAboutYourself);
+			if (joyTalkCounter() > 0) talkButton(1, "Old Life", askJoyAboutOldLife);
+			else addDisabledButton(1, "Old Life", "You should talk a little more before you can ask about it.");
+			talkButton(2, "Demons", askJoyAboutDemons);
+			if (flags[kFLAGS.JOY_TWINS_BIRTHED] > 0 || player.isPregnant() || jojoScene.pregnancy.isPregnant) talkButton(3, "Babies", askJoyAboutBabies);
 			addButton(14, "Back", genericMenu);
 		}
 		
@@ -514,7 +524,7 @@ package classes.Scenes.NPCs
 			outputText("You decide to ask Joy what she thinks about you.");
 			outputText("\n\nJoy blinks and looks at you puzzled. \"<i>What do I, like, think of you? Okay...</i>\" She narrows her eyes, studying you intensely.\n\n");
 			//Race check
-			switch(player.race) {
+			switch(player.race()) {
 				case "human":
 					outputText("\"<i>Well, you're a human. I haven't seen one of your kind in, like, many, many years. I think the demons got 'em all, or at least they got most of 'em. They try to round up every human who comes through, like, the portals, too. Still, I think there's some of you still hidden around.</i>\"");
 					break;
@@ -650,7 +660,8 @@ package classes.Scenes.NPCs
 			outputText("\n\nShe smiles and flops down on the ground. \"<i>I'm tired now. I wanna take a nap.</i>\" She announces, then curls up and closes her eyes, oblivious to the world.");
 			outputText("\n\nTo be honest this whole situation is a bit awkward... so you take your leave...");
 			flags[kFLAGS.JOY_TALKED_ABOUT_YOURSELF]++;
-			doNext(playerMenu);
+			
+			joyTalkMenu(askJoyAboutYourself);
 		}
 		
 		private function askJoyAboutHerself():void { //For some reason, this talk topic is missing.
@@ -689,7 +700,8 @@ package classes.Scenes.NPCs
 			outputText("\n\nMaybe you should approach and talk to Joy about changing her back once you have a clear way of doing so...");
 			if (flags[kFLAGS.JOY_INTELLIGENCE] < 40) flags[kFLAGS.JOY_INTELLIGENCE]++;
 			flags[kFLAGS.JOY_TALKED_ABOUT_OLD_LIFE]++;
-			doNext(playerMenu);
+			
+			joyTalkMenu(askJoyAboutOldLife);
 		}
 		
 		private function askJoyAboutDemons():void {
@@ -700,7 +712,8 @@ package classes.Scenes.NPCs
 			outputText("\n\n\"<i>Uh...</i>\" She mumbles, clearly trying to think of something helpful to say. \"<i>Like, meditating to bring your libido under control is really the only thing I can think of. If, like, you aren't naturally super-horny, then the demons will, y'know, have a harder time getting you so turned on you stop fighting, y'see?</i>\"");
 			outputText("\n\nSeems like this is the only way... You thank Joy for the insight and leave her for the moment.");
 			flags[kFLAGS.JOY_TALKED_ABOUT_DEMONS]++;
-			doNext(playerMenu);
+			
+			joyTalkMenu(askJoyAboutDemons);
 		}
 		
 		private function askJoyAboutBabies():void {
@@ -719,7 +732,8 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou smile and tell Joy that's all you were really worried about. You promise to come see her later and turn to leave her.");
 			outputText("\n\n\"<i>Like, thanks for dropping by, [name].</i>\" The bimbofied mouse says as you leave.");
 			flags[kFLAGS.JOY_TALKED_ABOUT_BABIES]++;
-			doNext(playerMenu);
+			
+			joyTalkMenu(askJoyAboutBabies);
 		}
 		//------------
 		// MEDITATION
@@ -749,7 +763,7 @@ package classes.Scenes.NPCs
 			outputText("Once you've sat down Joy surprises you by sitting on your lap, the sudden movement startles you a bit, but it doesn't feel bad... specially since Joy's bottom is so... comfy...");
 			outputText("\n\nShe closes her eyes and instructs you to do the same, and clear your mind of all impure thoughts.");
 			//Exgartuan
-			if (player.findStatusEffect(StatusEffects.Exgartuan) >= 0 && player.statusEffectv2(StatusEffects.Exgartuan) > 0) {
+			if (player.hasStatusEffect(StatusEffects.Exgartuan) && player.statusEffectv2(StatusEffects.Exgartuan) > 0) {
 				outputText("\n\nShe squeaks as a sudden stirring from your " + (player.statusEffectv1(StatusEffects.Exgartuan) == 1 ? "loins" : "breasts") + " knock her off-balance and she falls on her back.");
 				outputText("\n\n\"<i>What are you doing!?</i>\" a booming voice demands. \"<i>Why are you sitting there all dressed up when there's perfectly fine piece of mouse ass there " + (player.statusEffectv1(StatusEffects.Exgartuan) == 1 ? "for you to fuck" : "to massage your love-pillows") + "?</i>\"");
 				outputText("\n\n\"<i>W-What was that [name]?</i>\" Joy asks, confused as she hears the booming voice.");
@@ -822,11 +836,11 @@ package classes.Scenes.NPCs
 					else if (player.cor > 40)
 						cleanse -= 1;
 					dynStats("cor", cleanse - player.countCockSocks("alabaster"));
-					if (player.str < 45) dynStats("str", 1); //Str boost to 45
-					if (player.tou < 45) dynStats("tou", 1); //Tou boost to 45
-					if (player.spe < 75) dynStats("spe", 1); //Speed boost to 75
-					if (player.inte < 80) dynStats("int", 1); //Int boost to 80
-					if (player.lib > 0) dynStats("lib", -1); //Libido lower to 15
+					if (player.str100 < 45) dynStats("str", 1); //Str boost to 45
+					if (player.tou100 < 45) dynStats("tou", 1); //Tou boost to 45
+					if (player.spe100 < 75) dynStats("spe", 1); //Speed boost to 75
+					if (player.inte100 < 80) dynStats("int", 1); //Int boost to 80
+					if (player.lib100 > 0) dynStats("lib", -1); //Libido lower to 15
 					flags[kFLAGS.JOJO_LAST_MEDITATION] = model.time.days;
 					if (flags[kFLAGS.JOY_INTELLIGENCE] < 50) flags[kFLAGS.JOY_INTELLIGENCE]++;
 				}
@@ -872,13 +886,13 @@ package classes.Scenes.NPCs
 		private function trainWithJoy():void {
 			clearOutput();
 			outputText("You ask Joy if she'd be willing to help you train; you could use the workout.");
-			if (player.lust >= 70) { //Too horny!
+			if (player.lust100 >= 70) { //Too horny!
 				outputText("\n\nThe bimbofied mouse looks you over, a mischievous expression on her face, and makes a show of sniffing the air. \"<i>My oh my, now if my senses aren't, like, telling me lies, you, my naughty little friend, are, like, way too horny to concentrate on training. Let's have some fun instead...</i>\" She coos, posing flirtatiously and waiting to see your response.");
 				doYesNo(screwTrainingLetsFuck, screwTrainingButNoThanks);
 				return;
 			}
 			if (player.fatigue > player.maxFatigue() - 40) { //Too tired!
-				outputText("\n\nJoy looks you over and shadly shakes her head. \"<i>Like, sorry, [name], but you're too worn out to train with me. Go and, like, get some sleep; when you're rested up, then we'll train, I promise.</i>\"");
+				outputText("\n\nJoy looks you over and sadly shakes her head. \"<i>Like, sorry, [name], but you're too worn out to train with me. Go and, like, get some sleep; when you're rested up, then we'll train, I promise.</i>\"");
 				doNext(playerMenu);
 				return;
 			}
@@ -899,7 +913,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou smirk at her, telling her this is her idea, so you hope she won't regret this.");
 			outputText("\n\n\"<i>Like, don't worry about me. You just took me by surprise.</i>\" The bimbo mouse says, repositioning herself to be more comfortable in yours. \"<i>Okey-dokey, lift away!</i>\" She commands.");
 			//Strength check
-			if (player.str <= 33) { //Low strength
+			if (player.str100 <= 33) { //Low strength
 				outputText("\n\nYou begin lifting her and lowering her like a set of weights, but you quickly grow tired and as you try to push for one more press your arms give out and you end up nearly dropping Joy out of your grasp.");
 				outputText("\n\n\"<i>Like, come on, [name]; put your back into it... or are you saying I'm fat?</i>\" She pouts.");
 				outputText("\n\nFinally your strength gives and you end up dropping Joy on her butt, thankfully she was fairly close to the ground...");
@@ -907,7 +921,7 @@ package classes.Scenes.NPCs
 				outputText("\n\nYou apologize and tell her that you'll be more careful in the future.");
 				outputText("\n\n\"<i>That's okay. Go and get some rest now; you, like, need to recover.</i>\" She tells you. Picking herself up off the ground, she stretches with a groan. \"<i>That's, like, what I'm going to do.</i>\" She mutters, and walks away.");
 			}
-			else if (player.str <= 66) { //Medium strength
+			else if (player.str100 <= 66) { //Medium strength
 				outputText("\n\nYou begin lifting her and lowering her like a set of weights; while awkward at first, once you get used to it, you set upon a steady rhythm; although it doesn't help that Joy squirms once in awhile.");
 				outputText("\n\n\"<i>Like, come on, [name]; put your back into it... or are you saying I'm fat?</i>\" She pouts.");
 				outputText("\n\nYou do as she tells and speed up slightly, going slightly faster.");
@@ -939,9 +953,9 @@ package classes.Scenes.NPCs
 				dynStats("lus", 20);
 			}
 			//Increase strength
-			if (player.str <= 33) dynStats("str", 0.5);
-			if (player.str <= 66) dynStats("str", 0.5);
-			if (player.str < 90) dynStats("str", 0.5);
+			if (player.str100 <= 33) dynStats("str", 0.5);
+			if (player.str100 <= 66) dynStats("str", 0.5);
+			if (player.str100 < 90) dynStats("str", 0.5);
 			dynStats("str", 0.5);
 			player.changeFatigue(40);
 			doNext(camp.returnToCampUseOneHour);
@@ -971,7 +985,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou can't help but cock an eyebrow at her, wondering what in the world she's thinking. Still, you're not about to disrupt her; who knows? Maybe this is legitimately part of the exercise.");
 			outputText("\n\nYou don't have long to wonder that though... \"<i>Okay, like, this might hurt a bit, but it's necessary.</i>\" Then she digs her fingers on your sides painfully.");
 			//Toughness check
-			if (player.tou <= 33) {
+			if (player.tou100 <= 33) {
 				outputText("\n\nYou let out a cry of pain as her fingers dig into your flesh, thrashing at the surprising level of torment they are inflicting upon you. You try to tough it out, but you simply cannot stand it; you beg Joy to stop.");
 				outputText("\n\nJoy gasps at your reaction and stops immediately. \"<i>Sorry, [name]! I'm, like, so sorry! Do you want me to give you a kiss to make it all better?</i>\"");
 				outputText("\n\nYou can't help but manage to smile at that and suggest it would be nice. ");
@@ -986,7 +1000,7 @@ package classes.Scenes.NPCs
 				outputText("\n\nYou promise her you'll keep that in mind.");
 				player.takeDamage(30);
 			}
-			else if (player.tou <= 66) {
+			else if (player.tou100 <= 66) {
 				outputText("\n\nYou have to struggle to bite back a yell, but you manage to avoid bucking and thrashing around. It hurts, you can't deny it hurts, but you refuse to give in. Eventually, though, the pain is too much and you beg Joy to stop.");
 				outputText("\n\nJoy stops and begins rubbing your sides, as if trying to wipe the pain away. \"<i>I'm, like, so sorry [name]! But you were able to, like, put up with it for a while. You're, like, so brave! Little Joyjoy's thinking about rewarding you,</i>\" she suggests with a smile.");
 				outputText("\n\nYou can't help but smile back and ask what she has in mind.");
@@ -1010,12 +1024,12 @@ package classes.Scenes.NPCs
 				outputText("\n\n\"<i>Oh, [name]. I do want to, like, have fun with you. But, like, I also have to give you a reason to train again. Like, I had so much fun groping and rubbing you all over,</i>\" she confesses with a sheepish grin.");
 				outputText("\n\nYou can't help but pout and call her a tease, then playfully flick her on the nose.");
 				outputText("\n\nJoy giggles and says, \"<i>Like, come train with me again [name].</i>\" Then she gives you a little peck on the cheek and skips away.");
-				outputText("\n\nWatching her go, you redress yourself and then head your seperate ways.");
+				outputText("\n\nWatching her go, you redress yourself and then head your separate ways.");
 			}
 			//Increase toughness
-			if (player.tou <= 33) dynStats("tou", 0.5);
-			if (player.tou <= 66) dynStats("tou", 0.5);
-			if (player.tou < 90) dynStats("tou", 0.5);
+			if (player.tou100 <= 33) dynStats("tou", 0.5);
+			if (player.tou100 <= 66) dynStats("tou", 0.5);
+			if (player.tou100 < 90) dynStats("tou", 0.5);
 			dynStats("tou", 0.5);
 			player.changeFatigue(40);
 			doNext(camp.returnToCampUseOneHour);
@@ -1030,7 +1044,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou take the cup, understanding dawning. You ask if you're going to have to run a course without spilling the water?");
 			outputText("\n\nJoy doesn't bother answering you, she simply hooks her hands around your back and grins up to you. \"<i>Now we dance!</i>\" Then she swings her body taking you with her.");
 			outputText("\n\nYou are startled, but hasten to follow, striving to avoid spilling the water as she suddenly pulls you out of balance.");
-			if (player.spe <= 33) {
+			if (player.spe100 <= 33) {
 				outputText("\n\nYou try your hardest, but as the surprisingly graceful mouse swings you and dips you and takes you through steps you've only heard of in stories back in Ingnam, it's no surprise that you end up accidentally dropping the entire cup onto the ground underfoot.");
 				outputText("\n\nJoy stops to gaze at the cup on the floor. \"<i>Awww... you, like, dropped the whole cup?</i>\" she asks with a pout.");
 				outputText("\n\nYou apologise, but point out you were expecting to run with her, not dance with her.");
@@ -1038,7 +1052,7 @@ package classes.Scenes.NPCs
 				outputText("\n\nYou tell her that's true, and promise her you'll try and be better prepared the next time.");
 				outputText("\n\nShe giggles and gives you a little peck on the cheek for encouragement.");
 			}
-			else if (player.spe <= 66) {
+			else if (player.spe100 <= 66) {
 				outputText("\n\nYou try your hardest to avoid spilling things while, at the same time, keeping up with Joy. She's a very graceful thing; you never would have thought of her as a dancer before. Luckily, you're quick and graceful enough to keep up with her without too much difficulty, but the fancier moves mean you still spill at least a third of the water in your cup.");
 				outputText("\n\nJoy pants in exhaustion. \"<i>Like, that was fun!</i>\" she declares, then gazes at the cup of water in your hand. She quickly swipes it and drinks all the water inside. \"<i>Thanks! I, like, really needed that!</i>\" she declares.");
 				outputText("\n\nFeeling torn between amusement and indignation, you pointed out that Joy was supposed to at least check and see how much water you had spilled before drinking it.");
@@ -1060,9 +1074,9 @@ package classes.Scenes.NPCs
 				outputText("\n\nYou give her a teasing wave of your finger and walk back to camp.");
 			}
 			//Increase speed
-			if (player.spe <= 33) dynStats("spe", 0.5);
-			if (player.spe <= 66) dynStats("spe", 0.5);
-			if (player.spe < 90) dynStats("spe", 0.5);
+			if (player.spe100 <= 33) dynStats("spe", 0.5);
+			if (player.spe100 <= 66) dynStats("spe", 0.5);
+			if (player.spe100 < 90) dynStats("spe", 0.5);
 			dynStats("spe", 0.5);
 			player.changeFatigue(40);
 			doNext(camp.returnToCampUseOneHour);
@@ -1510,7 +1524,7 @@ package classes.Scenes.NPCs
 			chance += player.virilityQ() * 100;
 			if (chance > 100) chance = 100;
 			if (rand(100) < chance) jojoScene.pregnancy.knockUp(PregnancyStore.PREGNANCY_PLAYER, PregnancyStore.INCUBATION_MOUSE);
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sens", -1, "cor", -(1 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.TIMES_PENETRATED_JOY_VAGINALLY]++;
 			doNext(camp.returnToCampUseOneHour);
@@ -1558,7 +1572,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou roll your eyes and decide to just enjoy your closeness to Joy for the moment. Eventually though, you decide to get up; so you extract yourself from Joy warm innards and pull away.");
 			outputText("\n\nThen you get up and extend a hand to help Joy up as well, that's when you notice that she actually seems to be sleeping...");
 			outputText("\n\nYou chuckle and gather your things to go clean up, leaving Joy to rest.");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sens", -1, "cor", -(1 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.JOJO_ANAL_XP]++;
 			doNext(camp.returnToCampUseOneHour);
@@ -1650,7 +1664,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou do the same, feeling yourself approach the edge quickly. You thrust against her once more and groan into her mouth as you begin cumming, painting both your bellies as well as your chests in hot spunk.");
 			outputText("\n\nJoy gasps and moans, eagerly blowing her load with full-body jerks and spasms until, at least, she peters out and her cock flops limply down between her legs, your front and hers painted in her spooge. \"<i>Wow... That's not, like, my favorite way to do things, but it's certainly pretty fun, y'know?</i>\" She comments. Stepping back, she gently brushes off some of the mixed spunk with her finger and slurps it up. \"<i>Mmm. We make a good mix.</i>\" She giggles");
 			outputText("\n\nYou " + player.clothedOrNakedLower("gather the discarded pieces of your " + player.armorDescript() + " and ") + "give her ass a good grope before leading the both of you towards the nearest stream to clean up.");
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("cor", -(0.5 + Math.ceil(player.cor / 30)));
 			flags[kFLAGS.TIMES_FROTTED_WITH_JOY]++;
 			incrementJoysCockFondness(1);
@@ -1706,7 +1720,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou ruffle her hair and tell her it's because she looks cute when she's mad.");
 			outputText("\n\nShe gives you a wide, goofy smile at that and coos in delight, leaning into your stroking hand.");
 			outputText("\n\nYou " + player.clothedOrNakedLower("gather your [armor] and ") + "leave to clean up.");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("cor", -(0.5 + Math.ceil(player.cor / 30)));
 			flags[kFLAGS.TIMES_GET_BLOWN_BY_JOY]++;
 			doNext(camp.returnToCampUseOneHour);
@@ -1740,7 +1754,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou point to her face and let her know there's still a bit of cum hanging from chin.");
 			outputText("\n\nJoy's tongue immediately snakes out and licks it up. \"<i>Better now?</i>\" She teases.");
 			outputText("\n\nYou just give her a thumbs up and leave.");
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("cor", -(0.5 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.TIMES_GET_LICKED_BY_JOY]++;
 			doNext(camp.returnToCampUseOneHour);
@@ -1772,7 +1786,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou sigh and get up, extracting yourself from under her; a small trickle of cum leaks from your used fuckhole, and down your legs; looks like you'll need a bath... but first. You help Joy up and pat her head telling her if she promises to be a good girl you two can have more fun later.");
 			outputText("\n\n\"<i>Yay!</i>\" Joy perks right up at that, throwing her arms into the air in delight.");
 			outputText("\n\nYou giggle at her reaction and gather your discarded clothes. Then take Joy's hand and begin making your way towards the nearest stream.");
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("sens", 1, "cor", -(1 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.JOJO_VAGINAL_CATCH_COUNTER]++;
 			incrementJoysCockFondness(2);
@@ -1826,7 +1840,7 @@ package classes.Scenes.NPCs
 			outputText("\n\n\"<i>No! Please! Don't cut off the sex! I couldn't stand no more sex!</i>\" Joy begs you.");
 			outputText("\n\nYou laugh at Joy's mortified expression and comfort her by hugging her and telling her you would never refuse something as cute as her... but if she really expects to have a shot at your ass again she'd better grab your stuff and help you clean up. Then you release her and make your way towards the stream.");
 			outputText("\n\nThe mouse bimbo watches you go. \"<i>Like, [name], that was really mean!</i>\" She whines, then scampers after you.");
-			player.orgasm();
+			player.orgasm('Anal');
 			dynStats("sens", 1, "cor", -(1 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.JOJO_ANAL_CATCH_COUNTER]++;
 			incrementJoysCockFondness(2);
@@ -2055,7 +2069,7 @@ package classes.Scenes.NPCs
 			outputText("\n\nYou pull out from the sleeping mouse and gaze at your handiwork; the two of you really made a mess of your " + camp.homeDesc() + " and your " + camp.bedDesc() + " is completely matted with mouse femcum as well as some of your own. You consider tidying the place up a bit, but you're too tired to do any kind of work right now; this little tryst with Joy has left you completely drained, although very satisfied as well...");
 			outputText("\n\nYou shrug and lay down beside Joy, gently stroking her belly as you do. Joy reaches out and embraces you, snuggling up and you sigh, letting sleep overtake you.");
 			outputText("\n\n\"<i>Love you...</i>\" Joy murmurs sleepily.");
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("cor", -(1 + Math.ceil(player.cor / 20)));
 			flags[kFLAGS.TIMES_PENETRATED_JOY_VAGINALLY]++;
 			flags[kFLAGS.JOJO_ANAL_XP]++;
@@ -2094,7 +2108,7 @@ package classes.Scenes.NPCs
 			else outputText("manages to scrabble along on all fours");
 			outputText(", heading back to her personal nest.");
 			outputText("\n\nGetting a bit more sleep sounds just fine, so you flop down on your " + camp.bedDesc() + " and close your eyes.");
-			player.orgasm();
+			player.orgasm('Generic');
 			flags[kFLAGS.JOY_NIGHT_FUCK] = 0;
 			doNext(camp.sleepWrapper);
 		}
@@ -2225,9 +2239,7 @@ package classes.Scenes.NPCs
 			player.knockUpForce(); //Clear pregnancy
 			player.cuntChange(60, true,true,false);
 			if (player.vaginas[0].vaginalWetness == VAGINA_WETNESS_DRY) player.vaginas[0].vaginalWetness++;
-			if (player.gender == 1) player.gender = 3;
-			if (player.gender == 0) player.gender = 2;
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("str", -1,"tou", -2, "spe", 3, "lib", 1, "sen", .5);
 			flags[kFLAGS.JOY_TWINS_BIRTHED]++;
 			if (flags[kFLAGS.JOY_TWINS_BIRTHED] >= 3 && flags[kFLAGS.JOY_TAKES_BABIES_AWAY_COUNTER] == 0) flags[kFLAGS.JOY_TAKES_BABIES_AWAY_COUNTER] = 72;
@@ -2250,12 +2262,12 @@ package classes.Scenes.NPCs
 			if (player.buttRating < 14 && rand(2) == 0) {
 				if (player.buttRating < 10) {
 					player.buttRating++;
-					outputText("\n\nYou notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.", false);				
+					outputText("\n\nYou notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.");				
 				}
 				//Big butts grow slower!
 				else if (player.buttRating < 14 && rand(2) == 0) {
 					player.buttRating++;
-					outputText("\n\nYou notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.", false);
+					outputText("\n\nYou notice your " + player.buttDescript() + " feeling larger and plumper after the ordeal.");
 				}
 			}
 			outputText("\n");

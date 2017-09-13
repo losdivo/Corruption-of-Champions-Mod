@@ -29,7 +29,13 @@ package classes.Items.Consumables
 			var gpNipples:Function	= (game.player.totalNipples() > 0 ? growPlusNipples : null);
 			clearOutput();
 			outputText("You ponder the needle in your hand knowing it will enlarge the injection site.  What part of your body will you use it on?  ");
-			game.choices("Balls", gpBalls, "Breasts", gpBreasts, "Clit", gpClit, "Cock", gpCock, "Nipples", gpNipples, "", null, "", null, "", null, "", null, "Nevermind", growPlusCancel);
+			game.menu();
+			game.addButton(0, "Balls", gpBalls);
+			game.addButton(1, "Breasts", gpBreasts);
+			game.addButton(2, "Clit", gpClit);
+			game.addButton(3, "Cock", gpCock);
+			game.addButton(4, "Nipples", gpNipples);
+			game.addButton(14, "Nevermind", growPlusCancel);
 			return(true);
 		}
 		
@@ -68,7 +74,7 @@ package classes.Items.Consumables
 			clearOutput();
 			game.player.slimeFeed();
 			outputText("You sink the needle into your clit, nearly crying with how much it hurts.  You push down the plunger and the pain vanishes as your clit starts to grow.\n\n");
-			game.player.clitLength++;
+			game.player.changeClitLength(1);
 			outputText("Your " + game.player.clitDescript() + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
 			game.dynStats("sen", 2, "lus", 10);
 			game.inventory.itemGoNext();

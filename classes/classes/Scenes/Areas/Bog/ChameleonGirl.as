@@ -1,6 +1,8 @@
 package classes.Scenes.Areas.Bog
 {
 	import classes.*;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	public class ChameleonGirl extends Monster
 	{
@@ -22,8 +24,8 @@ package classes.Scenes.Areas.Bog
 		public function chameleonClaws():void
 		{
 			//Blind dodge change
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind claw-attack!\n", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
+				outputText(capitalA + short + " completely misses you with a blind claw-attack!\n");
 			}
 			//Evade:
 			else if (player.getEvasionRoll()) outputText("The chameleon girl's claws slash towards you, but you lean away from them and they fly by in a harmless blur.");
@@ -44,8 +46,8 @@ package classes.Scenes.Areas.Bog
 		public function rollKickClawWhatTheFuckComboIsThisShit():void
 		{
 			//Blind dodge change
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind roll-kick!\n", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
+				outputText(capitalA + short + " completely misses you with a blind roll-kick!\n");
 			}
 			//Evade:
 			else if (player.getEvasionRoll()) {
@@ -69,7 +71,7 @@ package classes.Scenes.Areas.Bog
 
 		override protected function performCombatAction():void
 		{
-			game.spriteSelect(89);
+			game.spriteSelect(SpriteDb.s_chameleon);
 			var select:int = rand(3);
 			if (select == 0) rollKickClawWhatTheFuckComboIsThisShit();
 			else if (select == 1) chameleonTongueAttack();

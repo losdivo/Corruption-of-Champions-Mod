@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Debug pane and related functions
 	Author: Fake-Name
 */
@@ -46,6 +46,7 @@ public function doThatTestingThang():void
 	//
 	//
 
+	clearOutput();
 	outputText(<![CDATA[
 
 <b>Parser Tests!</b>
@@ -168,10 +169,10 @@ public function doThatTestingThang():void
 * 15 [if (analcapacity > 0)  HERP|DERP]
 * 16 \[if (analcapacity > 0) HERP|DERP\]
 * 16 [if (analcapacity > 0) HERP|DERP]
-* 17 \[if (hasCock == True) HERP|DERP\]
-* 17 [if (hasCock == True) HERP|DERP]
-* 18 \[if (hasVagina == True) HERP|DERP\]
-* 18 [if (hasVagina == True) HERP|DERP]
+* 17 \[if (hasCock) HERP|DERP\]
+* 17 [if (hasCock) HERP|DERP]
+* 18 \[if (hasVagina) HERP|DERP\]
+* 18 [if (hasVagina) HERP|DERP]
 
 ** Member Accessors**
 
@@ -191,8 +192,17 @@ public function doThatTestingThang():void
 * 25 [if (player.isBiped == true) IS A BIPEDDDDD | not a biped. Wat?]
 * 26 \[if (player.isBiped) IS A BIPEDDDDD | not a biped. Wat?\]
 * 26 [if (player.isBiped) IS A BIPEDDDDD | not a biped. Wat?]
-* 27 \[if (player.isBipd) IS A BIPEDDDDD | not a biped. Wat?\]
-* 27 [if (player.isBipd) IS A BIPEDDDDD | not a biped. Wat?]
+* 27 \[if (player.canFly) can fly | can't fly\]
+* 27 [if (player.canFly) can fly | can't fly]
+* 28 \[if (player.tailType != 0)wagging your \[tail\]\]
+* 28 [if (player.tailType != 0)wagging your [tail]]
+* 29 \[if (player.tailType != 0)wagging your \[tail\]|\[butt\] in the air\]
+* 29 [if (player.tailType != 0)wagging your [tail]|[butt] in the air]
+* 30 \[if (tallness >= 100)tall|not very tall\]
+* 30 [if (tallness >= 100)tall|not very tall]
+* 31 you feel your \[if (tallness >= 120)frame|\[if (tallness >= 80)smaller frame|much smaller frame\]\] surrounded 
+* 31 you feel your [if (tallness >= 120)frame|[if (tallness >= 80)smaller frame|much smaller frame]] surrounded 
+
 
 
 
@@ -286,7 +296,7 @@ convert "
 "derp a herp"
 
 
-	]]>, true, true);
+	]]>);
 
 
 	menu();
@@ -312,7 +322,9 @@ public function eventTester():void {
 ]]>;
 
 	;
-	simpleChoices("Proceed",eventTesterGo,"",null,"",null,"",null,"Back",eventTesterExit);
+	menu();
+	addButton(0, "Proceed", eventTesterGo);
+	addButton(4, "Back", eventTesterExit);
 }
 
 public function eventTesterGo():void {
@@ -323,7 +335,8 @@ public function eventTesterGo():void {
 	trace("Temp = ", temp);
 
 	menu();
-	outputText(temp, true, true);
+	clearOutput();
+	outputText(temp);
 
 	addButton(14, "Back", eventTester);
 	output.flush();

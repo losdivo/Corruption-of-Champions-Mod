@@ -192,7 +192,7 @@
 			clearOutput();
 			outputText("Realizing this can be quite a special moment, you gently slide a hand through Scylla's hair, guiding her by the head and towards your own [face].  Slowly, you place a kiss on her soft, ruby lips, allowing your tongue to slip inside and touch hers, which thrashes in her mouth for a moment before wrapping around yours, with Scylla first somewhat whimpering, then almost purring at the contact as the two of you kiss one another.  Her hand also meets the back of your head, pulling you more strongly into the kiss, her lips gently puffing up and encompassing yours with their warmth as your tongues coil around one another, a trickle of mixed saliva escaping your mouths and marking Scylla's habit with wetness.  Rather than break the kiss, Scylla gently decreases the pressure and, very slowly, starts to pull away, her lips first still keeping in light, tantalizing touch with your own before parting.  You start inhaling deeper, the flower in Scylla's hair still giving her a gentle fragrance, her own feminine scent nicely blending with it.  You thank Scylla for the kiss, which causes her to blush, and she answers right back.  \"<i>Thank you too, my dear angel.  For everything.  Saving me, and showing me both the good, pleasant things and the things I needed for survival... a kiss is the least I can give you, I guess.</i>\"");
 			
-			outputText("\n\nWith a smile, you cuddle up more against Scylla, sharing the bodily warmth between the two of you and snaking an arm around her waist.  \"<i>My, my.  I'm surely being treated appropriately for the occasion.  It's a bit embarassing...</i>\" she whispers, but leans her head towards you and you feel both her warmth and her gentle fragrance.");
+			outputText("\n\nWith a smile, you cuddle up more against Scylla, sharing the bodily warmth between the two of you and snaking an arm around her waist.  \"<i>My, my.  I'm surely being treated appropriately for the occasion.  It's a bit embarrassing...</i>\" she whispers, but leans her head towards you and you feel both her warmth and her gentle fragrance.");
 			
 			outputText("\n\nThe two of you spend some time cuddled up like that, watching the sun set.  Scylla's soft curves, especially her breasts, are overwhelming; you don't even have the willpower to resist copping a few feels, and initially, it's hard to stay still, aroused as you are.");
 			//[if (hasVagina = true)]
@@ -275,7 +275,7 @@
 			clearOutput();
 			//{The PC titfucks Scylla again, and then gets her to suck them off, resulting in two quick orgasm and a big nice load of food for Scylla. How far can you fall to get off? On such a nice day, too!}
 			outputText("You feed Scylla what feels like a gallon of jizz!");
-			player.orgasm();
+			player.orgasm('Dick');
 			outputText("\n\n(<b>You have gained the One Track Mind perk.</b>");
 			player.createPerk(PerkLib.OneTrackMind,0,0,0,0);
 			doNext(camp.returnToCampUseTwoHours);
@@ -300,7 +300,7 @@
 			
 			outputText("\n\n\"<i>Makes sense, I guess?</i>\" she answers, nodding. \"<i>But, seriously, keep a lil' bit of distance, and don't shove anything pink or red in my face.  Seriously, I'm all weird after that little love talk...</i>\"");
 			
-			outputText("\n\nYou nod and muse that as a goblin, she's not probably used to the notion.  \"<i>Damn right I ain't!  My crazy bitch of a momma would trade three of me for a four inch dick!  All she cares about is thick cum in her slut-box.  The guys I meet come to me 'cause they figure I'll let 'em blow their load inside me an practically cream my brains out 'cause of it,</i>\" she answers, somewhat defensively, and you wonder about musing if they were right, but decide against it. You do note, however, that this seems like she's not opposed to the notion, more like she was never faced with anybody loving her or anyone she'd come to love.  \"<i>Well... uhhh, look, it's all fine and all, the pinkies, reds, hearts and everything.  I just don't get it, all right?  It doesn't work that way, out there in Mareth.  They fuck you and claim you, or dump you in the dirt, or fuck you again and you possibly die, or fuck you and eat you.  That's how things work.  Cuddling up with someone after sex and whispering sweet nothings? Dates?  Gifts?  Weddin' someone?  Dat kinda shit?  Now, that's what's kinky and unusual here.</i>\"  She nods semi-sagely, and you can't help but think she has a point.");
+			outputText("\n\nYou nod and muse that as a goblin, she's not probably used to the notion.  \"<i>Damn right I ain't!  My crazy bitch of a momma would trade three of me for a four inch dick!  All she cares about is thick cum in her slut-box.  The guys I meet come to me 'cause they figure I'll let 'em blow their load inside me and practically cream my brains out 'cause of it,</i>\" she answers, somewhat defensively, and you wonder about musing if they were right, but decide against it. You do note, however, that this seems like she's not opposed to the notion, more like she was never faced with anybody loving her or anyone she'd come to love.  \"<i>Well... uhhh, look, it's all fine and all, the pinkies, reds, hearts and everything.  I just don't get it, all right?  It doesn't work that way, out there in Mareth.  They fuck you and claim you, or dump you in the dirt, or fuck you again and you possibly die, or fuck you and eat you.  That's how things work.  Cuddling up with someone after sex and whispering sweet nothings? Dates?  Gifts?  Weddin' someone?  Dat kinda shit?  Now, that's what's kinky and unusual here.</i>\"  She nods semi-sagely, and you can't help but think she has a point.");
 			
 			outputText("\n\nAfter a while of walking in silence, she finally breaks it. \"<i>Soo, uhh, what's the story with you and Sister Cow-boobs?  You two came 'ere from the same world or somethin'?</i>\" she asks.");
 			
@@ -362,7 +362,7 @@
 				player.createPerk(PerkLib.SensualLover,0,0,0,0);
 			}
 			
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -3);
 			doNext(camp.returnToCampUseTwoHours);
 		}
@@ -385,7 +385,7 @@
 			//([Human tongue]
 			else outputText("  Hooking your fingers at the front and back of her cunny, you plunge your tongue in and wiggle it eagerly.  Abby clamps down on all three invaders and loudly moans out, screaming to her content at last, as your face is flooded with pussy juice.");
 			
-			outputText("\n\nAfter a while, Abby comes down from her orgasm and you're holding her in your arms for the duration of it.  \"<i>Dammnnn... it's still twitching.  I don't know if I can...</i>\"  You shush her, telling her you intended to do that and that returning the favor is unneccessary, before kissing her on the lips and wishing her the best of luck on this new holiday, and advising that perhaps she shouldn't give up on finding that special someone...");
+			outputText("\n\nAfter a while, Abby comes down from her orgasm and you're holding her in your arms for the duration of it.  \"<i>Dammnnn... it's still twitching.  I don't know if I can...</i>\"  You shush her, telling her you intended to do that and that returning the favor is unnecessary, before kissing her on the lips and wishing her the best of luck on this new holiday, and advising that perhaps she shouldn't give up on finding that special someone...");
 			
 			outputText("\n\nAbylon blushes the whole time, for once not finding the words to retort or insult you in any way, as you pat her on the head, making your way out.  \"<i>Th...thanks,</i>\" she says in a stuttering voice, before you close the door behind yourself and leave for your camp.");
 			
@@ -491,7 +491,7 @@
 		public function fuckPastieForVDay():void {
 			clearOutput();
 			var x:int =  player.smallestCockIndex();
-			outputText("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + player.cockDescript(x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
+			outputText("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + player.cockDescript(x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturally stretchable body.");
 			
 			outputText("\n\nBeing able to resist no longer, you grab her little bum and direct her towards your cock, not really hearing whether she's cheering, complaining, or asking you to stop; honestly, you could care less when you press your " + player.cockDescript(x) + " against the entrance to her diminutive vagina and start pushing.");
 			outputText("\n\nAfter a while of fruitless pressing against her little legs, bum, and clit, Pastie finally gives way. Even your " + player.cockHead(x) + " is enough to stretch her already, but there's not much else to do now other than pushing it in deeper.");
@@ -520,7 +520,7 @@
 			
 			outputText("\n\n(<b>You have gained the One Track Mind perk!</b>)");
 			player.createPerk(PerkLib.OneTrackMind,0,0,0,0);
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseTwoHours);
 		}
@@ -541,7 +541,7 @@
 			outputText("\n\nFlushed and panting, Pastie gives up trying to control your pace and goes along with it, wrapping her arms and legs around your [cock biggest] as best she can.  Grinding her petite pussy against the bumps and swells of your engorged length, you're delighted to find that the little lush's cunny is drooling a seemingly endless stream of warm, clear fem-cum.  The lubrication saturates your rod in no time and your pumping grip quickly coats the fairy in her own honey, leaving her glistening as if freshly oiled.  You pull her once more to the sensitive tip of your cockhead, though this time she leans in of her own volition, kissing your peak with ditzy relish, even going so far as to slip her tiny, wet tongue into your urethra.  Satisfied with the renewed, crystal flow gushing from between her legs, you rub her along your shaft with even harder strokes, feeling every curve of her wriggling form.");
 			
 			outputText("\n\nPolishing your mast with the amorous drunk has been fun, but you think you've teased her enough. Raising the tempo of your fey massage, you can feel your release building up just behind your [cock biggest] in a heavy pressure that floods your loins with urgency.  Gritting your teeth, you wrap your other hand around the first and bounce her faster and faster along your meat.  Eager caresses become frantic friction as Pastie feels your flesh swelling against her.");
-			if (player.balls > 0) outputText("  Your [balls] lurch, " + player.skin() + " contracting as liquid passion rises within you.");
+			if (player.balls > 0) outputText("  Your [balls] lurch, [skin] contracting as liquid passion rises within you.");
 			outputText("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your " + player.multiCockDescriptLight() + " while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
 			//low cum production:
 			if (player.cumQ() < 250) outputText(" easily drenching the tiny fairy, in plump pearls up and down her naked flesh.");
@@ -556,7 +556,7 @@
 			// (You have gained the One Track Mind perk!)
 			outputText("\n\n(<b>You have gained the One Track Mind perk!</b>)");
 			player.createPerk(PerkLib.OneTrackMind,0,0,0,0);
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseTwoHours);
 		}
@@ -593,7 +593,7 @@
 				player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
 			}
 			
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -2);
 			doNext(camp.returnToCampUseTwoHours);
 		}

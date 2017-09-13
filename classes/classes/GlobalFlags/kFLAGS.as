@@ -259,8 +259,8 @@ public static const IZMA_INCUBATION:int                                         
 public static const IZMA_CHILDREN_SHARKGIRLS:int                                    =  251; // Izma sharkgirls
 public static const IZMA_CHILDREN_TIGERSHARKS:int                                   =  252; // Izma tigersharks
 public static const IZMA_TIME_TILL_NEW_BOOK_AVAILABLE:int                           =  253; // Izma Nu Book Countdown
-public static const TAKEN_WEAPON_RACK_DEPRECATED:int                                =  254; // Weapon Rack owned? (1 = yes) (NO LONGER USED)
-public static const TAKEN_ARMOUR_RACK_DEPRECATED:int                                =  255; // Armor Rack owned? (2 = yes) (NO LONGER USED)
+public static const UNKNOWN_FLAG_NUMBER_00254:int                                   =  254;
+public static const UNKNOWN_FLAG_NUMBER_00255:int                                   =  255;
 public static const ISABELLA_CAMP_APPROACHED:int                                    =  256; // PC decided to approach Isabella's camp yet? 1
 public static const ISABELLA_MET:int                                                =  257; // Met Isabella?
 public static const ISABELLA_OKAY_WITH_TALL_FOLKS:int                               =  258; // Is Isabella okay with tall folks?
@@ -1302,7 +1302,7 @@ public static const UNKNOWN_FLAG_NUMBER_01293:int                               
 public static const UNKNOWN_FLAG_NUMBER_01294:int                                   = 1294;
 public static const UNKNOWN_FLAG_NUMBER_01295:int                                   = 1295;
 public static const UNKNOWN_FLAG_NUMBER_01296:int                                   = 1296;
-public static const UNKNOWN_FLAG_NUMBER_01297:int                                   = 1297;
+public static const RATHAZUL_MIXOLOGY_XP:int                                        = 1297; // 0-200, currently for selling new skin oils only
 public static const DISABLE_QUICKLOAD_CONFIRM:int                                   = 1298; // Disable the confirmation-dialog on quickload
 public static const DISABLE_QUICKSAVE_CONFIRM:int                                   = 1299; // Disable the confirmation-dialog on quicksave
 public static const BENOIT_EYES_TALK_UNLOCKED:int                                   = 1300; // Player has talked to Benoit(e) about basilisk eyes
@@ -1315,9 +1315,9 @@ public static const UNKNOWN_FLAG_NUMBER_01306:int                               
 public static const UNKNOWN_FLAG_NUMBER_01307:int                                   = 1307;
 public static const UNKNOWN_FLAG_NUMBER_01308:int                                   = 1308;
 public static const UNKNOWN_FLAG_NUMBER_01309:int                                   = 1309;
-public static const UNKNOWN_FLAG_NUMBER_01310:int                                   = 1310;
-public static const UNKNOWN_FLAG_NUMBER_01311:int                                   = 1311;
-public static const UNKNOWN_FLAG_NUMBER_01312:int                                   = 1312;
+public static const COCKATRICES_UNLOCKED:int                                        = 1310; // Are cockatrice encounters unlocked?
+public static const TIMES_ENCOUNTERED_COCKATRICES:int                               = 1311; // Times encountered cockatrices
+public static const CODEX_ENTRY_COCKATRICES:int                                     = 1312; // Cockatrices codex entry unlocked
 public static const UNKNOWN_FLAG_NUMBER_01313:int                                   = 1313;
 public static const UNKNOWN_FLAG_NUMBER_01314:int                                   = 1314;
 public static const UNKNOWN_FLAG_NUMBER_01315:int                                   = 1315;
@@ -2199,7 +2199,7 @@ public static const JOJO_ANAL_CATCH_COUNTER:int                                 
 public static const KIHA_UNDERGARMENTS:int                                          = 2191; //0 if nude, 1 if wearing panties, 2 if wearing loincloth. (Spider-silk only)
 public static const KIHA_PREGNANCY_TYPE:int                                         = 2192;
 public static const KIHA_INCUBATION:int                                             = 2193;
-public static const KIHA_EGG_COUNTER:int                                            = 2194; //Not used anymore, might be reclaimed.
+public static const UNKNOWN_FLAG_NUMBER_02194:int                                   = 2194;
 public static const KIHA_CHILDREN_BOYS:int                                          = 2195;
 public static const KIHA_CHILDREN_GIRLS:int                                         = 2196;
 public static const KIHA_CHILDREN_HERMS:int                                         = 2197;
@@ -2342,16 +2342,16 @@ public static const PABLO_GOT_DICKED_ANALLY:int                                 
 public static const PABLO_USED_YOUR_PUSSY:int                                       = 2334;
 public static const PABLO_USED_YOUR_ASS:int                                         = 2335;
 public static const PABLO_FREAKED_OUT_OVER_WORMS:int                                = 2336;
-public static const UNKNOWN_FLAG_NUMBER_02337:int                                   = 2337;
-public static const UNKNOWN_FLAG_NUMBER_02338:int                                   = 2338;
-public static const UNKNOWN_FLAG_NUMBER_02339:int                                   = 2339;
-public static const UNKNOWN_FLAG_NUMBER_02340:int                                   = 2340;
-public static const UNKNOWN_FLAG_NUMBER_02341:int                                   = 2341;
-public static const UNKNOWN_FLAG_NUMBER_02342:int                                   = 2342;
-public static const UNKNOWN_FLAG_NUMBER_02343:int                                   = 2343;
-public static const UNKNOWN_FLAG_NUMBER_02344:int                                   = 2344;
-public static const UNKNOWN_FLAG_NUMBER_02345:int                                   = 2345;
-public static const UNKNOWN_FLAG_NUMBER_02346:int                                   = 2346;
+public static const TIMES_MINO_MUTUAL:int                                   	    = 2337; //How many times the Minotaur's "minoMutual" scene been accessed
+public static const BIMBO_MINISKIRT_PROGRESS_DISABLED:int                           = 2338;
+public static const AMAROK_LOSSES:int                                               = 2339; //Counts losses to Amarok. 5 = bad end
+public static const MRAPIER_BOUGHT:int                                  	    = 2340; //You only get one due to its OPness
+public static const GOTTEN_INQUISITOR_CORSET:int                                    = 2341;
+public static const GOTTEN_INQUISITOR_ROBES:int                                     = 2342;
+public static const GOBLIN_ELDER_FOREPLAY_COUNTER:int                               = 2343;
+public static const GOBLIN_ELDER_RELATION_COUNTER:int                               = 2344;
+public static const GOBLIN_ELDER_WRESTLE_COUNTER:int                                = 2345;
+public static const GOBLIN_ELDER_BEAST_COUNTER:int                                  = 2346;
 public static const UNKNOWN_FLAG_NUMBER_02347:int                                   = 2347;
 public static const UNKNOWN_FLAG_NUMBER_02348:int                                   = 2348;
 public static const UNKNOWN_FLAG_NUMBER_02349:int                                   = 2349;
@@ -2982,8 +2982,8 @@ public static const UNKNOWN_FLAG_NUMBER_02973:int                               
 public static const UNKNOWN_FLAG_NUMBER_02974:int                                   = 2974;
 public static const UNKNOWN_FLAG_NUMBER_02975:int                                   = 2975;
 public static const UNKNOWN_FLAG_NUMBER_02976:int                                   = 2976;
-public static const UNKNOWN_FLAG_NUMBER_02977:int                                   = 2977;
-public static const UNKNOWN_FLAG_NUMBER_02978:int                                   = 2978;
+public static const DELETE_ITEMS:int                                                = 2977; // Inventory deletion toggle, 0=no, 1=one at a time, 2=stacks
+public static const PRISON_ENABLED:int                                              = 2978; // Is the prison enabled? true/false value, should be false by default
 public static const NEW_GAME_PLUS_LEVEL:int                                         = 2979; // Current intensity of New Game+. Each ascension increments this counter by 1.
 public static const NEW_GAME_PLUS_BONUS_UNLOCKED_HERM:int                           = 2980; // Unlocked hermaphrodite.
 public static const USE_OLD_INTERFACE:int                                           = 2981; // 1 if old interface is used, currently disabled until I can re-implement something that mimics the old interface.

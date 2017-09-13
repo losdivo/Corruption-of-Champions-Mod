@@ -4,8 +4,9 @@ package classes.Scenes.Areas.Forest
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Items.Mutations;
+import classes.Scenes.API.Encounter;
 
-	public class ErlKingScene extends BaseContent
+public class ErlKingScene extends BaseContent implements Encounter
 	{
 		public function ErlKingScene()
 		{
@@ -17,7 +18,15 @@ package classes.Scenes.Areas.Forest
 		protected function get changeLimit():int { return mutations.changeLimit; }
 		protected function set changeLimit(val:int):void { mutations.changeLimit = val; }
 
-		public function encounterWildHunt():void
+	public function encounterName():String {
+		return "erlking";
+	}
+
+	public function encounterChance():Number {
+		return flags[kFLAGS.ERLKING_DISABLED] == 0 ? 2 : 0;
+	}
+
+	public function execEncounter():void
 		{
 			if (flags[kFLAGS.WILD_HUNT_ENCOUNTERS] == 0)
 			{
@@ -39,8 +48,8 @@ package classes.Scenes.Areas.Forest
 		{
 			trace("Calculating Wild Hunt score.");
 			trace("Int + Spd = " + String(player.inte + player.spe));
-			trace("Base = " + String((player.inte + player.spe) - (player.fatigue * 2)));
-			var baseVal:int = (player.inte + player.spe) - (player.fatigue * 2);
+			var baseVal:int = (player.inte + player.spe) - (player.fatigue - player.maxFatigue() + 100) * 2;
+			trace("Base = " + baseVal);
 
 			/*
 			Conditional modifiers: +20 for Evade
@@ -67,6 +76,11 @@ package classes.Scenes.Areas.Forest
 			{
 				baseVal += 20;
 				trace("+20 for Runner");
+			}
+			if (player.hasPerk(PerkLib.Unhindered) && (player.armor == classes.Items.ArmorLib.NOTHING || player.armor.perk == "Adornment"))
+			{
+				baseVal += 20;
+				trace("+20 for Unhindered");
 			}
 			if (player.isDrider())
 			{
@@ -151,7 +165,7 @@ package classes.Scenes.Areas.Forest
 			clearOutput();
 			
 			outputText("As you explore between the tall, ancient trees, you notice a thick fog beginning to spill out from between the trees and over the mossy ground. As the haze pours forth and flows past your [feet], you notice the forest around you growing distinctly darker and colder. \n\n");
-
+			outputText(images.showImage("wildhunt-encounter"));
 			outputText("A shiver of unnatural fear runs up your spine, just as a hunting horn sounds from the distance.  You gasp, your breath materializing as a puff of fine, white mist.  Just as the echoes of the horn fade, a chorus of canine howls breaks through the");
 			if (model.time.hours >= 0 && model.time.hours <= 10) outputText(" chill morning");
 			else if (model.time.hours >= 11 && model.time.hours <= 13) outputText(" unusually cold daytime");
@@ -178,7 +192,7 @@ package classes.Scenes.Areas.Forest
 			else
 			{
 				outputText("The baying of hounds fills the air, and the trees echo with the distant thunder of hooves as the first of the creatures bursts through the fog.  Stooped and low, this beast-man is mostly canine, with a sharp-toothed muzzle spread wide and panting.  His red-black tongue dangles with each breath, steam rising up from his jaws.  The hound’s pelt is midnight black, covering his muscular frame.  Strong arms hang low, almost touching the ground, muscles flexing as his surprisingly human hands open and close restlessly.  His legs are distinctly dog-like, ending in wide, black-clawed paws.  Between its stocky legs; you catch a glimpse of an arm-thick sheath and a heavy sack behind.  A broad tail wags behind him, swinging slowly and menacingly");
-				if (player.findStatusEffect(StatusEffects.MetWhitney) >= 0) outputText(", and for a moment all you can think of are Whitney’s canine peppers");
+				if (player.hasStatusEffect(StatusEffects.MetWhitney)) outputText(", and for a moment all you can think of are Whitney’s canine peppers");
 				outputText(".\n\n");
 
 				outputText("His baleful red eyes glare at you from beneath a dark brow.  The hound takes in a deep breath, his nostrils flaring, then throws his head back to howl.  The deafening sound is answered instantly by the crashing of brush as another beast man leaps through the undergrowth.  The fog falls to shreds as he leaps out behind you, flanking you with his fellow Hound.\n\n");
@@ -211,7 +225,7 @@ package classes.Scenes.Areas.Forest
 			outputText("But before the dogs move, the curtain of fog parts, and a figure on horseback rides into view.  The hounds go silent, as the tall figure pulls back his hood to look at you.\n\n");
 
 			outputText("He is tall, easily seven feet, and made more imposing by the massive, golden antlers arching upward from either side of his head.  He is clearly not human, and more closely resembles a black stag, sitting upright, watching you with the same piercing red eyes as the hounds.  His short, black fur rustles in a wind that is not there, his ears twitching in time to the beating of your heart.\n\n");
-
+			outputText(images.showImage("wildhunt-huntsman"));
 			outputText("Most of his body is covered with fine clothing.  A cloak of dark green, decorated with complex patterns of gold, drapes over a hunting outfit of black leather.  One arm holds the reins of his mount, but the other, wearing a heavy leather hunting glove, grips a thick cane of shiny, black wood.  His legs taper down into slim, graceful hooves, and they touch down silently on the mossy ground as he dismounts.\n\n");
 
 			outputText("“<i>I am the Erlking, Master of the Wild Hunt,</i>” he says in a deep, hollow voice. “<i>and you... you are a very unusual [race].  My hounds can scent it on you.</i>” He gestures toward the stock-still hounds surrounding you. \n\n");
@@ -243,9 +257,8 @@ package classes.Scenes.Areas.Forest
 		public function repeatWildHuntEncounter():void
 		{
 			clearOutput();
-
 			outputText("As you wander through the Deepwoods, a familiar chilly fog begins to gather around your [feet], and in the distance, you hear the sound of a hunting horn and the baying of Hounds.\n\n");
-
+			outputText(images.showImage("wildhunt-encounter"));
 			outputText("The Erlking is coming for you!\n\n");
 
 			if (player.wingType != WING_TYPE_NONE) outputText("You quickly glance from side to side, realizing that the trees here grow too close together for your to spread your [wings].\n\n");
@@ -266,7 +279,7 @@ package classes.Scenes.Areas.Forest
 		protected function repeatWildHuntWait():void
 		{
 			clearOutput();
-
+			outputText(images.showImage("wildhunt-encounter"));
 			outputText("The fog pours in like a wave, surrounding you and blurring the forest around you.  You hear the thunder of hooves approaching, followed by the baying of hounds.\n\n");
 
 			outputText("Unfazed, you cross your arms and stand firm, staring down the menacing fog. \n\n");
@@ -277,7 +290,7 @@ package classes.Scenes.Areas.Forest
 
 			outputText("It seems the Erlking has no interest in chasing prey that won’t run.\n\n");
 
-			if (player.inte < 80) player.inte++;
+			if (player.inte100 < 80) player.inte++;
 
 			menu();
 			doNext(camp.returnToCampUseOneHour);
@@ -299,7 +312,7 @@ package classes.Scenes.Areas.Forest
 		protected function repeatWildHuntEscaped():void
 		{
 			clearOutput();
-
+			outputText(images.showImage("wildhunt-escaped"));
 			outputText("The Erlking might be the Master of the Hunt, but you are no one’s prey.  You immediately begin running, moving like the wind through the Deepwoods, your heart beating hard in your chest.");
 			if (player.isGoo())  outputText(  "You move like quicksilver over the forest floor, your slimy bottom half flowing over all obstacles, oozing you faster and faster, ever onward.");
 			else if (player.isBiped()) outputText("  Your [legs] pound against the mossy ground, deftly moving across the forest floor.");
@@ -338,7 +351,6 @@ package classes.Scenes.Areas.Forest
 			// If your score is below 100, Gangbang by his Hounds (canine anthros).  
 			// If the PC is a kitsune, bunny, or harpy, disregard Wild Points because the Erlking will ALWAYS opt to do the PC personally.  
 			// The Erlking leaves the PC a nicely-wrapped gift of foxberries or canine peppers,  The Hunt reverts to 0 points.
-
 			outputText("You run through the woods, heart pounding so hard you feel it might leap out of your throat.  Despite your best efforts, though, the fog still closes in.  With it comes the sound of the hounds, running alongside you, hidden in the thick haze. \n\n");
 
 			outputText("With the Hounds on your right, you juke left, nearly running into a tree, but stumble past it, only to hear the Hounds again on your left.  You turn right, still running, unable to shake the feeling that you’re being driven, but too panicked to figure a way out. \n\n");
@@ -398,12 +410,12 @@ package classes.Scenes.Areas.Forest
 			outputText(" You yelp, realizing what’s to come, and try to wriggle away, but, pinned between the two Hounds, there’s no escape.  The Hounds growl in unison and you freeze, cowed by the two powerful males who want their way with your frightened, vulnerable body.\n\n");
 
 			outputText("After all, comes a thought in your fog-addled head, they’ve earned the right to do whatever they want to their prey.\n\n");
-
+			if (player.gender == 2) outputText(images.showImage("wildhunt-catched-female"));
+			else outputText(images.showImage("wildhunt-catched-male"));
 			outputText("It doesn’t take the two dog men long.  They rock back and forth, shoving their thick cocks in and out of your submissive, helpless body.  The one in front grabs your head, burying your [face] into his crotch, so deep that your tongue licks against the throbbing bulge of his knot, your nose buried in the thick fur above his shaft.");
 			if (player.tailType != TAIL_TYPE_NONE) outputText("  The Hound behind grabs you by [onetail], using it as a handhold as he thrusts over and over into your [asshole].");
 			else outputText("  The Hound behind grabs you by your [ass], thrusting into you again and again.");
 			outputText("  You tremble, completely dominated by the two powerful males as they make you their prey-bitch.\n\n");
-
 			outputText("They cum within moments of each other, the one in front driving his huge knot into your mouth, leaving your jaw aching.  You groan in protest as his cock shoots hot seed down your throat.  Nearly gagging on the canine dick already, there’s little you can do but swallow the Hound’s cum.  As you gurgle it down, you feel the Hound behind you painfully shove his thick knot into your ass.  You try to scream, but with a mouth full of cock and cum, there’s little you can do but take it like prey.  Your body quakes, belly swelling as you’re filled with cum at both ends leaving you warm, bloated, and strangely satisfied.\n\n");
 
 			outputText("You shiver, breathing in the cold, mind-altering fog, waiting obediently for the two Hounds to tire of you.  Oddly enough, with their seeds spent, they’re strangely affectionate, and you find your back, face, and ass covered in warm, languid licks from the savage men.  Eventually their knots shrink, and the two Hounds withdraw from you, letting you slump to the ground as they pad off into the woods.  \n\n");
@@ -418,14 +430,15 @@ package classes.Scenes.Areas.Forest
 			inventory.takeItem(consumables.CANINEP, camp.returnToCampUseOneHour);
 			dynStats("sen-", 2, "lib+", 2, "cor+", 1, "lus=", 0);
 			player.changeFatigue(10);
-			player.orgasm();
+			player.orgasm('Generic');
 			player.slimeFeed();
 		}
 
 		protected function repeatWildHuntAWinnerIsYou():void
 		{
+			outputText(images.showImage("wildhunt-hounds"));
 			outputText("Spirited clapping fills the woods.  The Hounds fall silent, sitting obediently on their haunches as the Erlking walks into the clearing, dismounting and looking up at you.\n\n");
-
+			
 			outputText("“<i>A spirited chase,</i>” he says, his black-gloved hands still chipping a sharp staccato through the cold air.  “<i>I have not had such fun in ages.</i>” The clearing is awash with a dim glow - it seems the Erlking’s golden antlers are lit with their own inner fire.\n\n");
 
 			outputText("“<i>And so, my hind, my prey, you have a choice,</i>” he says, his refined tones ringing through the air.  Through the net you can see the fog receding from the forest floor.  You take a few experimental breaths, and feel your head begin to clear.  \n\n");
@@ -467,6 +480,7 @@ package classes.Scenes.Areas.Forest
 			var gemFind:int = 10 + rand(15);
 
 			outputText("<b>You found " + gemFind + " gems.</b>\n\n");
+			player.gems += gemFind;
 
 			var selector:int = rand(4);
 
@@ -585,7 +599,7 @@ package classes.Scenes.Areas.Forest
 			outputText("Your eyes roll back, tongue lolling as the Master squeezes the base of your cock.  Your");
 			if (!player.hasKnot()) outputText(" new");
 			outputText(" knot swells, and his firm hand on it feels sooo good.  At some point the two other Hounds have appeared, and you can feel, rather than see, their presence nearby.\n\n");
-
+			outputText(images.showImage("badend-wildhunt"));
 			outputText("You whimper and groan in absolute bliss, and begin bucking without meaning to.  You want to stay still and submissive for the Master, but your body has other ideas.  You whine, wriggling and writhing against the Master’s hand.  He grunts, hand moving faster and faster, squeezing tighter around your doggie cock.\n\n");
 
 			outputText("With a woods-shaking howl, you climax, spraying your belly and chest with cum.  Your limbs go wobbly, and your eyes cross, barely able to see the Master’s spooge-spattered hand in front of your face.  You know what he wants and you obediently clean his glove with your tongue, slurping down your own cum from his fingers.\n\n");
@@ -624,9 +638,9 @@ package classes.Scenes.Areas.Forest
 					
 					player.cuntChange(12 * 3, true, true, false);
 					outputText("\n\n");
-
+					outputText(images.showImage("wildhunt-prey-female"));
 					outputText("You gasp, shuddering in delight as he begins to push in and out of you.  His hands shift, holding you under the arms, fucking you against the tree.  The rough bark scratches your back as he thrusts deep inside you.  You feel the triple rings of his prepuce rubbing against your inner walls.\n\n");
-
+					
 					outputText("His speed builds, and his strong arms lift you up, sliding you up and down his shaft, letting your own weight fuck you against his dick, over and over.  You moan, body quaking as you cum, his shaft grinding deep against your womb.  After several minutes of steady rhythm, he grunts, pushing you down, and a moment later, he climaxes inside you, pumping you full of hot, thick cum.  You shudder as he floods you with jet after jet of his thick seed.\n\n");
 
 					outputText("You wrap your arms around him, clinging to him as he shifts his grip, bearing you up as you quake with aftershocks of pleasure.  One arm holds you up, close to his muscular chest, his other gloved hand strokes your [hair], as the fog rolls in.\n\n");
@@ -646,9 +660,9 @@ package classes.Scenes.Areas.Forest
 					
 					player.buttChange(12 * 3, true, true, false);
 					outputText("\n\n");
-
+					outputText(images.showImage("wildhunt-prey-male"));
 					outputText("You gasp, shuddering in delight as he begins to push in and out of you.  His hands shift, one at the small of your back, steadying you, fucking you against the tree.  The other squeezes tight around your dick, jacking you off, gloved hand stroking you roughly in time to his thrusts.  The coarse bark of the tree scratches at your back as you feel the triple rings of his prepuce rubbing against the inner walls of your [asshole].  \n\n");
-
+					
 					outputText("You moan, body quaking as you cum, spurting cum over his chest and your own, his shaft grinding deep inside you.  He pushes you down, and a moment later, he climaxes inside you pumping you full of hot, thick cum.  He floods your bowels with jet after jet of his thick seed, your belly swelling slightly outward from the volume of cum.\n\n");
 
 					outputText("You wrap your arms around him, clinging to him as he shifts his grip, holding you up as you quake with aftershocks of pleasure.  One arm holds you up, close to his now-sticky, muscular chest, his other gloved hand still slowly stroking your cock, as the fog rolls in.\n\n");
@@ -660,6 +674,7 @@ package classes.Scenes.Areas.Forest
 			}
 			else
 			{
+				outputText(images.showImage("wildhunt-prey-taur"));
 				outputText("The Erlking smiles at you, caressing your cheek.  “<i>I pride myself in keeping a proper stable,</i>” he says, delicately moving behind you.  With his strong hands on your flanks, he guides you to face up against a tree.\n\n");
 
 				if (player.hasVagina() && !player.hasCock())
@@ -669,7 +684,7 @@ package classes.Scenes.Areas.Forest
 					player.cuntChange(12 * 3, true, true, false);
 					outputText("\n\n");
 
-					outputText("You wrap your arms around the trunk of the tree as his hands grip your flanks.  His own equine legs begin thrusting him against you, his ribbed cock sliding in and out of your [pussy], the ridges of his horselike shaft massaging you from the inside.  The force of his fucking ginds your [chest] against the tree.");
+					outputText("You wrap your arms around the trunk of the tree as his hands grip your flanks.  His own equine legs begin thrusting him against you, his ribbed cock sliding in and out of your [pussy], the ridges of his horselike shaft massaging you from the inside.  The force of his fucking grinds your [chest] against the tree.");
 					if (player.biggestLactation() > 0) outputText("  The friction begins milking you, making you ooze milk down the trunk.");
 					outputText("  The mild pain of abrasion couples with the pleasure of his forceful fucking and you feel your climax approaching.\n\n");
 
@@ -702,7 +717,7 @@ package classes.Scenes.Areas.Forest
 			//[+10 Fatigue, +1 Toughness / +1 Strength, 100 hp healed]			
 			if (player.tou < player.str) dynStats("toughness+", 1, "fatigue+", 10, "health+", 100, "lust=", 0);
 			else (dynStats("strength+", 1, "fatigue+", 10, "health+", 100, "lust=", 0));
-			player.orgasm();
+			player.orgasm('Generic');
 			player.slimeFeed();
 
 			menu();
@@ -725,7 +740,7 @@ package classes.Scenes.Areas.Forest
 			outputText("“<i>You taunt me, you hunt me, and now you ask for favors?</i>”  you snort.  “<i>No, no, you’re about to be taught a very lasting lesson,</i>” you snarl.\n\n");
 
 			outputText("“<i>What do yo-</i>” begins the Erlking, looking up at you.  You slap his face, cutting off the end of the question.\n\n");
-
+			outputText(images.showImage("wildhunt-revenge"));
 			if (player.hasVagina() && !player.hasCock())
 			{
 				outputText("You grab his horns, shoving him over backwards.  He seems to be getting weaker by the moment.  He can barely pick himself up off the ground.  You look down at the prone huntsman with disdain, striding to his head, your [feet] on either side of his head.\n\n");
@@ -782,26 +797,32 @@ package classes.Scenes.Areas.Forest
 
 				outputText("“<i>No, my Lord,</i>” She croons, rising up to her knees, lapping at your dick.  Once she’s finished cleaning, she helps you with your [armor].  You nod a goodbye to her and begin walking, smirking in amusement at the trickle of cum running down her taut cheeks and down her legs as she waves farewell.\n\n");
 			}
-
-			player.createKeyItem("Golden Antlers", 0, 0, 0, 0);
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("lust=", 0);
+			menu();
+			doNext(takeGoldenAntlers);
+		}
+		
+		
+		protected function takeGoldenAntlers():void
+		{
+			clearOutput();
+			outputText(images.showImage("item-gAntlers"));
+			player.createKeyItem("Golden Antlers", 0, 0, 0, 0);
 			if (flags[kFLAGS.ERLKING_CANE_OBTAINED] == 0) {
 				inventory.takeItem(weapons.HNTCANE, camp.returnToCampUseOneHour);
 				flags[kFLAGS.ERLKING_CANE_OBTAINED] = 1;
-				return;
 			}
+			menu();
 			doNext(camp.returnToCampUseOneHour);
 		}
 
 		protected function encounterPrincessGwynn():void
 		{
 			clearOutput();
-
+			outputText(images.showImage("wildhunt-princess"));
 			outputText("As you wander through the Deepwoods, you hear a rustling in the bushes.  You turn to see a flash of pink between the trees.  A slim, graceful figure steps out from behind a tree, wearing a dark green cloak and a small, leather shoulder bag.  It takes you a moment to recognize the Princess, the once-Erlking.  Her deer-like face and large, doe eyes peer timidly at you.\n\n");
-
 			outputText("“<i>Muh-M’lord?</i>” she asks softly.  Her lithe arms push through the low branches and trees as she steps closer to you.  She’s timid and twitchy, quite different from the ominous and powerful huntsman she’d once been.  In a moment, you see why.\n\n");
-
 			var selector:int = rand(6);
 
 			if (selector == 0) outputText("The Princess’s pink fur is slathered in smears of saps and juices, and angry red stings pepper her body.  It’s very obvious that she’s fallen prey to the roaming tentacle monsters that haunt the forests.\n\n");
@@ -834,6 +855,10 @@ package classes.Scenes.Areas.Forest
 
 			//Suck My Dick  /  Fuck Her Ass  /  Eat My Pussy  /  Milk Her Dick  /  Gifts
 			menu();
+			addDisabledButton(0, "Suck Me");
+			addDisabledButton(1, "Assfuck");
+			addDisabledButton(2, "Eat Me");
+			
 			if (player.hasCock()) {
 				addButton(0, "Suck Me", gwynnSucksDicks);
 				addButton(1, "Assfuck", gwynnGetsButtfuxed);
@@ -854,7 +879,7 @@ package classes.Scenes.Areas.Forest
 			outputText("Her slim tongue rubs against the underside of your shaft, massaging it in time to the bobbing of her head.  Her index finger and thumb form a slim O at the base of your dick, pumping it counter to her head bobs, giving you continuous stimulation as she hums.\n\n");
 
 			outputText("She hums as she works, sounding like the happiest little slut in the world.  She expertly works your cock, stroking and pumping your meat with her wet, hungry mouth and you feel yourself breathing heavily as her slurping grows louder and more eager.  \n\n");
-
+			outputText(images.showImage("wildhunt-princess-orally"));
 			outputText("The vibration of her chirpy voice and pressure of her lips around your cock soon push you over the edge, and with a relaxed shudder, you cum in her mouth.  She takes the first jet down her throat, then pulls her mouth from your dick with a satisfied gasp, taking the next jet across her face.\n\n");
 
 			outputText("“<i>Oooooo...</i>” she moans, shivering in delight, her tongue lapping at the dripping cum, her fingers delicately wiping the thick spooge from her cheeks and depositing it in her mouth.  You notice that she’s shoved two of her slim fingers up her cute, perky ass as she slurps away at your spilled seed.\n\n");
@@ -865,7 +890,7 @@ package classes.Scenes.Areas.Forest
 
 			//[Libido + 2]
 			dynStats("lib+", 2, "lus=", 0);
-			player.orgasm();
+			player.orgasm('Dick');
 
 			menu();
 			doNext(camp.returnToCampUseOneHour);
@@ -874,11 +899,10 @@ package classes.Scenes.Areas.Forest
 		protected function gwynnGetsButtfuxed():void
 		{
 			clearOutput();
-
 			outputText("“<i>At once, M’Lord!</i>” she says, clapping her hands excitedly.  She bounces up in the air, then bounds low to the ground, pulling a small bottle from her purse, and dumping a liberal amount of raspberry-scented lube on your cock.  She works it in, her slim fingers massaging your cock to full attention before she hops around.\n\n");
-					
+				
 			outputText("“<i>Princess Gwynn is always prepared!</i>” she chirps happily.\n\n");
-
+			outputText(images.showImage("wildhunt-princess-anally"));
 			outputText("She drops her shoulders to the ground and raises her white rump in the air, her pink, tufted tail twitching excitedly.  “<i>Your Princess is ready for you, m’Lord!</i>”\n\n");
 
 			outputText("You grin and grip her ass, pushing your slippery cock into her pink bud.  She’s a lot looser than she was before, and you slide easily into her.  She purrs as you sink in, inch after inch, your hands gripping her small, plush ass.  It seems like her time spent with the monsters in the woods has stretched her out immensely.  You just hope she won’t be too loose.\n\n");
@@ -891,7 +915,7 @@ package classes.Scenes.Areas.Forest
 
 			//[Sensitivity -2]
 			dynStats("sen-", 2, "lus=", 0);
-			player.orgasm();
+			player.orgasm('Dick');
 
 			menu();
 			doNext(camp.returnToCampUseOneHour);
@@ -900,9 +924,8 @@ package classes.Scenes.Areas.Forest
 		protected function gwynnNomsDaCunts():void
 		{
 			clearOutput();
-
 			outputText("“<i>Yes Ma’am,</i>” she says, licking her lips.  She points to a nearby stump, gesturing for you to have a seat on the soft moss.  As you do, she wastes no time in dropping her pink muzzle to your pussy.  \n\n");
-
+			outputText(images.showImage("wildhunt-princess-lickgina"));
 			outputText("Her tongue eagerly plunges between your folds, running up and down the length of your pussy. Each time her muzzle bobs up, her candy-pink nose rubs against your clit, and she purrs, closing her eyes and nuzzling it.  She slowly laps at your slit, gradually building speed.\n\n");
 
 			outputText("You sigh happily, bracing yourself with your arms and leaning back.  Princess Gwynn slurps noisily at your muff, her tongue moving faster and faster.  You gasp, pleasure building in your whole body as she withdraws her tongue from your pussy, wrapping her lips around your pleasure button.\n\n");
@@ -917,7 +940,7 @@ package classes.Scenes.Areas.Forest
 
 			//[Sensitivity -2, Libido +2]
 			dynStats("sen-", 2, "lib+", 2, "lus=", 0);
-			player.orgasm();
+			player.orgasm('Vaginal');
 
 			menu();
 			doNext(camp.returnToCampUseOneHour);
@@ -926,7 +949,6 @@ package classes.Scenes.Areas.Forest
 		protected function gwynnGetsDickmilked():void
 		{
 			clearOutput();
-
 			outputText("“<i>My Lord, are you sure?</i>” she says, tilting her head to the side.\n\n");
 
 			outputText("You assure her that this is what you want and order her onto her back, lying on the soft, mossy ground.  One lithe arm is draped over her head, the other crosses over her chest, as she bites her lip, looking up at you nervously.\n\n");
@@ -940,7 +962,7 @@ package classes.Scenes.Areas.Forest
 			outputText("Faster and faster you pump her, until her breath comes in shallow gasps and her body trembles at the edge of orgasm.  You’re immediately seized by a wicked idea, and with your free hand, you pull her tail up, raising her ass in the air.  She squeaks in pain but you’re not done yet.  You curl her whole lower body over, and aim her heavy cock at her face.\n\n");
 
 			outputText("“<i>Oh, nuh-nooo...</i>” she gasps, her knees now planted on either side of her head.\n\n");
-
+			outputText(images.showImage("wildhunt-princess-milking"));
 			outputText("“<i>Oh, yes,</i>” you coo wickedly, shoving the lithe doe’s cock into her own mouth.  She blathers a muffled protest before you give her tufted tail another sharp tug, drawing out her orgasm..\n\n");
 
 			outputText("Her cock spurts into her own mouth, immediately ballooning out her cheeks.  Her eyes roll back in her head as she gurgles around her cock.  Slightly-pink, raspberry-scented cum spills out from her pouty lips, as she coughs and nearly chokes on her own cum.  \n\n");
@@ -970,7 +992,7 @@ package classes.Scenes.Areas.Forest
 			outputText("“<i>I’ll get started on it right away!</i>” she says suddenly.  She pulls away from you, nods her head seriously, then bounds off into the woods.\n\n");
 
 			outputText("Before you can stop her, she’s gone, and you pocket the small bottle for later.\n\n");
-
+			outputText(images.showImage("item-lube"));
 			if (rand(4) > 0) inventory.takeItem(consumables.PRNPKR, camp.returnToCampUseOneHour);
 			else inventory.takeItem(consumables.PRNPKR, goldenRindBonus);
 		}
@@ -978,6 +1000,7 @@ package classes.Scenes.Areas.Forest
 		private function goldenRindBonus():void {
 			clearOutput();
 			outputText("“<i>Oh, I also had this left over from brewing my Pucker,</i>” she says, popping out of the brush behind you.  You yelp in surprise.  She’d vanished into the forest in front of you a moment ago.  How did she move so quickly?  “<i>Here you go!</i>” she pipes up, depositing a small item in your hand before disappearing back into the woods.  If she can move that quickly and quietly through the woods, it’s pretty likely that her falling prey to the forest predators has been entirely voluntary.\n\n");
+			outputText(images.showImage("item-gRing"));
 			inventory.takeItem(consumables.GLDRIND, camp.returnToCampUseOneHour);
 		}
 		
@@ -994,11 +1017,16 @@ package classes.Scenes.Areas.Forest
 			if (player.findPerk(PerkLib.TransformationResistance) >= 0) changeLimit--;
 			// Main TFs
 			//------------
+			//Neck restore
+			if (player.neck.type != NECK_TYPE_NORMAL && changes < changeLimit && rand(4) == 0) mutations.restoreNeck(tfSource);
+			//Rear body restore
+			if (player.hasNonSharkRearBody() && changes < changeLimit && rand(5) == 0) mutations.restoreRearBody(tfSource);
+			//Ovi perk loss
 			if (rand(5) == 0) mutations.updateOvipositionPerk(tfSource);
 			//Gain deer ears
 			if (rand(3) == 0 && changes < changeLimit && player.earType != EARS_DEER) {
 				if (player.earType == -1) outputText("\n\nTwo painful lumps sprout on the top of your head, forming into tear-drop shaped ears, covered with short fur.  ");
-				if (player.earType == EARS_HUMAN) outputText("\n\nYour ears tug painfully on your face as they begin shifting, moving upwards to the top of your head and transforming into a upright animalistic ears.  ");
+				if (player.earType == EARS_HUMAN) outputText("\n\nYour ears tug painfully on your face as they begin shifting, moving upwards to the top of your head and transforming into an upright animalistic ears.  ");
 				if (player.earType == EARS_DOG) outputText("\n\nYour ears change shape, morphing into from their doglike shape into deer-like ears!  ");
 				if (player.earType > EARS_DOG) outputText("\n\nYour ears change shape, morphing into teardrop-shaped deer ears!  ");
 				outputText("<b>You now have deer ears.</b>");
@@ -1040,6 +1068,8 @@ package classes.Scenes.Areas.Forest
 				player.skinAdj = "";
 				player.skinDesc = "fur";
 				player.furColor = "brown";
+				player.underBody.type = UNDER_BODY_TYPE_FURRY;
+				player.copySkinToUnderBody({furColor: "white"});
 				changes++;
 			}
 			//Change face to normal
@@ -1055,15 +1085,15 @@ package classes.Scenes.Areas.Forest
 				changes++;
 			}
 			//Change legs to cloven hooves
-			if (rand(4) == 0 && changes < changeLimit && player.earType == EARS_DEER && player.tailType == TAIL_TYPE_DEER && player.hasFur() && (player.lowerBody != LOWER_BODY_TYPE_DEERTAUR && player.lowerBody != LOWER_BODY_TYPE_CLOVEN_HOOFED)) {
+			if (rand(4) == 0 && changes < changeLimit && player.earType == EARS_DEER && player.tailType == TAIL_TYPE_DEER && player.hasFur() && player.lowerBody != LOWER_BODY_TYPE_CLOVEN_HOOFED) {
 				if (player.lowerBody == LOWER_BODY_TYPE_HOOFED) {
 					outputText("\n\nYou feel a sharp stinging sensation from your hooves, accompanied by a loud CRACK.  You look down in alarm, prancing from one hooved foot to another, realizing that your solid, heavy hooves have been replaced with delicate, cloven hooves.  You squint, also noting a subtle thinness across your legs in general--if you had to guess, you’d hazard that you’re looking <b>more deer-like than horse-like</b>.");
 				}
 				else {
 					outputText("\n\nYou feel a strange tightness from your feet and nearly topple over as your balance shifts.  You’re balancing on your toes for some reason.  You look down in amazement as your legs slim and lengthen, your feet elongating and darkening at the ends until you’re balancing on <b>two, graceful deer legs</b>.");
 				}
-				if (player.isTaur()) player.lowerBody = LOWER_BODY_TYPE_DEERTAUR;
-				else player.lowerBody = LOWER_BODY_TYPE_CLOVEN_HOOFED;
+				player.lowerBody = LOWER_BODY_TYPE_CLOVEN_HOOFED;
+				if (!player.isTaur() && !player.isBiped()) player.legCount = 2;
 				changes++;
 			}
 			// Genital Changes

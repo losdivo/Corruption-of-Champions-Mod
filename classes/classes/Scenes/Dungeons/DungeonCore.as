@@ -5,6 +5,8 @@ package classes.Scenes.Dungeons
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.Scenes.Dungeons.D3.D3;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 	
 	import coc.view.MainView;
 	
@@ -173,6 +175,9 @@ package classes.Scenes.Dungeons
 		public function enterFactory():void {
 			factory.enterDungeon();
 		}
+		public function canFindDeepCave():Boolean {
+			return flags[kFLAGS.DISCOVERED_DUNGEON_2_ZETAZ] == 0 && flags[kFLAGS.FACTORY_SHUTDOWN] > 0;
+		}
 		public function enterDeepCave():void {
 			deepcave.enterDungeon();
 		}
@@ -227,7 +232,7 @@ package classes.Scenes.Dungeons
 		public function setDungeonButtons(northFunction:Function = null, southFunction:Function = null, westFunction:Function = null, eastFunction:Function = null):void {
 			statScreenRefresh();
 			hideUpDown();
-			spriteSelect(-1);
+			spriteSelect(null);
 			menu();
 			if (northFunction != null) addButton(6, "North", navigateToRoom, northFunction);
 			if (southFunction != null) addButton(11, "South", navigateToRoom, southFunction);
@@ -251,7 +256,7 @@ package classes.Scenes.Dungeons
 		{
 			statScreenRefresh();
 			hideUpDown();
-			spriteSelect(-1);
+			spriteSelect(null);
 			setTopButtons();
 			if (tRoom.NorthExit != null && tRoom.NorthExit.length > 0)
 			{

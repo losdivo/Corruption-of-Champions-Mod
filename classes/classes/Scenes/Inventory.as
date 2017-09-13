@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Created by aimozg on 12.01.14.
  */
 package classes.Scenes
@@ -20,10 +20,16 @@ package classes.Scenes
 	import classes.Scenes.Dungeons.DungeonCore;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import classes.internals.LoggerFactory;
+	import mx.logging.ILogger;
+	import classes.display.SpriteDb;
+	import classes.internals.*;
 
 	use namespace kGAMECLASS;
 
 	public class Inventory extends BaseContent {
+		private static const LOGGER:ILogger = LoggerFactory.getLogger(Inventory);
+		
 		private static const inventorySlotName:Array = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
 		
 		private var itemStorage:Array;
@@ -61,7 +67,7 @@ package classes.Scenes
 				callNext = inventoryCombatHandler; //Player will return to combat after item use
 			}
 			else {
-				spriteSelect(-1);
+				spriteSelect(null);
 				callNext = inventoryMenu; //In camp or in a dungeon player will return to inventory menu after item use
 			}
 			hideMenus();
@@ -87,9 +93,22 @@ package classes.Scenes
 			if (!getGame().inCombat) {
 				addButton(10, "Unequip", manageEquipment);
 			}
+			
+			if (!getGame().inCombat && flags[kFLAGS.DELETE_ITEMS] == 1) {
+				addButton(11, "Del Item: One", deleteItems, null, null, null, "Trash your items, one by one.\n\nClick to trash all in a stack.\nClick twice to stop.", "Delete Items (Single)");
+			} else if (!getGame().inCombat && flags[kFLAGS.DELETE_ITEMS] == 2) {
+				addButton(11, "Del Item: All", deleteItems, null, null, null, "Trash all of your items in a stack.\n\nClick to stop.\nClick twice to trash your items one by one.", "Delete Items (Stack)");
+			} else if (!getGame().inCombat && flags[kFLAGS.DELETE_ITEMS] == 0) {
+				addButton(11, "Del Item: OFF", deleteItems, null, null, null, "Start throwing away your items.\n\nClick to trash your items one by one.\nClick twice to trash all in a stack.", "Delete Items (Off)");
+			}
+			
+			
 			if (!getGame().inCombat && inDungeon == false && inRoomedDungeon == false && flags[kFLAGS.IN_PRISON] == 0 && flags[kFLAGS.IN_INGNAM] == 0 && checkKeyItems(true)) {
 				addButton(12, "Key Items", checkKeyItems);
 				foundItem = true;
+			}
+			if (!getGame().inCombat && player.armor == armors.BIMBOSK) {
+				addButton(13, (flags[kFLAGS.BIMBO_MINISKIRT_PROGRESS_DISABLED] == 0 ? "Disable Bimbo" : "Enable Bimbo"), getGame().bimboProgress.toggleProgress, null, null, null, (flags[kFLAGS.BIMBO_MINISKIRT_PROGRESS_DISABLED] == 0 ? "Disable bimbo progression from Bimbo Miniskirt." : "Enable bimbo progression from Bimbo Miniskirt."));
 			}
 			if (!foundItem) {
 				outputText("\nYou have no usable items.");
@@ -99,27 +118,29 @@ package classes.Scenes
 				}
 				return;
 			}
-			if (getGame().inCombat && player.findStatusEffect(StatusEffects.Sealed) >= 0 && player.statusEffectv1(StatusEffects.Sealed) == 3) {
+			if (getGame().inCombat && player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv1(StatusEffects.Sealed) == 3) {
 				outputText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
 				monster.doAI();
 				return;
 			}
-			outputText("\nWhich item will you use? (To discard unwanted items, hold Shift then click the item.)");
+			if (flags[kFLAGS.DELETE_ITEMS] > 0) outputText("\nWhich item will you discard?");
+			else outputText("\nWhich item will you use?");
 			outputText("\n<b>Capacity:</b> " + getOccupiedSlots() + " / " + getMaxSlots());
+			addButton(14, "Back", exitInventory);
+		}
+		
+		private function exitInventory():void {
+			flags[kFLAGS.DELETE_ITEMS] = 0;
 			if (getGame().inCombat)
-				addButton(14, "Back", combat.combatMenu, false); //Player returns to the combat menu on cancel
+				combat.combatMenu(false); //Player returns to the combat menu on cancel
 			else
-				addButton(14, "Back", playerMenu);
+				playerMenu();
 		}
 		
 		public function stash():void {
-			/*Hacked in cheat to enable shit
-			flags[kFLAGS.TAKEN_WEAPON_RACK_DEPRECATED] = 1;
-			flags[kFLAGS.TAKEN_ARMOUR_RACK_DEPRECATED] = 1;*/
-			//REMOVE THE ABOVE BEFORE RELASE ()
 			hideMenus();
 			clearOutput();
-			spriteSelect(-1);
+			spriteSelect(null);
 			menu();
 			if (flags[kFLAGS.ANEMONE_KID] > 0) {
 				kGAMECLASS.anemoneScene.anemoneBarrelDescription();
@@ -173,7 +194,7 @@ package classes.Scenes
 				else outputText("next to your bedroll.");	
 				addButton(10, "J.Box Put", inventory.pickItemToPlaceInJewelryBox);
 				if (inventory.jewelryBoxDescription()) addButton(11, "J.Box Take", inventory.pickItemToTakeFromJewelryBox);
-				outputText("\n\n", false);
+				outputText("\n\n");
 			}
 			//Dresser
 			if (flags[kFLAGS.CAMP_CABIN_FURNITURE_DRESSER] > 0) {
@@ -258,11 +279,13 @@ package classes.Scenes
 		
 		public function giveHumanizer():void {
 			if (flags[kFLAGS.TIMES_CHEATED_COUNTER] > 0) {
-				outputText("<b>I was a cheater until I took an arrow to the knee...</b>", true);
+				clearOutput();
+				outputText("<b>I was a cheater until I took an arrow to the knee...</b>");
 				getGame().gameOver();
 				return;
 			}
-			outputText("I AM NOT A CROOK.  BUT YOU ARE!  <b>CHEATER</b>!\n\n", true);
+			clearOutput();
+			outputText("I AM NOT A CROOK.  BUT YOU ARE!  <b>CHEATER</b>!\n\n");
 			inventory.takeItem(consumables.HUMMUS_, playerMenu);
 			flags[kFLAGS.TIMES_CHEATED_COUNTER]++;
 		}
@@ -296,27 +319,34 @@ package classes.Scenes
 		//Clear storage slots
 		public function clearStorage():void {
 			//Various Errors preventing action
-			if (itemStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
+			if (itemStorage == null){
+				LOGGER.error("Cannot clear storage because it does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + itemStorage.length + " storage slots.");
+				LOGGER.debug("Attempted to remove {0} storage slots.", itemStorage.length);
 				itemStorage.splice(0, itemStorage.length);
 			}
 		}
 		
 		public function clearGearStorage():void {
 			//Various Errors preventing action
-			if (gearStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
+			if (gearStorage == null) {
+				LOGGER.error("Cannot clear gear storage because it does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + gearStorage.length + " storage slots.");
+				LOGGER.debug("Attempted to remove {0} gear storage slots.", gearStorage.length);
 				gearStorage.splice(0, gearStorage.length);
 			}
 		}
 		
 		public function initializeGearStorage():void {
 			//Completely empty storage array
-			if (gearStorage == null) trace("ERROR: Cannot clear gearStorage because storage does not exist.");
+			if (gearStorage == null) {
+				//TODO refactor this to use clearGearStorage()
+				LOGGER.error("Cannot clear gearStorage because storage does not exist.");
+			}
 			else {
-				trace("Attempted to remove " + gearStorage.length + " gearStorage slots.");
+				LOGGER.debug("Attempted to remove {0} gear storage slots.", gearStorage.length);
 				gearStorage.splice(0, gearStorage.length);
 			}
 			//Rebuild a new one!
@@ -331,8 +361,11 @@ package classes.Scenes
 			clearOutput();
 			if (player.itemSlots[slotNum].itype is Useable) {
 				var item:Useable = player.itemSlots[slotNum].itype as Useable;
-				if (flags[kFLAGS.SHIFT_KEY_DOWN] == 1) {
+				if (flags[kFLAGS.DELETE_ITEMS] == 1) {
 					deleteItemPrompt(item, slotNum);
+					return;
+				} else if (flags[kFLAGS.DELETE_ITEMS] == 2) {
+					deleteItemsPrompt(item, slotNum);
 					return;
 				}
 				if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
@@ -344,31 +377,48 @@ package classes.Scenes
 			else {
 				outputText("You cannot use " + player.itemSlots[slotNum].itype.longName + "!\n\n");
 			}
-			itemGoNext(); //Normally returns to the inventory menu. In combat it goes to the inventoryCombatHandler function
-/* menuLoc is no longer needed, after monster.doAI game will always move to the next round			
-			else if (menuLoc == 1) {
-				menuLoc = 0;
-				if (!combatRoundOver()) {
-					outputText("\n\n");
-					monster.doAI();
-				}
-			}
-*/
+			itemGoNext();
 		}
 		
 		private function inventoryCombatHandler():void {
-			if (!combat.combatRoundOver()) { //Check if the battle is over. If not then go to the enemy's action.
+			if (!combat.combatRoundOver()) { //Check if the battle is over.
 				outputText("\n\n");
 				monster.doAI();
 			}
 		}
+		
+		private function deleteItems():void {
+			if (flags[kFLAGS.DELETE_ITEMS] == 0) {
+				flags[kFLAGS.DELETE_ITEMS]++;
+			} else if (flags[kFLAGS.DELETE_ITEMS] == 1) {
+				flags[kFLAGS.DELETE_ITEMS]++;
+			} else if (flags[kFLAGS.DELETE_ITEMS] == 2) {
+				flags[kFLAGS.DELETE_ITEMS] = 0;
+			}
+			inventoryMenu();
+		}
+		
 		private function deleteItemPrompt(item:Useable, slotNum:int):void {
+			clearOutput();
+			outputText("Are you sure you want to destroy 1 " + item.shortName + "?  You won't be able to retrieve it!");
+			menu();
+			addButton(0, "Yes", delete1Item, item, slotNum);
+			addButton(1, "No", inventoryMenu);
+		}
+		
+		private function deleteItemsPrompt(item:Useable, slotNum:int):void {
 			clearOutput();
 			outputText("Are you sure you want to destroy " + player.itemSlots[slotNum].quantity + "x " + item.shortName + "?  You won't be able to retrieve " + (player.itemSlots[slotNum].quantity == 1 ? "it": "them") + "!");
 			menu();
 			addButton(0, "Yes", deleteItem, item, slotNum);
 			addButton(1, "No", inventoryMenu);
-			//doYesNo(deleteItem, inventoryMenu);
+		}
+		
+		public function delete1Item(item:Useable, slotNum:int):void {
+			clearOutput();
+			outputText("1 " + item.shortName + " has been destroyed.");
+			player.destroyItems(item, 1);
+			doNext(inventoryMenu);
 		}
 		
 		private function deleteItem(item:Useable, slotNum:int):void {
@@ -430,17 +480,17 @@ package classes.Scenes
 			menu();
 			for (var x:int = 0; x < 10; x++) {
 				if (player.itemSlots[x].unlocked)
-					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), createCallBackFunction2(replaceItem, itype, x));
+					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), replaceItem, itype, x);
 			}
 			if (source != null) {
 				currentItemSlot = source;
-				addButton(12, "Put Back", createCallBackFunction2(returnItemToInventory, itype, false));
+				addButton(12, "Put Back", returnItemToInventory, itype, false);
 			}
-			if (showUseNow && itype is Useable) addButton(13, "Use Now", createCallBackFunction2(useItemNow, itype as Useable, source));
+			if (showUseNow && itype is Useable) addButton(13, "Use Now", useItemNow, itype as Useable, source);
 			addButton(14, "Abandon", callOnAbandon); //Does not doNext - immediately executes the callOnAbandon function
 		}
 		
-		private function useItemNow(item:Useable, source:ItemSlotClass):void {
+		private function useItemNow(item:Useable, source:ItemSlotClass = null):void {
 			clearOutput();
 			if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
 				useItem(item, source);
@@ -704,7 +754,7 @@ package classes.Scenes
 			var button:int = 0;
 			menu();
 			for (var x:int = startSlot; x < endSlot; x++, button++) {
-				if (storage[x].quantity > 0) addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
+				if (storage[x].quantity > 0) addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), pickFrom, storage, x);
 			}
 			addButton(14, "Back", stash);
 		}

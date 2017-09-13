@@ -30,8 +30,8 @@ package classes.Scenes.NPCs
 			//Basic attack, average damage, average accuracy
 			outputText("With a growl, the dragon lashes out in a ferocious splay-fingered slash, "+ emberMF("his","her") + " claws poised to rip into your flesh.  ");
 			//Blind dodge change
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) {
-				outputText(capitalA + short + " completely misses you with a blind attack!", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) {
+				outputText(capitalA + short + " completely misses you with a blind attack!");
 			}
 			//Miss/dodge
 			else if (player.getEvasionRoll()) outputText("You dodge aside at the last second and Ember's claws whistle past you.");
@@ -48,7 +48,7 @@ package classes.Scenes.NPCs
 		
 		//Dragon Breath: Very rare attack, very high damage
 		private function embersSupahSpecialDragonBreath():void {
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) {
+			if (hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) {
 				//Blind Ember: 
 				outputText("The blinded dragon tracks you with difficulty as you sprint around the landscape; seeing an opportunity, you strafe around " + emberMF("his","her") + " side, planting yourself behind a large flat boulder near " + emberMF("him","her") + " and pelting " + emberMF("him","her") + " with a small rock.  The scream as the dragon turns the magical conflagration toward you, only to have it hit the rock and blow up in " + emberMF("his","her") + " face, is quite satisfying. ");
 				//(Ember HP damage)
@@ -70,8 +70,8 @@ package classes.Scenes.NPCs
 		//Tailslap: Rare attack, high damage, low accuracy
 		private function emberTailSlap():void {
 			//Blind dodge change
-			if (findStatusEffect(StatusEffects.Blind) >= 0) {
-				outputText(capitalA + short + " completely misses you with a blind tail-slap!", false);
+			if (hasStatusEffect(StatusEffects.Blind)) {
+				outputText(capitalA + short + " completely misses you with a blind tail-slap!");
 				combatRoundOver();
 				return;
 			}
@@ -117,11 +117,11 @@ package classes.Scenes.NPCs
 		
 		override protected function performCombatAction():void
 		{
-			if (lust >= eMaxLust() * 0.6) {
+			if (lust >= maxLust() * 0.6) {
 				emberReactsToLustiness();
 				return;
 			}
-			if (findStatusEffect(StatusEffects.StunCooldown) >= 0) {
+			if (hasStatusEffect(StatusEffects.StunCooldown)) {
 				addStatusValue(StatusEffects.StunCooldown, 1, -1);
 				if (statusEffectv1(StatusEffects.StunCooldown) <= 0) removeStatusEffect(StatusEffects.StunCooldown);
 			}
@@ -182,6 +182,7 @@ package classes.Scenes.NPCs
 			this.hairLength = 15;
 			this.hornType = HORNS_DRACONIC_X4_12_INCH_LONG;
 			this.horns = 4;
+			this.wingType = WING_TYPE_DRACONIC_LARGE;
 			this.tailType = TAIL_TYPE_DRACONIC;
 			initStrTouSpeInte(75 + Math.floor(game.emberScene.emberSparIntensity() / 3), 75 + Math.floor(game.emberScene.emberSparIntensity() / 3), 75 + Math.floor(game.emberScene.emberSparIntensity() / 3), 75 + Math.floor(game.emberScene.emberSparIntensity() / 3));
 			initLibSensCor(50, 35, game.flags[kFLAGS.EMBER_COR]);

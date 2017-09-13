@@ -8,10 +8,13 @@ package classes.Scenes.Combat
 	import classes.Scenes.Dungeons.D3.*;
 	import classes.Scenes.Dungeons.DeepCave.*;
 	import classes.Scenes.Dungeons.HelDungeon.*;
+	import classes.Scenes.Monsters.Mimic;
 	import classes.Scenes.NPCs.*;
 	import classes.Scenes.Places.TelAdre.UmasShop;
+import classes.StatusEffects.Combat.BasiliskSlowDebuff;
+import classes.StatusEffects.Combat.MightBuff;
 
-	public class CombatAbilities extends BaseContent
+public class CombatAbilities extends BaseContent
 	{
 		public function CombatAbilities() {}
 		
@@ -23,14 +26,14 @@ package classes.Scenes.Combat
 		
 		//UTILS
 		public function canUseMagic():Boolean {
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0) return false;
-			if (player.findStatusEffect(StatusEffects.WebSilence) >= 0) return false;
-			if (player.findStatusEffect(StatusEffects.GooArmorSilence) >= 0) return false;
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch)) return false;
+			if (player.hasStatusEffect(StatusEffects.WebSilence)) return false;
+			if (player.hasStatusEffect(StatusEffects.GooArmorSilence)) return false;
 			return true;
 		}
 		
 		public function getWhiteMagicLustCap():Number {
-			var whiteLustCap:int = player.maxLust() * 0.75;
+			var whiteLustCap:Number = player.maxLust() * 0.75;
 			if (player.findPerk(PerkLib.Enlightened) >= 0 && player.cor < (10 + player.corruptionTolerance())) whiteLustCap += (player.maxLust() * 0.1);
 			if (player.findPerk(PerkLib.FocusedMind) >= 0) whiteLustCap += (player.maxLust() * 0.1);
 			return whiteLustCap;
@@ -53,7 +56,8 @@ package classes.Scenes.Combat
 		
 		public function isExhausted(cost:int):Boolean {
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(cost) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return true;
 			}
@@ -64,7 +68,7 @@ package classes.Scenes.Combat
 		
 		//MENU
 		public function magicMenu():void {
-			if (combat.inCombat && player.findStatusEffect(StatusEffects.Sealed) >= 0 && player.statusEffectv2(StatusEffects.Sealed) == 2) {
+			if (combat.inCombat && player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 2) {
 				clearOutput();
 				outputText("You reach for your magic, but you just can't manage the focus necessary.  <b>Your ability to use magic was sealed, and now you've wasted a chance to attack!</b>\n\n");
 				monster.doAI();
@@ -77,29 +81,30 @@ package classes.Scenes.Combat
 			if (player.lust >= getWhiteMagicLustCap())
 				outputText("You are far too aroused to focus on white magic.\n\n");
 			else {
-				if (player.findStatusEffect(StatusEffects.KnowsCharge) >= 0) {
-					if (player.findStatusEffect(StatusEffects.ChargeWeapon) < 0)
+				if (player.hasStatusEffect(StatusEffects.KnowsCharge)) {
+					if (!player.hasStatusEffect(StatusEffects.ChargeWeapon))
 						addButton(0, "Charge W.", spellChargeWeapon, null, null, null, "The Charge Weapon spell will surround your weapon in electrical energy, causing it to do even more damage.  The effect lasts for the entire combat.  \n\nFatigue Cost: " + player.spellCost(15) + "", "Charge Weapon");
 					else outputText("<b>Charge weapon is already active and cannot be cast again.</b>\n\n");
 				}
-				if (player.findStatusEffect(StatusEffects.KnowsBlind) >= 0) {
-					if (monster.findStatusEffect(StatusEffects.Blind) < 0)
+				if (player.hasStatusEffect(StatusEffects.KnowsBlind)) {
+					if (!monster.hasStatusEffect(StatusEffects.Blind))
 						addButton(1, "Blind", spellBlind, null, null, null, "Blind is a fairly self-explanatory spell.  It will create a bright flash just in front of the victim's eyes, blinding them for a time.  However if they blink it will be wasted.  \n\nFatigue Cost: " + player.spellCost(20) + "");
 					else outputText("<b>" + monster.capitalA + monster.short + " is already affected by blind.</b>\n\n");
 				}
-				if (player.findStatusEffect(StatusEffects.KnowsWhitefire) >= 0) addButton(2, "Whitefire", spellWhitefire, null, null, null, "Whitefire is a potent fire based attack that will burn your foe with flickering white flames, ignoring their physical toughness and most armors.  \n\nFatigue Cost: " + player.spellCost(30) + "");
+				if (player.hasStatusEffect(StatusEffects.KnowsWhitefire)) addButton(2, "Whitefire", spellWhitefire, null, null, null, "Whitefire is a potent fire based attack that will burn your foe with flickering white flames, ignoring their physical toughness and most armors.  \n\nFatigue Cost: " + player.spellCost(30) + "");
 			}
 			//BLACK MAGICSKS
 			if (player.lust < 50)
 				outputText("You aren't turned on enough to use any black magics.\n\n");
 			else {
-				if (player.findStatusEffect(StatusEffects.KnowsArouse) >= 0) addButton(5, "Arouse", spellArouse, null, null, null, "The arouse spell draws on your own inner lust in order to enflame the enemy's passions.  \n\nFatigue Cost: " + player.spellCost(15) + "");
-				if (player.findStatusEffect(StatusEffects.KnowsHeal) >= 0) addButton(6, "Heal", spellHeal, null, null, null, "Heal will attempt to use black magic to close your wounds and restore your body, however like all black magic used on yourself, it has a chance of backfiring and greatly arousing you.  \n\nFatigue Cost: " + player.spellCost(20) + "");
-				if (player.findStatusEffect(StatusEffects.KnowsMight) >= 0) {
-					if (player.findStatusEffect(StatusEffects.Might) < 0)
+				if (player.hasStatusEffect(StatusEffects.KnowsArouse)) addButton(5, "Arouse", spellArouse, null, null, null, "The arouse spell draws on your own inner lust in order to enflame the enemy's passions.  \n\nFatigue Cost: " + player.spellCost(15) + "");
+				if (player.hasStatusEffect(StatusEffects.KnowsHeal)) addButton(6, "Heal", spellHeal, null, null, null, "Heal will attempt to use black magic to close your wounds and restore your body, however like all black magic used on yourself, it has a chance of backfiring and greatly arousing you.  \n\nFatigue Cost: " + player.spellCost(20) + "");
+				if (player.hasStatusEffect(StatusEffects.KnowsMight)) {
+					if (!player.hasStatusEffect(StatusEffects.Might))
 						addButton(7, "Might", spellMight, null, null, null, "The Might spell draws upon your lust and uses it to fuel a temporary increase in muscle size and power.  It does carry the risk of backfiring and raising lust, like all black magic used on oneself.  \n\nFatigue Cost: " + player.spellCost(25) + "");
 					else outputText("<b>You are already under the effects of Might and cannot cast it again.</b>\n\n");
 				}
+				if (player.hasStatusEffect(StatusEffects.KnowsBlackfire)) addButton(8, "Blackfire", spellBlackfire, null, null, null, "Blackfire is the black magic variant of Whitefire. It is a potent fire based attack that will burn your foe with flickering black and purple flames, ignoring their physical toughness and most armors.\n\nFatigue Cost: " + player.spellCost(40) + "");
 			}
 			// JOJO ABILITIES -- kind makes sense to stuff it in here along side the white magic shit (also because it can't fit into M. Specials :|
 			if (player.findPerk(PerkLib.CleansingPalm) >= 0 && player.cor < (10 + player.corruptionTolerance())) {
@@ -118,18 +123,20 @@ package classes.Scenes.Combat
 			}
 			
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(15) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
 			player.changeFatigue(15, 1);
-			if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				(monster as FrostGiant).giantBoulderHit(2);
 				monster.doAI();
 				return;
 			}
-			outputText("You utter words of power, summoning an electrical charge around your " + player.weaponName + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n", true);
+				clearOutput();
+			outputText("You utter words of power, summoning an electrical charge around your " + player.weaponName + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
 			var temp:int = 10 * player.spellMod();
 			if (temp > 100) temp = 100;
 			player.createStatusEffect(StatusEffects.ChargeWeapon, temp, 0, 0, 0);
@@ -143,13 +150,14 @@ package classes.Scenes.Combat
 		public function spellBlind():void {
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(20) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
 			player.changeFatigue(20,1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
@@ -178,7 +186,7 @@ package classes.Scenes.Combat
 					
 					player.createStatusEffect(StatusEffects.Blind, rand(4) + 1, 0, 0, 0);
 				}
-				if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+				if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 					(monster as FrostGiant).giantBoulderHit(2);
 					monster.doAI();
 					return;
@@ -189,27 +197,28 @@ package classes.Scenes.Combat
 				else monster.doAI();
 				return;
 			}
-			outputText("You glare at " + monster.a + monster.short + " and point at " + monster.pronoun2 + ".  A bright flash erupts before " + monster.pronoun2 + "!\n", true);
+				clearOutput();
+			outputText("You glare at " + monster.a + monster.short + " and point at " + monster.pronoun2 + ".  A bright flash erupts before " + monster.pronoun2 + "!\n");
 			if (monster is LivingStatue)
 			{
 				// noop
 			}
 			else if (rand(3) != 0) {
-				outputText(" <b>" + monster.capitalA + monster.short + " ", false);
-				if (monster.plural && monster.short != "imp horde") outputText("are blinded!</b>", false);
-				else outputText("is blinded!</b>", false);
+				outputText(" <b>" + monster.capitalA + monster.short + " ");
+				if (monster.plural && monster.short != "imp horde") outputText("are blinded!</b>");
+				else outputText("is blinded!</b>");
 				monster.createStatusEffect(StatusEffects.Blind,5*player.spellMod(),0,0,0);
 				if (monster.short == "Isabella")
-					if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.", false);
-					else outputText("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.", false);
-				if (monster.short == "Kiha") outputText("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.", false);
+					if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.");
+					else outputText("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.");
+				if (monster.short == "Kiha") outputText("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.");
 				if (monster.short == "plain girl") {
-					outputText("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.", false);
+					outputText("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.");
 					monster.removeStatusEffect(StatusEffects.Blind);
 				}
 			}
-			else outputText(monster.capitalA + monster.short + " blinked!", false);	
-			outputText("\n\n", false);
+			else outputText(monster.capitalA + monster.short + " blinked!");	
+			outputText("\n\n");
 			flags[kFLAGS.SPELLS_CAST]++;
 			spellPerkUnlock();
 			statScreenRefresh();
@@ -255,13 +264,14 @@ package classes.Scenes.Combat
 		public function spellWhitefire():void {
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(30) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
-			player.changeFatigue(30,1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			player.changeFatigue(30, 1);
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
@@ -275,25 +285,26 @@ package classes.Scenes.Combat
 				spellPerkUnlock();
 				return;
 			}
-			if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				(monster as FrostGiant).giantBoulderHit(2);
 				monster.doAI();
 				return;
 			}
-			outputText("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.a + monster.short + " is enveloped in a flash of white flames!\n", true);
+				clearOutput();
+			outputText("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.a + monster.short + " is enveloped in a flash of white flames!\n");
 			temp = int(10 + (player.inte / 3 + rand(player.inte / 2)) * player.spellMod());
 			//High damage to goes.
 			temp = calcInfernoMod(temp);
 			if (monster.short == "goo-girl") temp = Math.round(temp * 1.5);
 			if (monster.short == "tentacle beast") temp = Math.round(temp * 1.2);
-			outputText(monster.capitalA + monster.short + " takes <b><font color=\"#800000\">" + temp + "</font></b> damage.", false);
+			outputText(monster.capitalA + monster.short + " takes <b><font color=\"" + mainViewManager.colorHpMinus() + "\">" + temp + "</font></b> damage.");
 			//Using fire attacks on the goo]
 			if (monster.short == "goo-girl") {
-				outputText("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.", false);
+				outputText("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.");
 				if (monster.findPerk(PerkLib.Acid) < 0) monster.createPerk(PerkLib.Acid,0,0,0,0);
 			}
-			if (monster.short == "Holli" && monster.findStatusEffect(StatusEffects.HolliBurning) < 0) (monster as Holli).lightHolliOnFireMagically();
-			outputText("\n\n", false);
+			if (monster.short == "Holli" && !monster.hasStatusEffect(StatusEffects.HolliBurning)) (monster as Holli).lightHolliOnFireMagically();
+			outputText("\n\n");
 		 	combat.checkAchievementDamage(temp);
 			flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
 			flags[kFLAGS.SPELLS_CAST]++;
@@ -307,7 +318,8 @@ package classes.Scenes.Combat
 		//BLACK SPELLS
 		public function spellArouse():void {
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(15) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
@@ -315,114 +327,117 @@ package classes.Scenes.Combat
 		//This is now automatic - newRound arg defaults to true:	menuLoc = 0;
 			player.changeFatigue(15,1);
 			statScreenRefresh();
-			if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				(monster as FrostGiant).giantBoulderHit(2);
 				monster.doAI();
 				return;
 			}
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
 				monster.doAI();
 				return;
 			}
-			outputText("You make a series of arcane gestures, drawing on your own lust to inflict it upon your foe!\n", true);
+			clearOutput();
+			outputText("You make a series of arcane gestures, drawing on your own lust to inflict it upon your foe!\n");
 			//Worms be immune
 			if (monster.short == "worms") {
-				outputText("The worms appear to be unaffected by your magic!", false);
-				outputText("\n\n", false);
+				outputText("The worms appear to be unaffected by your magic!");
+				outputText("\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
 				doNext(playerMenu);
-				if (monster.lust >= monster.eMaxLust()) doNext(combat.endLustVictory);
+				if (monster.lust >= monster.maxLust()) doNext(combat.endLustVictory);
 				else monster.doAI();
 				return;
 			}
 			if (monster.lustVuln == 0) {
-				outputText("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n", false);
+				outputText("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
 				monster.doAI();
 				return;
 			}
 			var lustDmg:Number = monster.lustVuln * (player.inte/5*player.spellMod() + rand(monster.lib - monster.inte*2 + monster.cor)/5);
-			if (monster.lust < 30) outputText(monster.capitalA + monster.short + " squirms as the magic affects " + monster.pronoun2 + ".  ", false);
-			if (monster.lust >= 30 && monster.lust < 60) {
-				if (monster.plural) outputText(monster.capitalA + monster.short + " stagger, suddenly weak and having trouble focusing on staying upright.  ", false);
-				else outputText(monster.capitalA + monster.short + " staggers, suddenly weak and having trouble focusing on staying upright.  ", false);
+			if (monster.lust100 < 30) outputText(monster.capitalA + monster.short + " squirms as the magic affects " + monster.pronoun2 + ".  ");
+			if (monster.lust100 >= 30 && monster.lust100 < 60) {
+				if (monster.plural) outputText(monster.capitalA + monster.short + " stagger, suddenly weak and having trouble focusing on staying upright.  ");
+				else outputText(monster.capitalA + monster.short + " staggers, suddenly weak and having trouble focusing on staying upright.  ");
 			}
-			if (monster.lust >= 60) {
+			if (monster.lust100 >= 60) {
 				outputText(monster.capitalA + monster.short + "'");
 				if (!monster.plural) outputText("s");
-				outputText(" eyes glaze over with desire for a moment.  ", false);
+				outputText(" eyes glaze over with desire for a moment.  ");
 			}
 			if (monster.cocks.length > 0) {
-				if (monster.lust >= 60 && monster.cocks.length > 0) outputText("You see " + monster.pronoun3 + " " + monster.multiCockDescriptLight() + " dribble pre-cum.  ", false);
-				if (monster.lust >= 30 && monster.lust < 60 && monster.cocks.length == 1) outputText(monster.capitalA + monster.short + "'s " + monster.cockDescriptShort(0) + " hardens, distracting " + monster.pronoun2 + " further.  ", false);
-				if (monster.lust >= 30 && monster.lust < 60 && monster.cocks.length > 1) outputText("You see " + monster.pronoun3 + " " + monster.multiCockDescriptLight() + " harden uncomfortably.  ", false);
+				if (monster.lust100 >= 60 && monster.cocks.length > 0) outputText("You see " + monster.pronoun3 + " " + monster.multiCockDescriptLight() + " dribble pre-cum.  ");
+				if (monster.lust100 >= 30 && monster.lust100 < 60 && monster.cocks.length == 1) outputText(monster.capitalA + monster.short + "'s " + monster.cockDescriptShort(0) + " hardens, distracting " + monster.pronoun2 + " further.  ");
+				if (monster.lust100 >= 30 && monster.lust100 < 60 && monster.cocks.length > 1) outputText("You see " + monster.pronoun3 + " " + monster.multiCockDescriptLight() + " harden uncomfortably.  ");
 			}
 			if (monster.vaginas.length > 0) {
 				if (monster.plural) {
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_NORMAL) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s dampen perceptibly.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_WET) outputText(monster.capitalA + monster.short + "'s crotches become sticky with girl-lust.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLICK) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s become sloppy and wet.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_DROOLING) outputText("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLAVERING) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s instantly soak " + monster.pronoun2 + " groin.  ", false);
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_NORMAL) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s dampen perceptibly.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_WET) outputText(monster.capitalA + monster.short + "'s crotches become sticky with girl-lust.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLICK) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s become sloppy and wet.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_DROOLING) outputText("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLAVERING) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + "s instantly soak " + monster.pronoun2 + " groin.  ");
 				}
 				else {
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_NORMAL) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " dampens perceptibly.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_WET) outputText(monster.capitalA + monster.short + "'s crotch becomes sticky with girl-lust.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLICK) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " becomes sloppy and wet.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_DROOLING) outputText("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ", false);
-					if (monster.lust >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLAVERING) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " instantly soaks her groin.  ", false);
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_NORMAL) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " dampens perceptibly.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_WET) outputText(monster.capitalA + monster.short + "'s crotch becomes sticky with girl-lust.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLICK) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " becomes sloppy and wet.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_DROOLING) outputText("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ");
+					if (monster.lust100 >= 60 && monster.vaginas[0].vaginalWetness == VAGINA_WETNESS_SLAVERING) outputText(monster.capitalA + monster.short + "'s " + monster.vaginaDescript() + " instantly soaks her groin.  ");
 				}
 			}
 			monster.teased(lustDmg);
-			outputText("\n\n", false);
+			outputText("\n\n");
 			doNext(playerMenu);
 			flags[kFLAGS.SPELLS_CAST]++;
 			spellPerkUnlock();
-			if (monster.lust >= monster.eMaxLust()) doNext(combat.endLustVictory);
+			if (monster.lust >= monster.maxLust()) doNext(combat.endLustVictory);
 			else monster.doAI();
 			return;	
 		}
 		public function spellHeal():void {
 			if (/*player.findPerk(PerkLib.BloodMage) < 0 && */player.fatigue + player.spellCost(20) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
 		//This is now automatic - newRound arg defaults to true:	menuLoc = 0;
 			player.changeFatigue(20, 3);
-			if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				(monster as FrostGiant).giantBoulderHit(2);
 				monster.doAI();
 				return;
 			}
-			outputText("You focus on your body and its desire to end pain, trying to draw on your arousal without enhancing it.\n", true);
+			clearOutput();
+			outputText("You focus on your body and its desire to end pain, trying to draw on your arousal without enhancing it.\n");
 			//25% backfire!
 			var backfire:int = 25;
 			if (player.findPerk(PerkLib.FocusedMind) >= 0) backfire = 15;
 			if (rand(100) < backfire) {
-				outputText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ", false);
-				if (player.gender == 0) outputText(player.assholeDescript() + " tingles with a desire to be filled as your libido spins out of control.", false);
+				outputText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
+				if (player.gender == 0) outputText(player.assholeDescript() + " tingles with a desire to be filled as your libido spins out of control.");
 				if (player.gender == 1) {
-					if (player.cockTotal() == 1) outputText(player.cockDescript(0) + " twitches obscenely and drips with pre-cum as your libido spins out of control.", false);
-					else outputText(player.multiCockDescriptLight() + " twitch obscenely and drip with pre-cum as your libido spins out of control.", false);
+					if (player.cockTotal() == 1) outputText(player.cockDescript(0) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+					else outputText(player.multiCockDescriptLight() + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
 				}
-				if (player.gender == 2) outputText(player.vaginaDescript(0) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.", false);
-				if (player.gender == 3) outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight() + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.", false);
+				if (player.gender == 2) outputText(player.vaginaDescript(0) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+				if (player.gender == 3) outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight() + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
 				dynStats("lib", .25, "lus", 15);
 			}
 			else {
 				temp = int((player.level + (player.inte / 1.5) + rand(player.inte)) * player.spellMod());
-				outputText("You flush with success as your wounds begin to knit. ", false);
+				outputText("You flush with success as your wounds begin to knit. ");
 				HPChange(temp, true);
 			}
 			
-			outputText("\n\n", false);
+			outputText("\n\n");
 			statScreenRefresh();
 			flags[kFLAGS.SPELLS_CAST]++;
 			spellPerkUnlock();
@@ -436,62 +451,46 @@ package classes.Scenes.Combat
 		//and increasing lust by 15.
 		public function spellMight(silent:Boolean = false):void {
 			
-			var doEffect:Function = function():* {
-				player.createStatusEffect(StatusEffects.Might,0,0,0,0);
-				temp = 10 * player.spellMod();
-				if (temp > 100) temp = 100;
-				tempStr = temp;
-				tempTou = temp;
-				//if (player.str + temp > 100) tempStr = 100 - player.str;
-				//if (player.tou + temp > 100) tempTou = 100 - player.tou;
-				player.changeStatusValue(StatusEffects.Might,1,tempStr);
-				player.changeStatusValue(StatusEffects.Might,2,tempTou);
-				mainView.statsView.showStatUp('str');
-				mainView.statsView.showStatUp('tou');
-				player.str += player.statusEffectv1(StatusEffects.Might);
-				player.tou += player.statusEffectv2(StatusEffects.Might);
-				statScreenRefresh();
-			}
-			
+
 			if (silent)	{ // for Battlemage
-				doEffect.call();
+				player.addStatusEffect(new MightBuff());
 				return;
 			}
 			
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(25) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
 			player.changeFatigue(25,1);
-			var tempStr:Number = 0;
-			var tempTou:Number = 0;
-			if (monster is FrostGiant && player.findStatusEffect(StatusEffects.GiantBoulder) >= 0) {
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
 				(monster as FrostGiant).giantBoulderHit(2);
 				monster.doAI();
 				return;
 			}
-			outputText("You flush, drawing on your body's desires to empower your muscles and toughen you up.\n\n", true);
+			clearOutput();
+			outputText("You flush, drawing on your body's desires to empower your muscles and toughen you up.\n\n");
 			//25% backfire!
 			var backfire:int = 25;
 			if (player.findPerk(PerkLib.FocusedMind) >= 0) backfire = 15;
 			if (rand(100) < backfire) {
-				outputText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ", false);
-				if (player.gender == 0) outputText(player.assholeDescript() + " tingles with a desire to be filled as your libido spins out of control.", false);
+				outputText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
+				if (player.gender == 0) outputText(player.assholeDescript() + " tingles with a desire to be filled as your libido spins out of control.");
 				if (player.gender == 1) {
-					if (player.cockTotal() == 1) outputText(player.cockDescript(0) + " twitches obscenely and drips with pre-cum as your libido spins out of control.", false);
-					else outputText(player.multiCockDescriptLight() + " twitch obscenely and drip with pre-cum as your libido spins out of control.", false);
+					if (player.cockTotal() == 1) outputText(player.cockDescript(0) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+					else outputText(player.multiCockDescriptLight() + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
 				}
-				if (player.gender == 2) outputText(player.vaginaDescript(0) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.", false);
-				if (player.gender == 3) outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight() + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.", false);
+				if (player.gender == 2) outputText(player.vaginaDescript(0) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+				if (player.gender == 3) outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight() + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
 				dynStats("lib", .25, "lus", 15);
 			}
 			else {
-				outputText("The rush of success and power flows through your body.  You feel like you can do anything!", false);
-				doEffect.call();
+				outputText("The rush of success and power flows through your body.  You feel like you can do anything!");
+				player.addStatusEffect(new MightBuff());
 			}
-			outputText("\n\n", false);
+			outputText("\n\n");
 			flags[kFLAGS.SPELLS_CAST]++;
 			spellPerkUnlock();
 			if (player.lust >= player.maxLust()) doNext(combat.endLustLoss);
@@ -499,18 +498,93 @@ package classes.Scenes.Combat
 			return;
 		}
 		
+		//Blackfire. A stronger but more costly version of Whitefire.
+		public function spellBlackfire():void {
+			clearOutput();
+			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(40) > player.maxFatigue()) {
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
+				doNext(magicMenu);
+				return;
+			}
+			doNext(combat.combatMenu);
+			player.changeFatigue(40, 1);
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
+				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+				flags[kFLAGS.SPELLS_CAST]++;
+				spellPerkUnlock();
+				monster.doAI();
+				return;
+			}
+			if (monster is Doppleganger)
+			{
+				(monster as Doppleganger).handleSpellResistance("blackfire");
+				flags[kFLAGS.SPELLS_CAST]++;
+				spellPerkUnlock();
+				return;
+			}
+			if (monster is FrostGiant && player.hasStatusEffect(StatusEffects.GiantBoulder)) {
+				(monster as FrostGiant).giantBoulderHit(2);
+				monster.doAI();
+				return;
+			}
+			//Backfire calculation
+			var backfire:int = 25;
+			if (player.findPerk(PerkLib.FocusedMind) >= 0) backfire = 15;
+			if (rand(100) < backfire) {
+				clearOutput();
+				outputText("You narrow your eyes, channeling your lust with deadly intent. An errant sexual thought crosses your mind, and you lose control of the spell! Your ");
+				if (player.gender == 0) outputText(player.assholeDescript() + " tingles with a desire to be filled as your libido spins out of control.");
+				if (player.gender == 1) {
+					if (player.cockTotal() == 1) outputText(player.cockDescript(0) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+					else outputText(player.multiCockDescriptLight() + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
+				}
+				if (player.gender == 2) outputText(player.vaginaDescript(0) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+				if (player.gender == 3) outputText(player.vaginaDescript(0) + " and " + player.multiCockDescriptLight() + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
+				outputText("\n\n");
+				dynStats("lib", 1, "lus", (rand(20) + 15)); //Git gud
+			}
+			else {
+				clearOutput();
+				outputText("You narrow your eyes, channeling your lust with deadly intent. You snap your fingers and " + monster.a + monster.short + " is enveloped in a flash of black and purple flames!\n");
+				temp = int(30 + (player.inte / 3 + rand(player.inte / 2)) * player.spellMod());
+				//High damage to goes.
+				temp = calcInfernoMod(temp);
+				if (monster.short == "goo-girl") temp = Math.round(temp * 1.5);
+				if (monster.short == "tentacle beast") temp = Math.round(temp * 1.2);
+				outputText(monster.capitalA + monster.short + " takes <b><font color=\"#800000\">" + temp + "</font></b> damage.");
+				//Using fire attacks on goo
+				if (monster.short == "goo-girl") {
+					outputText("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.");
+					if (monster.findPerk(PerkLib.Acid) < 0) monster.createPerk(PerkLib.Acid,0,0,0,0);
+				}
+				if (monster.short == "Holli" && !monster.hasStatusEffect(StatusEffects.HolliBurning)) (monster as Holli).lightHolliOnFireMagically();
+				outputText("\n\n");
+				combat.checkAchievementDamage(temp);
+				flags[kFLAGS.LAST_ATTACK_TYPE] = 2;
+				flags[kFLAGS.SPELLS_CAST]++;
+				spellPerkUnlock();
+				monster.HP -= temp;
+				statScreenRefresh();
+			}
+			if (player.lust >= player.maxLust()) doNext(combat.endLustLoss);
+			else if (monster.HP < 1) doNext(combat.endHpVictory);
+			else monster.doAI();
+		}
+		
 		//SPECIAL SPELLS
 		public function spellCleansingPalm():void
 		{
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(30) > player.maxFatigue()) {
-				outputText("You are too tired to cast this spell.", true);
+				clearOutput();
+				outputText("You are too tired to cast this spell.");
 				doNext(magicMenu);
 				return;
 			}
 			doNext(combat.combatMenu);
 			player.changeFatigue(30,1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				flags[kFLAGS.SPELLS_CAST]++;
 				spellPerkUnlock();
@@ -579,44 +653,36 @@ package classes.Scenes.Combat
 			clearOutput();
 			outputText("You gather energy in your Talisman and unleash the spell contained within.  An orange light appears and flashes briefly before vanishing. \n");
 			//Remove player's effects
-			if (player.findStatusEffect(StatusEffects.ChargeWeapon) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.ChargeWeapon)) {
 				outputText("\nYour weapon no longer glows as your spell is dispelled.");
 				player.removeStatusEffect(StatusEffects.ChargeWeapon);
 			}
-			if (player.findStatusEffect(StatusEffects.Might) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Might)) {
 				outputText("\nYou feel a bit weaker as your strength-enhancing spell wears off.");
-				player.str -= player.statusEffectv1(StatusEffects.Might);
-				player.tou -= player.statusEffectv2(StatusEffects.Might);
 				player.removeStatusEffect(StatusEffects.Might);
-				showStatDown("str");
-				showStatDown("tou");
-				statScreenRefresh();
 			}
 			//Remove opponent's effects
-				if (player.findStatusEffect(StatusEffects.ChargeWeapon) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.ChargeWeapon)) {
 				outputText("\nThe glow around " + monster.a + monster.short + "'s " + monster.weaponName + " fades completely.");
 				monster.weaponAttack -= monster.statusEffectv1(StatusEffects.ChargeWeapon);
 				monster.removeStatusEffect(StatusEffects.ChargeWeapon);
 			}
-			if (monster.findStatusEffect(StatusEffects.Fear) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Fear)) {
 				outputText("\nThe dark illusion around " + monster.a + " " + monster.short + " finally dissipates, leaving " + monster.pronoun2 + " no longer fearful as " + monster.pronoun1 + " regains confidence.");
 				monster.spe += monster.statusEffectv1(StatusEffects.Fear);
 				monster.removeStatusEffect(StatusEffects.Fear);
 			}
-			if (monster.findStatusEffect(StatusEffects.Illusion) >= 0) {
-				outputText("\nThe reality around " + monster.a + " " + monster.short + " finally snaps back in place as your illusion spell fades.");
+			if (monster.hasStatusEffect(StatusEffects.Illusion)) {
+				outputText("\nThe reality around " + monster.a + " " + monster.short + " finally snaps back in place as " + monster.pronoun3 +" illusion spell fades.");
 				monster.spe += monster.statusEffectv1(StatusEffects.Illusion);
 				monster.removeStatusEffect(StatusEffects.Illusion);
 			}
 
-			if (player.findStatusEffect(StatusEffects.Might) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Might)) {
 				outputText("\nYou feel a bit weaker as your strength-enhancing spell wears off.");
-				monster.str -= monster.statusEffectv1(StatusEffects.Might);
-				monster.tou -= monster.statusEffectv2(StatusEffects.Might);
-				monster.removeStatusEffect(StatusEffects.Might);
-				statScreenRefresh();
+				player.removeStatusEffect(StatusEffects.Might);
 			}
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("\nThe magical shell around " + monster.a + " " + monster.short + " shatters!");
 				monster.removeStatusEffect(StatusEffects.Shell);
 			}
@@ -642,7 +708,7 @@ package classes.Scenes.Combat
 			temp = combat.doDamage(temp, true, true);
 			monster.createStatusEffect(StatusEffects.OnFire, 2 + rand(player.inte / 25), 0, 0, 0);
 			if (monster.short == "goo girl") {
-				outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ", false);
+				outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ");
 				if (monster.findPerk(PerkLib.Acid) < 0) monster.createPerk(PerkLib.Acid,0,0,0,0);
 			}
 			getGame().arianScene.clearTalisman();
@@ -653,6 +719,7 @@ package classes.Scenes.Combat
 			clearOutput();
 			outputText("You gather energy in your Talisman and unleash the spell contained within.  A pink aura washes all over you and as soon as the aura fades, you feel much less hornier.");
 			var temp:int = 30 + rand(player.inte / 5) * player.spellMod();
+			dynStats("lus", -temp);
 			outputText(" <b>(-" + temp + " lust)</b>\n\n");
 			getGame().arianScene.clearTalisman();
 			monster.doAI();
@@ -670,7 +737,7 @@ package classes.Scenes.Combat
 		// M. SPECIALS
 		//------------
 		public function magicalSpecials():void {
-			if (combat.inCombat && player.findStatusEffect(StatusEffects.Sealed) >= 0 && player.statusEffectv2(StatusEffects.Sealed) == 6) {
+			if (combat.inCombat && player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 6) {
 				clearOutput();
 				outputText("You try to ready a special ability, but wind up stumbling dizzily instead.  <b>Your ability to use magical special attacks was sealed, and now you've wasted a chance to attack!</b>\n\n");
 				monster.doAI();
@@ -726,15 +793,9 @@ package classes.Scenes.Combat
 			addButton(14, "Back", combat.combatMenu, false);
 		}
 		
-		/*private function fireBreathMenu():void { (Doesn't seem to be used. Besides, there are 14 slots.)
-			clearOutput();
-			outputText("Which of your special fire-breath attacks would you like to use?");
-			simpleChoices("Akbal's", fireballuuuuu, "Hellfire", hellFire, "Dragonfire", dragonBreath, "", null, "Back", playerMenu);
-		}*/
-		
 		public function berzerk():void {
 			clearOutput();
-			if (player.findStatusEffect(StatusEffects.Berzerking) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Berzerking)) {
 				outputText("You're already pretty goddamn mad!");
 				doNext(magicalSpecials);
 				return;
@@ -746,13 +807,15 @@ package classes.Scenes.Combat
 		
 		public function lustzerk():void {
 			clearOutput();
-			if(player.findStatusEffect(StatusEffects.Lustzerking) >= 0) {
-				outputText("You're already pretty goddamn mad and lustfull!", true);
+			if(player.hasStatusEffect(StatusEffects.Lustzerking)) {
+				clearOutput();
+				outputText("You're already pretty goddamn mad and lustful!");
 				doNext(magicalSpecials);
 				return;
 			}
 			//This is now automatic - newRound arg defaults to true:	menuLoc = 0;
-			outputText("You roar and unleash your lustful fury, forgetting about defense from any sexual attacks in order to destroy your foe!\n\n", true);
+			clearOutput();
+			outputText("You roar and unleash your lustful fury, forgetting about defense from any sexual attacks in order to destroy your foe!\n\n");
 			player.createStatusEffect(StatusEffects.Lustzerking,0,0,0,0);
 			monster.doAI();
 		}
@@ -763,14 +826,15 @@ package classes.Scenes.Combat
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(20) > player.maxFatigue())
 			{
-				outputText("You are too tired to breathe fire.", true);
-				doNext(combat.combatMenu);
+				clearOutput();
+				outputText("You are too tired to breathe fire.");
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			//Not Ready Yet:
-			if (player.findStatusEffect(StatusEffects.DragonBreathCooldown) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.DragonBreathCooldown)) {
 				outputText("You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...");
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			player.changeFatigue(20, 1);
@@ -779,19 +843,20 @@ package classes.Scenes.Combat
 			
 			damage = calcInfernoMod(damage);
 			
-			if (player.findStatusEffect(StatusEffects.DragonBreathBoost) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.DragonBreathBoost)) {
 				player.removeStatusEffect(StatusEffects.DragonBreathBoost);
 				damage *= 1.5;
 			}
 			//Shell
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
 			}
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
 				monster.doAI();
 				return;
 			}
@@ -802,22 +867,22 @@ package classes.Scenes.Combat
 				return;
 			}
 			outputText("Tapping into the power deep within you, you let loose a bellowing roar at your enemy, so forceful that even the environs crumble around " + monster.pronoun2 + ".  " + monster.capitalA + monster.short + " does " + monster.pronoun3 + " best to avoid it, but the wave of force is too fast.");
-			if (monster.findStatusEffect(StatusEffects.Sandstorm) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Sandstorm)) {
 				outputText("  <b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>");
 				damage = Math.round(0.2 * damage);
 			}
 			//Miss: 
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
 				outputText("  Despite the heavy impact caused by your roar, " + monster.a + monster.short + " manages to take it at an angle and remain on " + monster.pronoun3 + " feet and focuses on you, ready to keep fighting.");
 			}
 			//Special enemy avoidances
-			else if (monster.short == "Vala" && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
-				outputText("Vala beats her wings with surprising strength, blowing the fireball back at you! ", false);		
+			else if (monster.short == "Vala" && !monster.hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("Vala beats her wings with surprising strength, blowing the fireball back at you! ");		
 				if (player.findPerk(PerkLib.Evade) >= 0 && rand(2) == 0) {
-					outputText("You dive out of the way and evade it!", false);
+					outputText("You dive out of the way and evade it!");
 				}
 				else if (player.findPerk(PerkLib.Flexibility) >= 0 && rand(4) == 0) {
-					outputText("You use your flexibility to barely fold your body out of the way!", false);
+					outputText("You use your flexibility to barely fold your body out of the way!");
 				}
 				//Determine if blocked!
 				else if (combat.combatBlock(true)) {
@@ -825,18 +890,18 @@ package classes.Scenes.Combat
 				}
 				else {
 					damage = player.takeDamage(damage);
-					outputText("Your own fire smacks into your face! <b>(<font color=\"#800000\">" + damage + "</font>)</b>", false);
+					outputText("Your own fire smacks into your face! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
 				}
-				outputText("\n\n", false);
+				outputText("\n\n");
 			}
 			//Goos burn
 			else if (monster.short == "goo-girl") {
-				outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ", false);
+				outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ");
 				if (monster.findPerk(PerkLib.Acid) < 0) monster.createPerk(PerkLib.Acid,0,0,0,0);
 				damage = Math.round(damage * 1.5);
 				damage = combat.doDamage(damage);
 				monster.createStatusEffect(StatusEffects.Stunned,0,0,0,0);
-				outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>\n\n", false);
+				outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>\n\n");
 			}
 			else {
 				if (monster.findPerk(PerkLib.Resolute) < 0) {
@@ -854,7 +919,7 @@ package classes.Scenes.Combat
 			}
 			outputText("\n\n");
 		 	combat.checkAchievementDamage(damage);
-			if (monster.short == "Holli" && monster.findStatusEffect(StatusEffects.HolliBurning) < 0) (monster as Holli).lightHolliOnFireMagically();
+			if (monster.short == "Holli" && !monster.hasStatusEffect(StatusEffects.HolliBurning)) (monster as Holli).lightHolliOnFireMagically();
 			combat.combatRoundOver();
 		}
 		
@@ -862,18 +927,19 @@ package classes.Scenes.Combat
 		public function fireballuuuuu():void {
 			clearOutput();
 			if (player.fatigue + 20 > player.maxFatigue()) {
-				outputText("You are too tired to breathe fire.", true);
-				doNext(combat.combatMenu);
+				clearOutput();
+				outputText("You are too tired to breathe fire.");
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			player.changeFatigue(20);
 			
 			//[Failure]
 			//(high damage to self, +10 fatigue on top of ability cost)
-			if (rand(5) == 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				if (player.findStatusEffect(StatusEffects.WebSilence) >= 0) outputText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, it backs up in your throat, blocked by the webbing across your mouth.  It causes you to cry out as the sudden, heated force explodes in your own throat. ", false);
-				else if (player.findStatusEffect(StatusEffects.GooArmorSilence) >= 0) outputText("You reach for the terrestrial fire but as you ready the torrent, it erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.  The slime covering your mouth bubbles and pops, boiling away where the escaping flame opens small rents in it.  That wasn't as effective as you'd hoped, but you can at least speak now. ");
-				else outputText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, the fire inside erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat. ", false);
+			if (rand(5) == 0 || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				if (player.hasStatusEffect(StatusEffects.WebSilence)) outputText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, it backs up in your throat, blocked by the webbing across your mouth.  It causes you to cry out as the sudden, heated force explodes in your own throat. ");
+				else if (player.hasStatusEffect(StatusEffects.GooArmorSilence)) outputText("You reach for the terrestrial fire but as you ready the torrent, it erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.  The slime covering your mouth bubbles and pops, boiling away where the escaping flame opens small rents in it.  That wasn't as effective as you'd hoped, but you can at least speak now. ");
+				else outputText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, the fire inside erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat. ");
 				player.changeFatigue(10);
 				player.takeDamage(10 + rand(20), true);
 				outputText("\n\n");
@@ -885,14 +951,15 @@ package classes.Scenes.Combat
 			damage = int(player.level * 10 + 45 + rand(10));
 			damage = calcInfernoMod(damage);
 			
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
 			}
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
 				monster.doAI();
 				return;
 			}
@@ -909,27 +976,27 @@ package classes.Scenes.Combat
 				spellPerkUnlock();
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.GooArmorSilence) >= 0) {
-				outputText("<b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b> ", false);
+			if (player.hasStatusEffect(StatusEffects.GooArmorSilence)) {
+				outputText("<b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b> ");
 				player.removeStatusEffect(StatusEffects.GooArmorSilence);
 				damage += 25;
 			}
-			else outputText("A growl rumbles deep with your chest as you charge the terrestrial fire.  When you can hold it no longer, you release an ear splitting roar and hurl a giant green conflagration at your enemy. ", false);
+			else outputText("A growl rumbles deep with your chest as you charge the terrestrial fire.  When you can hold it no longer, you release an ear splitting roar and hurl a giant green conflagration at your enemy. ");
 
-			if (monster.short == "Isabella" && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
-				outputText("Isabella shoulders her shield into the path of the emerald flames.  They burst over the wall of steel, splitting around the impenetrable obstruction and washing out harmlessly to the sides.\n\n", false);
-				if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\"<i>Is zat all you've got?  It'll take more than a flashy magic trick to beat Izabella!</i>\" taunts the cow-girl.\n\n", false);
-				else outputText("\"<i>Is that all you've got?  It'll take more than a flashy magic trick to beat Isabella!</i>\" taunts the cow-girl.\n\n", false);
+			if (monster.short == "Isabella" && !monster.hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("Isabella shoulders her shield into the path of the emerald flames.  They burst over the wall of steel, splitting around the impenetrable obstruction and washing out harmlessly to the sides.\n\n");
+				if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\"<i>Is zat all you've got?  It'll take more than a flashy magic trick to beat Izabella!</i>\" taunts the cow-girl.\n\n");
+				else outputText("\"<i>Is that all you've got?  It'll take more than a flashy magic trick to beat Isabella!</i>\" taunts the cow-girl.\n\n");
 				monster.doAI();
 				return;
 			}
-			else if (monster.short == "Vala" && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
-				outputText("Vala beats her wings with surprising strength, blowing the fireball back at you! ", false);		
+			else if (monster.short == "Vala" && !monster.hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("Vala beats her wings with surprising strength, blowing the fireball back at you! ");		
 				if (player.findPerk(PerkLib.Evade) >= 0 && rand(2) == 0) {
-					outputText("You dive out of the way and evade it!", false);
+					outputText("You dive out of the way and evade it!");
 				}
 				else if (player.findPerk(PerkLib.Flexibility) >= 0 && rand(4) == 0) {
-					outputText("You use your flexibility to barely fold your body out of the way!", false);
+					outputText("You use your flexibility to barely fold your body out of the way!");
 				}
 				else {
 					//Determine if blocked!
@@ -938,25 +1005,25 @@ package classes.Scenes.Combat
 						combat.combatRoundOver();
 						return;
 					}
-					outputText("Your own fire smacks into your face! <b>(<font color=\"#800000\">" + damage + "</font>)</b>", false);
+					outputText("Your own fire smacks into your face! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
 					player.takeDamage(damage);
 				}
-				outputText("\n\n", false);
+				outputText("\n\n");
 			}
 			else {
 				//Using fire attacks on the goo]
 				if (monster.short == "goo-girl") {
-					outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ", false);
+					outputText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer. ");
 					if (monster.findPerk(PerkLib.Acid) < 0) monster.createPerk(PerkLib.Acid,0,0,0,0);
 					damage = Math.round(damage * 1.5);
 				}
-				if (monster.findStatusEffect(StatusEffects.Sandstorm) >= 0) {
+				if (monster.hasStatusEffect(StatusEffects.Sandstorm)) {
 					outputText("<b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>  ");
 					damage = Math.round(0.2 * damage);
 				}
-				outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>\n\n", false);
+				outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>\n\n");
 				monster.HP -= damage;
-				if (monster.short == "Holli" && monster.findStatusEffect(StatusEffects.HolliBurning) < 0) (monster as Holli).lightHolliOnFireMagically();
+				if (monster.short == "Holli" && !monster.hasStatusEffect(StatusEffects.HolliBurning)) (monster as Holli).lightHolliOnFireMagically();
 			}
 		 	combat.checkAchievementDamage(damage);
 			if (monster.HP < 1) {
@@ -970,7 +1037,8 @@ package classes.Scenes.Combat
 		public function hellFire():void {
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(20) > player.maxFatigue()) {
-				outputText("You are too tired to breathe fire.\n", true);
+				clearOutput();
+				outputText("You are too tired to breathe fire.\n");
 				doNext(combat.combatMenu);
 				return;
 			}
@@ -978,8 +1046,9 @@ package classes.Scenes.Combat
 			var damage:Number = (player.level * 8 + rand(10) + player.inte / 2 + player.cor / 5);
 			damage = calcInfernoMod(damage);
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
 			}
@@ -990,63 +1059,63 @@ package classes.Scenes.Combat
 				return;
 			}
 			
-			if (player.findStatusEffect(StatusEffects.GooArmorSilence) < 0) outputText("You take in a deep breath and unleash a wave of corrupt red flames from deep within.", false);
+			if (!player.hasStatusEffect(StatusEffects.GooArmorSilence)) outputText("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
 			
-			if (player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("  <b>The fire burns through the webs blocking your mouth!</b>", false);
+			if (player.hasStatusEffect(StatusEffects.WebSilence)) {
+				outputText("  <b>The fire burns through the webs blocking your mouth!</b>");
 				player.removeStatusEffect(StatusEffects.WebSilence);
 			}
-			if (player.findStatusEffect(StatusEffects.GooArmorSilence) >= 0) {
-				outputText("  <b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b>", false);
+			if (player.hasStatusEffect(StatusEffects.GooArmorSilence)) {
+				outputText("  <b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b>");
 				player.removeStatusEffect(StatusEffects.GooArmorSilence);
 				damage += 25;
 			}
-			if (monster.short == "Isabella" && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
-				outputText("  Isabella shoulders her shield into the path of the crimson flames.  They burst over the wall of steel, splitting around the impenetrable obstruction and washing out harmlessly to the sides.\n\n", false);
-				if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\"<i>Is zat all you've got?  It'll take more than a flashy magic trick to beat Izabella!</i>\" taunts the cow-girl.\n\n", false);
-				else outputText("\"<i>Is that all you've got?  It'll take more than a flashy magic trick to beat Isabella!</i>\" taunts the cow-girl.\n\n", false);
+			if (monster.short == "Isabella" && !monster.hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("  Isabella shoulders her shield into the path of the crimson flames.  They burst over the wall of steel, splitting around the impenetrable obstruction and washing out harmlessly to the sides.\n\n");
+				if (getGame().isabellaFollowerScene.isabellaAccent()) outputText("\"<i>Is zat all you've got?  It'll take more than a flashy magic trick to beat Izabella!</i>\" taunts the cow-girl.\n\n");
+				else outputText("\"<i>Is that all you've got?  It'll take more than a flashy magic trick to beat Isabella!</i>\" taunts the cow-girl.\n\n");
 				monster.doAI();
 				return;
 			}
-			else if (monster.short == "Vala" && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
-				outputText("  Vala beats her wings with surprising strength, blowing the fireball back at you!  ", false);		
+			else if (monster.short == "Vala" && !monster.hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("  Vala beats her wings with surprising strength, blowing the fireball back at you!  ");		
 				if (player.findPerk(PerkLib.Evade) >= 0 && rand(2) == 0) {
-					outputText("You dive out of the way and evade it!", false);
+					outputText("You dive out of the way and evade it!");
 				}
 				else if (player.findPerk(PerkLib.Flexibility) >= 0 && rand(4) == 0) {
-					outputText("You use your flexibility to barely fold your body out of the way!", false);
+					outputText("You use your flexibility to barely fold your body out of the way!");
 				}
 				else {
 					damage = int(damage / 6);
-					outputText("Your own fire smacks into your face, arousing you!", false);
+					outputText("Your own fire smacks into your face, arousing you!");
 					dynStats("lus", damage);
 				}
-				outputText("\n", false);
+				outputText("\n");
 			}
 			else {
 				if (monster.inte < 10) {
-					outputText("  Your foe lets out a shriek as their form is engulfed in the blistering flames.", false);
+					outputText("  Your foe lets out a shriek as their form is engulfed in the blistering flames.");
 					damage = int(damage);
-					outputText("<b>(<font color=\"#800000\">+" + damage + "</font>)</b>\n", false);
+					outputText("<b>(<font color=\"#800000\">+" + damage + "</font>)</b>\n");
 					monster.HP -= damage;
 				}
 				else {
 					if (monster.lustVuln > 0) {
-						outputText("  Your foe cries out in surprise and then gives a sensual moan as the flames of your passion surround them and fill their body with unnatural lust.", false);
+						outputText("  Your foe cries out in surprise and then gives a sensual moan as the flames of your passion surround them and fill their body with unnatural lust.");
 						monster.teased(monster.lustVuln * damage / 6);
 						outputText("\n");
 					}
 					else {
-						outputText("  The corrupted fire doesn't seem to have effect on " + monster.a + monster.short + "!\n", false);
+						outputText("  The corrupted fire doesn't seem to have effect on " + monster.a + monster.short + "!\n");
 					}
 				}
 			}
-			outputText("\n", false);
-			if (monster.short == "Holli" && monster.findStatusEffect(StatusEffects.HolliBurning) < 0) (monster as Holli).lightHolliOnFireMagically();
+			outputText("\n");
+			if (monster.short == "Holli" && !monster.hasStatusEffect(StatusEffects.HolliBurning)) (monster as Holli).lightHolliOnFireMagically();
 			if (monster.HP < 1) {
 				doNext(combat.endHpVictory);
 			}
-			else if (monster.lust >= 99) {
+			else if (monster.lust100 >= 99) {
 				doNext(combat.endLustVictory);
 			}
 			else monster.doAI();
@@ -1056,7 +1125,7 @@ package classes.Scenes.Combat
 		public function possess():void {
 			clearOutput();
 			if (monster.short == "plain girl" || monster.findPerk(PerkLib.Incorporeality) >= 0) {
-				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself toward the opponent's frame.  Sadly, it was doomed to fail, as you bounce right off your foe's ghostly form.", false);
+				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself toward the opponent's frame.  Sadly, it was doomed to fail, as you bounce right off your foe's ghostly form.");
 			}
 			else if (monster is LivingStatue)
 			{
@@ -1064,20 +1133,20 @@ package classes.Scenes.Combat
 			}
 			//Sample possession text (>79 int, perhaps?):
 			else if ((!monster.hasCock() && !monster.hasVagina()) || monster.lustVuln == 0 || monster.inte == 0 || monster.inte > 100) {
-				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame.  Unfortunately, it seems ", false);
-				if (monster.inte > 100) outputText("they were FAR more mentally prepared than anything you can handle, and you're summarily thrown out of their body before you're even able to have fun with them.  Darn, you muse.\n\n", false);
-				else outputText("they have a body that's incompatible with any kind of possession.\n\n", false);
+				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame.  Unfortunately, it seems ");
+				if (monster.inte > 100) outputText("they were FAR more mentally prepared than anything you can handle, and you're summarily thrown out of their body before you're even able to have fun with them.  Darn, you muse.\n\n");
+				else outputText("they have a body that's incompatible with any kind of possession.\n\n");
 			}
 			//Success!
 			else if (player.inte >= (monster.inte - 10) + rand(21)) {
-				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into your opponent's frame. Before they can regain the initiative, you take control of one of their arms, vigorously masturbating for several seconds before you're finally thrown out. Recorporealizing, you notice your enemy's blush, and know your efforts were somewhat successful.", false);
+				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into your opponent's frame. Before they can regain the initiative, you take control of one of their arms, vigorously masturbating for several seconds before you're finally thrown out. Recorporealizing, you notice your enemy's blush, and know your efforts were somewhat successful.");
 				var damage:Number = Math.round(player.inte/5) + rand(player.level) + player.level;
 				monster.teased(monster.lustVuln * damage);
 				outputText("\n\n");
 			}
 			//Fail
 			else {
-				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame. Unfortunately, it seems they were more mentally prepared than you hoped, and you're summarily thrown out of their body before you're even able to have fun with them. Darn, you muse. Gotta get smarter.\n\n", false);
+				outputText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame. Unfortunately, it seems they were more mentally prepared than you hoped, and you're summarily thrown out of their body before you're even able to have fun with them. Darn, you muse. Gotta get smarter.\n\n");
 			}
 			if (!combat.combatRoundOver()) monster.doAI();
 		}
@@ -1087,17 +1156,20 @@ package classes.Scenes.Combat
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(10) > player.maxFatigue())
 			{
-				outputText("You are too tired to focus this ability.", true);
-				doNext(combat.combatMenu);
+				clearOutput();
+				outputText("You are too tired to focus this ability.");
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("You cannot focus to reach the enemy's mind while you're having so much difficult breathing.", true);
-				doNext(combat.combatMenu);
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				clearOutput();
+				outputText("You cannot focus to reach the enemy's mind while you're having so much difficult breathing.");
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			if (monster.short == "pod" || monster.inte == 0) {
-				outputText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n", true);
+				clearOutput();
+				outputText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");
 				player.changeFatigue(1);
 				monster.doAI();
 				return;
@@ -1110,7 +1182,7 @@ package classes.Scenes.Combat
 				return;
 			}
 			player.changeFatigue(10, 1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
@@ -1122,19 +1194,19 @@ package classes.Scenes.Combat
 			}
 			//Enemy too strong or multiplesI think you 
 			if (player.inte < monster.inte || monster.plural) {
-				outputText("You reach for your enemy's mind, but can't break through.\n", false);
+				outputText("You reach for your enemy's mind, but can't break through.\n");
 				player.changeFatigue(10);
 				monster.doAI();
 				return;
 			}
 			//[Failure] 
 			if (rand(10) == 0) {
-				outputText("As you reach for your enemy's mind, you are distracted and the chorus of voices screams out all at once within your mind. You're forced to hastily silence the voices to protect yourself.", false);
+				outputText("As you reach for your enemy's mind, you are distracted and the chorus of voices screams out all at once within your mind. You're forced to hastily silence the voices to protect yourself.");
 				player.changeFatigue(10);
 				monster.doAI();
 				return;
 			}
-			outputText("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n", false);
+			outputText("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
 			monster.createStatusEffect(StatusEffects.Fear,1,0,0,0);
 			monster.doAI();
 		}
@@ -1143,12 +1215,14 @@ package classes.Scenes.Combat
 		public function corruptedFoxFire():void {
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(35) > player.maxFatigue()) {
-				outputText("You are too tired to use this ability.", true);
+				clearOutput();
+				outputText("You are too tired to use this ability.");
 				doNext(magicalSpecials);
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("You cannot focus to use this ability while you're having so much difficult breathing.", true);
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				clearOutput();
+				outputText("You cannot focus to use this ability while you're having so much difficult breathing.");
 				doNext(magicalSpecials);
 				return;
 			}
@@ -1183,17 +1257,19 @@ package classes.Scenes.Combat
 		public function foxFire():void {
 			clearOutput();
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(35) > player.maxFatigue()) {
-				outputText("You are too tired to use this ability.", true);
+				clearOutput();
+				outputText("You are too tired to use this ability.");
 				doNext(magicalSpecials);
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("You cannot focus to use this ability while you're having so much difficult breathing.", true);
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				clearOutput();
+				outputText("You cannot focus to use this ability while you're having so much difficult breathing.");
 				doNext(magicalSpecials);
 				return;
 			}
 			player.changeFatigue(35,1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
@@ -1228,22 +1304,25 @@ package classes.Scenes.Combat
 			clearOutput();
 			//Fatigue Cost: 25
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(20) > player.maxFatigue()) {
-				outputText("You are too tired to use this ability.", true);
+				clearOutput();
+				outputText("You are too tired to use this ability.");
 				doNext(magicalSpecials);
 				return;
 			}
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("You cannot focus to reach the enemy's mind while you're having so much difficult breathing.", true);
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				clearOutput();
+				outputText("You cannot focus to reach the enemy's mind while you're having so much difficult breathing.");
 				doNext(magicalSpecials);
 				return;
 			}
 			if (monster.short == "pod" || monster.inte == 0) {
-				outputText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n", true);
+				clearOutput();
+				outputText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");
 				player.changeFatigue(1);
 				monster.doAI();
 				return;
@@ -1275,23 +1354,26 @@ package classes.Scenes.Combat
 			clearOutput();
 			//Fatigue Cost: 25
 			if (player.findPerk(PerkLib.BloodMage) < 0 && player.fatigue + player.spellCost(25) > player.maxFatigue()) {
-				outputText("You are too tired to use this ability.", true);
+				clearOutput();
+				outputText("You are too tired to use this ability.");
 				doNext(magicalSpecials);
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
-				outputText("You cannot focus to use this ability while you're having so much difficult breathing.", true);
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
+				clearOutput();
+				outputText("You cannot focus to use this ability while you're having so much difficult breathing.");
 				doNext(magicalSpecials);
 				return;
 			}
 			if (monster.short == "pod" || monster.inte == 0) {
-				outputText("In the tight confines of this pod, there's no use making such an attack!\n\n", true);
+				clearOutput();
+				outputText("In the tight confines of this pod, there's no use making such an attack!\n\n");
 				player.changeFatigue(1);
 				monster.doAI();
 				return;
 			}
 			player.changeFatigue(25,1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				outputText("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
 				return;
@@ -1316,13 +1398,14 @@ package classes.Scenes.Combat
 		//Stare
 		public function paralyzingStare():void
 		{
-			var theMonster:String = monster.a + monster.short;
-			var TheMonster:String = monster.capitalA + monster.short;
-			var stareTraining:Number = flags[kFLAGS.BASILISK_RESISTANCE_TRACKER] / 100;
-			var slowEffect:Number = monster.statusEffectv1(StatusEffects.BasiliskSlow);
-			var oldSpeed:Number = monster.spe;
-			var speedDiff:int = 0;
-			var message:String = "";
+			var theMonster:String      = monster.a + monster.short;
+			var TheMonster:String      = monster.capitalA + monster.short;
+			var stareTraining:Number   = flags[kFLAGS.BASILISK_RESISTANCE_TRACKER] / 100;
+			var bse:BasiliskSlowDebuff = monster.createOrFindStatusEffect(StatusEffects.BasiliskSlow) as BasiliskSlowDebuff;
+			var slowEffect:Number      = -bse.buffValue('spe');
+			var oldSpeed:Number        = monster.spe;
+			var speedDiff:int          = 0;
+			var message:String         = "";
 			if (stareTraining > 1) stareTraining = 1;
 
 			output.clear();
@@ -1332,7 +1415,7 @@ package classes.Scenes.Combat
 				doNext(magicalSpecials);
 				return;
 			}
-			if (player.findStatusEffect(StatusEffects.ThroatPunch) >= 0 || player.findStatusEffect(StatusEffects.WebSilence) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.ThroatPunch) || player.hasStatusEffect(StatusEffects.WebSilence)) {
 				output.text("You cannot talk to keep up the compulsion while you're having so much difficulty breathing.");
 				doNext(magicalSpecials);
 				return;
@@ -1357,7 +1440,7 @@ package classes.Scenes.Combat
 				return;
 			}
 			player.changeFatigue(20, 1);
-			if (monster.findStatusEffect(StatusEffects.Shell) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Shell)) {
 				output.text("As soon as your magic touches the multicolored shell around " + theMonster + ", it sizzles and fades to nothing."
 				           +"  Whatever that thing is, it completely blocks your magic!\n\n");
 				monster.doAI();
@@ -1375,13 +1458,8 @@ package classes.Scenes.Combat
 				        + monster.pronoun3 + " thoughts, making " + monster.pronoun2 + " feel sluggish and unable to coordinate. Something about the"
 				        + " helplessness of it feels so good... " + monster.pronoun1 + " can't banish the feeling that really, " + monster.pronoun1
 				        + " wants to look into your eyes forever, for you to have total control over " + monster.pronoun2 + ". ";
-				if (slowEffect > 0)
-					monster.addStatusValue(StatusEffects.BasiliskSlow, 1, 1);
-				else
-					monster.createStatusEffect(StatusEffects.BasiliskSlow, 1, 0, 0, 0);
 				slowEffect++;
-				if (monster.spe > 1) monster.spe -= 16 + stareTraining * 8 - slowEffect * (4 + stareTraining * 2);
-				if (monster.spe < 1) monster.spe = 1;
+				bse.applyEffect(16 + stareTraining * 8 - slowEffect * (4 + stareTraining * 2));
 				flags[kFLAGS.BASILISK_RESISTANCE_TRACKER] += 4;
 				speedDiff = Math.round(oldSpeed - monster.spe);
 				output.text(message + combat.getDamageText(speedDiff) + "\n\n");
@@ -1400,7 +1478,7 @@ package classes.Scenes.Combat
 				getGame().urtaQuest.urtaSpecials();
 				return;
 			}
-			if (getGame().inCombat && player.findStatusEffect(StatusEffects.Sealed) >= 0 && player.statusEffectv2(StatusEffects.Sealed) == 5) {
+			if (getGame().inCombat && player.hasStatusEffect(StatusEffects.Sealed) && player.statusEffectv2(StatusEffects.Sealed) == 5) {
 				clearOutput();
 				outputText("You try to ready a special attack, but wind up stumbling dizzily instead.  <b>Your ability to use physical special attacks was sealed, and now you've wasted a chance to attack!</b>\n\n");
 				monster.doAI();
@@ -1437,16 +1515,20 @@ package classes.Scenes.Combat
 			if (player.hornType == HORNS_COW_MINOTAUR && player.horns >= 6) {
 				addButton(button++, "Gore", goreAttack, null, null, null, "Lower your head and charge your opponent, attempting to gore them on your horns.  This attack is stronger and easier to land with large horns.");
 			}
+			//Rams Attack - requires rams horns
+			if (player.hornType == HORNS_RAM && player.horns >= 2) {
+				addButton(button++, "Horn Stun", ramsStun, null, null, null, "Use a ramming headbutt to try and stun your foe. \n\nFatigue Cost: " + player.physicalCost(10) + "");
+			}
 			//Upheaval - requires rhino horn
 			if (player.hornType == HORNS_RHINO && player.horns >= 2 && player.faceType == FACE_RHINO) {
 				addButton(button++, "Upheaval", upheavalAttack, null, null, null, "Send your foe flying with your dual nose mounted horns. \n\nFatigue Cost: " + player.physicalCost(15) + "");
 			}
 			//Infest if infested
-			if (player.findStatusEffect(StatusEffects.Infested) >= 0 && player.statusEffectv1(StatusEffects.Infested) == 5 && player.hasCock()) {
+			if (player.hasStatusEffect(StatusEffects.Infested) && player.statusEffectv1(StatusEffects.Infested) == 5 && player.hasCock()) {
 				addButton(button++, "Infest", getGame().mountain.wormsScene.playerInfest, null, null, null, "The infest attack allows you to cum at will, launching a stream of semen and worms at your opponent in order to infest them.  Unless your foe is very aroused they are likely to simply avoid it.  Only works on males or herms. \n\nAlso great for reducing your lust.");
 			}
 			//Kiss supercedes bite.
-			if (player.findStatusEffect(StatusEffects.LustStickApplied) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.LustStickApplied)) {
 				addButton(button++, "Kiss", kissAttack, null, null, null, "Attempt to kiss your foe on the lips with drugged lipstick.  It has no effect on those without a penis.");
 			}
 			switch (player.tailType) {
@@ -1485,15 +1567,15 @@ package classes.Scenes.Combat
 			prob += player.hairLength;
 			if (prob < rand(100)) {
 				//-miss a sting
-				if (monster.plural) outputText("You rush " + monster.a + monster.short + ", whipping your hair around to catch them with your tentacles, but " + monster.pronoun1 + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.", false);
-				else outputText("You rush " + monster.a + monster.short + ", whipping your hair around to catch it with your tentacles, but " + monster.pronoun1 + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.", false);
+				if (monster.plural) outputText("You rush " + monster.a + monster.short + ", whipping your hair around to catch them with your tentacles, but " + monster.pronoun1 + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.");
+				else outputText("You rush " + monster.a + monster.short + ", whipping your hair around to catch it with your tentacles, but " + monster.pronoun1 + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.");
 			}	
 			//Success!
 			else {
-				outputText("You rush " + monster.a + monster.short + ", whipping your hair around like a genie", false);
-				outputText(", and manage to land a few swipes with your tentacles.  ", false);
-				if (monster.plural) outputText("As the venom infiltrates " + monster.pronoun3 + " bodies, " + monster.pronoun1 + " twitch and begin to move more slowly, hampered half by paralysis and half by arousal.", false);
-				else outputText("As the venom infiltrates " + monster.pronoun3 + " body, " + monster.pronoun1 + " twitches and begins to move more slowly, hampered half by paralysis and half by arousal.", false);
+				outputText("You rush " + monster.a + monster.short + ", whipping your hair around like a genie");
+				outputText(", and manage to land a few swipes with your tentacles.  ");
+				if (monster.plural) outputText("As the venom infiltrates " + monster.pronoun3 + " bodies, " + monster.pronoun1 + " twitch and begin to move more slowly, hampered half by paralysis and half by arousal.");
+				else outputText("As the venom infiltrates " + monster.pronoun3 + " body, " + monster.pronoun1 + " twitches and begins to move more slowly, hampered half by paralysis and half by arousal.");
 				//(decrease speed/str, increase lust)
 				//-venom capacity determined by hair length, 2-3 stings per level of length
 				//Each sting does 5-10 lust damage and 2.5-5 speed damage
@@ -1514,7 +1596,7 @@ package classes.Scenes.Combat
 				monster.teased(damage);
 			}
 			//New lines and moving on!
-			outputText("\n\n", false);
+			outputText("\n\n");
 			doNext(combat.combatMenu);
 			if (!combat.combatRoundOver()) monster.doAI();
 		}
@@ -1522,34 +1604,38 @@ package classes.Scenes.Combat
 		//Mouf Attack
 		public function bite():void {
 			if (player.fatigue + player.physicalCost(25) > player.maxFatigue()) {
-				outputText("You're too fatigued to use your shark-like jaws!", true);
+				clearOutput();
+				outputText("You're too fatigued to use your shark-like jaws!");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
 			}
 			//Worms are special
 			if (monster.short == "worms") {
-				outputText("There is no way those are going anywhere near your mouth!\n\n", true);
+				clearOutput();
+				outputText("There is no way those are going anywhere near your mouth!\n\n");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
 			}
 			player.changeFatigue(25,2);
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				clearOutput();
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
 			}
-			outputText("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ", true);
-			if (player.findStatusEffect(StatusEffects.Blind) >= 0) outputText("In hindsight, trying to bite someone while blind was probably a bad idea... ", false);
+			clearOutput();
+			outputText("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
+			if (player.hasStatusEffect(StatusEffects.Blind)) outputText("In hindsight, trying to bite someone while blind was probably a bad idea... ");
 			var damage:Number = 0;
 			//Determine if dodged!
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) != 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
-				if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!", false);
-				if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!", false);
-				if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.", false);
-				outputText("\n\n", false);
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(3) != 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+				if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!");
+				if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!");
+				if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.");
+				outputText("\n\n");
 				monster.doAI();
 				return;
 			}
@@ -1566,26 +1652,26 @@ package classes.Scenes.Combat
 			
 			if (damage <= 0) {
 				damage = 0;
-				outputText("Your bite is deflected or blocked by " + monster.a + monster.short + ". ", false);
+				outputText("Your bite is deflected or blocked by " + monster.a + monster.short + ". ");
 			}
 			if (damage > 0 && damage < 10) {
-				outputText("You bite doesn't do much damage to " + monster.a + monster.short + "! ", false);
+				outputText("You bite doesn't do much damage to " + monster.a + monster.short + "! ");
 			}
 			if (damage >= 10 && damage < 20) {
-				outputText("You seriously wound " + monster.a + monster.short + " with your bite! ", false);
+				outputText("You seriously wound " + monster.a + monster.short + " with your bite! ");
 			}
 			if (damage >= 20 && damage < 30) {
-				outputText("Your bite staggers " + monster.a + monster.short + " with its force. ", false);
+				outputText("Your bite staggers " + monster.a + monster.short + " with its force. ");
 			}
 			if (damage >= 30) {
-				outputText("Your powerful bite <b>mutilates</b> " + monster.a + monster.short + "! ", false);
+				outputText("Your powerful bite <b>mutilates</b> " + monster.a + monster.short + "! ");
 			}
-			if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>", false)
-			else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>", false)
-			outputText("\n\n", false);
+			if (damage > 0) outputText("<b>(<font color=\"#800000\">" + damage + "</font>)</b>")
+			else outputText("<b>(<font color=\"#000080\">" + damage + "</font>)</b>")
+			outputText("\n\n");
 		 	combat.checkAchievementDamage(damage);
 			//Kick back to main if no damage occured!
-			if (monster.HP > 0 && monster.lust < monster.eMaxLust()) {
+			if (monster.HP > 0 && monster.lust < monster.maxLust()) {
 				monster.doAI();
 			}
 			else {
@@ -1598,15 +1684,15 @@ package classes.Scenes.Combat
 			clearOutput();
 			//FATIIIIGUE
 			if (player.fatigue + player.physicalCost(10) > player.maxFatigue()) {
-				outputText("You just don't have the energy to bite something right now...", true);
+				outputText("You just don't have the energy to bite something right now...");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
 			}
 			player.changeFatigue(10,2);
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
 				monster.doAI();
 				return;
 			}
@@ -1617,11 +1703,11 @@ package classes.Scenes.Combat
 				return;
 			}
 			//Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
-		    if (rand(player.spe/2 + 40) + 20 > monster.spe/1.5 || monster.findStatusEffect(StatusEffects.Constricted) >= 0) {
+		    if (rand(player.spe/2 + 40) + 20 > monster.spe/1.5 || monster.hasStatusEffect(StatusEffects.Constricted)) {
 				//(if monster = demons)
-				if (monster.short == "demons") outputText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.", false);
+				if (monster.short == "demons") outputText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
 				//(Otherwise) 
-				else outputText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.pronoun1 + " manages to react.", false);
+				else outputText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.pronoun1 + " manages to react.");
 				//The following is how the enemy reacts over time to poison. It is displayed after the description paragraph,instead of lust
 				var oldMonsterStrength:Number = monster.str;
 				var oldMonsterSpeed:Number = monster.spe;
@@ -1642,17 +1728,16 @@ package classes.Scenes.Combat
 					effectTexts.push(monster.pronoun3 + " speed by <b><font color=\"#800000\">" + speedDiff + "</font></b>"); 
 				if (effectTexts.length > 0)
 					outputText("\n\nThe poison reduced " + formatStringArray(effectTexts) + "!");
-
-				if (monster.findStatusEffect(StatusEffects.NagaVenom) >= 0)
+				if (monster.hasStatusEffect(StatusEffects.NagaVenom))
 					monster.addStatusValue(StatusEffects.NagaVenom,1,1);
 				else
 					monster.createStatusEffect(StatusEffects.NagaVenom,1,0,0,0);
 			}
 			else {
-		       outputText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.a + monster.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.", false);
+		       outputText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.a + monster.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");
 			}
-			outputText("\n\n", false);
-			if (monster.HP < 1 || monster.lust >= monster.eMaxLust()) combat.combatRoundOver();
+			outputText("\n\n");
+			if (monster.HP < 1 || monster.lust >= monster.maxLust()) combat.combatRoundOver();
 			else monster.doAI();
 		}
 		
@@ -1660,15 +1745,15 @@ package classes.Scenes.Combat
 			clearOutput();
 			//FATIIIIGUE
 			if (player.fatigue + player.physicalCost(10) > player.maxFatigue()) {
-				outputText("You just don't have the energy to bite something right now...", true);
+				outputText("You just don't have the energy to bite something right now...");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
 			}
 			player.changeFatigue(10,2);
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
 				monster.doAI();
 				return;
 			}
@@ -1681,27 +1766,27 @@ package classes.Scenes.Combat
 			//Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
 		    if (rand(player.spe/2 + 40) + 20 > monster.spe/1.5) {
 				//(if monster = demons)
-				if (monster.short == "demons") outputText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.", false);
+				if (monster.short == "demons") outputText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
 				//(Otherwise) 
 				else {
-					if (!monster.plural) outputText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.a + monster.pronoun1 + " manages to react.", false);
-					else outputText("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.a + monster.pronoun1 + " manage to react.", false);
+					if (!monster.plural) outputText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.a + monster.pronoun1 + " manages to react.");
+					else outputText("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.a + monster.pronoun1 + " manage to react.");
 				}
 				//React
-				if (monster.lustVuln == 0) outputText("  Your aphrodisiac toxin has no effect!", false);
+				if (monster.lustVuln == 0) outputText("  Your aphrodisiac toxin has no effect!");
 				else {
-					if (monster.plural) outputText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.", false);
-					else outputText("  " + monster.mf("He","She") + " flushes hotly and " + monster.mf("touches his suddenly-stiff member, moaning lewdly for a moment.","touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."), false);
+					if (monster.plural) outputText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
+					else outputText("  " + monster.mf("He","She") + " flushes hotly and " + monster.mf("touches his suddenly-stiff member, moaning lewdly for a moment.","touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
 					var lustDmg:int = 25 * monster.lustVuln;
 					if (rand(5) == 0) lustDmg *= 2;
 					monster.teased(lustDmg);
 				}
 			}
 			else {
-		       outputText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.a + monster.short + " manages to counter your lunge, pushing you back out of range.", false);
+		       outputText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.a + monster.short + " manages to counter your lunge, pushing you back out of range.");
 			}
-			outputText("\n\n", false);
-			if (monster.HP < 1 || monster.lust >= monster.eMaxLust()) combat.combatRoundOver();
+			outputText("\n\n");
+			if (monster.HP < 1 || monster.lust >= monster.maxLust()) combat.combatRoundOver();
 			else monster.doAI();
 		}
 		
@@ -1713,7 +1798,7 @@ package classes.Scenes.Combat
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
 			}
-			if (monster.findStatusEffect(StatusEffects.BowDisabled) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.BowDisabled)) {
 				outputText("You can't use your bow right now!");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
@@ -1721,10 +1806,13 @@ package classes.Scenes.Combat
 			}
 			player.changeFatigue(25, 2);
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
+			}
+			if (player.hasStatusEffect(StatusEffects.KnockedBack) && monster is Mimic) {
+				outputText("You remember how Kelt told something like \"<i>only fight massive targets that have no chance to dodge.</i>\" Well, looks like you've found one.  ");
 			}
 			//Prep messages vary by skill.
 			if (player.statusEffectv1(StatusEffects.Kelt) < 30) {
@@ -1744,14 +1832,20 @@ package classes.Scenes.Combat
 				//Keep it from going over 100
 				player.changeStatusValue(StatusEffects.Kelt, 1, 100);
 			}
-			if (monster.findStatusEffect(StatusEffects.Sandstorm) >= 0 && rand(10) > 1) {
+			// Practice makes perfect!
+			if (player.statusEffectv1(StatusEffects.Kelt) < 100) {
+				if (!player.hasStatusEffect(StatusEffects.Kelt))
+					player.createStatusEffect(StatusEffects.Kelt, 0, 0, 0, 0);
+				player.addStatusValue(StatusEffects.Kelt, 1, 1);
+			}
+			if (monster.hasStatusEffect(StatusEffects.Sandstorm) && rand(10) > 1) {
 				outputText("Your shot is blown off target by the tornado of sand and wind.  Damn!\n\n");
 				monster.doAI();
 				return;
 			}
 			//[Bow Response]
 			if (monster.short == "Isabella") {
-				if (monster.findStatusEffect(StatusEffects.Blind) >= 0)
+				if (monster.hasStatusEffect(StatusEffects.Blind))
 					outputText("Isabella hears the shot and turns her shield towards it, completely blocking it with her wall of steel.\n\n");
 				else outputText("You arrow thunks into Isabella's shield, completely blocked by the wall of steel.\n\n");
 				if (getGame().isabellaFollowerScene.isabellaAccent())
@@ -1767,13 +1861,13 @@ package classes.Scenes.Combat
 				return;
 			}
 			//Vala miss chance!
-			if (monster.short == "Vala" && rand(10) < 7 && monster.findStatusEffect(StatusEffects.Stunned) < 0) {
+			if (monster.short == "Vala" && rand(10) < 7 && !monster.hasStatusEffect(StatusEffects.Stunned)) {
 				outputText("Vala flaps her wings and twists her body. Between the sudden gust of wind and her shifting of position, the arrow goes wide.\n\n");
 				monster.doAI();
 				return;
 			}
 			//Blind miss chance
-			if (player.findStatusEffect(StatusEffects.Blind) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Blind)) {
 				outputText("The arrow hits something, but blind as you are, you don't have a chance in hell of hitting anything with a bow.\n\n");
 				monster.doAI();
 				return;
@@ -1826,7 +1920,7 @@ package classes.Scenes.Combat
 		public function kick():void {
 			clearOutput();
 			if (player.fatigue + player.physicalCost(15) > player.maxFatigue()) {
-				outputText("You're too fatigued to use a charge attack!", true);
+				outputText("You're too fatigued to use a charge attack!");
 				menu();
 				addButton(0, "Next", combat.combatMenu, false);
 				return;
@@ -1835,32 +1929,32 @@ package classes.Scenes.Combat
 			//Variant start messages!
 			if (player.lowerBody == LOWER_BODY_TYPE_KANGAROO) {
 				//(tail)
-				if (player.tailType == TAIL_TYPE_KANGAROO) outputText("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ", false);
+				if (player.tailType == TAIL_TYPE_KANGAROO) outputText("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ");
 				//(no tail) 
-				else outputText("You balance on one leg and cock your powerful, kangaroo-like leg before you slam it forward in a kick.  ", false);
+				else outputText("You balance on one leg and cock your powerful, kangaroo-like leg before you slam it forward in a kick.  ");
 			}
 			//(bunbun kick) 
-			else if (player.lowerBody == LOWER_BODY_TYPE_BUNNY) outputText("You leap straight into the air and lash out with both your furred feet simultaneously, slamming forward in a strong kick.  ", false);
+			else if (player.lowerBody == LOWER_BODY_TYPE_BUNNY) outputText("You leap straight into the air and lash out with both your furred feet simultaneously, slamming forward in a strong kick.  ");
 			//(centaur kick)
 			else if (player.lowerBody == LOWER_BODY_TYPE_HOOFED || player.lowerBody == LOWER_BODY_TYPE_PONY || player.lowerBody == LOWER_BODY_TYPE_CLOVEN_HOOFED)
-				if (player.isTaur()) outputText("You lurch up onto your backlegs, lifting your forelegs from the ground a split-second before you lash them out in a vicious kick.  ", false);
+				if (player.isTaur()) outputText("You lurch up onto your backlegs, lifting your forelegs from the ground a split-second before you lash them out in a vicious kick.  ");
 				//(bipedal hoof-kick) 
-				else outputText("You twist and lurch as you raise a leg and slam your hoof forward in a kick.  ", false);
+				else outputText("You twist and lurch as you raise a leg and slam your hoof forward in a kick.  ");
 
 			if (flags[kFLAGS.PC_FETISH] >= 3) {
-				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n", false);
+				outputText("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  Ceraph's piercings have made normal attack impossible!  Maybe you could try something else?\n\n");
 				monster.doAI();
 				return;
 			}
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
 			}
 			//Blind
-			if (player.findStatusEffect(StatusEffects.Blind) >= 0) {
-				outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+			if (player.hasStatusEffect(StatusEffects.Blind)) {
+				outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
 			}
 			//Worms are special
 			if (monster.short == "worms") {
@@ -1868,7 +1962,7 @@ package classes.Scenes.Combat
 				if (rand(100) + player.inte/3 >= 50) {
 					temp = int(player.str/5 - rand(5));
 					if (temp == 0) temp = 1;
-					outputText("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n", false);
+					outputText("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n");
 					monster.HP -= temp;
 					if (monster.HP <= 0) {
 						doNext(combat.endHpVictory);
@@ -1877,21 +1971,21 @@ package classes.Scenes.Combat
 				}
 				//Fail
 				else {
-					outputText("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n", false);
+					outputText("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n");
 				}
 				monster.doAI();
 				return;
 			}
 			var damage:Number;
 			//Determine if dodged!
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
 				//Akbal dodges special education
-				if (monster.short == "Akbal") outputText("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n", false);
+				if (monster.short == "Akbal") outputText("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");
 				else {		
-					outputText(monster.capitalA + monster.short + " manage", false);
-					if (!monster.plural) outputText("s", false);
-					outputText(" to dodge your kick!", false);
-					outputText("\n\n", false);
+					outputText(monster.capitalA + monster.short + " manage");
+					if (!monster.plural) outputText("s");
+					outputText(" to dodge your kick!");
+					outputText("\n\n");
 				}
 				monster.doAI();
 				return;
@@ -1918,28 +2012,28 @@ package classes.Scenes.Combat
 			//BLOCKED
 			if (damage <= 0) {
 				damage = 0;
-				outputText(monster.capitalA + monster.short, false);
-				if (monster.plural) outputText("'", false);
-				else outputText("s", false);
-				outputText(" defenses are too tough for your kick to penetrate!", false);
+				outputText(monster.capitalA + monster.short);
+				if (monster.plural) outputText("'");
+				else outputText("s");
+				outputText(" defenses are too tough for your kick to penetrate!");
 			}
 			//LAND A HIT!
 			else {
-				outputText(monster.capitalA + monster.short, false);
-				if (!monster.plural) outputText(" reels from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>", false);
-				else outputText(" reel from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>", false);
+				outputText(monster.capitalA + monster.short);
+				if (!monster.plural) outputText(" reels from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
+				else outputText(" reel from the damaging impact! <b>(<font color=\"#800000\">" + damage + "</font>)</b>");
 			}
 			if (damage > 0) {
 				//Lust raised by anemone contact!
 				if (monster.short == "anemone") {
-					outputText("\nThough you managed to hit the anemone, several of the tentacles surrounding her body sent home jolts of venom when your swing brushed past them.", false);
+					outputText("\nThough you managed to hit the anemone, several of the tentacles surrounding her body sent home jolts of venom when your swing brushed past them.");
 					//(gain lust, temp lose str/spd)
 					(monster as Anemone).applyVenom((1+rand(2)));
 				}
 			}
-			outputText("\n\n", false);
+			outputText("\n\n");
 		 	combat.checkAchievementDamage(damage);
-			if (monster.HP < 1 || monster.lust >= monster.eMaxLust()) combat.combatRoundOver();
+			if (monster.HP < 1 || monster.lust >= monster.maxLust()) combat.combatRoundOver();
 			else monster.doAI();
 		}
 		
@@ -1961,7 +2055,7 @@ package classes.Scenes.Combat
 			player.changeFatigue(15,2);
 			var damage:Number = 0;
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
@@ -2039,10 +2133,107 @@ package classes.Scenes.Combat
 		 	combat.checkAchievementDamage(damage);
 			flags[kFLAGS.LAST_ATTACK_TYPE] = 0;
 			//Victory ORRRRR enemy turn.
-			if (monster.HP > 0 && monster.lust < monster.eMaxLust()) monster.doAI();
+			if (monster.HP > 0 && monster.lust < monster.maxLust()) monster.doAI();
 			else {
 				if (monster.HP <= 0) doNext(combat.endHpVictory);
-				if (monster.lust >= monster.eMaxLust()) doNext(combat.endLustVictory);
+				if (monster.lust >= monster.maxLust()) doNext(combat.endLustVictory);
+			}
+		}
+		
+		 // Fingers crossed I did ram attack right -Foxwells
+		public function ramsStun():void { // More or less copy/pasted from upheaval
+			clearOutput();
+			if (monster.short == "worms") {
+				outputText("Taking advantage of your new natural weapon, you quickly charge at the freak of nature. Sensing impending danger, the creature willingly drops its cohesion, causing the mass of worms to fall to the ground with a sick, wet 'thud', leaving your horns to stab only at air.\n\n");
+				monster.doAI();
+				return;
+			}
+			if (player.fatigue + player.physicalCost(10) > player.maxFatigue()) {
+				outputText("You're too fatigued to use a charge attack!");
+				doNext(curry(combat.combatMenu,false));
+				return;
+			}
+			player.changeFatigue(10,2);
+			var damage:Number = 0;
+			//Amily!
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+				monster.doAI();
+				return;
+			}
+			//Bigger horns = better chance of not missing
+			//Tiny horns - 30% hit
+			if (player.horns < 6) {
+				temp = 30;
+			}
+			//Small horns - 60% hit
+			if (player.horns >= 6 && player.horns < 12) {
+				temp = 60;
+			}
+			//bigger horns - 75% hit
+			if (player.horns >= 12 && player.horns < 20) {
+				temp = 75;
+			}
+			//huge horns - 90% hit
+			if (player.horns >= 20) {
+				temp = 80;
+			}
+			//Vala, who is a Fuckening
+			if (monster.short == "Vala") {
+				temp = 20;
+			}
+			//Account for monster speed - up to -50%.
+			temp -= monster.spe/2;
+			//Account for player speed - up to +50%
+			temp += player.spe/2;
+			//Hit & calculation
+			if (temp >= rand(100)) {
+				damage = int((player.str + ((player.spe * 0.2) + (player.level * 2)) * (monster.damagePercent() / 100)) * 0.7);
+				if (damage < 0) damage = 5;
+				//Normal
+				outputText("You lower your horns towards your opponent. With a quick charge, you catch them off guard, sending them sprawling to the ground! ");
+				//Critical
+				if (combat.combatCritical()) {
+					outputText("<b>Critical hit! </b>");
+					damage *= 1.75;
+				}
+				//Capping damage
+				if (damage > player.level * 10 + 100) damage = player.level * 10 + 100;
+				if (damage > 0) {
+					if (player.findPerk(PerkLib.HistoryFighter) >= 0) damage *= 1.1;
+					if (player.jewelryEffectId == JewelryLib.MODIFIER_ATTACK_POWER) damage *= 1 + (player.jewelryEffectMagnitude / 100);
+					if (player.countCockSocks("red") > 0) damage *= (1 + player.countCockSocks("red") * 0.02);
+					//Rounding to a whole numbr
+					damage = int(damage);
+					damage = combat.doDamage(damage, true);
+				}
+			// How likely you'll stun
+			// Uses the same roll as damage except ensured unique
+			if (!monster.hasStatusEffect(StatusEffects.Stunned) && temp >= rand(99)) {
+				outputText("<b>Your impact also manages to stun " + monster.a + monster.short + "!</b> ");
+				monster.createStatusEffect(StatusEffects.Stunned, 2, 0, 0, 0);
+			}
+				outputText("<b>(<font color=\"" + mainViewManager.colorHpMinus() + "\">" + damage + "</font>)</b>");
+				outputText("\n\n");
+			}
+			//Miss
+			else {
+				//Special vala stuffs
+				if (monster.short == "Vala") {
+					outputText("You lower your head and charge Vala, but she just flutters up higher, grabs hold of your horns as you close the distance, and smears her juicy, fragrant cunt against your nose.  The sensual smell and her excited moans stun you for a second, allowing her to continue to use you as a masturbation aid, but she quickly tires of such foreplay and flutters back with a wink.\n\n");
+					dynStats("lus", 5);
+				}
+				else outputText("You lower your horns towards your opponent. With a quick charge you attempt to knock them to the ground. They manage to dodge out of the way at the last minute, leaving you panting and annoyed.");
+			}
+			//We're done, enemy time
+			outputText("\n\n");
+			flags[kFLAGS.LAST_ATTACK_TYPE] = 0;
+		 	combat.checkAchievementDamage(damage);
+			//Victory/monster attack
+			if (monster.HP > 0 && monster.lust < monster.maxLust()) monster.doAI();
+			else {
+				if (monster.HP <= 0) doNext(combat.endHpVictory);
+				if (monster.lust >= monster.maxLust()) doNext(combat.endLustVictory);
 			}
 		}
 		
@@ -2062,24 +2253,12 @@ package classes.Scenes.Combat
 			player.changeFatigue(15,2);
 			var damage:Number = 0;
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
 			}
-			//Bigger horns = better success chance.
-			//Small horns - 60% hit
-			if (player.horns >= 6 && player.horns < 12) {
-				temp = 60;
-			}
-			//bigger horns - 75% hit
-			if (player.horns >= 12 && player.horns < 20) {
-				temp = 75;
-			}
-			//huge horns - 90% hit
-			if (player.horns >= 20) {
-				temp = 80;
-			}
+			temp = 80; // Basic chance. Just as minos with fully grown horns.
 			//Vala dodgy bitch!
 			if (monster.short == "Vala") {
 				temp = 20;
@@ -2090,8 +2269,6 @@ package classes.Scenes.Combat
 			temp += player.spe/2;
 			//Hit & calculation
 			if (temp >= rand(100)) {
-				var horns:Number = player.horns;
-				if (player.horns > 40) player.horns = 40;
 				damage = int(player.str + (player.tou / 2) + (player.spe / 2) + (player.level * 2) * 1.2 * (monster.damagePercent() / 100)); //As normal attack + horn length bonus
 				if (damage < 0) damage = 5;
 				//Normal
@@ -2127,10 +2304,10 @@ package classes.Scenes.Combat
 			flags[kFLAGS.LAST_ATTACK_TYPE] = 0;
 		 	combat.checkAchievementDamage(damage);
 			//Victory ORRRRR enemy turn.
-			if (monster.HP > 0 && monster.lust < monster.eMaxLust()) monster.doAI();
+			if (monster.HP > 0 && monster.lust < monster.maxLust()) monster.doAI();
 			else {
 				if (monster.HP <= 0) doNext(combat.endHpVictory);
-				if (monster.lust >= monster.eMaxLust()) doNext(combat.endLustVictory);
+				if (monster.lust >= monster.maxLust()) doNext(combat.endLustVictory);
 			}
 		}
 		
@@ -2150,7 +2327,7 @@ package classes.Scenes.Combat
 			}
 			//Determine if dodged!
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
 				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
@@ -2180,13 +2357,13 @@ package classes.Scenes.Combat
 			else if (player.level < 30) damage += 50 + (player.level - 20) * 1;
 			else damage += 60;
 			monster.teased(monster.lustVuln * damage);
-			if (monster.findStatusEffect(StatusEffects.lustvenom) < 0) monster.createStatusEffect(StatusEffects.lustvenom, 0, 0, 0, 0);
+			if (!monster.hasStatusEffect(StatusEffects.lustvenom)) monster.createStatusEffect(StatusEffects.lustvenom, 0, 0, 0, 0);
 			//New line before monster attack
 			outputText("\n\n");
 			//Use tail mp
 			player.tailVenom -= 25;
 			//Kick back to main if no damage occured!
-			if (monster.HP > 0 && monster.lust < monster.eMaxLust()) monster.doAI();
+			if (monster.HP > 0 && monster.lust < monster.maxLust()) monster.doAI();
 			else doNext(combat.endLustVictory);
 		}
 		
@@ -2194,14 +2371,14 @@ package classes.Scenes.Combat
 			clearOutput();
 			//Keep logic sane if this attack brings victory
 			if (player.tailVenom < 33) {
-				outputText("You do not have enough webbing to shoot right now!", true);
+				outputText("You do not have enough webbing to shoot right now!");
 				doNext(physicalSpecials);
 				return;
 			}
 			player.tailVenom-= 33;
 			//Amily!
-			if (monster.findStatusEffect(StatusEffects.Concentration) >= 0) {
-				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n", true);
+			if (monster.hasStatusEffect(StatusEffects.Concentration)) {
+				outputText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
 				monster.doAI();
 				return;
 			}
@@ -2211,39 +2388,39 @@ package classes.Scenes.Combat
 				return;
 			}
 			//Blind
-			if (player.findStatusEffect(StatusEffects.Blind) >= 0) {
-				outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
+			if (player.hasStatusEffect(StatusEffects.Blind)) {
+				outputText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
 			}
-			else outputText("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.a + monster.short + "!  ", false);
+			else outputText("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.a + monster.short + "!  ");
 			//Determine if dodged!
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
-				outputText("You miss " + monster.a + monster.short + " completely - ", false);
-				if (monster.plural) outputText("they", false);
-				else outputText(monster.mf("he","she") + " moved out of the way!\n\n", false);
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+				outputText("You miss " + monster.a + monster.short + " completely - ");
+				if (monster.plural) outputText("they");
+				else outputText(monster.mf("he","she") + " moved out of the way!\n\n");
 				monster.doAI();
 				return;
 			}
 			//Over-webbed
 			if (monster.spe < 1) {
-				if (!monster.plural) outputText(monster.capitalA + monster.short + " is completely covered in webbing, but you hose " + monster.mf("him","her") + " down again anyway.", false);
-				else outputText(monster.capitalA + monster.short + " are completely covered in webbing, but you hose them down again anyway.", false);
+				if (!monster.plural) outputText(monster.capitalA + monster.short + " is completely covered in webbing, but you hose " + monster.mf("him","her") + " down again anyway.");
+				else outputText(monster.capitalA + monster.short + " are completely covered in webbing, but you hose them down again anyway.");
 			}
 			//LAND A HIT!
 			else {
-				if (!monster.plural) outputText("The adhesive strands cover " + monster.a + monster.short + " with restrictive webbing, greatly slowing " + monster.mf("him","her") + ". ", false);
-				else outputText("The adhesive strands cover " + monster.a + monster.short + " with restrictive webbing, greatly slowing " + monster.mf("him","her") + ". ", false);
+				if (!monster.plural) outputText("The adhesive strands cover " + monster.a + monster.short + " with restrictive webbing, greatly slowing " + monster.mf("him","her") + ". ");
+				else outputText("The adhesive strands cover " + monster.a + monster.short + " with restrictive webbing, greatly slowing " + monster.mf("him","her") + ". ");
 				monster.spe -= 45;
 				if (monster.spe < 0) monster.spe = 0;
 			}
 			awardAchievement("How Do I Shot Web?", kACHIEVEMENTS.COMBAT_SHOT_WEB);
-			outputText("\n\n", false);
-			if (monster.HP < 1 || monster.lust >= monster.eMaxLust()) combat.combatRoundOver();
+			outputText("\n\n");
+			if (monster.HP < 1 || monster.lust >= monster.maxLust()) combat.combatRoundOver();
 			else monster.doAI();
 		}
 		
 		public function kissAttack():void {
 			clearOutput();
-			if (player.findStatusEffect(StatusEffects.Blind) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Blind)) {
 				outputText("There's no way you'd be able to find their lips while you're blind!");
 				doNext(physicalSpecials);
 				return;
@@ -2252,27 +2429,27 @@ package classes.Scenes.Combat
 			switch(attack) {
 				case 1:
 					//Attack text 1:
-					outputText("You hop up to " + monster.a + monster.short + " and attempt to plant a kiss on " + monster.pronoun3 + ".", false);
+					outputText("You hop up to " + monster.a + monster.short + " and attempt to plant a kiss on " + monster.pronoun3 + ".");
 					break;
 				//Attack text 2:
 				case 2:
-					outputText("You saunter up and dart forward, puckering your golden lips into a perfect kiss.", false);
+					outputText("You saunter up and dart forward, puckering your golden lips into a perfect kiss.");
 					break;
 				//Attack text 3: 
 				case 3:
-					outputText("Swaying sensually, you wiggle up to " + monster.a + monster.short + " and attempt to plant a nice wet kiss on " + monster.pronoun2 + ".", false);
+					outputText("Swaying sensually, you wiggle up to " + monster.a + monster.short + " and attempt to plant a nice wet kiss on " + monster.pronoun2 + ".");
 					break;
 				//Attack text 4:
 				case 4:
-					outputText("Lunging forward, you fly through the air at " + monster.a + monster.short + " with your lips puckered and ready to smear drugs all over " + monster.pronoun2 + ".", false);
+					outputText("Lunging forward, you fly through the air at " + monster.a + monster.short + " with your lips puckered and ready to smear drugs all over " + monster.pronoun2 + ".");
 					break;
 				//Attack text 5:
 				case 5:
-					outputText("You lean over, your lips swollen with lust, wet with your wanting slobber as you close in on " + monster.a + monster.short + ".", false);
+					outputText("You lean over, your lips swollen with lust, wet with your wanting slobber as you close in on " + monster.a + monster.short + ".");
 					break;
 				//Attack text 6:
 				default:
-					outputText("Pursing your drug-laced lips, you close on " + monster.a + monster.short + " and try to plant a nice, wet kiss on " + monster.pronoun2 + ".", false);
+					outputText("Pursing your drug-laced lips, you close on " + monster.a + monster.short + " and try to plant a nice, wet kiss on " + monster.pronoun2 + ".");
 					break;
 			}
 			//Dodged!
@@ -2281,17 +2458,17 @@ package classes.Scenes.Combat
 				switch(attack) {
 					//Dodge 1:
 					case 1:
-						if (monster.plural) outputText("  " + monster.capitalA + monster.short + " sees it coming and moves out of the way in the nick of time!\n\n", false);
+						if (monster.plural) outputText("  " + monster.capitalA + monster.short + " sees it coming and moves out of the way in the nick of time!\n\n");
 						break;
 					//Dodge 2:
 					case 2:
-						if (monster.plural) outputText("  Unfortunately, you're too slow, and " + monster.a + monster.short + " slips out of the way before you can lay a wet one on one of them.\n\n", false);
-						else outputText("  Unfortunately, you're too slow, and " + monster.a + monster.short + " slips out of the way before you can lay a wet one on " + monster.pronoun2 + ".\n\n", false);
+						if (monster.plural) outputText("  Unfortunately, you're too slow, and " + monster.a + monster.short + " slips out of the way before you can lay a wet one on one of them.\n\n");
+						else outputText("  Unfortunately, you're too slow, and " + monster.a + monster.short + " slips out of the way before you can lay a wet one on " + monster.pronoun2 + ".\n\n");
 						break;
 					//Dodge 3:
 					default:
-						if (monster.plural) outputText("  Sadly, " + monster.a + monster.short + " moves aside, denying you the chance to give one of them a smooch.\n\n", false);
-						else outputText("  Sadly, " + monster.a + monster.short + " moves aside, denying you the chance to give " + monster.pronoun2 + " a smooch.\n\n", false);
+						if (monster.plural) outputText("  Sadly, " + monster.a + monster.short + " moves aside, denying you the chance to give one of them a smooch.\n\n");
+						else outputText("  Sadly, " + monster.a + monster.short + " moves aside, denying you the chance to give " + monster.pronoun2 + " a smooch.\n\n");
 						break;
 				}
 				monster.doAI();
@@ -2309,30 +2486,30 @@ package classes.Scenes.Combat
 			switch(attack) {
 				//Success 1:
 				case 1:
-					if (monster.plural) outputText("  Success!  A spit-soaked kiss lands right on one of their mouths.  The victim quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.", false);
-					else outputText("  Success!  A spit-soaked kiss lands right on " + monster.a + monster.short + "'s mouth.  " + monster.mf("He","She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.", false);
+					if (monster.plural) outputText("  Success!  A spit-soaked kiss lands right on one of their mouths.  The victim quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.");
+					else outputText("  Success!  A spit-soaked kiss lands right on " + monster.a + monster.short + "'s mouth.  " + monster.mf("He","She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.");
 					damage = 15;
 					break;
 				//Success 2:
 				case 2:
-					if (monster.plural) outputText("  Gold-gilt lips press into one of their mouths, the victim's lips melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every bit of their mouth with your lipstick before you let them go.", false);
-					else outputText("  Gold-gilt lips press into " + monster.a + monster.short + ", " + monster.pronoun3 + " mouth melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every inch of " + monster.pronoun3 + " with your lipstick before you let " + monster.pronoun2 + " go.", false);
+					if (monster.plural) outputText("  Gold-gilt lips press into one of their mouths, the victim's lips melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every bit of their mouth with your lipstick before you let them go.");
+					else outputText("  Gold-gilt lips press into " + monster.a + monster.short + ", " + monster.pronoun3 + " mouth melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every inch of " + monster.pronoun3 + " with your lipstick before you let " + monster.pronoun2 + " go.");
 					damage = 20;
 					break;
 				//CRITICAL SUCCESS (3)
 				case 3:
-					if (monster.plural) outputText("  You slip past " + monster.a + monster.short + "'s guard and press your lips against one of them.  " + monster.mf("He","She") + " melts against you, " + monster.mf("his","her") + " tongue sliding into your mouth as " + monster.mf("he","she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.mf("his","her") + " mouth, you break back and observe your handwork.  One of " + monster.a + monster.short + " is still standing there, licking " + monster.mf("his","her") + " his lips while " + monster.mf("his","her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.mf("he","she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.", false);
-					else outputText("  You slip past " + monster.a + monster.short + "'s guard and press your lips against " + monster.pronoun3 + ".  " + monster.mf("He","She") + " melts against you, " + monster.pronoun3 + " tongue sliding into your mouth as " + monster.pronoun1 + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.pronoun3 + " mouth, you break back and observe your handwork.  " + monster.capitalA + monster.short + " is still standing there, licking " + monster.pronoun3 + " lips while " + monster.pronoun3 + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.pronoun1 + " will go soft now.", false);
+					if (monster.plural) outputText("  You slip past " + monster.a + monster.short + "'s guard and press your lips against one of them.  " + monster.mf("He","She") + " melts against you, " + monster.mf("his","her") + " tongue sliding into your mouth as " + monster.mf("he","she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.mf("his","her") + " mouth, you break back and observe your handwork.  One of " + monster.a + monster.short + " is still standing there, licking " + monster.mf("his","her") + " his lips while " + monster.mf("his","her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.mf("he","she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.");
+					else outputText("  You slip past " + monster.a + monster.short + "'s guard and press your lips against " + monster.pronoun3 + ".  " + monster.mf("He","She") + " melts against you, " + monster.pronoun3 + " tongue sliding into your mouth as " + monster.pronoun1 + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.pronoun3 + " mouth, you break back and observe your handwork.  " + monster.capitalA + monster.short + " is still standing there, licking " + monster.pronoun3 + " lips while " + monster.pronoun3 + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.pronoun1 + " will go soft now.");
 					damage = 30;
 					break;
 				//Success 4:
 				default:
-					outputText("  With great effort, you slip through an opening and compress their lips against your own, lust seeping through the oral embrace along with a heavy dose of drugs.", false);
+					outputText("  With great effort, you slip through an opening and compress their lips against your own, lust seeping through the oral embrace along with a heavy dose of drugs.");
 					damage = 12;
 					break;
 			}
 			//Add status if not already drugged
-			if (monster.findStatusEffect(StatusEffects.LustStick) < 0) monster.createStatusEffect(StatusEffects.LustStick,0,0,0,0);
+			if (!monster.hasStatusEffect(StatusEffects.LustStick)) monster.createStatusEffect(StatusEffects.LustStick,0,0,0,0);
 			//Else add bonus to round damage
 			else monster.addStatusValue(StatusEffects.LustStick,2,Math.round(damage/10));
 			//Deal damage
@@ -2347,14 +2524,19 @@ package classes.Scenes.Combat
 		//hit
 		public function tailWhipAttack():void {
 			clearOutput();
+			if (player.fatigue + player.physicalCost(15) > player.maxFatigue()) {
+				outputText("You are too tired to perform a tail whip.");
+				doNext(curry(combat.combatMenu,false));
+				return;
+			}
 			//miss
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
 				outputText("Twirling like a top, you swing your tail, but connect with only empty air.");
 			}
 			else {
 				if (!monster.plural) outputText("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.pronoun1 + " looks disbelieving, as if " + monster.pronoun3 + " world turned upside down, but " + monster.pronoun1 + " soon becomes irate and redoubles " + monster.pronoun3 + " offense, leaving large holes in " + monster.pronoun3 + " guard.  If you're going to take advantage, it had better be right away; " + monster.pronoun1 + "'ll probably cool off very quickly.");
 				else outputText("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.pronoun1 + " look disbelieving, as if " + monster.pronoun3 + " world turned upside down, but " + monster.pronoun1 + " soon become irate and redouble " + monster.pronoun3 + " offense, leaving large holes in " + monster.pronoun3 + " guard.  If you're going to take advantage, it had better be right away; " + monster.pronoun1 + "'ll probably cool off very quickly.");
-				if (monster.findStatusEffect(StatusEffects.CoonWhip) < 0) monster.createStatusEffect(StatusEffects.CoonWhip,0,0,0,0);
+				if (!monster.hasStatusEffect(StatusEffects.CoonWhip)) monster.createStatusEffect(StatusEffects.CoonWhip,0,0,0,0);
 				temp = Math.round(monster.armorDef * .75);
 				while(temp > 0 && monster.armorDef >= 1) {
 					monster.armorDef--;
@@ -2364,15 +2546,21 @@ package classes.Scenes.Combat
 				monster.addStatusValue(StatusEffects.CoonWhip,2,2);
 				if (player.tailType == TAIL_TYPE_RACCOON) monster.addStatusValue(StatusEffects.CoonWhip,2,2);
 			}
+			player.changeFatigue(15,2);
 			outputText("\n\n");
 			monster.doAI();
 		}
 		
 		public function tailSlapAttack():void {
 			clearOutput();
+			if (player.fatigue + player.physicalCost(30) > player.maxFatigue()) {
+				outputText("You are too tired to perform a tail slap.");
+				doNext(curry(combat.combatMenu,false));
+				return;
+			}
 			outputText("With a simple thought you set your tail ablaze.");
 			//miss
-			if((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
+			if((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random()*(((monster.spe-player.spe)/4)+80)) > 80)) {
 				outputText(" Twirling like a top, you swing your tail, but connect with only empty air.");
 			}
 			else {
@@ -2384,7 +2572,7 @@ package classes.Scenes.Combat
 				outputText("  Your tail slams against " + monster.a + monster.short + ", dealing <b><font color=\"#800000\">" + damage + "</font></b> damage! ");
 				combat.checkAchievementDamage(damage);
 			}
-			player.changeFatigue(40,2);
+			player.changeFatigue(30,2);
 			outputText("\n\n");
 			monster.doAI();
 		}
@@ -2393,14 +2581,14 @@ package classes.Scenes.Combat
 			clearOutput();
 			if (player.fatigue + player.physicalCost(20) > player.maxFatigue()) {
 				outputText("You are too tired to perform a shield bash.");
-				doNext(combat.combatMenu);
+				doNext(curry(combat.combatMenu,false));
 				return;
 			}
 			outputText("You ready your [shield] and prepare to slam it towards " + monster.a + monster.short + ".  ");
-			if ((player.findStatusEffect(StatusEffects.Blind) >= 0 && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random() * (((monster.spe-player.spe) / 4) + 80)) > 80)) {
-				if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!", false);
-				if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!", false);
-				if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.", false);
+			if ((player.hasStatusEffect(StatusEffects.Blind) && rand(2) == 0) || (monster.spe - player.spe > 0 && int(Math.random() * (((monster.spe-player.spe) / 4) + 80)) > 80)) {
+				if (monster.spe - player.spe < 8) outputText(monster.capitalA + monster.short + " narrowly avoids your attack!");
+				if (monster.spe - player.spe >= 8 && monster.spe-player.spe < 20) outputText(monster.capitalA + monster.short + " dodges your attack with superior quickness!");
+				if (monster.spe - player.spe >= 20) outputText(monster.capitalA + monster.short + " deftly avoids your slow attack.");
 				monster.doAI();
 				return;
 			}
@@ -2411,10 +2599,10 @@ package classes.Scenes.Combat
 			if (chance > 10) chance = 10;
 			damage = combat.doDamage(damage);
 			outputText("Your [shield] slams against " + monster.a + monster.short + ", dealing <b><font color=\"#800000\">" + damage + "</font></b> damage! ");
-			if (monster.findStatusEffect(StatusEffects.Stunned) < 0 && rand(chance) == 0) {
+			if (!monster.hasStatusEffect(StatusEffects.Stunned) && rand(chance) == 0) {
 				outputText("<b>Your impact also manages to stun " + monster.a + monster.short + "!</b> ");
 				monster.createStatusEffect(StatusEffects.Stunned, 1, 0, 0, 0);
-				if (monster.findStatusEffect(StatusEffects.TimesBashed) < 0) monster.createStatusEffect(StatusEffects.TimesBashed, player.findPerk(PerkLib.ShieldSlam) >= 0 ? 0.5 : 1, 0, 0, 0);
+				if (!monster.hasStatusEffect(StatusEffects.TimesBashed)) monster.createStatusEffect(StatusEffects.TimesBashed, player.findPerk(PerkLib.ShieldSlam) >= 0 ? 0.5 : 1, 0, 0, 0);
 				else monster.addStatusValue(StatusEffects.TimesBashed, 1, player.findPerk(PerkLib.ShieldSlam) >= 0 ? 0.5 : 1);
 			}
 			flags[kFLAGS.LAST_ATTACK_TYPE] = 0;

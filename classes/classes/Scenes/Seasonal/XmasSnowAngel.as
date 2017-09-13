@@ -209,7 +209,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nAfter a few moments, you decide to don your [armor] once again, leaving the mishap behind as you return to camp.  There's no telling if what you did was ultimately right or wrong in the grand scheme of things, but dwelling over North or Carol isn't going to get you anywhere any time soon.");
 			//[if (corruption > 49) 
 			if (player.cor > 49) outputText("  More importantly, you have some unsatisfied, pent up lust that you'd like to expend.");
-			dynStats("lus", 2+player.lib/10+player.cor/10, "cor", 10, "resisted", false);
+			dynStats("lus", 2+player.lib/10+player.cor/10, "cor", 10, "scale", false);
 			doNext(camp.returnToCampUseOneHour);
 			flags[kFLAGS.GATS_ANGEL_DISABLED] = 1;
 			player.removeKeyItem("North Star Key");
@@ -282,7 +282,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nThankfully, you're out of that mess and heading for camp. That slut is cold.");
 			//[End of event. Possible expansions include finding her as a difficult combat encounter, or raping her while she sleeps.]
 			flags[kFLAGS.GATS_ANGEL_DISABLED] = 1;
-			player.orgasm();
+			player.orgasm('Generic');
 			dynStats("cor", 10);
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -310,7 +310,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nSuddenly, impossibly, North moans, shuddering into your hands as you continue to prop him up.  His eyes flare back to life, coiling inky cloud flowing into full form once more.  The giantess, looking as exhausted as she does relieved, sets you and North back down onto the cliff-face, taking extra care to set her revived creation down as gently as possible.");
 			outputText("\n\n\"<i>Why am I still here?</i>\" North asks dreamily, disoriented and dazed from the morbid tug-of-war.  He glances down at his gauntlet.  \"<i>And why am I white?</i>\"");
 			outputText("\n\nYou would like to know the same, in fact, and you look to the tearful woman in a bid for an explanation.  It's only then that you notice a lack of something you mostly took for granted until this moment: the ever-present swishing of her assumedly invisible wings.  Combining this observation and the sudden hint of haggardness in her features, you begin to put the pieces together.  She smiles wearily, nodding as if reading your thoughts.  \"<i>I fear to admit, you most likely can guess the reason for North's revival,</i>\" she says.  \"<i>Spirits possess a limited grasp of clerical ability, but certainly nothing applicable to poor North... at least, not until you acquired that key.  It's hard to explain, but a bit of... humanity, I suppose, was 'injected' into his body when you turned that key.  I knew this was a one-off chance to begin with - it's been subjected to age for centuries, and most of the magic must have been either relocated or removed.  I had to get more drastic, I'm afraid.  I am happy to say I do not regret my decision, but... well...</i>\"");
-			outputText("\n\n\"<i>I am not an spirit anymore.</i>\"");
+			outputText("\n\n\"<i>I am not a spirit anymore.</i>\"");
 			outputText("\n\nThere it was; North wheezes in an approximation of a gasp, and you're profoundly reminded of the devotion from creator to creation.  You ask her what the loss entails.");
 			outputText("\n\n\"<i>Ah... well, I suppose the most profound result is the loss of immortality,</i>\" she explains.  \"<i>While the key sparked his soul, I simply kept the flame going longer with my own... adding fuel, you could say...</i>\"");
 			outputText("\n\nShe meant to go on, but North interrupts her.  \"<i>Wait,</i>\" he demands.  The giantess's train of thought is brought to a halt as she waits for her creation to proceed.  \"<i>You did this for me,</i>\" he begins, pulling himself to his feet.  \"<i>I don't have to know why, though I'm sad you had to.  I love you.</i>\"");
@@ -349,7 +349,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nThat being accomplished, the knight kicks his applications up a notch, breaking away from the throbbing and stimulated button and zooming straight toward the depths of her glistening and inviting folds.  She coos throatily, back arching and tongue lolling, as North penetrates and wriggles further into her pussy.  Blossoms of fog issue from the giantess's mouth with increased frequency as North tunnels deeper and deeper inside her; you idly marvel at how effective the little knight's tactics prove on his enormous lover.");
 			outputText("\n\nWith a cry of simple pleasure, the giantess's arms buckle under her and she falls back, tumbling from her perch on the cliff and landing back-first.  Unable to sit idle while North has all the fun, she takes matters in her own hands, cupping a breast in one hand while the other slips down between her legs.  Her moans only intensify once she gets into the squeezing and caressing, scattering snow in all directions as she squirms along the valley, crying her pleasure for all to hear.");
 			//LUST GAIN +20: IF 100:
-			dynStats("lus", 10+player.lib/10, "resisted", false);
+			dynStats("lus", 10+player.lib/10, "scale", false);
 			outputText("\n\n");
 			if (player.lust >= player.maxLust()) {
 				outputText("Despite yourself, your hands slowly begin crawling into your [armor] in pursuit of your naughty bits.  ");
@@ -368,7 +368,7 @@ package classes.Scenes.Seasonal {
 			//IF MASTURBATED: 
 			if (player.lust >= player.maxLust()) {
 				outputText("\n\nYou take the opportunity to do up your [armor] before either of them notices.");
-				player.orgasm();
+				player.orgasm('Generic');
 			}
 			//[Next]
 			menu();
@@ -380,7 +380,7 @@ package classes.Scenes.Seasonal {
 			clearOutput();
 			outputText("The air is crisp, and the light powdering of snow floats through the air as if playing an invisible melody.  The warm couple are together.  Lifting her head, the giantess beams at you with a refreshing sense of spirit.");
 			outputText("\n\n\"<i>I can't believe anything that has happened to me today... it's all thanks to you.  Thank you for bringing North back to me, and thank you for relighting a fire that had gone out so, so long ago.</i>\"");
-			outputText("\n\nYou bow in some sense of obligation, yet the chestnut titaness giggles at your formality.  North automatically returns the gesture, and you all share a moment of laughter.  The mechanical soldier is lifted up by her lover and placed upon her shoulder, his legs dangling off the edge.  You give them a friendly nod and a happy smile before realizing how tired you were after this whole affair.  Telling the two as much, you chuckle victoriously, proud of your exploits and of the potential stories you could tell regarding the reunion of an spirit and her favorite little soldier.");
+			outputText("\n\nYou bow in some sense of obligation, yet the chestnut titaness giggles at your formality.  North automatically returns the gesture, and you all share a moment of laughter.  The mechanical soldier is lifted up by her lover and placed upon her shoulder, his legs dangling off the edge.  You give them a friendly nod and a happy smile before realizing how tired you were after this whole affair.  Telling the two as much, you chuckle victoriously, proud of your exploits and of the potential stories you could tell regarding the reunion of a spirit and her favorite little soldier.");
 			outputText("\n\nThey both bid you farewell as you begin to walk off, North waving his arm far above his head and the tanned former spirit politely swaying her hand at the wrist.  With a reciprocated adieu, you turn and stride away.  \"<i>Oh, [name]!</i>\" the giantess calls, and you turn curiously to find her extending the little crystal key to you, clasped between two of her fingers and looking absolutely minuscule by comparison.  She easily reaches you despite the distance gained by your strides, and you receive the device readily.  \"<i>I want you to have this. Merry Christmas, [name].</i>\" You wish her a Merry Christmas in response, though call up blanks when trying to remember her name - It's then you realize that she had never given it in the first place. The spirit stops and laughs before pulling a thumbs up, just as you had done earlier.");
 			outputText("\n\n\"<i>It's Carol.</i>\"");
 			outputText("\n\nAfter a long pause, you pocket the key, square yourself with Carol and North, returning her hand gesture before giving them a goofy grin that positively sparks in the snow-cushioned landscape.  As you turn to depart once more, you wave over your shoulder, escorted out with the continued giggles and lovey-dovey conversation of the unlikely couple.");

@@ -70,7 +70,7 @@ package classes.Items.Consumables
 				//Randomly choose one of those locations
 				select = choices[rand(choices.length)];
 				output.text("\n\nYour " + player.cockDescript(select) + " tingles as pins and needles sweep across it.  You pull open your [armor] to watch as it changes; the tip elongates and tapers, like a spear; a series of ridges form along the shaft, giving it an almost segmented look, and a prominent knot swells at its base.  You can't resist stroking it, until it begins dripping pre; ");
-				if (player.sens >= 50) output.text("however, it's not until you press on your new, sensitive knot that you manage to blow your load and enjoy the last few spasms of pleasure as it finally finishes changing.");
+				if (player.sens100 >= 50) output.text("however, it's not until you press on your new, sensitive knot that you manage to blow your load and enjoy the last few spasms of pleasure as it finally finishes changing.");
 				else output.text("but you sternly rein in your hands and tuck them into your armpits as the arousing changes run their course.");
 				output.text("  <b>You now have a dragon penis.</b>");
 				//lose lust if sens>=50, gain lust if else
@@ -106,11 +106,19 @@ package classes.Items.Consumables
 			//(Pending Tongue Masturbation Variants; if we ever get around to doing that.)
 			//Gain Dragon Scales
 			if (!player.hasDragonScales() && changes < changeLimit && rand(3) == 0) {
-				output.text("\n\nPrickling discomfort suddenly erupts all over your body, like every last inch of your skin has suddenly developed pins and needles.  You scratch yourself, hoping for relief; and when you look at your hands you notice small fragments of your " + player.skinFurScales() + " hanging from your fingers.  Nevertheless you continue to scratch yourself, and when you're finally done, you look yourself over. New shield-like scales have grown to replace your peeled off " + player.skinFurScales() + ".  They are smooth and look nearly as tough as iron. <b>Your body is now covered in shield-shaped dragon scales.</b>");
-				player.skinType = SKIN_TYPE_DRAGON_SCALES;
-				player.skinAdj = "tough";
-				player.skinDesc = "scales";
+				output.text("\n\nPrickling discomfort suddenly erupts all over your body, like every last inch of your skin has suddenly developed"
+				           +" pins and needles.  You scratch yourself, hoping for relief; and when you look at your hands you notice small fragments"
+				           +" of your [skinFurScales] hanging from your fingers.  Nevertheless you continue to scratch yourself, and when you're"
+				           +" finally done, you look yourself over. New shield-like scales have grown to replace your peeled off [skinFurScales]."
+				           +" They are smooth and look nearly as tough as iron.");
+				player.skin.setProps({type: SKIN_TYPE_DRAGON_SCALES, adj: "tough", desc: "shield-shaped dragon scales"});
 				//def bonus of scales
+				player.underBody.type = UNDER_BODY_TYPE_REPTILE;
+				player.copySkinToUnderBody({       // copy the main skin props to the underBody skin ...
+					desc: "ventral dragon scales"  // ... and only override the desc
+				});
+				output.text("  <b>Your body is now covered in [skinTone], shield-shaped dragon scales with [underBody.skinTone] ventral scales"
+				           +" covering your underside.</b>");
 			}
 			//<mod name="Reptile eyes" author="Stadler76">
 			//Gain Dragon Eyes
@@ -178,28 +186,90 @@ package classes.Items.Consumables
 			 Miss: Unfortunately, you lose your sense of depth as you whirl, and the tip swings harmlessly through the air in front of your target.
 			 */
 			//Grow Dragon Wings
-			if (player.wingType != WING_TYPE_DRACONIC_LARGE && changes < changeLimit && rand(3) == 0) {
+			if ((player.wingType != WING_TYPE_DRACONIC_LARGE || player.rearBody.type == REAR_BODY_SHARK_FIN) && changes < changeLimit && rand(3) == 0) {
 				if (player.wingType == WING_TYPE_NONE) {
 					output.text("\n\nYou double over as waves of pain suddenly fill your shoulderblades; your back feels like it's swelling, flesh and muscles ballooning.  A sudden sound of tearing brings with it relief and you straighten up.  Upon your back now sit small, leathery wings, not unlike a bat's. <b>You now have small dragon wings.  They're not big enough to fly with, but they look adorable.</b>");
 					player.wingType = WING_TYPE_DRACONIC_SMALL;
-					player.wingDesc = "small, draconic";
 				}
 				//(If Small Dragon Wings Present)
 				else if (player.wingType == WING_TYPE_DRACONIC_SMALL) {
 					output.text("\n\nA not-unpleasant tingling sensation fills your wings, almost but not quite drowning out the odd, tickly feeling as they swell larger and stronger.  You spread them wide - they stretch further than your arms do - and beat them experimentally, the powerful thrusts sending gusts of wind, and almost lifting you off your feet.  <b>You now have fully-grown dragon wings, capable of winging you through the air elegantly!</b>");
 					player.wingType = WING_TYPE_DRACONIC_LARGE;
-					player.wingDesc = "large, draconic";
 				}
-				else if (player.wingType == WING_TYPE_SHARK_FIN) {
+				else if (player.rearBody.type == REAR_BODY_SHARK_FIN) {
 					output.text("\n\nA sensation of numbness suddenly fills your fin.  When it does away, it feels... different.  Looking back, you realize that it has been replaced by new, small wings, ones that you can only describe as draconic.  <b>Your shark-like fin has changed into dragon wings.</b>");
+					player.rearBody.restore();
 					player.wingType = WING_TYPE_DRACONIC_SMALL;
-					player.wingDesc = "small, draconic";
 				}
 				//(If other wings present)
 				else {
 					output.text("\n\nA sensation of numbness suddenly fills your wings.  When it dies away, they feel... different.  Looking back, you realize that they have been replaced by new, small wings, ones that you can only describe as draconic.  <b>Your wings have changed into dragon wings.</b>");
 					player.wingType = WING_TYPE_DRACONIC_SMALL;
-					player.wingDesc = "small, draconic";
+				}
+				changes++;
+			}
+			// <mod name="BodyParts.RearBody" author="Stadler76">
+			//Gain Dragon Rear Body
+			if (!drakesHeart && !player.hasDragonRearBody() && (player.hasDragonNeck() || flags[kFLAGS.EMBER_ROUNDFACE] == 1) && player.dragonScore() >= 4 && player.hasDraconicBackSide() && changes < changeLimit && rand(3) == 0) {
+				var emberRear:Number = player.fetchEmberRearBody();
+				switch (emberRear) {
+					case REAR_BODY_DRACONIC_MANE:
+						// if (player.hairLength == 0) // Let's simply ignore baldness here for now. It wouldn't affect the PCs mane anyway.
+						outputText("\n\nYou feel a sudden tingle just above your spine. Eager to see, what is the cause of it you bend your"
+						          +" [if (hasDragonNeck)draconic neck|tail] to take a closer look at it. Looking at your"
+						          +" [if (hasDragonNeck)back|tail] you see tiny splotches of hair beginning to grow out of your scaly skin. The hair"
+						          +" grows longer and the splotches grow until they slowly merge to a vertical strip right above your spine.");
+						outputText("\n\nTracing your spine, a mane of hair has grown; starting at the base of your neck and continuing down your"
+						          +" tail, ending on the tip of your tail in a small tuft. It is the same color as the hair on your head,"
+						          +" but shorter and denser; it has grown in a thick vertical strip, maybe two inches wide. It reminds you vaguely"
+						          +" of a horse's mane. <b>You now have a hairy mane on your rear.</b>");
+						player.rearBody.setAllProps({
+							type:  REAR_BODY_DRACONIC_MANE,
+							color: player.hairColor
+						});
+						break;
+
+					case REAR_BODY_DRACONIC_SPIKES:
+						// Teh spiky mane, similar to the hairy one.
+						outputText("\n\nYou feel a sudden pain coming from your spine. Eager to see, what is the cause of it you bend your"
+						          +" [if (hasDragonNeck)draconic neck|tail] to take a closer look at it. You watch your [if (hasDragonNeck)back|tail]"
+						          +" in growing pain as small bulges start emerging from your spine, growing bigger and bigger, until you feel a"
+						          +" sudden burst of pain, when small spikes begin to break through your skin. Hardly bearing the growing pain you"
+						          +" continue watching them slowly growing longer curving backwards until finally the pain has ceased.");
+						outputText("\n\nTracing your spine, a row of short steel-gray and curved backwards spikes protrude; starting at the base of"
+						          +" your neck and continuing down your tail, ending on the tip of your tail. They've grown in a thick vertical"
+						          +" strip, maybe an inch wide and two inches high. It reminds you very vaguely of a horse's mane.");
+						outputText("  <b>Your rear is now decorated with a row of curved spikes.</b>");
+						player.rearBody.setAllProps({type: REAR_BODY_DRACONIC_SPIKES});
+						break;
+
+					default:
+						// this should hopefully never happen
+						trace("Invalid Ember rearBody: " + emberRear);
+				}
+			}
+			// </mod>
+			//Restore non dragon neck
+			if (player.neck.type != NECK_TYPE_DRACONIC && changes < changeLimit && rand(4) == 0)
+				mutations.restoreNeck(tfSource);
+			//Gain Dragon Neck
+			//public function hasDraconicBackSide():Boolean { return hasDragonWings(true) && skinType == SKIN_TYPE_DRACONIC && hasReptileTail() && hasReptileArms() && hasReptileLegs(); }
+			//If you are considered a dragon-morph and if your backside is dragon-ish enough, your neck is eager to allow you to take a look at it, right? ;-)
+			if (!drakesHeart && !player.hasDragonNeck() && player.dragonScore() >= 6 && player.hasDraconicBackSide() && player.faceType == FACE_DRAGON && changes < changeLimit) {
+				mutations.restoreNeck(tfSource + "-forceRestoreNeck");
+				var nlChange:int = 4 + rand(5);
+				if (!player.hasNormalNeck()) { // Note: hasNormalNeck checks the length, not the type!
+					player.neck.modify(nlChange);
+					outputText("\n\nWith less pain than the last time your neck grows a few more inches reaching " + player.neck.len + " inches.");
+				} else {
+					player.neck.modify(nlChange, NECK_TYPE_DRACONIC);
+					// Growing a dragon neck may be limited to Ember's blood only in the future.
+					outputText("\n\nAfter you have finished " + (drakesHeart ? "eating the flower" : "drinking Ember's dragon blood") + " you start feeling a sudden pain in your neck. Your skin stretches and your spine grows a bit. Your neck has grown a few inches longer than that of a normal human reaching " + player.neck.len + " inches.");
+				}
+				if (player.hasDragonNeck() && !player.neck.pos) {
+					outputText("\n\nAfter the enlongation has finally ceased, your spine begins to readjust its position on your head until its settled at the backside of your head. After that you want to try out your new draconic neck and begin to bend your neck finding that you can bend it at ease like a snake can bend its tail. Eager to see, how you look from behind you quickly turn your head around. Staring at your magnificent draconic rear your mouth and eyes open wide in astonishment. You muster your tail, your backside fully covered in scales and finally, you unfold your wings. This is the first time, you can see every single scale of them. You look at them from all sides, flapping them slowly, just to watch them moving.");
+					outputText("  <b>You now have a fully grown dragon neck.</b>");
+					player.neck.pos = true;
 				}
 				changes++;
 			}
@@ -230,7 +300,7 @@ package classes.Items.Consumables
 				if (getGame().emberScene.emberAffection() >= 75 && !drakesHeart) output.text("\n\nEmber immediately dives back in to soothe your battered throat and mouth with another kiss.");
 				changes++;
 			}
-			if (player.dragonScore() >= 4 && rand(3) == 0 && player.gender > 0) {
+			if (player.dragonScore() >= 4 && rand(3) == 0 && player.gender > 0 && (drakesHeart || player.hasCock() && getGame().emberScene.emberHasVagina() || player.hasVagina() && getGame().emberScene.emberHasCock())) {
 				output.text("\n\nA sudden swell of lust races through your ");
 				if (player.hasCock()) {
 					output.text(player.cockDescript(0));
@@ -238,20 +308,20 @@ package classes.Items.Consumables
 				}
 				if (player.hasVagina()) output.text(player.vaginaDescript());
 				output.text(", making you wish " + (drakesHeart ? "you had a dragon to go with." : "Ember hadn't run you off") + ".  All you can think about now is fucking " + (drakesHeart ? "a dragon-morph" : getGame().emberScene.emberMF("him", "her")) + "; ");
-				if (player.hasCock() && flags[kFLAGS.EMBER_GENDER] >= 2) {
+				if (player.hasCock() && (getGame().emberScene.emberHasVagina() || drakesHeart)) {
 					if (drakesHeart) {
 						output.text("filling a womb with your seed and fertilizing those eggs");
 					}
 					else {
 						output.text("filling her womb with your seed and fertilizing her eggs");
-						if (player.hasVagina() && flags[kFLAGS.EMBER_GENDER] == 3) output.text(" even while ");
+						if (player.hasVagina() && (getGame().emberScene.emberHasCock() || drakesHeart)) output.text(" even while ");
 					}
 				}
-				if (player.hasVagina() && (flags[kFLAGS.EMBER_GENDER] == 3 || flags[kFLAGS.EMBER_GENDER] == 1)) {
+				if (player.hasVagina() && (getGame().emberScene.emberHasCock() || drakesHeart)) {
 					output.text("taking that hard, spurting cock inside your own " + player.vaginaDescript(0));
 				}
 				output.text("... too late, you realize that <b>" + (drakesHeart ? "the flower" : "Ember's blood") + " has sent your draconic body into ");
-				if (player.hasCock() && (flags[kFLAGS.EMBER_GENDER] >= 2 || drakesHeart) && (rand(2) == 0 || !player.hasVagina())) { //If hermaphrodite, the chance is 50/50.
+				if (player.hasCock() && (getGame().emberScene.emberHasVagina() || drakesHeart) && (rand(2) == 0 || !player.hasVagina())) { //If hermaphrodite, the chance is 50/50.
 					output.text("rut");
 					
 					player.goIntoRut(false);

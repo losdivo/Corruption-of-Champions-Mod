@@ -9,21 +9,21 @@ package classes.Scenes.Places.Boat
 		
 		//Corrupted Marae's specials
 		public function tentacleAttack():void {
-			outputText("You spot barrage of tentacles coming your way! You attempt to dodge your way out ", false);
+			outputText("You spot barrage of tentacles coming your way! You attempt to dodge your way out ");
 			var evade:String = player.getEvasionReason();
 			if (evade == EVASION_SPEED)
 			{
-				outputText("and you successfully dodge her tentacles!", false);
+				outputText("and you successfully dodge her tentacles!");
 			}
 			else if (evade != null)
 			{
-				outputText("and you successfully dodge her tentacles thanks to your superior evasion!", false);
+				outputText("and you successfully dodge her tentacles thanks to your superior evasion!");
 			}
 			else
 			{
-				outputText("but you fail and get hit instead! The feel of the tentacles left your groin slightly warmer. ", false);
+				outputText("but you fail and get hit instead! The feel of the tentacles left your groin slightly warmer. ");
 				var damage:int = ((str + 100) + rand(50))
-				game.dynStats("lust", rand(5) + 5);
+				player.takeLustDamage(rand(5) + 5, true);
 				damage = player.reduceDamage(damage);
 				player.takeDamage(damage, true);
 			}
@@ -32,22 +32,21 @@ package classes.Scenes.Places.Boat
 		
 		public function tentacleRape():void {
 			
-			outputText("You spot barrage of tentacles coming your way! The tentacles are coming your way, aiming for your groin! ", false);
+			outputText("You spot barrage of tentacles coming your way! The tentacles are coming your way, aiming for your groin! ");
 			var evade:String = player.getEvasionReason();
 			if (evade == EVASION_SPEED)
 			{
-				outputText("You manage to successfully run from her tentacles! ", false);
+				outputText("You manage to successfully run from her tentacles! ");
 			}
 			else if (evade != null)
 			{
-				outputText("You manage to avoid her tentacles thanks to your superior evasion!", false);
+				outputText("You manage to avoid her tentacles thanks to your superior evasion!");
 			}
 			else
 			{
-				outputText("You attempt to slap away the tentacles but it's too late! The tentacles tickle your groin and you can feel your [ass] being teased! \"<i>You know you want me!</i>\" Marae giggles. ", false);
+				outputText("You attempt to slap away the tentacles but it's too late! The tentacles tickle your groin and you can feel your [ass] being teased! \"<i>You know you want me!</i>\" Marae giggles. ");
 				var lustDmg:int = (20 + rand(player.cor / 10) + rand(player.sens / 5) + rand(player.lib / 10) + rand(10)) * (player.lustPercent() / 100);
-				game.dynStats("lust", lustDmg, "resisted", false);
-				outputText("<b>(<font color=\"#ff00ff\">" + lustDmg + "</font> lust)</b>");
+				player.takeLustDamage(lustDmg, true, false);
 				
 			}
 			combatRoundOver();
@@ -66,11 +65,11 @@ package classes.Scenes.Places.Boat
 			else {
 				outputText("Without warning, the lightning hits you! Surge of electricity rushes through you painfully. ");
 				if (player.cor >= 50) outputText("The intensity of the pain is unbearable. ");
-				var damage:int = 100 + str + (player.cor * 5);
+				var damage:int = 100 + str + ((player.cor - player.corruptionTolerance()) * 5);
 				damage = player.reduceDamage(damage);
 				player.takeDamage(damage, true);
 			}
-			if (findStatusEffect(StatusEffects.Uber) >= 0) removeStatusEffect(StatusEffects.Uber);
+			if (hasStatusEffect(StatusEffects.Uber)) removeStatusEffect(StatusEffects.Uber);
 			combatRoundOver();
 		}
 		
@@ -85,9 +84,9 @@ package classes.Scenes.Places.Boat
 		}
 		
 		override public function doAI():void {
-			if (findStatusEffect(StatusEffects.Stunned) >= 0) {
-				outputText("Your foe is too dazed from your last hit to strike back!", false)
-				if (findStatusEffect(StatusEffects.Uber) >= 0) {
+			if (hasStatusEffect(StatusEffects.Stunned)) {
+				outputText("Your foe is too dazed from your last hit to strike back!")
+				if (hasStatusEffect(StatusEffects.Uber)) {
 					outputText(" You've managed to interrupt her smite attack!");
 					removeStatusEffect(StatusEffects.Uber);
 				}
@@ -96,12 +95,12 @@ package classes.Scenes.Places.Boat
 				combatRoundOver();
 				return;
 			}
-			if (findStatusEffect(StatusEffects.Fear) >= 0) {
+			if (hasStatusEffect(StatusEffects.Fear)) {
 				game.outputText("\"<i>You think I'm afraid of anything? Foolish mortal.</i>\" Marae snarls.\n\n");
 				removeStatusEffect(StatusEffects.Fear);
 			}
 			var chooser:int = rand(10);
-			if (findStatusEffect(StatusEffects.Uber) >= 0) {
+			if (hasStatusEffect(StatusEffects.Uber)) {
 				smiteHit();
 				return;
 			}

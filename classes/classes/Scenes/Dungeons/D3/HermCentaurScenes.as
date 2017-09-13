@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Dungeons.D3 
+package classes.Scenes.Dungeons.D3 
 {
 	import classes.BaseContent;
 	import classes.GlobalFlags.kFLAGS;
@@ -49,7 +49,9 @@
 			menu();
 
 			if (player.hasCock()) addButton(0, "Fuck Her", maleFuckHer);
+			else addDisabledButton(0, "Fuck Her", "This scene requires you to have cock.");
 			if (player.hasVagina()) addButton(1, "Get Fucked", femFuckHer);
+			else addDisabledButton(1, "Get Fucked", "This scene requires you to have vagina.");
 			addButton(5, "Release", letHerGo);
 			addButton(6, "Kill", killHer);
 		}
@@ -84,7 +86,7 @@
 
 			clearOutput();
 			outputText("You shrug out of your [armor] as you close with the defeated beast-woman.  Looking at her like this, she almost seems more animal than woman.  Her hundreds of pounds of muscular equine flesh twist and contort as you approach, shifting her bulk to allow you unimpeded access to either of her trembling, moist genitals.  Glancing up to her pale, freckled face, you trap her green eyes with your own and say, \"<i>" + ((player.cor > 50) ? "I'm gonna wreck it!" : "We do this my way.") + "</i>\"");
-
+			outputText(images.showImage("hermcentaur-win-male"));
 			outputText("\n\nReduced a whimpering mare, the demon-taur can do naught but eagerly nod and lift her tail at the sight of your encroaching erection");
 			if (player.cocks.length > 1) outputText("s");
 			outputText(".  [EachCock] is a hard, throbbing mess by the time you're aligned behind her, so close to her drooling gash that the waves hot, slippery heat rolling off it make [eachCock] glisten, shining dully in the light.  It feels so good that it makes your head swim, and you haven't even pushed inside that black-lipped vice yet!  Almost of their own volition, your [hips] surge forward to bury your " + player.cockDescript(y) + " into the demon's channel, a gush of fresh fluids splattering out to soak your loins as the unholy warmth shrouds your member in bliss.");
@@ -116,7 +118,7 @@
 			if (player.cumQ() >= 15000) outputText(", practically dragging her gut on the stones as she runs");
 			outputText(".  Well, she might have gotten away, but she won't be able to stop you from getting to Lethice.  Indeed, it seems she was running for the exit.");
 
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("cor+", 5);
 
 			combat.cleanupAfterCombat(getGame().dungeons.resumeFromFight)
@@ -157,20 +159,20 @@
 				outputText("\n\nA purple, roughly human-looking crown caps off this inhuman invader, though it is largely shrouded in verdant foreskin.  The tip of it rises up in front of you, waving back and forth like a snake-charmer's cobra, just inches away.  Hesitantly, you stroke the undulating shaft, pulling back the vine-skin to expose the vibrant cock-tip.  A clear bubble of precum slides from the narrow cum-slit in response, and in a moment of weakness, you give the planty prick a quick kiss.  It throbs and tries to push forward into your mouth with all the finesse of an idiot animal.  You choke off its feeble attempt with a firm grip and yank it down to your [hips], where it belongs.");
 
 				outputText("\n\nThe demon-vine immediately thrusts forward, but in its eagerness, it misses your [vagina] entirely, instead grinding along your inner thighs.  You get a steady buzz of pleasure from the contact that makes your twat wet and your body shiver.  Involuntarily, you start to rock back and forth on it, working your soaked lips over the snake-like shaft until your [clit] is hard and poking free.  A plaintive voice whines, \"<i>I can't... -AH! ...can't control it!  Lethice's tits this is good... I might have to grow some more...</i>\"");
-				if (player.clitLength >= 6) outputText(" A coil of cock loops around your gigantic buzzer, effectively frotting it like another cock and chance at protest from your lips.");
+				if (player.getClitLength() >= 6) outputText(" A coil of cock loops around your gigantic buzzer, effectively frotting it like another cock and chance at protest from your lips.");
 				else outputText(" A bend in the cock grinds against your buzzer with particular intensity, effectively robbing any chance at protest from your lips.");
 
-				outputText("\n\nIn an instant, two more vegatative pricks are unspooled from the centaur's crowded crotch to prod at your openings.  The first one unceremoniously slips past its brother's confused wriggling to pierce your [asshole].  You gasp at the suddenness of the unexpected penetration, which is all the third dick needs to find its home in your mouth.  The smooth length easily rams a solid nine or ten inches into your throat, and before you can gag, your throat tingles.  The uncomfortable reflex dies away as fast as it began, and with a happy wiggle, the two new cocks start to fuck your [face] and [butt]. Sliding deeper and deeper, the twin members pass to the point where can hear them wriggling through your guts more than feel them.");
+				outputText("\n\nIn an instant, two more vegetative pricks are unspooled from the centaur's crowded crotch to prod at your openings.  The first one unceremoniously slips past its brother's confused wriggling to pierce your [asshole].  You gasp at the suddenness of the unexpected penetration, which is all the third dick needs to find its home in your mouth.  The smooth length easily rams a solid nine or ten inches into your throat, and before you can gag, your throat tingles.  The uncomfortable reflex dies away as fast as it began, and with a happy wiggle, the two new cocks start to fuck your [face] and [butt]. Sliding deeper and deeper, the twin members pass to the point where can hear them wriggling through your guts more than feel them.");
 					player.buttChange(player.analCapacity(), true, true, false);
 
 				outputText("\n\nYou would probably be screaming at this, if you weren't effectively plugged with cock.  The first dick, the one that was grinding in such a confused manner, it pulls down, then rears up and tries again.  This time, its aim is true.  The hot, shape-shifted tool plows through your achingly hungry gates with a complete lack of skill and finesse.  Its passage does a fine job of battering the lips to either side.  The writhing tentacle seems utterly aimless its predations, slamming about your box and writhing madly");
-				if (player.clitLength >= 6) outputText(" - you swear it spends as much time caressing your [clit] as squeezing it off");
+				if (player.getClitLength() >= 6) outputText(" - you swear it spends as much time caressing your [clit] as squeezing it off");
 				outputText(".  You buck your hips, dragging the butt-piercing wang along for the ride as you start to fuck in earnest.");
 
 				player.cuntChange(player.vaginalCapacity(), true, true, false);
 
-				outputText("\n\nThe trio of tentacle dongs burrow deeper inside you with each passing moment.  Sure, they'll pull an inch or two out at a time, in some semblance of a good fucking rhythm, but they always thrust deeper and faster.  The one in your [vagina] seems intent on cramming its whole length into your womb, but your cervix steadfastly resists the intrusion.  The hard fucking soon lifts your body clear of the ground, suspending you in a web of verdant, iron-hard spears that never stop their violation of your form.");
-
+				outputText("\n\nThe trio of tentacle dongs burrow deeper inside you with each passing moment.  Sure, they'll pull an inch or two out at a time, in some semblance of a good fucking rhythm, but they always thrust deeper and faster.  The one in your [vagina] seems intent on cramming its whole length into your womb, but your cervix steadfastly resists the intrusion.  The hard fucking soon lifts your body clear of the ground, suspending you in a web of verdant, iron-hard spears that never stop their violation of your form.\n");
+				outputText(images.showImage("hermcentaur-tentacle"));
 				outputText("\n\nThe pleasure and pain thrusting through your body nearly overwhelms your other needs.  Almost...  Blackness starts to swim at the edges of your vision as the need to breathe reasserts itself.  With your heart hammering in a panic, you try thrash like a woman possessed, but it's a futile gesture.  The plant-cocks are so deep inside you they may as well be a part of you.");
 
 				outputText("\n\nJust when you resign yourself to blacking out from what started as a simple fuck, a thick bulge works down the vine, nearly dislocating your jaw, then stretching your abused throat.  Matching distentions slide up your [vagina] and [asshole], stretching both wider to handle their steadily-progressing liquid loads. The three cocks go wild at this, moving wildly within you, the parts outside waving about in crazy motions as dozens of similar bulges round out their shapes.  You cum to the feeling of cum-load after cum-load being passed into all three of your holes, and then you lose consciousness.");
@@ -189,9 +191,9 @@
 
 				outputText("\n\nThe demoness cries out, \"<i>Quit playing with it and fuck it already!</i>\"");
 
-				outputText("\n\nWell, that simply won't do.  You break from your fevered self-pleasure to punish the ungrateful bitch a few minutes.  First, you gather up a palmful of her salty puppy-cum and slather it over her shaft.  Then, you jack her off quickly, making sure to squeeze over the knot with gentle pressure each time.  However, as soon as you feel even the faintest twitch from the canine orb, you release it and wait for the swelling to go down.  The haughty centauress is soon readied into malleable fuckmeat by your skilled teases, a literal herm-bitch in heat.  ");
-
-				outputText("\n\n\"<i>P-please... just... fuck it!  Fuck me!  Anything!  Just stop teasing me, damn it!</i>\"");
+				outputText("\n\nWell, that simply won't do.  You break from your fevered self-pleasure to punish the ungrateful bitch a few minutes.  First, you gather up a palmful of her salty puppy-cum and slather it over her shaft.  Then, you jack her off quickly, making sure to squeeze over the knot with gentle pressure each time.  However, as soon as you feel even the faintest twitch from the canine orb, you release it and wait for the swelling to go down.  The haughty centauress is soon readied into malleable fuckmeat by your skilled teases, a literal herm-bitch in heat.\n");
+				outputText(images.showImage("hermcentaur-penetration"));
+				outputText("<i>P-please... just... fuck it!  Fuck me!  Anything!  Just stop teasing me, damn it!</i>\"");
 
 				outputText("\n\nSmirking, you reply, \"<i>That's more like it,</i>\" even as you shift down, letting the pointed crown of her cock finally taste the juicy vulva of your pussy.  From then on, you let your box do the talking, slowly sliding down and squeezing each freshly devoured inch with deliberate cuntractions.  The knot stops you when it presses on your labia, your unready pussy not quite ready to take it.  Small dollops of warm dick-juice slowly roll out inside you, mixing with your own copious lube as it soaks into the centaur's underfur.");
 
@@ -201,7 +203,7 @@
 
 				outputText("\n\nAt last, your frantic fucking hits the doggie-dick hard enough to pop the slowly-swelling knot inside your snatch.");
 				player.cuntChange(player.vaginalCapacity() * 1.2, true, true, false);
-				outputText("  The pleasure of being so fully stretched is enough to overwhelm any pain at such an act, and you switch over to smaller, faster strokes the leave most of the animal-cock inside you.  Bouncing atop the centaur's balls with a dopey grin on your [face], you sigh and moan.  This is how you're going to take down these demons, one fuck at a time!  The thought gives your " + player.skin() + " a fresh flush, and you pinch your nipple while imaging mounting a demon queen atop an orgy of her defeated lieutenants.");
+				outputText("  The pleasure of being so fully stretched is enough to overwhelm any pain at such an act, and you switch over to smaller, faster strokes the leave most of the animal-cock inside you.  Bouncing atop the centaur's balls with a dopey grin on your [face], you sigh and moan.  This is how you're going to take down these demons, one fuck at a time!  The thought gives your [skin] a fresh flush, and you pinch your nipple while imaging mounting a demon queen atop an orgy of her defeated lieutenants.");
 
 				outputText("\n\nInside you, the knot stretches, interrupting your daydreams with its orgasm.  By the time you react, it's already dilated your cunt obscenely, rounding it into more of a sphere than a passage.  A second after, you feel the first splashes of dog-jizz spurting into your tunnel.  The first gushes of sperm effectively flood the love-canal, and those that follow just force the sealed juices deeper inside you, into your womb.  The heavy balls in your hand expand mid-orgasm, nearly doubling in size.  The taut scrotum skin is forced to stretch drum-tight while the prodigious orbs swell, the whole time somehow still pumping cum inside you.");
 
@@ -224,13 +226,12 @@
 				outputText("\n\nA remarkably masculine scent emanates the cock or its copious pre-cum, filling your nostrils with the musky, groin-lubricating scent.  Your [vagina] drenches itself in anticipation as you give the horse-cock a slow hand-job, painting it with its own juices.  Without meaning to, you lean in closer for another sniff and wind up giving the fat flare a slow lick, swallowing the bubble of jizz it deposits on your tongue unthinkingly.  The cock pulsates happily in your grip as if thanking you for the kiss, and you decide to play with it for just a little longer.");
 
 				outputText("\n\nLooking at the fold of skin that is the beast's sheath, you curiously begin to probe at it, sliding your fingers under the warm cock-blanket to feel the whole of the centaur's member.  The action intensifies the crotch-dampening scent that's working to soak your [legs], and with a dopey grin in your face, you shift one hand back to your [vagina], making sure to diddle your soaking clit on the way.");
-				if (player.clitLength >= 6) outputText(" The hard, feminine pole twitches nicely at your touch, a far more sensitive rod than any cock.");
+				if (player.getClitLength() >= 6) outputText(" The hard, feminine pole twitches nicely at your touch, a far more sensitive rod than any cock.");
 				outputText(" Your fingers sink into your gash with ease and set to work with ease.  Of course, they're soaked in a second.");
-
 				outputText("\n\nWith your other hand, you jack off the horse-cock from inside its sheath, reveling in the delicious pheromones as you fellate the flaring cock-head.  They make you feel a little dizzy, but then you open your mouth wider and slide the wide, outstretching crown through your lips, fanning your tongue along the underside at your maximum speed.  The balls beneath the turgid shaft bob ominously, and you figure as big as they are, you can let the pony blow off a little 'steam' before you take it for a ride.  You delicately caress the sensitive, sheath-bound underside of the cock while assaulting the crown with suckling licks, working the beast into a pleasured frenzy.");
 
-				outputText("\n\nThe expanding head opens your jaw to your limits just in time to blast a hot wad of cum onto your tongue and throat with tremendous force.  You happily swallow, it, savoring the slightly salty taste of the demon's horse-jism as it paints your mouth white.  Pumping her on her shaft and your cooch, you milk her slick dick expertly even while your fingers are working your sopping box into a climax of its own.  You gurgle out a moan from the pleasure, but somehow manage to stifle it and go back to swallowing down the alabaster juices, lest you drown.  Eventually the explosion of spooge over-pressurizes your maw, back-blasting the outstretched horse-dong free from its oral imprisonment to erupt unrestrained, gushing whiteness into your [hair] and face.");
-
+				outputText("\n\nThe expanding head opens your jaw to your limits just in time to blast a hot wad of cum onto your tongue and throat with tremendous force.  You happily swallow, it, savoring the slightly salty taste of the demon's horse-jism as it paints your mouth white.  Pumping her on her shaft and your cooch, you milk her slick dick expertly even while your fingers are working your sopping box into a climax of its own.  You gurgle out a moan from the pleasure, but somehow manage to stifle it and go back to swallowing down the alabaster juices, lest you drown.  Eventually the explosion of spooge over-pressurizes your maw, back-blasting the outstretched horse-dong free from its oral imprisonment to erupt unrestrained, gushing whiteness into your [hair] and face.\n");
+				outputText(images.showImage("hermcentaur-penetration"));
 				outputText("\n\nWiping the showing spunk from your eyes, you give the throbbing member an affectionate pat, which only succeeds in coating your hand with a fresh layer of gooey glaze.  The centauress breathily exhales a satisfied sigh, at least, until you give her scrotum another encouraging squeeze.  Her flagging erection surges back to rock-hard life, and you quickly pivot, aligning the swollen tip with your ever-hungry muff.  Pressing back at it, you try to impale yourself upon the bestial girth but find it still thicker than you can easily handle.");
 
 				outputText("\n\nYou're not going to give up that easy!  The dick presses harder against your [vagina] as you shift your body weight into it, the rubbery flesh of the flare flexing as it starts to part your lips at last.  Grunting, you try to relax, hoping it will ease the penetration, and to your delight, it does.  The veiny shaft pops into your waiting folds with surprising easy once the crown is inside you, sinking deeply into the well of feminine fluids.  You give up an unlady-like scream of pleasure at the feel of being filled so fully, that wonderful thick tip massaging every nerve ending along your walls as it plows deeper.");
@@ -244,7 +245,7 @@
 				outputText("\n\nYou nervelessly slide off the pole into the ground, earning a fresh bukkake of creamy cum to plaster your " + player.skinFurScales() + ".  While you recover, your demonic lover's bulk shifts away, and you soon here the telltale clopping of her moving away.  It sounds like she's heading towards the south - the exit.  You missed your chance to do anything about that demon...");
 			}
 
-			player.orgasm();
+			player.orgasm('Vaginal');
 			dynStats("cor+", 5);
 			player.knockUp(PregnancyStore.PREGNANCY_IMP, PregnancyStore.INCUBATION_IMP);
 			menu();
@@ -313,13 +314,13 @@
 			outputText("\n\nThe tainted centaur pulls you back even as your lips stretch forward in desperation, but at last, you pop off the nipple, disappointed.  She tilts your head to look up at her green eyes and glittering, black horn.  She's a terrible demon, a beautiful maiden, and a monstrously large, giant-like centaur, all at once.  You pant, whining with your exhalations until she gently releases you.  Flopping down nervelessly, you catch yourself before you smack off the hard stone.  You rise up again, ready to fuck, only to come up into a face full of slime-lubed horse-cunt.");
 
 			outputText("\n\nThe warm, rubbery lips squish down wetly as your nose slips between them, nestled deeply into that moist, bestial crevasse.  Runnels of slick fluid soak the whole of your " + player.face() + " and drip from your chin in thick ribbons.  At first, this shocks you, but as soon as you realize what's going on, you do as expected an open up to taste her wetness.  She's hot, practically steaming, and her hard nub is a deliciously wet, throbbing target for your questing tongue to squeeze up to.  You lash your mouth-muscle across the sensitive buzzer, orally spanking it while you wiggle your face and lips to caress the sensitive entrance.  Just as you finally start to get into it, the giant, hot hole pulls away, joined to you only by glimmering bands of lady-spunk that soon snap.");
-
+			
 			outputText("\n\nTurning around, the demoness gives you a knowing smile even as she deigns to caress your woman-soaked visage with surprisingly gentle fingers.  She commands, \"<i>Present yourself, my sweet little filly.</i>\"  You do so without question, shaking like a leaf in the wind with anticipation.  By now, your copious drippings have turned your quivering [legs] in a glossy mess, soaked in liquid, feminine arousal that only entices your mistress to clop closer as you lift your [butt] high and make your [vagina] ready to be taken.  You grab hold of nearby stones with trembling fingers and fearfully look back over your shoulder as the nine-foot equine monstrosity's shadow looms closer.");
 
 			if (player.isPregnant()) outputText("\n\nA tingle runs through your belly as something changes, and a powerful voice smirks, \"<i>One of my other mares will finish bearing that runt for you.  Now, that fertile womb belongs to ME.</i>\"  You... you're no longer pregnant!");
 
-			outputText("\n\nShaggy, fur-shrouded hooves stamp down to either side of your hands.  You can see the powerful muscles that drive her massive body above you, shifting beautifully under her fur-clad skin while she positions herself properly.  Her scent, still clinging to your nose and mouth and characteristic stubbornness, only grows stronger in her direct presence, mixed with a salty, masculine musk that radiates from the throbbing shaft above and behind.  Drops of her liquid desire spatter off your [butt], fairly sizzling with the heat of her need, and you feed the flared head tip lower to smear the white goop across your crack and down your lips.  You shake and nearly fall from the avalanche of pleasure, but somehow, you hold your pussy up, craving the cream filling it's so eager for.");
-
+			outputText("\n\nShaggy, fur-shrouded hooves stamp down to either side of your hands.  You can see the powerful muscles that drive her massive body above you, shifting beautifully under her fur-clad skin while she positions herself properly.  Her scent, still clinging to your nose and mouth and characteristic stubbornness, only grows stronger in her direct presence, mixed with a salty, masculine musk that radiates from the throbbing shaft above and behind.  Drops of her liquid desire spatter off your [butt], fairly sizzling with the heat of her need, and you feed the flared head tip lower to smear the white goop across your crack and down your lips.  You shake and nearly fall from the avalanche of pleasure, but somehow, you hold your pussy up, craving the cream filling it's so eager for.\n");
+			outputText(images.showImage("hermcentaur-penetration"));
 			outputText("\n\n\"<i>Hold... still,</i>\" the demon grumbles as she fidgets, steel-shod feet cracking noisily against the pave-stones.  Her flat tip batters up against a different part of your anatomy with near bruising force every time she tries to hit your target, but she's as awkward as the beasts her lower body resembles.  You nearly scream in surprise when she smashes it into your [asshole], but thankfully, the heavy head is withdrawn, searching for more fertile pastures.  Again, she tries to spear your pussy, but misses, sliding beneath and glossing your [clit] with a heavy coating of horse-slime.");
 
 			outputText("\n\nA hand reaches down to grab your " + player.hairDescript() + " and pull back sharply.  \"<i>Stay... put...</i>\" its owner pants.  You have been staying put!  At least, when you haven't been shaking with barely-contained need.  The angle is somewhat painful, flexing your spine into a dangerous arch even as the force of her tug shoots needles of discomfort into your abused crown.  Then, the horse-like lower body steps forward, and you're seeing stars and smiling dopily. The flared head smashed into your semi-stretched pussy for only the briefest moment before its body's momentum carried it through your entrance and deep into your canal.  Even now, you can feel the medial ring thrumming with each beat of the centaur's heart, just inside your entrance while the fat tip butts up against your cervix.");
@@ -346,6 +347,7 @@
 		private function femLossII():void
 		{
 			clearOutput();
+			outputText(images.showImage("badend-hermcentaur"));
 			outputText("Later, you wake when something hard digs into your back, and as you crack your eyes open, the first thing you see is a set of equine hindquarters and prodigiously large testes.  Your next realization is that you're moving... not just moving, being dragged!  You glance downward and see that you're joined with the centauress once again, only this time, you can't see any distortion in your middle.  Your belly is stuffed so full of cum that you can't see the fleshy spear, but you can certainly feel it.  It's different now... narrower at the tip, but obscenely bloated at the base.  Even now, you can feel it stretching you to your limits to make a tight seal and slowly leaking a fresh river of jism to assault your ovaries.");
 
 			outputText("\n\nThe demon has you knotted on a giant dog-cock!  When did she get one of those!?  You gasp in surprise, pain, and pleasure in equal measure.  She hears you and looks over her shoulder, still slowly walking, and she smiles as she says, \"<i>Welcome back.  I'm just taking you to your stall and making sure my devilish little children get a proper foothold in your womb.  Relax and enjoy - we'll get you fixed up once you're secured in your stall.</i>\"");
@@ -359,6 +361,7 @@
 		private function femLossIII():void
 		{
 			clearOutput();
+			outputText(images.showImage("badend-impbirth"));
 			outputText("<b>Months later...</b>");
 
 			outputText("\n\nYou sigh as your latest litter of imps clamor around your nipples, hungry for their mother's milk.  They're such greedy, ceaselessly ravenous creatures.  Having their clutching mouths on your nipples all the time makes it so hard to sleep, and it doesn't help that the 'father' insists on rutting with you and knotting you for hours until she's 'sure' your pregnant.");

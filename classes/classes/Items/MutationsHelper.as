@@ -126,7 +126,7 @@ package classes.Items
 				          +" and the dry breeze on your exposed nerves."
 				          +"  Reflexively, your legs cling together to protect as much of their now-sensitive surface as possible."
 				          +"  When you try to part them, you find you cannot."
-				          +"  Several minutes pass uncomforably until you can again bend your legs,"
+				          +"  Several minutes pass uncomfortably until you can again bend your legs,"
 				          +" and when you do, you find that all the legs of a side bend together.");
 				outputText("  <b>You have human legs again.</b>");
 				doRestore = true;
@@ -148,19 +148,139 @@ package classes.Items
 			return false;
 		}
 
+		public function restoreNeck(tfSource:String):Boolean
+		{
+			trace('called restoreNeck("' + tfSource + '")');
+			var tsParts:Array = tfSource.split("-");
+			if (tsParts.length > 1 && tsParts[0] != "reptilum") // probably later dracolisks would get an elongated neck, too (shorter than the dragon version)
+				tfSource = tsParts[0];
+
+			var forceRestore:Boolean = tsParts.indexOf("forceRestoreNeck") != -1;
+
+			switch (player.neck.type) {
+				case NECK_TYPE_DRACONIC:
+					if (tfSource == "EmberTFs" || (!forceRestore && player.dragonScore() >= 11))
+						return false;
+
+					outputText("\n\n<b>Your draconic neck[if (neckPos) and its position on your head revert|reverts] to its normal"
+					          +" [if (neckPos)position and] length.</b> ");
+					break;
+
+				case NECK_TYPE_COCKATRICE:
+					if (tfSource == "TonOTrice" || (!forceRestore && player.cockatriceScore() >= 7))
+						return false;
+
+					outputText("\n\nYou neck starts to tingle and the feathers that decorate your neck begin to fall out until"
+					          +" <b>you're left with a normal neck!</b>");
+					break;
+
+				default:
+					player.neck.restore(); // Restore leftovers. Failsafe!
+					return false;
+			}
+
+			if (!forceRestore) changes++;
+			player.neck.restore();
+			return true;
+		}
+
+		public function restoreRearBody(tfSource:String):Boolean
+		{
+			trace('called restoreRearBody("' + tfSource + '")');
+			var tsParts:Array = tfSource.split("-");
+			tfSource = tsParts[0];
+
+			var forceRestore:Boolean = tsParts.indexOf("forceRestoreRearBody") != -1;
+
+			switch (player.rearBody.type) {
+				case REAR_BODY_SHARK_FIN:
+					if (tfSource == "sharkTooth" || (!forceRestore && player.sharkScore() >= 3))
+						return false;
+
+					outputText("A wave of tightness spreads through your back, and it feels as if someone is stabbing a dagger into your spine."
+					          +" After a moment the pain passes, though your fin is gone!");
+					break;
+
+				case REAR_BODY_DRACONIC_MANE:
+				case REAR_BODY_DRACONIC_SPIKES:
+					if (tfSource == "EmberTFs" || (!forceRestore && player.dragonScore() >= 11))
+						return false;
+
+					if (player.rearBody.type == REAR_BODY_DRACONIC_MANE)
+						outputText("\n\nYou feel a tingling just above your spine. Your glimpse at your back and see hair falling down from it."
+						          +" First in strands, then in bigger and bigger chunks until"
+						          +" <b>your hairy draconic mane has completely disappeared.</b>");
+					else
+						outputText("\n\nYour spine starts to make painful cracking sounds and you feel something retracting back into your rear."
+						          +" Soon after the pain ceased the skin above your spine fuses and closes the holes where your spikes once were."
+						          +" <b>The spikes on your rear have disappeared.</b>");
+					break;
+
+				default:
+					player.rearBody.restore();
+					return false;
+			}
+
+			if (!forceRestore) changes++;
+			player.rearBody.restore();
+			return true;
+		}
+
 		public function removeFeatheryHair():Boolean
 		{
 			if (changes < changeLimit && player.hairType == HAIR_FEATHER && rand(4) == 0) {
 				//(long):
-				if (player.hairLength >= 6) outputText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal strand of hair.  <b>Your hair is no longer feathery!</b>", false);
+				if (player.hairLength >= 6) outputText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal strand of hair.  <b>Your hair is no longer feathery!</b>");
 				//(short)
-				else outputText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into strands of regular hair.  <b>Your hair is no longer feathery!</b>", false);
+				else outputText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into strands of regular hair.  <b>Your hair is no longer feathery!</b>");
 				player.hairType = HAIR_NORMAL;
 				changes++;
 				return true;
 			}
 
 			return false;
+		}
+
+		/**
+		 * Removes antennae and display different loss texts depending on the type, if any.
+		 * @param	inline  If true, display a short inline text (No bold part, no line breaks)
+		 * @return	true:   lost them, false: no change
+		 * @author	Stadler76
+		 */
+		public function removeAntennae(inline:Boolean = false):Boolean
+		{
+			if (player.antennae == ANTENNAE_NONE)
+				return false;
+
+			if (inline) {
+				switch (player.antennae) {
+					case ANTENNAE_COCKATRICE:
+					case ANTENNAE_BEE:
+					default:
+						outputText(" Antennae pop free, and float lightly down towards the floor. ");
+				}
+			} else {
+				switch (player.antennae) {
+					case ANTENNAE_COCKATRICE:
+						outputText("\n\nYou feel your antennae like feathers shrivel at the root, the pair of soft quills falling softly to the"
+						          +" ground as your pores close.");
+						outputText("\n<b>You’ve lost your antennae like feathers!</b>");
+						break;
+
+					case ANTENNAE_BEE:
+						outputText("\n\nYour [hair] itches so you give it a scratch, only to have your antennae fall to the ground. What a relief.");
+						outputText("\n<b>You've lost your antennae!</b>");
+						break;
+
+					default: // should not happen, but just in case ... (Stadler76)
+						outputText("\n\nThe muscles in your brow clench tightly, and you feel a tremendous pressure on your upper forehead."
+						          +" When it passes, you touch yourself and discover <b>your antennae have vanished</b>!");
+				}
+			}
+
+			player.antennae = ANTENNAE_NONE;
+			changes++;
+			return true;
 		}
 
 		public function removeBassyHair():Boolean
@@ -196,23 +316,37 @@ package classes.Items
 			return true;
 		}
 
-		public function newLizardSkinTone():String
+		public function newLizardSkinTone():Array
 		{
 			if (rand(10) == 0) {
 				//rare skinTone
-				return rand(2) == 0 ? "purple" : "silver";
+				return rand(2) == 0 ? ["purple", "deep pink"] : ["silver", "light gray"];
 			}
 
 			//non rare skinTone
 			switch (rand(5)) {
-				case 0: return "red";
-				case 1: return "green";
-				case 2: return "white";
-				case 3: return "blue";
-				case 4: return "black";
+				case 0: return ["red", "orange"];
+				case 1: return ["green", "yellow green"];
+				case 2: return ["white", "light gray"];
+				case 3: return ["blue", "ocean blue"];
+				case 4: return ["black", "dark gray"];
 			}
 
-			return "invalid"; // Will never happen. Suppresses 'Error: Function does not return a value.'
+			return ["invalid", "invalid"]; // Will never happen. Suppresses 'Error: Function does not return a value.'
+		}
+
+		public function newCockatriceColors():Array
+		{
+			var cockatriceColors:Array = [
+				["blue",   "turquoise", "blue"],
+				["orange", "red",       "orange"],
+				["green",  "yellow",    "green"],
+				["purple", "pink",      "purple"],
+				["black",  "white",     "black"],
+				["blonde", "brown",     "blonde"],
+				["white",  "grey",      "white"],
+			];
+			return randomChoice(cockatriceColors);
 		}
 
 		public function updateClaws(clawType:int = CLAW_TYPE_NORMAL):String
@@ -272,10 +406,10 @@ package classes.Items
 
 				case "PlayerEvents-benoitHairPin":
 				case "reptilum-basilisk":
-				case "reptilum-dracolisk":
-					if (player.hairType == HAIR_BASILISK_PLUME && player.cor < 65) return 0;
+				case "reptilum-dracolisk": //never 4get the basilisk hair discourse of may 2017
+					if (player.hairType == HAIR_BASILISK_PLUME && player.cor < Math.max(20, (65 - player.corruptionTolerance()))) return 0;
 
-					if (player.isFemaleOrHerm() && player.cor < 15 && player.featheryHairPinEquipped() && player.isBasilisk()) {
+					if (player.isFemaleOrHerm() && player.cor < Math.max(80, (15 + player.corruptionTolerance())) && player.featheryHairPinEquipped() && player.isBasilisk()) {
 						var benoitMFText:String = getGame().bazaar.benoit.benoitMF(
 							" your hair has changed into a plume of feathers that, like legend is told, belongs to a female basilisk!",
 							" you have a plume, like a female basilisk!"
@@ -304,7 +438,7 @@ package classes.Items
 						return 1; // --> gained basilisk hair (plume)
 					}
 
-					if (player.cor >= 65 && player.hairType != HAIR_BASILISK_SPINES && player.hasLizardScales() && player.hasReptileFace()) {
+					if (player.cor >= Math.max(80, (65 + player.corruptionTolerance())) && player.hairType != HAIR_BASILISK_SPINES && player.hasLizardScales() && player.hasReptileFace()) {
 						// Corrupted Basilisk
 						if (player.hairLength > 0 && [HAIR_GOO, HAIR_BASILISK_PLUME].indexOf(player.hairType) == -1) {
 							output.text("\n\nYour scalp feels tight and hot, causing you to run a hand through your [hair] to rub at it gingerly.");
@@ -426,6 +560,7 @@ package classes.Items
 
 				case "reptilum":
 				case "echidnaTFs":
+				case "TonOTrice":
 					if (player.findPerk(PerkLib.Oviposition) >= 0) return 0;
 					outputText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly."
 					          +"  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
@@ -477,7 +612,7 @@ package classes.Items
 						output.text("\n\nYou feel your gills tighten, the slits seeming to close all at once. As you let out a choked gasp your"
 						           +" gills shrink into nothingness, leaving only smooth skin behind. When you think it's over you feel something"
 						           +" emerge from under your neck, flowing down over your chest and brushing your nipples. You look in surprise as"
-						           +" your new feathery gills finish growing out, a film of mucus forming over them shoftly after.");
+						           +" your new feathery gills finish growing out, a film of mucus forming over them shortly after.");
 					} else { // if no gills
 						output.text("\n\nYou feel a pressure in your lower esophageal region and pull your garments down to check the area."
 						           +" Before your eyes a pair of feathery gills start to push out of the center of your chest,"
@@ -490,14 +625,14 @@ package classes.Items
 
 				case GILLS_FISH:
 					if (oldgillType == GILLS_ANEMONE) {
-						output.text("\n\nYou feel your gills tingle, a vague numbness registering across thier feathery exterior. You watch in awe as"
+						output.text("\n\nYou feel your gills tingle, a vague numbness registering across their feathery exterior. You watch in awe as"
 						           +" your gill's feathery folds dry out and fall off like crisp autumn leaves. The slits of your gills then"
 						           +" rearrange themselves, becoming thinner and shorter, as they shift to the sides of your neck. They now close in"
 						           +" a way that makes them almost invisible. As you run a finger over your neck you feel little more than several"
 						           +" small raised lines where they meet your skin.");
 					} else { // if no gills
 						output.text("\n\nYou feel a sudden tingle on your neck. You reach up to it to feel, whats the source of it. When you touch"
-						           +" your neck, you feel that it begins to grow serveral narrow slits which slowly grow longer. After the changes"
+						           +" your neck, you feel that it begins to grow several narrow slits which slowly grow longer. After the changes"
 						           +" have stopped you quickly head to a nearby puddle to take a closer look at your neck. You realize,"
 						           +" that your neck has grown gills allowing you to breathe under water as if you were standing on land.");
 					}

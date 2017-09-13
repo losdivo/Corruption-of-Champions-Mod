@@ -5,7 +5,9 @@ package classes.Scenes.Camp
 	import classes.GlobalFlags.kGAMECLASS;
 	import classes.GlobalFlags.kACHIEVEMENTS;
 	import classes.BaseContent;
-	
+import classes.Scenes.API.Encounter;
+import classes.Scenes.API.Encounters;
+
 	import classes.Scenes.NPCs.*;
 	import classes.Scenes.Camp;
 	
@@ -52,11 +54,22 @@ package classes.Scenes.Camp
 		//------------
 		// HARVESTING
 		//------------
+		private var _forestEncounter:Encounter=null;
+		public function get forestEncounter():Encounter {
+			return _forestEncounter ||= Encounters.build({
+				name: "lumber",
+				call: gatherWoods,
+				when: function ():Boolean {
+					return (flags[kFLAGS.CAMP_CABIN_PROGRESS] >= 4 || player.hasKeyItem("Carpenter's Toolbox") >= 0)
+						   && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] < maxWoodSupply();
+				}
+			});
+		}
 		public function gatherWoods():void {
 			combat.cleanupAfterCombat();
 			outputText("While exploring the forest, you survey the trees. The trees are at the right thickness. You could cut down the trees. \n\n");
 			menu();
-			if (player.fatigue > player.maxFatigue() - 30) {
+			if (player.fatigueLeft() < 30) {
 				outputText("<b>You are too tired to consider cutting down the trees. Perhaps some rest will suffice?</b>");
 				doNext(camp.returnToCampUseOneHour);
 				return;
@@ -322,8 +335,8 @@ package classes.Scenes.Camp
 			//NPC comments, WIP
 			//if (kGAMECLASS.amilyScene.amilyFollower() && flags[kFLAGS.AMILY_FOLLOWER] == 1) outputText("\"<i>PLACEHOLDER</i>\" Amily asks. \n\n");
 			outputText("You start to construct a wooden frame according to the instructions. Using your hammer and nails, you put the wood frame together and put it up. You then add temporary supports to ensure it doesn't fall down. You make two more frames of the same shape. Lastly, you construct one more frame, this time the frame is designed to have door and window.\n\n");
-			if (player.findStatusEffect(StatusEffects.CampRathazul) >= 0) outputText("\"<i>My, my. What are you building?</i>\" Rathazul asks. \n\n");
-			if (player.findStatusEffect(StatusEffects.PureCampJojo) >= 0) outputText("\"<i>You're building something?</i>\" Jojo asks. \n\n");
+			if (player.hasStatusEffect(StatusEffects.CampRathazul)) outputText("\"<i>My, my. What are you building?</i>\" Rathazul asks. \n\n");
+			if (player.hasStatusEffect(StatusEffects.PureCampJojo)) outputText("\"<i>You're building something?</i>\" Jojo asks. \n\n");
 			if (camp.marbleFollower()) outputText("\"<i>Sweetie, you're building a cabin? That's nice,</i>\" Marble says. \n\n");
 			if (camp.companionsCount() > 0) outputText("You announce that yes, you're building a cabin.\n\n");
 			//End of NPC comments
@@ -352,7 +365,7 @@ package classes.Scenes.Camp
 			outputText("Now that you have a solid foundation in place, it’s time to raise the walls and the roof. This is going to take a lot of nails, probably as much as the toolbox can carry. You’ll also need quite a bit of wood, around 75 units of it if your math is right.\n\n");
 			outputText("You know this is going to be a long, hard day of work.\n\n");
 			outputText("You’re going to need some paint too, for protection.\n\n");
-			outputText("Raise walls and the roof?");
+			outputText("Raise walls and the roof?\n\n");
 			checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox")) {
 				if (player.keyItemv1("Carpenter's Toolbox") >= 200 && flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] >= 75){
@@ -436,7 +449,7 @@ package classes.Scenes.Camp
 		//Stage 9 - Build cabin part 4 - Install flooring.
 		private function buildCabinPart4():void {
 			clearOutput();
-			outputText("You can continue working on your cabin. Do you start work on installing flooring for your cabin? (Cost: 200 nails and 50 wood.)\n"); //What about adding few stones here additionaly? 50 maybe?
+			outputText("You can continue working on your cabin. Do you start work on installing flooring for your cabin? (Cost: 200 nails and 50 wood.)\n\n"); //What about adding few stones here additionaly? 50 maybe?
 			checkMaterials();
 			if (player.hasKeyItem("Carpenter's Toolbox"))
 			{

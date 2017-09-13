@@ -65,7 +65,7 @@ package classes.Scenes.Areas.HighMountains
 				if (player.armorDef > 0) outputText(", but your defense has been reduced");
 				outputText("! ");
 				player.takeDamage(damage, true);
-				if (findStatusEffect(StatusEffects.TailWhip) >= 0) addStatusValue(StatusEffects.TailWhip, 1, 10);
+				if (hasStatusEffect(StatusEffects.TailWhip)) addStatusValue(StatusEffects.TailWhip, 1, 10);
 				else createStatusEffect(StatusEffects.TailWhip, 10, 0, 0, 0);
 			}
 			combatRoundOver();
@@ -123,7 +123,7 @@ package classes.Scenes.Areas.HighMountains
 		private function bootyShortInYoFaceSon():void
 		{
 			outputText("The blue beauty turns around and bends over so far that she uses her halberd like a pole to support herself.  She lifts her shark tail up so you can see her short-shorts hugging perfectly against her ample bottom.  Her tail waves to the left and to the right as she does a little booty shake for you.  The siren gives her big ass a nice, hard slap that echoes off the tower walls, and making it jiggle even more.  She quickly turns around to face you, smirking at what she just did. ");
-			game.dynStats("lus", 20 + player.lib / 10 + rand(5));
+			player.takeLustDamage(20 + player.lib / 10 + rand(5), true);
 			combatRoundOver();
 		}
 
@@ -132,7 +132,7 @@ package classes.Scenes.Areas.HighMountains
 		private function lickDatPole():void
 		{
 			outputText("Minerva stands, holding her halberd straight up next to her as she looks it over with a seductive stare.  Giving you a suggestive look she rolls out a two-foot long tongue from her mouth, licking a good length of the massive weapon, even wrapping her tongue around it a few times.  Suddenly she sucks her tongue back into her mouth and gives you a little smirk, almost to say \"<i>Yeah, I can do that... and more.</i>\" ");
-			game.dynStats("lus", 20 + player.lib / 10 + rand(5));
+			player.takeLustDamage(20 + player.lib / 10 + rand(5), true);
 			combatRoundOver();
 		}
 
@@ -141,7 +141,7 @@ package classes.Scenes.Areas.HighMountains
 		{
 			//The Siren's Song (2-part attack) (Rarely used or when she's desperate aka: Less than 10% hp)
 			//[part 1]
-			if (findStatusEffect(StatusEffects.SirenSong) < 0) {
+			if (!hasStatusEffect(StatusEffects.SirenSong)) {
 				outputText("Minerva begins to hum a pleasant tune.  It might be better to stand back to see what she's up to!");
 				createStatusEffect(StatusEffects.SirenSong, 0, 0, 0, 0);
 			}
@@ -162,7 +162,7 @@ package classes.Scenes.Areas.HighMountains
 
 		override protected function performCombatAction():void
 		{
-			if (findStatusEffect(StatusEffects.SirenSong) >= 0) sirensSong();
+			if (hasStatusEffect(StatusEffects.SirenSong)) sirensSong();
 			else if (rand(25) == 0 || (HP < 100 && rand(2) == 0)) sirensSong();
 			//Else choose randomly!
 			else {

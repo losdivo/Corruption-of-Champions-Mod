@@ -1,7 +1,8 @@
-package classes 
+package classes
 {
 	import classes.GlobalFlags.*;
 	import coc.view.MainView;
+	import coc.view.StatsView;
 	import flash.display.StageQuality;
 	import flash.text.TextFormat;
 	/**
@@ -10,9 +11,9 @@ package classes
 	 */
 	public class GameSettings extends BaseContent
 	{
-		
+
 		public function GameSettings() {}
-		
+
 		public function settingsScreenMain():void
 		{
 			kGAMECLASS.saves.savePermObject(false);
@@ -44,12 +45,12 @@ package classes
 		public function settingsScreenGameSettings():void {
 			clearOutput();
 			displayHeader("Gameplay Settings");
-			
+
 			if (flags[kFLAGS.HARDCORE_MODE] > 0) outputText("<font color=\"#ff0000\">Hardcore mode is enabled. Cheats are disabled.</font>\n\n");
 
 			if (debug) outputText("Debug Mode: <font color=\"#008000\"><b>ON</b></font>\n Items will not be consumed by use, fleeing always succeeds, and bad-ends can be ignored.");
 			else outputText("Debug Mode: <font color=\"#800000\"><b>OFF</b></font>\n Items consumption will occur as normal.");
-			
+
 			outputText("\n\n");
 			switch(flags[kFLAGS.GAME_DIFFICULTY]) {
 				case 0:
@@ -72,17 +73,22 @@ package classes
 			else outputText("Easy Mode: <font color=\"#800000\"><b>OFF</b></font>\n Bad-ends can ruin your game and combat is challenging.");
 
 			outputText("\n\n");*/
-			
-			outputText("\n\n");
-			
-			if (flags[kFLAGS.SILLY_MODE_ENABLE_FLAG]) outputText("Silly Mode: <font color=\"#008000\"><b>ON</b></font>\n Crazy, nonsensical, and possibly hilarious things may occur.");
-			else outputText("Silly Mode: <font color=\"#800000\"><b>OFF</b></font>\n You're an incorrigable stick-in-the-mud with no sense of humor.");
 
 			outputText("\n\n");
-			
+
+			if (flags[kFLAGS.SILLY_MODE_ENABLE_FLAG]) outputText("Silly Mode: <font color=\"#008000\"><b>ON</b></font>\n Crazy, nonsensical, and possibly hilarious things may occur.");
+			else outputText("Silly Mode: <font color=\"#800000\"><b>OFF</b></font>\n You're an incorrigible stick-in-the-mud with no sense of humor.");
+
+			outputText("\n\n");
+
+			if (flags[kFLAGS.PRISON_ENABLED] == false) outputText("Prison: <font color=\"#008000\"><b>OFF</b></font>\nThe prison cannot be accessed.");
+			else outputText("Prison: <font color=\"#800000\"><b>ON</b></font>\nThe prison can be accessed. WARNING: The prison is very buggy and may break your game. Enter it at your own risk!");
+
+			outputText("\n\n");
+
 			outputText("<b>The following flags are not fully implemented yet (e.g. they don't apply in <i>all</i> cases where they could be relevant).</b>\n");
 			outputText("Additional note: You <b>must</b> be <i>in a game session</i> (e.g. load your save, hit \"Main Menu\", change the flag settings, and then hit \"Resume\") to change these flags. They're saved into the saveGame file, so if you load a save, it will clear them to the state in that save.");
-			
+
 			outputText("\n\n");
 
 			if (flags[kFLAGS.LOW_STANDARDS_FOR_ALL]) outputText("Low standards Mode: <font color=\"#008000\"><b>ON</b></font>\n NPCs ignore body type preferences. \n (Not gender preferences though. You still need the right hole.)");
@@ -92,19 +98,19 @@ package classes
 
 			if (flags[kFLAGS.HYPER_HAPPY]) outputText("Hyper Happy Mode: <font color=\"#008000\"><b>ON</b></font>\n Only reducto and humus shrink endowments. \n Incubus draft doesn't affect breasts, and succubi milk doesn't affect cocks.");
 			else outputText("Hyper Happy Mode: <font color=\"#800000\"><b>OFF</b></font>\n Male enhancement potions shrink female endowments, and vice versa.");
-				
-			outputText("\n\n");		
-				
+
+			outputText("\n\n");
+
 			if (flags[kFLAGS.SFW_MODE] >= 1) outputText("SFW Mode: <font color=\"#008000\"><b>ON</b></font>\n Sex scenes are disabled and adult materials are hidden.");
 			else outputText("SFW Mode: <font color=\"#800000\"><b>OFF</b></font>\n Sex scenes are enabled.");
-				
+
 			outputText("\n\n");
-				
+
 			if (flags[kFLAGS.WATERSPORTS_ENABLED] >= 1 && flags[kFLAGS.SFW_MODE] <= 0) outputText("Watersports: <font color=\"#008000\"><b>Enabled</b></font>\n Watersports scenes are enabled. (You kinky person)");
 			else outputText("Watersports: <font color=\"#800000\"><b>Disabled</b></font>\n Watersports scenes are disabled.");
-				
+
 			outputText("\n\n");
-			
+
 			if (flags[kFLAGS.AUTO_LEVEL] >= 1) outputText("Automatic Leveling: <font color=\"#008000\"><b>ON</b></font>\n Leveling up is done automatically once you accumulate enough experience.");
 			else outputText("Automatic Leveling: <font color=\"#800000\"><b>OFF</b></font>\n Leveling up is done manually.");
 
@@ -117,11 +123,15 @@ package classes
 			addButton(2, "Silly Toggle", toggleSillyFlag, null, null, null, "Toggles silly mode. Funny, crazy and nonsensical scenes may occur if enabled.");
 			addButton(3, "Low Standards", toggleStandards);
 			addButton(4, "Hyper Happy", toggleHyperHappy);
-			
+
 			addButton(5, "SFW Toggle", toggleSFW, null, null, null, "Toggles SFW Mode. If enabled, sex scenes are hidden and all adult materials are censored. \n\nCurrently under development, only disables most sex scenes. Soon, it'll disable rape scenes."); //Softcore Mode
 			addButton(6, "Auto level", toggleAutoLevel, null, null, null, "Toggles automatic leveling when you accumulate sufficient experience.");
-			if (player.str > 0) addButton(8, "Enable Surv", enableSurvivalPrompt, null, null, null, "Enable Survival mode. This will enable hunger. \n\n<font color=\"#080000\">Note: This is permanent and cannot be turned off!</font>", "Enable Survival Mode");	
-			if (player.str > 0) addButton(9, "Enable Real", enableRealisticPrompt, null, null, null, "Enable Realistic mode. This will make the game a bit realistic. \n\n<font color=\"#080000\">Note: This is permanent and cannot be turned off! Do not turn this on if you have hyper endowments.</font>", "Enable Realistic Mode");	
+			if (flags[kFLAGS.PRISON_ENABLED] == true) {
+				addButton(7, "No Prison", togglePrison, null, null, null, "Turn off the prison.");
+			} else {
+				addButton(7, "Yes Prison", togglePrison, null, null, null, "Turn on the prison.\n\n<font color=\"#080000\">WARNING: The prison is very buggy and may break your game. Enter it at your own risk!</font>"); }
+			if (player.str > 0) addButton(8, "Enable Surv", enableSurvivalPrompt, null, null, null, "Enable Survival mode. This will enable hunger. \n\n<font color=\"#080000\">Note: This is permanent and cannot be turned off!</font>", "Enable Survival Mode");
+			if (player.str > 0) addButton(9, "Enable Real", enableRealisticPrompt, null, null, null, "Enable Realistic mode. This will make the game a bit realistic. \n\n<font color=\"#080000\">Note: This is permanent and cannot be turned off! Do not turn this on if you have hyper endowments.</font>", "Enable Realistic Mode");
 			addButton(10, "Fetishes", fetishSubMenu, null, null, null, "Toggle some of the weird fetishes such as watersports and worms.");
 
 			if (flags[kFLAGS.HUNGER_ENABLED] >= 0.5)
@@ -159,7 +169,20 @@ package classes
 				debug = false;
 			else
 				debug = true;
-				
+
+			mainView.showMenuButton(MainView.MENU_DATA);
+			settingsScreenGameSettings();
+			return;
+		}
+
+		public function togglePrison():void
+		{
+			//toggle prison
+			if (flags[kFLAGS.PRISON_ENABLED])
+				flags[kFLAGS.PRISON_ENABLED] = false;
+			else
+				flags[kFLAGS.PRISON_ENABLED] = true;
+
 			mainView.showMenuButton(MainView.MENU_DATA);
 			settingsScreenGameSettings();
 			return;
@@ -168,6 +191,7 @@ package classes
 		public function difficultySelectionMenu():void {
 			clearOutput();
 			outputText("You can choose a difficulty to set how hard battles will be.\n");
+			//outputText("\n<b>Peaceful:</b> Same as Easy but encounters can be avoided or skipped.");
 			outputText("\n<b>Easy:</b> -50% damage, can ignore bad-ends.");
 			outputText("\n<b>Normal:</b> No stats changes.");
 			outputText("\n<b>Hard:</b> +25% HP, +15% damage.");
@@ -175,18 +199,19 @@ package classes
 			outputText("\n<b>Extreme:</b> +100% HP, +50% damage.");
 			//outputText("\n<b>Up to Eleven:</b> +150% HP, +75% damage. This is the most cruel difficulty of all.");
 			menu();
-			addButton(0, "Easy", chooseDifficulty, -1);
-			addButton(1, "Normal", chooseDifficulty, 0);
-			addButton(2, "Hard", chooseDifficulty, 1);
-			addButton(3, "Nightmare", chooseDifficulty, 2);
-			addButton(4, "EXTREME", chooseDifficulty, 3);
-			//addButton(5, "Up to Eleven", chooseDifficulty, 4);
+			//addButton(0, "Peaceful", chooseDifficulty, -2);
+			addButton(1, "Easy", chooseDifficulty, -1);
+			addButton(2, "Normal", chooseDifficulty, 0);
+			addButton(5, "Hard", chooseDifficulty, 1);
+			addButton(6, "Nightmare", chooseDifficulty, 2);
+			addButton(7, "EXTREME", chooseDifficulty, 3);
+			//addButton(8, "Up to Eleven", chooseDifficulty, 4);
 			addButton(14, "Back", settingsScreenGameSettings);
 		}
 
 		public function chooseDifficulty(difficulty:int = 0):void {
 			if (difficulty <= -1) {
-				flags[kFLAGS.EASY_MODE_ENABLE_FLAG] = 1;
+				flags[kFLAGS.EASY_MODE_ENABLE_FLAG] = -difficulty;
 				flags[kFLAGS.GAME_DIFFICULTY] = 0;
 			}
 			else {
@@ -255,26 +280,26 @@ package classes
 
 		public function toggleAutoLevel():void {
 			flags[kFLAGS.AUTO_LEVEL] ^= 1;
-			settingsScreenGameSettings();	
+			settingsScreenGameSettings();
 		}
 
 		public function fetishSubMenu():void {
 			menu();
 			addButton(0, "Watersports", toggleWatersports, null, null, null, "Toggles watersports scenes. (Scenes related to urine fetish)"); //Enables watersports.
 			//addButton(1, "Rimjob", toggleRimjob, null, null, null, "Toggles rimjob scenes."); //Enables rimjob.
-			if (player.findStatusEffect(StatusEffects.WormsOn) >= 0 || player.findStatusEffect(StatusEffects.WormsOff) >= 0) addButton(2, "Worms", toggleWormsMenu, null, null, null, "Enable or disable worms. This will NOT cure infestation, if you have any.");
+			if (player.hasStatusEffect(StatusEffects.WormsOn) || player.hasStatusEffect(StatusEffects.WormsOff)) addButton(2, "Worms", toggleWormsMenu, null, null, null, "Enable or disable worms. This will NOT cure infestation, if you have any.");
 			else addButtonDisabled(2, "Worms", "Find the sign depicting the worms in the mountains to unlock this.");
 			addButton(4, "Back", settingsScreenGameSettings);
 		}
 
 		private function toggleWormsMenu():void {
 			clearOutput();
-			if (player.findStatusEffect(StatusEffects.WormsOn) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.WormsOn)) {
 				outputText("You have chosen to encounter worms as you find the mountains");
-				if (player.findStatusEffect(StatusEffects.WormsHalf) >= 0) outputText(" albeit at reduced encounter rate");
+				if (player.hasStatusEffect(StatusEffects.WormsHalf)) outputText(" albeit at reduced encounter rate");
 				outputText(". You can get infested.");
 			}
-			if (player.findStatusEffect(StatusEffects.WormsOff) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.WormsOff)) {
 				outputText("You have chosen to avoid worms. You won't be able to get infested.");
 			}
 			menu();
@@ -286,9 +311,9 @@ package classes
 
 		private function setWorms(enabled:Boolean, half:Boolean):void {
 			//Clear status effects
-			if (player.findStatusEffect(StatusEffects.WormsOn) >= 0) player.removeStatusEffect(StatusEffects.WormsOn);
-			if (player.findStatusEffect(StatusEffects.WormsHalf) >= 0) player.removeStatusEffect(StatusEffects.WormsHalf);
-			if (player.findStatusEffect(StatusEffects.WormsOff) >= 0) player.removeStatusEffect(StatusEffects.WormsOff);
+			if (player.hasStatusEffect(StatusEffects.WormsOn)) player.removeStatusEffect(StatusEffects.WormsOn);
+			if (player.hasStatusEffect(StatusEffects.WormsHalf)) player.removeStatusEffect(StatusEffects.WormsHalf);
+			if (player.hasStatusEffect(StatusEffects.WormsOff)) player.removeStatusEffect(StatusEffects.WormsOff);
 			//Set status effects
 			if (enabled) {
 				player.createStatusEffect(StatusEffects.WormsOn, 0, 0, 0, 0);
@@ -302,13 +327,15 @@ package classes
 
 		//Survival Mode
 		public function enableSurvivalPrompt():void {
-			outputText("Are you sure you want to enable Survival Mode?\n\n", true)
-			outputText("You will NOT be able to turn it off! (Unless you reload immediately.)")
+			clearOutput();
+			outputText("Are you sure you want to enable Survival Mode?\n\n");
+			outputText("You will NOT be able to turn it off! (Unless you reload immediately.)");
 			doYesNo(enableSurvivalForReal, settingsScreenGameSettings);
 		}
 
 		public function enableSurvivalForReal():void {
-			outputText("Survival mode is now enabled.", true)
+			clearOutput();
+			outputText("Survival mode is now enabled.");
 			player.hunger = 80;
 			flags[kFLAGS.HUNGER_ENABLED] = 0.5;
 			doNext(settingsScreenGameSettings);
@@ -316,13 +343,15 @@ package classes
 
 		//Realistic Mode
 		public function enableRealisticPrompt():void {
-			outputText("Are you sure you want to enable Realistic Mode?\n\n", true)
-			outputText("You will NOT be able to turn it off! (Unless you reload immediately.)")
+			clearOutput();
+			outputText("Are you sure you want to enable Realistic Mode?\n\n");
+			outputText("You will NOT be able to turn it off! (Unless you reload immediately.)");
 			doYesNo(enableRealisticForReal, settingsScreenGameSettings);
 		}
 
 		public function enableRealisticForReal():void {
-			outputText("Realistic mode is now enabled.", true)
+			clearOutput();
+			outputText("Realistic mode is now enabled.")
 			flags[kFLAGS.HUNGER_ENABLED] = 1;
 			doNext(settingsScreenGameSettings);
 		}
@@ -333,22 +362,22 @@ package classes
 		public function settingsScreenInterfaceSettings():void {
 			clearOutput();
 			displayHeader("Interface Settings");
-			
+
 			/*if (flags[kFLAGS.USE_OLD_INTERFACE] >= 1) outputText("Stats Pane Style: <b>Old</b>\n Old stats panel will be used.");
 			else  outputText("Stats Pane Style: <b>New</b>\n New stats panel will be used.");
-				
+
 			outputText("\n\n");*/
-			
+
 			if (flags[kFLAGS.USE_OLD_FONT] >= 1) outputText("Font: <b>Lucida Sans Typewriter</b>\n");
 			else outputText("Font: <b>Palatino Linotype</b>\n");
-				
+
 			outputText("\n\n");
-			
+
 			if (flags[kFLAGS.IMAGEPACK_OFF] == 0) outputText("Image Pack: <font color=\"#008000\"><b>ON</b></font>\n Image pack is enabled.");
 			else outputText("Image Pack: <font color=\"#800000\"><b>OFF</b></font>\n Image pack is disabled.");
-				
+
 			outputText("\n\n");
-			
+
 			if (flags[kFLAGS.SHOW_SPRITES_FLAG] == 0) {
 				outputText("Sprites: <font color=\"#008000\"><b>ON</b></font>\n You like to look at pretty pictures.");
 				outputText("\n\n");
@@ -361,14 +390,14 @@ package classes
 				outputText("Sprites: <font color=\"#800000\"><b>OFF</b></font>\n There are only words. Nothing else.");
 				outputText("\n\n\n");
 			}
-			
+
 			outputText("\n\n");
-			
+
 			if (flags[kFLAGS.USE_12_HOURS] > 0) outputText("Time Format: <b>12 hours</b>\n Time will display in 12 hours format (AM/PM)");
 			else outputText("Time Format: <b>24 hours</b>\n Time will display in 24 hours format.");
-				
+
 			outputText("\n\n");
-			
+
 			if (flags[kFLAGS.USE_METRICS] > 0) outputText("Measurement: <b>Metric</b>\n Height and cock size will be measured in metres and centimetres.");
 			else outputText("Measurement: <b>Imperial</b>\n Height and cock size will be measured in feet and inches.");
 
@@ -414,7 +443,7 @@ package classes
 			addButton(0, "Normal", setTextBackground, 0);
 			addButton(1, "White", setTextBackground, 1);
 			addButton(2, "Tan", setTextBackground, 2);
-			
+
 			addButton(14, "Back", settingsScreenInterfaceSettings);
 		}
 
@@ -423,7 +452,7 @@ package classes
 			addButton(0, "Off", toggleSpritesFlag, true, 0, null, "Turn off the sprites completely");
 			addButton(1, "Old", toggleSpritesFlag, false, 1, null, "Use the 8-bit sprites from older versions of CoC.");
 			addButton(2, "New", toggleSpritesFlag, false, 0, null, "Use the 16-bit sprites in current versions of CoC.");
-			
+
 			addButton(14, "Back", settingsScreenInterfaceSettings);
 		}
 
@@ -438,9 +467,9 @@ package classes
 		}
 
 		public function setMainBackground(type:int):void {
-			flags[kFLAGS.BACKGROUND_STYLE] = type;
-			mainView.background.gotoAndStop(flags[kFLAGS.BACKGROUND_STYLE] + 1);
-			mainView.sideBarBG.gotoAndStop(flags[kFLAGS.BACKGROUND_STYLE] + 1);
+			flags[kFLAGS.BACKGROUND_STYLE]           = type;
+			mainView.background.bitmapClass          = MainView.Backgrounds[flags[kFLAGS.BACKGROUND_STYLE]];
+			mainView.statsView.setBackground(StatsView.SidebarBackgrounds[flags[kFLAGS.BACKGROUND_STYLE]]);
 			settingsScreenInterfaceSettings();
 		}
 
@@ -474,7 +503,7 @@ package classes
 			{
 				mainView.textBGWhite.visible = false;
 				mainView.textBGTan.visible = false;
-			}		
+			}
 		}
 
 		public function cycleQuality():void {
@@ -513,23 +542,22 @@ package classes
 		//------------
 		public function fontSettingsMenu():void {
 			menu();
-			simpleChoices("Smaller Font", decFontSize,
-				"Larger Font", incFontSize,
-				"Reset Size", resetFontSize,
-				"", null,
-				"Back", settingsScreenMain);
+			addButton(0, "Smaller Font", decFontSize);
+			addButton(1, "Larger Font", incFontSize);
+			addButton(2, "Reset Size", resetFontSize);
+			addButton(4, "Back", settingsScreenMain);
 		}
 
 		public function incFontSize():void
 		{
 			var fmt:TextFormat = mainView.mainText.getTextFormat();
-			
+
 			if (fmt.size == null) fmt.size = 20;
-			
+
 			fmt.size = (fmt.size as Number) + 1;
-			
+
 			if ((fmt.size as Number) > 32) fmt.size = 32;
-			
+
 			trace("Font size set to: " + (fmt.size as Number));
 			mainView.mainText.setTextFormat(fmt);
 			flags[kFLAGS.CUSTOM_FONT_SIZE] = fmt.size;
@@ -538,13 +566,13 @@ package classes
 		public function decFontSize():void
 		{
 			var fmt:TextFormat = mainView.mainText.getTextFormat();
-			
+
 			if (fmt.size == null) fmt.size = 20;
-			
+
 			fmt.size = (fmt.size as Number) - 1;
-			
+
 			if ((fmt.size as Number) < 14) fmt.size = 14;
-			
+
 			trace("Font size set to: " + (fmt.size as Number));
 			mainView.mainText.setTextFormat(fmt);
 			flags[kFLAGS.CUSTOM_FONT_SIZE] = fmt.size;
@@ -557,7 +585,7 @@ package classes
 			mainView.mainText.setTextFormat(fmt);
 			flags[kFLAGS.CUSTOM_FONT_SIZE] = 0;
 		}
-		
+
 	}
 
 }

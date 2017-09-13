@@ -57,9 +57,9 @@ package classes.Scenes.Dungeons.D3
 			{
 				outputText("You keep moving and displaying your body as best you can, but an overwhelming amount of self-awareness creeps in as your doppelganger mockingly copies you. Is that really what you look like when you do this? It looks so cheap, so clumsy, so desperate. As a blush climbs onto your face you feel a vague sense of vertigo as control of the situation shifts- you copy the doppelganger as "+ player.mf("he", "she") +" cruelly continues to slide "+ player.mf("his", "her") +" hands over "+ player.mf("his", "her") +" body exaggeratedly.");
 
-				outputText("\n\n“<i>What’s the matter, [name]?</i>” " + player.mf("he", "she") +" breathes, staring lustfully into your eyes as " + player.mf("he", "she") +" sinks both hands into " + player.mf("his", "her") +" crotch and bends forward, forcing you close to " + player.mf("his", "her") +" face. “<i>Never tried it in front of a mirror? You were missing out on the nasty little tramp you are.</i>”");
+				outputText("\n\n“<i>What’s the matter, [name]?</i>” " + player.mf("he", "she") +" breathes, staring lustfully into your eyes ;as " + player.mf("he", "she") +" sinks both hands into " + player.mf("his", "her") +" crotch and bends forward, forcing you close to " + player.mf("his", "her") +" face. “<i>Never tried it in front of a mirror? You were missing out on the nasty little tramp you are.</i>”");
 				
-				game.dynStats("lus", damage + (rand(7) - 3));
+				player.takeLustDamage(damage + (rand(7) - 3), true);
 			}
 			addTalkShit();
 		}
@@ -73,9 +73,7 @@ package classes.Scenes.Dungeons.D3
 				doNext(game.combat.endHpVictory);
 				return;
 			}
-			
-			if (lust >= eMaxLust())
-			{
+			if (lust >= maxLust()) {
 				doNext(game.combat.endLustVictory);
 				return;
 			}
@@ -166,6 +164,10 @@ package classes.Scenes.Dungeons.D3
 			{
 				player.takeDamage(10 + (player.inte / 3 + rand(player.inte / 2)), true);
 			}
+			else if (spell == "blackfire")
+			{
+				player.takeDamage(30 + (player.inte / 3 + rand(player.inte / 2)), true); //REST IN FUCK
+			}
 			
 			addTalkShit();
 		}
@@ -178,7 +180,7 @@ package classes.Scenes.Dungeons.D3
 		
 		override public function doAI():void
 		{
-			if (findStatusEffect(StatusEffects.Stunned) >= 0) {
+			if (hasStatusEffect(StatusEffects.Stunned)) {
 				removeStatusEffect(StatusEffects.Stunned);
 				outputText("Your duplicate is too stunned, buying you another round!");
 				combatRoundOver();
@@ -191,7 +193,7 @@ package classes.Scenes.Dungeons.D3
 		public function Doppleganger() 
 		{
 			this.a = "the ";
-			this.short = "doppleganger";
+			this.short = "doppelganger";
 			this.long = ""; // Needs to be set to supress validation errors, but is handled by an accessor override.
 			this.imageName = "doppleganger";
 			this.plural = false;
@@ -326,10 +328,13 @@ package classes.Scenes.Dungeons.D3
 					str += " a pair of large, adept fox ears";
 					break;
 				case EARS_RACCOON:
-					str += " a pair of vaugely egg-shaped, furry racoon ears";
+					str += " a pair of vaguely egg-shaped, furry racoon ears";
 					break;
 				case EARS_MOUSE:
 					str += " a pair of large, dish-shaped mouse ears";
+					break;
+				case EARS_PIG:
+					str += " a pair of pig ears";
 					break;
 				default:
 					str += " a pair of non-descript ears";

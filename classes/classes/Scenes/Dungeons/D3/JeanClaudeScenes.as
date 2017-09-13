@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Dungeons.D3 
+package classes.Scenes.Dungeons.D3 
 {
 	import classes.BaseContent;
 	import classes.GlobalFlags.kFLAGS;
@@ -249,7 +249,7 @@
 			if (player.hasCock()) outputText(" [eachCock] hardens");
 			if (player.hasCock() || player.hasVagina()) outputText(" as"); 
 			outputText(" your body reacts uncontrollably to the presence of the being whose claws reach deeper and deeper into your mind, touching and triggering your basest desires.");
-			if (player.findStatusEffect(StatusEffects.RemovedArmor) > 0) outputText("  You realize vaguely you already have taken your clothes off, undoubtedly your own subconscious preparing you for this moment.");
+			if (player.hasStatusEffect(StatusEffects.RemovedArmor)) outputText("  You realize vaguely you already have taken your clothes off, undoubtedly your own subconscious preparing you for this moment.");
 			else outputText("  You really are uncomfortably hot underneath the glare of those eyes. Hardly even aware you’re doing it, you begin to take off your [armor]. Piece after piece falls to the floor until you are naked before him.");
 
 			outputText("\n\nJean-Claude breathes your own smell deeply, his smile widening as he stares into your unfocused, helpless eyes.");
@@ -306,12 +306,12 @@
 
 			outputText("\n\nOnce he has finished his gloating, Jean-Claude once again considers your frozen form.");
 
+			outputText(images.showImage("basilisk-vag-fuck"));
 			outputText("\n\n“<i>I suppose I should deliver you to the throne room pristine,</i>” he says. He snaps his claws. “<i>Here, you two- ah, you know what? Fuck it. I deserve this.</i>” He stamps forward and flips you onto your back, ripping off his tunic as he does. Throughout all of this a tiny voice in your mind cries out for you to feel horror at your situation, at the fate which has befallen you. It is drowning though, drowning in a bottomless pit of molten arousal, and as the basilisk rex’s bulging purple prick");
 			if (player.hasVagina()) outputText("s");
 			outputText(" push roughly against your [asshole]");
 			if (player.hasVagina()) outputText(" and [vagina]");
 			outputText(", it disappears into the depths forever. Your mind is a blank canvas of pure, submissive pleasure and it, like your limitless future, is golden.");
-			
 			getGame().gameOver();
 		}
 		
@@ -324,7 +324,7 @@
 			outputText("\n\n“<i>So,</i>” he husks, “<i>that is true, too. Do you know I had six of my scouts beaten for telling lies? For bringing back the story about a wanderer of the mountains who smells exactly like a female basilisk? Wishful thinking, I thought- I had heard it a hundred times before. And yet here we are, interloper. Here we are. The answer to our curse. How did you do it? Why did you do it?</i>” He is fretful with excitement, his breathing heavy and tail lashing as he slides his hand down to squeeze your [butt], handling you like a choice cut of meat. You wish you could step away from your body and his, feel disgust at the deep excitement and anticipation your modified womb is pressing on you, remember the reason why you changed yourself in this way, but you can’t. You can’t tear yourself away from the golden glow, how hot and soft it makes you feel bathed in its radiance, and- you can’t remember the reason. You struggle. You wanted to help the basilisks. That can be the only reason. And you’re here now, with their leader, and... you sigh. Everything suddenly feels right, your horny body and frustrated mind clicking into sync. You wanted to help the basilisks, you changed your body to do it, and now you’re here, ready to begin. You return Jean-Claude’s smile gladly, pleased with your breakthrough.");
 
 			outputText("\n\n“<i>Ah, you’ve remembered the why of it,</i>” he murmurs, his rich voice resonating deep in your bones as his hypnosis rolls over your unresisting mind, like soft, unceasing fingers on your [clit]. “<i>The how of it does not really matter, does it? Not anymore. Undress me.</i>” Happily you get to work, stretching to undo the clasps of his breastplate, your hands sliding over his hot, smooth scales, glorying in his size and strength as you denude him of his tunic and helmet.");
-			if (player.findStatusEffect(StatusEffects.RemovedArmor) >= 0)
+			if (player.hasStatusEffect(StatusEffects.RemovedArmor))
 			{
 				outputText(" You already have taken your clothes off, undoubtedly your own subconscious preparing you for this moment, and you require no direction from Jean-Claude to sit yourself down and eagerly");
 				if (player.isBiped()) outputText(" spread your [hips]");
@@ -338,7 +338,7 @@
 				else outputText(" position yourself");
 				outputText(" for him, your breeder’s body aching to be taken.");
 			}
-
+			outputText(images.showImage("basilisk-vag-fuck"));
 			outputText("\n\nIn front of your huge audience- who for once are the ones who can’t tear their eyes away- the basilisk rex mounts you, pinning your arms down with his hands; his hot, agitated breath rolls over your face as with one powerful thrust, he spears into your sopping cunt with one of his bulging pricks. You arch your back to the sensation, opening your mouth as he pushes into your wet, sensitive tunnel, fucking you with the roughness of bestial urgency.");
 
 			if (player.averageVaginalLooseness() < 2)

@@ -50,7 +50,9 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>G-gobble?</i>\"  she asks quietly, her big blue eyes pleading at you.");
 			
 			//[Shoo her Off] [Let her Approach]
-			simpleChoices("Let Approach", letZeTurkeyApproach, "Shoo Away", shooTurkeyAway, "", null, "", null, "", null);
+			menu();
+			addButton(0, "Let Approach", letZeTurkeyApproach);
+			addButton(1, "Shoo Away", shooTurkeyAway);
 		}
 
 		//Shoo her Off -McGirt
@@ -82,7 +84,9 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>Gobble?</i>\"  she asks again, her hand drifting onto your leg.  You feel [eachCock] involuntarily stiffening as her slender, alabaster fingers slide along your thigh.  \"<i>Gobble,</i>\" she repeats, brushing your stiffening prick through your [armor].  Oh, is that what she wants?  Well then....");
 			
 			//(Baste Her) (That's Enough)
-			simpleChoices("Baste Her", basteThatTurkeyBooty, "No Thanks", noThanksTurkeyGal, "", null, "", null, "", null);
+			menu();
+			addButton(0, "Baste Her", basteThatTurkeyBooty);
+			addButton(1, "No Thanks", noThanksTurkeyGal);
 		}
 
 		public function noThanksTurkeyGal():void {
@@ -110,9 +114,11 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>G-gobble?</i>\"");
 			
 			outputText("\n\nThe turkey-girl smiles at you and flops onto her back, spreading her meaty thighs to give you a good look at the trimmed red bush between her legs, and the glistening slit of her vagina.  It looks like she wants some stuffing....");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -1);
-			simpleChoices("Stuff Her", stuffDatTurkeyWithSpoo, "", null, "", null, "", null, "That'll Do", thatllDoTurkey);
+			menu();
+			addButton(0, "Stuff Her", stuffDatTurkeyWithSpoo);
+			addButton(1, "That'll Do", thatllDoTurkey);
 		}
 
 		//Stuff Her -McGirt, this is awful by the way.
@@ -143,11 +149,13 @@ package classes.Scenes.Seasonal {
 			else outputText("your [cock] distends and bulges.  A startled gasp catches in her throat as the hapless fowl's fuckhole is stretched wider by the oncoming storm.  No sooner has your shaft unloaded a monstrous surge of virile spunk deep inside her cunt than a familiar pressure signals yet another load is on the way.  As you continue to stuff the bitch with baby batter, her once-taut stomach swells outwards, jiggling and gurgling with each fresh load.  Your grunts and growls intermingle with the overstuffed turkey's moans of mindless lust.  Each roar sends shudders through her teats, waves of the fatty flesh forming as you cry out into her chest. You steady yourself between orgasmic thrusts by grabbing onto her melons, your sudden grasp harsh enough to elicit a stream of titgravy from inside her.");
 			
 			outputText("\n\nSoon, between your kneading out the thick gravy from her breasts and the spunk leaking out from her loins, mixing with what you splattered across her minutes earlier, the poor turkey is absolutely filthy, covered in the remnants of your rough fucking.  Slowly, languidly, you pull out from inside her, your cock still dribbling little rivulets of cum onto the musky girl's thighs.  The air around you now reeks of sex and a warm meal, her strange breastmilk creating a strong aroma of its own below that of drying spooge.");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -1);
 			if (flags[kFLAGS.HEL_FUCKBUDDY] == 1 && flags[kFLAGS.HEL_REDUCED_ENCOUNTER_RATE] == 0) {
 				outputText("\n\nAs you lay atop the turkey, you hear a faint, almost pleading, \"<i>Gobble?</i>\"  from her. Furrowing your brow, you pick yourself up to look at the cum-slathered turkey.  As soon as you're off her, she rolls over onto her hands and knees, her big bubble butt sticking up in the air for you, her plume of feathers tickling your cheeks.  She... still wants more?</i>\"");
-				simpleChoices("Spit-Roast", spitRoastThatTurkey, "", null, "", null, "", null, "That's Enough", thatllDoTurkey);
+				menu();
+				addButton(0, "Spit-Roast", spitRoastThatTurkey);
+				addButton(1, "That's Enough", thatllDoTurkey);
 			}
 			else doNext(thatllDoTurkey);
 		}
@@ -179,7 +187,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nWith a roar, you give the turkey a hard slap on the ass and, with her last violent contraction around your prick, cum.  Thrice already in the last hour, but you manage, pouring another hot load of semen into the turkey's abused anus.  She cries out as you slap her butt, but her scream turns into a long, lewd moan as she feels your seed filling her bum, your prick packing it in until trickles of spooge pour out around your shaft.");
 			
 			outputText("\n\nYou pull out of her with a wet squelch, grinning as a flood of your spunk starts to pour from her abused asshole, mixing in with the titgravy and two other loads you blew on her previously.  Supported by her huge tits, the turkey-girl goes limp, finally contented by the third fucking, her body stained and completely covered in your cum.  Looking around her, you see Hel lying on her back, snoring quietly after her own tail-based orgasm, her own body coated liberally with femcum and globs of your own spunk that rubbed off on her.");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("sen", -1);
 			doNext(thatllDoTurkey);
 		}
@@ -209,7 +217,10 @@ package classes.Scenes.Seasonal {
 			
 			outputText("\n\nIt looks like you've found yourself a dinner guest...");
 			//[Appetiser] [Main Course] [Dessert]
-			simpleChoices("Appetizer", turkeyAppetizer, "Main Course", femaleAndTurkeyMainCourse, "Dessert", haveTurkeyGirlDesertInYourCunt, "", null, "", null);
+			menu();
+			addButton(0, "Appetizer", turkeyAppetizer);
+			addButton(1, "Main Course", femaleAndTurkeyMainCourse);
+			addButton(2, "Dessert", haveTurkeyGirlDesertInYourCunt);
 		}
 
 		//Appetiser:
@@ -235,7 +246,7 @@ package classes.Scenes.Seasonal {
 			
 			outputText("\n\nUnable to stop yourself, you wrench your hand out from beneath her garment and before the girl can tell what's happening, you start to pull it up over her head, finally unleashing those fantastic breasts to the fresh air.  She nearly squawks as you drag her up from her relaxed position to free the material trapped beneath her, but calms down once you manage to get the thing over her head, throwing the soaked cloth out of the way.");
 			
-			player.orgasm();
+			player.orgasm('Generic');
 			doNext(femaleAndTurkeyMainCourse);
 		}
 
@@ -287,7 +298,7 @@ package classes.Scenes.Seasonal {
 			
 			outputText("\n\nHowever, the girl must be close and she decides to try and finish you off at the same time.  Her fingers suddenly grasp your clit, pinching it softly whilst her tongue dives deeper than ever before.  You cum almost instantly, you passage quivering around her orgasmic organ, humping against her face as you scream into her mound.  As the sound washes over her entrance, she too starts to cry out, both her holes spasming and you take the opportunity to slip a couple of fingers into her tight rear.");
 			
-			outputText("\n\nThe intrusion completely pushes her over the edge, leaving the pair of you screaming and humping unashamedly into one another, two tangled, sweat-slicked bodies writhing on the ground and groaning blissfully.  Her pussy covers your face with femspunk, which you waste no time in trying to lick up as you feel your own snatch [if (isSquirter = true) \"drench her face, a muffled 'meep' sounding out from between your legs as the girl weathers a vertiable flood from your twitching tunnel\"][if (isSquirter = false) tremble and coat her tongue with fluid, which she quickly drinks down before returning to your soaked hole].");
+			outputText("\n\nThe intrusion completely pushes her over the edge, leaving the pair of you screaming and humping unashamedly into one another, two tangled, sweat-slicked bodies writhing on the ground and groaning blissfully.  Her pussy covers your face with femspunk, which you waste no time in trying to lick up as you feel your own snatch [if (isSquirter = true) \"drench her face, a muffled 'meep' sounding out from between your legs as the girl weathers a veritable flood from your twitching tunnel\"][if (isSquirter = false) tremble and coat her tongue with fluid, which she quickly drinks down before returning to your soaked hole].");
 			
 			outputText("\n\nAs your orgasm starts to fade, you manage to roll your exhausted body off the turkeygirl, your chest heaving as you try to catch your breath.  You lie there for a few moments, your stretched stomach a testament to how delicious the girl was.  Out of the corner of your eye you notice her shifting and, to your surprise, she lifts herself up from the sodden ground beneath her.  Her body is dripping with remnants of your encounter, but she seems to be no worse the wear after no less than three orgasms!");
 			
@@ -392,7 +403,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>Gobble!</i>\"");
 			
 			outputText("\n\nLooks like she wants you to return the favor!");
-			player.orgasm();
+			player.orgasm('Dick');
 			dynStats("lib", 1);
 			menu();
 			addButton(0,"Next",seasonHerDatTurkeyBitch);
@@ -419,7 +430,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>Gobbles, gobble,</i>\" you command, poking a finger into her drooling slit.");
 			
 			outputText("\n\n\"<i>Gobble!</i>\" she answers, rolling off of you and hiking her legs up, knees sinking into her bust to show off her slit for you, so eager and inviting.  You rise to your [feet], grabbing the lusty fowl behind her hooked knees and pulling her in to line up with your " + player.multiCockDescriptLight() + ".  \"<i>G-gobble!</i>\" she begs, fluttering her plumage against your [legs], staring up at you imploringly as her skin further reddens, so hot with desperate lust you can practically feel the sexual hunger radiating off of her.  Time to finish this turkey off in style!");
-			dynStats("lus=", player.maxLust(), "resisted", false);
+			dynStats("lus=", player.maxLust(), "scale", false);
 			menu();
 			addButton(0,"Next",turkeyDesertBitches);
 		}
@@ -489,7 +500,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>Gobble,</i>\" you agree, wrapping the giddy turkey up in your arms and planting one last kiss on her big ol' boob.  She stares sedately at you with big, blue eyes, a cute little smile on her lips as you withdraw from her, wiping the last of your spunk on her feathery thigh.  Running your hand through the turkey-girl’s hair, you whisper what a good little cockgobbler she is.  However, you soon find that the poor thing’s passed out, your rut finally over with.  Still, she's left you with a nice soft tit-pillow to lay your head down upon as you pick up the lunch you’d been preparing to eat before the eager slut arrived.");
 			
 			outputText("\n\n“<i>That’ll do, turkey,</i>” you say, patting her jiggling tit and scraping some of the excess gravy out of your lunch.  “<i>That’ll do.</i>”");
-			player.orgasm();
+			player.orgasm('Dick');
 			doNext(camp.returnToCampUseTwoHours);
 		}
 
@@ -588,7 +599,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\nYour hands are a blur as they play some unknown rhythm on her bouncing booty, as if they were acting on their own. The piggy slut has her hands clenching down on a nearby pillow, teeth gritted as you have your way with her colossal ass. Tears streak down onto the pillow, staining the fabric wet. The sight of her weeping sex is all you need to know to continue; the desperately oinking whore turns out to be a bit of a masochist...");
 			
 			outputText("\n\nYou look around the room for a more fitting tool to use on this pain-loving slut, even as you turn the whore's jiggling butt cheeks into a pair of booty bongos.");
-			dynStats("lus", 25, "resisted", false);
+			dynStats("lus", 25, "scale", false);
 			//[ Hardcore ] [ Softcore ]
 			menu();
 			addButton(0,"Softcore",hamRoastTenderizeHerSoftcore);
@@ -611,7 +622,7 @@ package classes.Scenes.Seasonal {
 			outputText("\n\n\"<i>Oink! OINK! <b>OINK!</b></i>\" her pathetic squealing only excites you more, the sounds of loud strikes from your whip filling the room.");
 			
 			outputText("\n\nYou lose yourself in the excitement, your own [vagOrAss] twitching with delight each time your whip comes down on her bubbly buttocks.");
-			dynStats("lus", 25, "resisted", false);
+			dynStats("lus", 25, "scale", false);
 			//[ Next ]
 			menu();
 			addButton(0,"Next",spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl);
@@ -639,7 +650,7 @@ package classes.Scenes.Seasonal {
 			
 			outputText("\n\nYou lose yourself in the excitement, your own [vagOrAss] twitching with delight each time your paddle comes down on her bubbly buttocks.");
 			
-			dynStats("lus", 25, "resisted", false);
+			dynStats("lus", 25, "scale", false);
 			menu();
 			addButton(0,"Next",spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl);
 			//[ Next ]

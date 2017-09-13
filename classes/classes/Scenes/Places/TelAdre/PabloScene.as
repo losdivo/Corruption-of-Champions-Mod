@@ -87,21 +87,22 @@ package classes.Scenes.Places.TelAdre
 				if (flags[kFLAGS.LIFETIME_GYM_MEMBER] == 0) outputText("\n\nThe centauress working the door walks up to collect her fee, and you drop 10 gems for an hour workout into her hand.");
 				outputText("\n\n\"<i>Great,</i>\" Pablo responds with a grin. \"<i>There’s another bar next to mine. Maybe you could try doing some chin-ups?</i>\"");
 				outputText("\n\nWith that, Pablo flutters his wings, lifting himself to his bar.");
+				outputText("\n\n");
 			}
 			if (flags[kFLAGS.PABLO_AFFECTION] < 80) {
-				outputText("\n\nYou work out for about an hour or so, exchanging a few stories of your own travels in Mareth as you do so. He pays close attention to his stories, adding commentary whenever appropriate.");
+				outputText("You work out for about an hour or so, exchanging a few stories of your own travels in Mareth as you do so. He pays close attention to his stories, adding commentary whenever appropriate.");
 				outputText("\n\nYou depart to take a quick shower before returning to camp, Pablo waving goodbye at you as you go.");
 			}
 			else {
-				outputText("\n\nYou accept the imp-morph’s invitation eagerly.");
+				outputText("You accept the imp-morph’s invitation eagerly.");
 				outputText("\n\n\"<i>Great! You know how much I enjoy our workouts. There’s a bar you can use right next to mine, as per the usual.</i>\"");
 				outputText("\n\nNodding, you hop up, grasping the bar. You work out for an hour, exchanging various stories of your adventures in Mareth. He adds in commentary whenever appropriate, as well as the occasional witty banter.");
 				outputText("\n\nWhen your hour is up, you hop down from your bar and make your way to the showers, Pablo waving goodbye to you as you do so. Once you finish with your shower, you return to camp.");
 			}
-			if (player.str < 40) dynStats("str", 0.5);
-			if (player.str < 60) dynStats("str", 0.5);
-			if (player.str < 80) dynStats("str", 0.5);
-			if (player.str < 90) dynStats("str", 0.4);
+			if (player.str100 < 40) dynStats("str", 0.5);
+			if (player.str100 < 60) dynStats("str", 0.5);
+			if (player.str100 < 80) dynStats("str", 0.5);
+			if (player.str100 < 90) dynStats("str", 0.4);
 			dynStats("str", 0.1);
 			player.modTone(90);
 			flags[kFLAGS.PABLO_WORKOUT_COUNTER]++;
@@ -180,7 +181,7 @@ package classes.Scenes.Places.TelAdre
 			clearOutput();
 			outputText("You sigh, resolving yourself to let him go. Pablo seemed embarrassed, ashamed even. He may need some time alone. Perhaps this was for your own good as well. You may need some time to think about all of this, to take it all in. It’s not everyday that someone admits to touching themselves to the thought of you.");
 			outputText("\n\nYou look to the ground, watching the water go down the drain. The water goes cold, and you find that you’re not enjoying yourself as much as you did with your other showers. Are you certain that you made the right decision?");
-			outputText("\n\nShivering, you turn off the water, drying yourself off as quickly as you can. You rush to the locker room, discarding your towel and re-equiping your [Armor]. With that, you make your way back to camp.");
+			outputText("\n\nShivering, you turn off the water, drying yourself off as quickly as you can. You rush to the locker room, discarding your towel and re-equipping your [Armor]. With that, you make your way back to camp.");
 			player.changeFatigue(-10);
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -200,7 +201,7 @@ package classes.Scenes.Places.TelAdre
 			outputText("\n\nOf course you do. Your stall is still open, and you motion inside.");
 			outputText("\n\n\"<i>Y-yes, I’d like that very much,</i>\" he says, nodding furiously.");
 			outputText("\n\nWith that, you make your way to the stall, swinging your hips in a teasing fashion. Pablo is not far behind. On your way there, you consider how to tackle this. Should you take charge, or let Pablo run the show? What parts will you use?");
-			if (player.findStatusEffect(StatusEffects.Infested) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Infested)) {
 				pabloGetsGrossedOutByWorms();
 				return;
 			}
@@ -221,8 +222,10 @@ package classes.Scenes.Places.TelAdre
 			outputText("How shall your dick be used? Do you take charge or let him lead? And would you do it vaginally or anally?");
 			menu();
 			addButton(0, "TakeCharge(Vag)", pabloDickingTime, true, false, null, "You'll take charge and give him vaginally.", "Take Charge (Vaginal)");
+			addButtonDisabled(1, "TakeCharge(Anal)", "Unfortunately this scene has not been written yet. Y U NO write that scene, worldofdrakan?", "Take Charge (Anal)");
 			//addButton(1, "TakeCharge(Anal)", pabloDickingTime, true, true, null, "You'll take charge but do it anally.", "Take Charge (Anal)");
 			addButton(2, "PabloLeads(Vag)", pabloDickingTime, false, false, null, "You'll let Pablo lead and he'll take your dick vaginally.", "Pablo Leads (Vaginal)");
+			addButtonDisabled(3, "PabloLeads(Anal)", "Unfortunately this scene has not been written yet. Y U NO write that scene, worldofdrakan?", "Take Charge (Anal)");
 			//addButton(3, "PabloLeads(Anal)", pabloDickingTime, false, true, null, "You'll let Pablo lead and he'll ride your dick anally.", "Pablo Leads (Anal)");
 		}
 		private function pabloDickingTime(inCharge:Boolean = false, anal:Boolean = false):void {
@@ -310,8 +313,8 @@ package classes.Scenes.Places.TelAdre
 			clearOutput();
 			outputText("How shall your " + player.vaginaDescript() + " be used? Do you take charge or let him lead?");
 			menu();
-			addButton(0, "Take Charge", pabloPussPuss, true, null, null, "You'll take charge and give him vaginally.", "Take Charge");
-			addButton(1, "Pablo Leads", pabloPussPuss, false, null, null, "You'll let Pablo lead and he'll take your dick vaginally.", "Pablo Leads");
+			addButton(0, "Take Charge", pabloPussPuss, true, null, null, "You'll take charge and receive vaginally.", "Take Charge");
+			addButton(1, "Pablo Leads", pabloPussPuss, false, null, null, "You'll let Pablo lead and he'll put his dick to a good use.", "Pablo Leads");
 		}
 		private function pabloPussPuss(inCharge:Boolean = false):void {
 			clearOutput();

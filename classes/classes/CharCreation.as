@@ -1,4 +1,4 @@
-﻿package classes 
+package classes 
 {
 	import classes.GlobalFlags.kFLAGS;
 	import classes.GlobalFlags.kGAMECLASS;
@@ -25,6 +25,8 @@
 		public const MAX_FORTUNE_LEVEL:int = -1; //No maximum level.
 		public const MAX_VIRILITY_LEVEL:int = 15;
 		public const MAX_FERTILITY_LEVEL:int = 15;
+		
+		public static const NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX : Number = 1.5;
 		
 		private var specialCharacters:CharSpecial = new CharSpecial();
 		private var customPlayerProfile:Function;
@@ -96,6 +98,7 @@
 			var silly:Boolean = flags[kFLAGS.SILLY_MODE_ENABLE_FLAG];
 			var easy:Boolean = flags[kFLAGS.EASY_MODE_ENABLE_FLAG];
 			var sprite:Boolean = flags[kFLAGS.SHOW_SPRITES_FLAG];
+			var prison:Boolean = flags[kFLAGS.PRISON_ENABLED];
 			mainView.setButtonText(0, "Newgame"); // b1Text.text = "Newgame";
 			//flags[kFLAGS.CUSTOM_PC_ENABLED] = 0;
 			
@@ -119,7 +122,6 @@
 			//mainView.mainText.autoSize = TextFieldAutoSize.LEFT;
 			menu();
 			addButton(0, "OK", chooseName);
-		//	simpleChoices("OK",10034,"",0,"",0,"",0,"",0);
 			mainView.nameBox.x = mainView.mainText.x + 5;
 			mainView.nameBox.y = mainView.mainText.y + 3 + mainView.mainText.textHeight;
 		
@@ -188,7 +190,13 @@
 			player.HP = player.maxHP();
 			player.hairLength = 5;
 			player.skinType = SKIN_TYPE_PLAIN;
+			player.underBody.restore();
+			player.neck.restore();
+			player.rearBody.restore();
+			player.lowerBody = LOWER_BODY_TYPE_HUMAN;
+			player.legCount = 2;
 			player.faceType = FACE_HUMAN;
+			player.eyeCount = 2;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) player.tailType = TAIL_TYPE_NONE;
 			player.tongueType = TONGUE_HUMAN;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) player.femininity = 50;
@@ -197,10 +205,10 @@
 			player.tone = 50;
 			player.thickness = 50;
 			player.skinDesc = "skin";
+			player.skinAdj = "";
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.balls = 0;
 				player.ballSize = 0;
-				player.clitLength = 0;
 			}
 			player.hoursSinceCum = 0;
 			player.cumMultiplier = 1;
@@ -223,7 +231,6 @@
 				}
 			}
 			player.wingType = WING_TYPE_NONE;
-			player.wingDesc = "non-existant";
 			if (player.eyeType == EYES_BASILISK) player.eyeType = EYES_LIZARD; // Silently change them to be lizard eyes again. Simple and stupid ;)
 			//Default
 			player.skinTone = "light";
@@ -319,6 +326,13 @@
 			else {
 				var hadOldCock:Boolean = player.hasCock();
 				var hadOldVagina:Boolean = player.hasVagina();
+				//TODO rework this when doing better multi-vagina support
+				var oldClitLength:Number = -1;
+				
+				if (hadOldVagina) {
+					oldClitLength = player.getClitLength();
+				}
+				
 				//Clear cocks
 				while(player.cocks.length > 0)
 				{
@@ -333,10 +347,19 @@
 				}
 				//Keep gender and normalize genitals.
 				if (hadOldCock) player.createCock(5.5, 1, CockTypesEnum.HUMAN);
-				if (hadOldVagina) player.createVagina(true);
+				if (hadOldVagina) {
+					player.createVagina(true);
+					
+					if (player.hasVagina() && oldClitLength > NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX){
+						player.setClitLength(NEW_GAME_PLUS_RESET_CLIT_LENGTH_MAX);
+					}else{
+						player.setClitLength(oldClitLength);
+					}
+				}
+				
 				if (player.balls > 2) player.balls = 2;
 				if (player.ballSize > 2) player.ballSize = 2;
-				if (player.clitLength > 1.5) player.clitLength = 1.5;
+
 				while (player.breastRows.length > 1)
 				{
 					player.removeBreastRow(1, 1);
@@ -359,10 +382,10 @@
 			for (var i:int = 0; i < player.statusEffects.length; i++) {
 				if (isSpell(player.statusEffects[i].stype)) statusTemp.push(player.statusEffects[i]);
 			}
-			player.removeStatuses();
+			player.removeStatuses(false);
 			if (statusTemp.length > 0) {
 				for (i = 0; i < statusTemp.length; i++) {
-					player.createStatusEffect(statusTemp[i].stype, statusTemp[i].value1, statusTemp[i].value2, statusTemp[i].value3, statusTemp[i].value4);
+					player.createStatusEffect(statusTemp[i].stype, statusTemp[i].value1, statusTemp[i].value2, statusTemp[i].value3, statusTemp[i].value4, false);
 				}
 			}
 			//Clear perks
@@ -377,7 +400,7 @@
 				}
 			}
 			//Clear key items
-			var keyItemTemp:Array = []
+			var keyItemTemp:Array = [];
 			for (i = 0; i < player.keyItems.length; i++) {
 				if (isSpecialKeyItem(player.keyItems[i].keyName)) keyItemTemp.push(player.keyItems[i]);
 			}
@@ -394,6 +417,7 @@
 				var gameMode:Number = flags[kFLAGS.HUNGER_ENABLED];
 				var hardcoreMode:int = flags[kFLAGS.HARDCORE_MODE];
 				var hardcoreSlot:String = flags[kFLAGS.HARDCORE_SLOT];
+				var mrapierBought:int = flags[kFLAGS.MRAPIER_BOUGHT];
 				
 			}
 			//Clear plot storage array!
@@ -406,6 +430,7 @@
 				flags[kFLAGS.HUNGER_ENABLED] = gameMode;
 				flags[kFLAGS.HARDCORE_MODE] = hardcoreMode;
 				flags[kFLAGS.HARDCORE_SLOT] = hardcoreSlot;
+				flags[kFLAGS.MRAPIER_BOUGHT] = mrapierBought;
 				if (player.findPerk(PerkLib.Misdirection) > 0) flags[kFLAGS.RAPHAEL_INTELLIGENCE_TRAINING];
 				if (player.findPerk(PerkLib.RapierTraining) > 0) flags[kFLAGS.RAPHAEL_RAPIER_TRANING] == 4;
 			}
@@ -540,7 +565,6 @@
 			//Genetalia
 			player.balls = 2;
 			player.ballSize = 1;
-			player.clitLength = 0;
 			player.createCock();
 			player.cocks[0].cockLength = 5.5;
 			player.cocks[0].cockThickness = 1;
@@ -550,16 +574,17 @@
 			//Breasts
 			player.createBreastRow();
 			
-			//Gender set
-			player.gender = GENDER_MALE;
-			
 			//Choices
 			clearOutput();
 			outputText("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
-			simpleChoices("Lean", buildLeanMale, "Average", buildAverageMale, "Thick", buildThickMale, "Girly", buildGirlyMale, "", null);
+			menu();
+			addButton(0, "Lean", buildLeanMale);
+			addButton(1, "Average", buildAverageMale);
+			addButton(2, "Thick", buildThickMale);
+			addButton(3, "Girly", buildGirlyMale);
 		}
 
-		private function isAWoman():void {
+		internal function isAWoman():void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.spe += 3;
@@ -575,22 +600,21 @@
 			player.balls = 0;
 			player.ballSize = 0;
 			player.createVagina();
-			player.clitLength = 0.5;
 			
 			//Breasts
 			player.createBreastRow();
 			
-			//Gender set
-			player.gender = GENDER_FEMALE;
-			
 			//Choices
 			clearOutput();
 			outputText("You are a woman.  Your upbringing has provided you an advantage in speed and intellect.\n\nWhat type of build do you have?");
-			simpleChoices("Slender", buildSlenderFemale, "Average", buildAverageFemale, "Curvy", buildCurvyFemale, "Tomboyish", buildTomboyishFemale, "", null);
+			menu();
+			addButton(0, "Slender", buildSlenderFemale);
+			addButton(1, "Average", buildAverageFemale);
+			addButton(2, "Curvy", buildCurvyFemale);
+			addButton(3, "Tomboyish", buildTomboyishFemale);
 		}
 
-		private function isAHerm():void {
-			player.gender = GENDER_HERM;
+		internal function isAHerm():void {
 			//Attributes
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
 				player.str+=1;
@@ -608,7 +632,6 @@
 			player.balls = 2;
 			player.ballSize = 1;
 			player.createVagina();
-			player.clitLength = .5;
 			player.createCock();
 			player.cocks[0].cockLength = 5.5;
 			player.cocks[0].cockThickness = 1;
@@ -618,19 +641,19 @@
 			//Breasts
 			player.createBreastRow();
 			
-			//Gender set
-			player.gender = GENDER_HERM;
-			
 			//Choices
-			outputText("\n\nYou are a hermaphrodite.  Your upbringing has provided you an average in stats.\n\nWhat type of build do you have?", true);
+			clearOutput();
+			outputText("You are a hermaphrodite.  Your upbringing has provided you an average in stats.\n\nWhat type of build do you have?");
 			menu();
 			addButton(0, "Fem. Slender", buildSlenderFemale, null, null, null, "Feminine build. \n\nWill make you a futanari.", "Feminine, Slender");
 			addButton(1, "Fem. Average", buildAverageFemale, null, null, null, "Feminine build. \n\nWill make you a futanari.", "Feminine, Average");
 			addButton(2, "Fem. Curvy", buildCurvyFemale, null, null, null, "Feminine build. \n\nWill make you a futanari.", "Feminine, Curvy");
-			//addButton(4, "Androgynous", chooseBodyTypeAndrogynous);
+			addButton(3, "Fem. Tomboy", buildTomboyishFemale, null, null, null, "Androgynous build. \n\nA bit feminine, but fit and slender.", "Feminine, Tomboyish");
+			//addButton(4, "Androgynous", chooseBodyTypeAndrogynous, null, null, null, "Confusing build. \n\nWill make you as average as possible.", "Androgynous");
 			addButton(5, "Mas. Lean", buildLeanMale, null, null, null, "Masculine build. \n\nWill make you a maleherm.", "Masculine, Lean");
 			addButton(6, "Mas. Average", buildAverageMale, null, null, null, "Masculine build. \n\nWill make you a maleherm.", "Masculine, Average");
 			addButton(7, "Mas. Thick", buildThickMale, null, null, null, "Masculine build. \n\nWill make you a maleherm.", "Masculine, Thick");
+			addButton(8, "Mas. Girly", buildGirlyMale, null, null, null, "Androgynous build. \n\nA bit masculine, but soft and slender.", "Masculine, Girly");
 		}
 		
 		
@@ -715,7 +738,7 @@
 			player.str -= 2;
 			player.spe += 2;
 			
-			player.femininity = 50;
+			player.femininity = player.hasVagina() ? 49 : 50;
 			player.thickness = 50;
 			player.tone = 26;
 			
@@ -729,7 +752,7 @@
 			player.str += 1;
 			player.spe -= 1;
 			
-			player.femininity = 56;
+			player.femininity = player.hasCock() ? 55 : 56;
 			player.thickness = 50;
 			player.tone = 50;
 			
@@ -811,7 +834,8 @@
 		//-- SKIN COLOURS
 		//-----------------
 		private function menuSkinComplexion():void {
-			outputText("What is your complexion?", true);
+			clearOutput();
+			outputText("What is your complexion?");
 			menu();
 			addButton(0, "Light", confirmComplexion, "light");
 			addButton(1, "Fair", confirmComplexion, "fair");
@@ -831,7 +855,8 @@
 		//-- HAIR COLOURS
 		//-----------------
 		private function menuHairColor():void {
-			outputText("What is your hair color?", true);
+			clearOutput();
+			outputText("What is your hair color?");
 			menu();
 			addButton(0, "Blonde", chooseHairColor, "blonde");
 			addButton(1, "Brown", chooseHairColor, "brown");
@@ -852,15 +877,17 @@
 		//-- BEARD STYLE
 		//-----------------
 		private function menuBeardSettings():void {
-			outputText("You can choose your beard length and style.\n\n", true)
-			outputText("Beard: " + player.beardDescript())
-			menu()
+			clearOutput();
+			outputText("You can choose your beard length and style.\n\n");
+			outputText("Beard: " + player.beardDescript());
+			menu();
 			addButton(0, "Style", menuBeardStyle);
 			addButton(1, "Length", menuBeardLength);
 			addButton(14, "Back", genericStyleCustomizeMenu);
 		}
 		private function menuBeardStyle():void {
-			outputText("What beard style would you like?", true);
+			clearOutput();
+			outputText("What beard style would you like?");
 			menu();
 			addButton(0, "Normal", chooseBeardStyle, 0);
 			addButton(1, "Goatee", chooseBeardStyle, 1);
@@ -873,7 +900,8 @@
 			menuBeardSettings();
 		}
 		private function menuBeardLength():void {
-			outputText("How long would you like your beard be? \n\nNote: Beard will slowly grow over time, just like in the real world. Unless you have no beard. You can change your beard style later in the game.", true);
+			clearOutput();
+			outputText("How long would you like your beard be? \n\nNote: Beard will slowly grow over time, just like in the real world. Unless you have no beard. You can change your beard style later in the game.");
 			menu();
 			addButton(0, "No Beard", chooseBeardLength, 0);
 			addButton(1, "Trim", chooseBeardLength, 0.1);
@@ -925,21 +953,24 @@
 			mainView.nameBox.visible = false;
 			if (int(mainView.nameBox.text) < 48)
 			{
-				outputText("That is below your minimum height choices!", true)
+			clearOutput();
+				outputText("That is below your minimum height choices!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
 			}
 			if (int(mainView.nameBox.text) > 96)
 			{
-				outputText("That is above your maximum height choices!", true)
+			clearOutput();
+				outputText("That is above your maximum height choices!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
 			}
 			if (mainView.nameBox.text == "")
 			{
-				outputText("Please input your height. Off you go to the height selection!", true)
+			clearOutput();
+				outputText("Please input your height. Off you go to the height selection!");
 				//Off to the height selection!
 				doNext(setHeight);
 				return;
@@ -947,7 +978,8 @@
 			player.tallness = int(mainView.nameBox.text);
 			mainView.nameBox.maxChars = 16;
 			mainView.nameBox.restrict = null;
-			outputText("You'll be " + Math.floor(player.tallness / 12) + " feet and " + player.tallness % 12 + " inches tall. Is this okay with you?", true)
+			clearOutput();
+			outputText("You'll be " + Math.floor(player.tallness / 12) + " feet and " + player.tallness % 12 + " inches tall. Is this okay with you?");
 			doYesNo(genericStyleCustomizeMenu, setHeight);
 		}
 
@@ -1053,7 +1085,7 @@
 					outputText("Is your skin unusually sensitive?  (+5 Sensitivity)\n\nSensitivity affects how easily touches and certain magics will raise your lust.  Very low sensitivity will make it difficult to orgasm.");
 					break;
 				case PerkLib.Pervert:
-					outputText("Are you unusually perverted?  (+5 Corruption)\n\Corruption affects certain scenes and having a higher corruption makes you more prone to Bad Ends.\n", true);
+					outputText("Are you unusually perverted?  (+5 Corruption)\n\Corruption affects certain scenes and having a higher corruption makes you more prone to Bad Ends.\n");
 					break;
 				//Gender-specific
 				case PerkLib.BigCock:
@@ -1137,7 +1169,7 @@
 					break;
 				case PerkLib.BigClit:
 					player.femininity -= 5;
-					player.clitLength = 1;
+					player.setClitLength(1);
 					player.createPerk(PerkLib.BigClit, 1.25, 0, 0, 0);
 					break;
 				case PerkLib.Fertile:
@@ -1317,67 +1349,48 @@
 		//-----------------
 		//-- GAME MODES
 		//-----------------
-		private function chooseModeNormal():void {
-			outputText("You have chosen Normal Mode. This is a classic gameplay mode. \n\n<b>Difficulty can be adjusted at any time.</b>", true)
-			flags[kFLAGS.HARDCORE_MODE] = 0;
-			flags[kFLAGS.HUNGER_ENABLED] = 0;
-			flags[kFLAGS.GAME_DIFFICULTY] = 0;
-			doNext(startTheGame);
+		private function chooseModeDifficulty():void {
+			if (flags[kFLAGS.GAME_DIFFICULTY] < 3)
+				flags[kFLAGS.GAME_DIFFICULTY]++;
+			else
+				flags[kFLAGS.GAME_DIFFICULTY] = 0;
+			chooseGameModes();
 		}	
 
 		private function chooseModeSurvival():void {
-			outputText("You have chosen Survival Mode. This is similar to the normal mode but with hunger enabled. \n\n<b>Difficulty can be adjusted at any time.</b>", true)
-			flags[kFLAGS.HARDCORE_MODE] = 0;
-			flags[kFLAGS.HUNGER_ENABLED] = 0.5;
-			flags[kFLAGS.GAME_DIFFICULTY] = 0;
-			player.hunger = 80;
-			doNext(startTheGame);
-		}	
-
-		private function chooseModeRealistic():void {
-			outputText("You have chosen Realistic Mode. In this mode, hunger is enabled so you have to eat periodically. Also, your cum production is capped and having oversized parts will weigh you down. \n\n<b>Difficulty can be adjusted at any time.</b>", true)
-			flags[kFLAGS.HARDCORE_MODE] = 0;
-			flags[kFLAGS.HUNGER_ENABLED] = 1;
-			flags[kFLAGS.GAME_DIFFICULTY] = 0;
-			player.hunger = 80;
-			doNext(startTheGame);
+			if (flags[kFLAGS.HUNGER_ENABLED] < 1) {
+				flags[kFLAGS.HUNGER_ENABLED] += 0.5;
+				player.hunger = 80;
+			} else {
+				flags[kFLAGS.HUNGER_ENABLED] = 0;
+				player.hunger = 0;
+			}
+			chooseGameModes();
 		}
 
 		private function chooseModeHardcore():void {
-			outputText("You have chosen Hardcore Mode. In this mode, hunger is enabled so you have to eat periodically. In addition, the game forces autosave and if you encounter a Bad End, your save file is <b>DELETED</b>! \n\nDebug Mode and Easy Mode are disabled in this game mode. \n\nPlease choose a slot to save in. You may not make multiple copies of saves. \n\n<b>Difficulty is locked to hard.</b>", true)
-			flags[kFLAGS.HARDCORE_MODE] = 1;
-			flags[kFLAGS.HUNGER_ENABLED] = 1;
-			flags[kFLAGS.GAME_DIFFICULTY] = 1;
-			player.hunger = 80;
-			menu()
-			for (var i:int = 0; i < 14; i++) {
-				addButton(i, "Slot " + (i + 1), chooseSlotHardcore, (i + 1));
-			}
-			addButton(14, "Back", chooseGameModes);
+			if (flags[kFLAGS.HARDCORE_MODE] == 0) flags[kFLAGS.HARDCORE_MODE] = 1;
+			else flags[kFLAGS.HARDCORE_MODE] = 0;
+			chooseGameModes();
 		}
 
-		private function chooseModeBrutalHardcore():void {
-			outputText("You have chosen Brutal Hardcore Mode. This is the HARDEST mode of all. \n\n<b>Difficulty is locked to <i>EXTREME</i>.</b>", true)
-			flags[kFLAGS.HARDCORE_MODE] = 1;
-			flags[kFLAGS.HUNGER_ENABLED] = 1;
-			flags[kFLAGS.GAME_DIFFICULTY] = 3;
-			player.hunger = 80;
-			menu()
+		private function chooseModeHardcoreSlot():void {
+			clearOutput();
+			outputText("You have chosen Hardcore Mode. In this mode, the game forces autosave and if you encounter a Bad End, your save file is <b>DELETED</b>! \n\nDebug Mode and Easy Mode are disabled in this game mode. \n\nPlease choose a slot to save in. You may not make multiple copies of saves.");
+			menu();
 			for (var i:int = 0; i < 14; i++) {
-				addButton(i, "Slot " + (i + 1), chooseSlotHardcore, (i + 1));
+				addButton(i, "Slot " + (i + 1), function(slot:int):* {
+					flags[kFLAGS.HARDCORE_SLOT] = "CoC_" + slot;
+					startTheGame();
+				}, i + 1);
 			}
 			addButton(14, "Back", chooseGameModes);
-		}
-
-		//Choose Hardcore slot.
-		private function chooseSlotHardcore(num:int):void {
-			flags[kFLAGS.HARDCORE_SLOT] = "CoC_" + num;
-			startTheGame();
 		}
 
 		//GRIMDARK!
 		private function chooseModeGrimdark():void {
-			outputText("You have chosen Grimdark Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?", true);
+			clearOutput();
+			outputText("You have chosen Grimdark Mode. This will drastically alter gameplay and there will be a lot of new obstacles. Enemies are beefed up and the game will be much darker and edgier with plenty of environment changes. Is this what you choose?");
 			flags[kFLAGS.GRIMDARK_MODE] = 1;
 			flags[kFLAGS.HUNGER_ENABLED] = 1;
 			flags[kFLAGS.GAME_DIFFICULTY] = 3;
@@ -1388,22 +1401,37 @@
 		
 		//Choose the game mode when called!
 		private function chooseGameModes():void {
-			outputText("Choose a game mode.\n\n", true);
-			outputText("<b>Normal mode:</b> Classic Corruption of Champions gameplay.\n", false);
-			outputText("<b>Survival mode:</b> Like normal but with hunger enabled.\n", false);
-			outputText("<b>Realistic mode:</b> You get hungry from time to time and cum production is capped. In addition, it's a bad idea to have oversized parts. \n", false);
-			outputText("<b>Hardcore mode:</b> In addition to Realistic mode, the game forces save and if you get a Bad End, your save file is deleted. For the veteran CoC players only.\n", false);
-			outputText("<b>Brutal Hardcore mode:</b> Like hardcore mode, but the difficulty is locked to extreme! How long can you survive?\n", false);
-			if (debug) outputText("<b>Grimdark mode:</b> (In dev) In the grimdark future, there are only rape and corruptions. Lots of things are changed and Lethice has sent out her minions to wall the borders and put up a lot of puzzles. Can you defeat her in this mode in as few bad ends as possible?\n", false);
+			clearOutput();
+			outputText("Choose a game mode.\n\n");
+			outputText("<b>Survival:</b> ");
+			if (flags[kFLAGS.HUNGER_ENABLED] == 0) outputText("Normal Mode. You don't have to eat.\n");
+			if (flags[kFLAGS.HUNGER_ENABLED] == 0.5) outputText("Survival Mode. You get hungry from time to time.\n");
+			if (flags[kFLAGS.HUNGER_ENABLED] == 1) outputText("Realistic Mode. You get hungry from time to time and cum production is capped. In addition, it's a bad idea to have oversized parts.\n");
 			
-			simpleChoices("Normal", chooseModeNormal, "Survival", chooseModeSurvival, "Realistic", chooseModeRealistic, "Hardcore", chooseModeHardcore, "Brutal HC", chooseModeBrutalHardcore);
+			outputText("<b>Hardcore:</b> ");
+			if (flags[kFLAGS.HARDCORE_MODE] == 0) outputText("Normal Mode. You choose when you want to save and load.\n");
+			if (flags[kFLAGS.HARDCORE_MODE] == 1) outputText("Hardcore Mode. The game forces save and if you get a Bad End, your save file is deleted. Disables difficulty selection, debug mode, Low Standarts and Hyper Happy mode once the game is started. For the veteran CoC players only.\n");
+			
+			outputText("<b>Difficulty:</b> ");
+			if (flags[kFLAGS.GAME_DIFFICULTY] == 0) outputText("Normal Mode. No stats changes. Game is nice and simple.\n");
+			if (flags[kFLAGS.GAME_DIFFICULTY] == 1) outputText("Hard Mode. Enemies have would have extra 25% HP and 15% damage.\n");
+			if (flags[kFLAGS.GAME_DIFFICULTY] == 2) outputText("Nightmare Mode. Enemies would have extra 50% HP and 30% damage.\n");
+			if (flags[kFLAGS.GAME_DIFFICULTY] == 3) outputText("Extreme Mode. Enemies would have extra 100% HP and 50% damage.\n");
+			
+			if (debug) outputText("<b>Grimdark mode:</b> (In dev) In the grimdark future, there are only rape and corruptions. Lots of things are changed and Lethice has sent out her minions to wall the borders and put up a lot of puzzles. Can you defeat her in this mode in as few bad ends as possible?\n");
+			
+			menu();
+			addButton(0, "Survival", chooseModeSurvival);
+			addButton(1, "Hardcore", chooseModeHardcore);
+			addButton(2, "Difficulty", chooseModeDifficulty);
 			if (debug) addButton(12, "Grimdark", chooseModeGrimdark);
+			addButton(14, "Start!", flags[kFLAGS.HARDCORE_MODE] == 1 ? chooseModeHardcoreSlot : startTheGame);
 		}
 
 		private function startTheGame():void {
 			player.startingRace = player.race();
 			if (flags[kFLAGS.HARDCORE_MODE] > 0) {
-				trace("Hardcore save file " + flags[kFLAGS.HARDCORE_SLOT] + " created.")
+				trace("Hardcore save file " + flags[kFLAGS.HARDCORE_SLOT] + " created.");
 				getGame().saves.saveGame(flags[kFLAGS.HARDCORE_SLOT])
 			}
 			if (flags[kFLAGS.GRIMDARK_MODE] > 0) {
@@ -1632,12 +1660,11 @@
 				}
 				if (player.hasKeyItem("Equipment Storage - Jewelry Box") >= 0) {
 					outputText("\n\nThere is a jewelry box on the dresser. You walk over to the box, open it, and look inside. ");
-					if (inventory.jewelryBoxDescription()) outputText(" It's making sense! The contents must be from your past adventures.")
+					if (inventory.jewelryBoxDescription()) outputText(" It's making sense! The contents must be from your past adventures.");
 					else outputText("It's empty and you let out a sigh but you know you can bring it to Mareth.");	
 				}
 			}
 			outputText("\n\nAfter looking around the room for a while, you look into the mirror and begin to recollect who you are...");
-			player.genderCheck();
 			player.breastRows = [];
 			player.cocks = [];
 			player.vaginas = new Vector.<VaginaClass>();
@@ -1658,7 +1685,7 @@
 		}
 
 		private function isSpell(statusEffect:* = null):Boolean {
-			return (statusEffect == StatusEffects.KnowsCharge || statusEffect == StatusEffects.KnowsBlind || statusEffect == StatusEffects.KnowsWhitefire || statusEffect == StatusEffects.KnowsArouse || statusEffect == StatusEffects.KnowsHeal || statusEffect == StatusEffects.KnowsMight); 
+			return (statusEffect == StatusEffects.KnowsCharge || statusEffect == StatusEffects.KnowsBlind || statusEffect == StatusEffects.KnowsWhitefire || statusEffect == StatusEffects.KnowsArouse || statusEffect == StatusEffects.KnowsHeal || statusEffect == StatusEffects.KnowsMight || statusEffect == StatusEffects.KnowsBlackfire); 
 		}
 	}
 }

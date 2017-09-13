@@ -150,8 +150,11 @@
 			kGAMECLASS.inRoomedDungeonResume = v;
 		}
 
-		/** Displays the sprite on the lower-left corner. */
-		protected function spriteSelect(choice:Number = 0):void
+		/**
+		 * Displays the sprite on the lower-left corner.
+		 * Can accept frame index or SpriteDb.s_xxx (class extends Bitmap)
+		 * */
+		protected function spriteSelect(choice:Object = 0):void
 		{
 			kGAMECLASS.spriteSelect(choice);
 		}
@@ -186,16 +189,12 @@
 			return kGAMECLASS.createCallBackFunction(func,arg);
 		}
 
-		/** Create a function that will pass multiple arguments. 
-		 * @deprecated	This function is deprecated.
-		 */
-		protected function createCallBackFunction2(func:Function, ...args):Function
-		{
-			return kGAMECLASS.createCallBackFunction2.apply(null,[func].concat(args));
-		}
-
 		protected function doSFWloss():Boolean {
 			return kGAMECLASS.doSFWloss();
+		}
+		
+		protected function isPeaceful():Boolean {
+			return kGAMECLASS.isPeaceful();
 		}
 		
 		/**
@@ -224,14 +223,14 @@
 			kGAMECLASS.rawOutputText(output, purgeText);
 		}
 
-		protected function outputText(output:String, purgeText:Boolean = false, parseAsMarkdown:Boolean = false):void
+		protected function outputText(output:String):void
 		{
-			kGAMECLASS.outputText(output, purgeText, parseAsMarkdown);
+			kGAMECLASS.outputText(output);
 		}
 		
 		protected function clearOutput():void
 		{
-			kGAMECLASS.currentText = "";
+			kGAMECLASS.output.clear();
 			kGAMECLASS.mainView.clearOutputText();
 		}
 
@@ -250,10 +249,11 @@
 			kGAMECLASS.hideMenus();
 		}
 		
-		/** Creates a menu with 10 buttons. 
-		 * @deprecated	This is deprecated. Use a series of addButton instead.
+
+		//[Deprecated(replacement = "Use a series of BaseContent.addButton instead")]
+		/**[DEPRECATED] Creates a menu with 10 buttons. 
 		 */
-		protected function choices(text1:String, butt1:Function,
+		/*protected function choices(text1:String, butt1:Function,
 								text2:String, butt2:Function,
 								text3:String, butt3:Function,
 								text4:String, butt4:Function,
@@ -275,12 +275,13 @@
 					text9, butt9,
 					text0, butt0
 			);
-		}
+		}*/
 
-		/** Creates a menu with 5 buttons. 
-		 * @deprecated	This is deprecated. Use a series of addButton instead.
+		//[Deprecated(replacement = "Use a series of BaseContent.addButton instead.")]
+		/**
+		 * [DEPRECATED] Creates a menu with 5 buttons. 
 		 */
-		protected function simpleChoices(text1:String, butt1:Function,
+		/*protected function simpleChoices(text1:String, butt1:Function,
 								text2:String, butt2:Function,
 								text3:String, butt3:Function,
 								text4:String, butt4:Function,
@@ -290,7 +291,7 @@
 					text3, butt3,
 					text4, butt4,
 					text5, butt5);
-		}
+		}*/
 
 		protected function doYesNo(eventYes:Function, eventNo:Function):void { //Now typesafe
 			kGAMECLASS.doYesNo(eventYes, eventNo);
@@ -302,6 +303,11 @@
 		}
 		
 		protected function addButtonDisabled(pos:int, text:String = "", toolTipText:String = "", toolTipHeader:String = ""):void
+		{
+			kGAMECLASS.addButtonDisabled(pos, text, toolTipText, toolTipHeader);
+		}
+		
+		protected function addDisabledButton(pos:int, text:String = "", toolTipText:String = "", toolTipHeader:String = ""):void
 		{
 			kGAMECLASS.addButtonDisabled(pos, text, toolTipText, toolTipHeader);
 		}
@@ -334,11 +340,12 @@
 		 *     will add 1 to str, subtract 2 from tou, increase spe by 10%, decrease int by 50%, and set cor to 0
 		 * 
 		 * @param	... args
+		 * @return Object of (newStat-oldStat) with keys str, tou, spe, int, lib, sen, lus, cor
 		 */
-		protected function dynStats(... args):void
+		protected function dynStats(... args):Object
 		{
 			// Bullshit to unroll the incoming array
-			kGAMECLASS.dynStats.apply(null, args);
+			return kGAMECLASS.dynStats.apply(null, args);
 		}
 
 		protected function silly():Boolean
@@ -354,6 +361,14 @@
 		protected function playerMenu():void { kGAMECLASS.playerMenu(); }
 		
 		protected function get player():Player
+		{
+			return kGAMECLASS.player;
+		}
+		
+		/**
+		 * This is alias for player.
+		 */
+		protected function get pc():Player
 		{
 			return kGAMECLASS.player;
 		}
@@ -404,6 +419,14 @@
 		}
 		
 		protected function get monster():Monster
+		{
+			return kGAMECLASS.monster;
+		}
+		
+		/**
+		 * This is alias for monster.
+		 */
+		protected function get enemy():Monster
 		{
 			return kGAMECLASS.monster;
 		}
@@ -482,12 +505,12 @@
 		{
 			return kGAMECLASS.mainView;
 		}
-		
-		protected function set mainView(val:*):void
+
+		protected function get mainViewManager():MainViewManager
 		{
-			kGAMECLASS.mainView = val;
+			return kGAMECLASS.mainViewManager;
 		}
-		
+
 		protected function get model():GameModel
 		{
 			return kGAMECLASS.model;

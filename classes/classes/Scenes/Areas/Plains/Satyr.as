@@ -9,8 +9,8 @@ package classes.Scenes.Areas.Plains
 		private function satyrAttack():void {
 			outputText("The satyr swings at you with one knuckled fist.  ");
 			//Blind dodge change
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind punch!\n", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
+				outputText(capitalA + short + " completely misses you with a blind punch!\n");
 			}
 			//Evade: 
 			else if (player.getEvasionRoll()) {
@@ -30,15 +30,15 @@ package classes.Scenes.Areas.Plains
 		private function satyrBate():void {
 			outputText("He glares at you, panting while his tongue hangs out and begins to masturbate.  You can nearly see his lewd thoughts reflected in his eyes, as beads of pre form on his massive cock and begin sliding down the erect shaft.");
 			//(small Libido based Lust increase, and increase lust)
-			game.dynStats("lus", (player.lib/5) +4);
+			player.takeLustDamage((player.lib/5) +4, true);
 			lust += 5;
 			combatRoundOver();
 		}
 		
 		internal function satyrCharge():void {
 			outputText("Lowering his horns, the satyr digs his hooves on the ground and begins snorting; he's obviously up to something.  ");
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you due to blindness!\n", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
+				outputText(capitalA + short + " completely misses you due to blindness!\n");
 			}
 			else {
 				var evade:String = player.getEvasionReason();
@@ -79,7 +79,7 @@ package classes.Scenes.Areas.Plains
 		private function bottleChug():void {
 			outputText("He whips a bottle of wine seemingly from nowhere and begins chugging it down, then lets out a bellowing belch towards you.  The smell is so horrible you cover your nose in disgust, yet you feel hot as you inhale some of the fetid scent.");
 			//(damage PC lust very slightly and raise the satyr's lust.)
-			game.dynStats("lus", (player.lib/5));
+			player.takeLustDamage(player.lib/5, true);
 			lust += 5;
 			combatRoundOver();
 		}
@@ -87,8 +87,8 @@ package classes.Scenes.Areas.Plains
 		//5:(Only executed at high lust) 
 		private function highLustChugRape():void {
 			outputText("Panting with barely-contained lust, the Satyr charges at you and tries to ram you into the ground.  ");
-			if (findStatusEffect(StatusEffects.Blind) >= 0 && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you due to blindness!\n", false);
+			if (hasStatusEffect(StatusEffects.Blind) && rand(3) < 1) {
+				outputText(capitalA + short + " completely misses you due to blindness!\n");
 			}
 			else if (player.getEvasionRoll()) {
 				outputText("As he charges you, you grab him by the horns and spin around, sending him away.");
@@ -97,7 +97,7 @@ package classes.Scenes.Areas.Plains
 				outputText("You fall with a <b>THUD</b> and the Satyr doesn't even bother to undress you before he begins rubbing his massive cock on your body until he comes, soiling your [armor] and " + player.skinFurScales() + " with slimy, hot cum.  As it rubs into your body, you shiver with unwanted arousal.");
 				//large-ish sensitivity based lust increase if hit.)(This also relieves him of some of his lust, though not completely.)
 				lust -= 50;
-				game.dynStats("lus", (player.sens/5+20));
+				player.takeLustDamage((player.sens/5+20), true);
 			}
 			combatRoundOver();
 		}
@@ -109,7 +109,7 @@ package classes.Scenes.Areas.Plains
 				if (rand(2) == 0) satyrBate();
 				else bottleChug();
 			}
-			else if (findStatusEffect(StatusEffects.Charged) < 0) satyrCharge();
+			else if (!hasStatusEffect(StatusEffects.Charged)) satyrCharge();
 			else {
 				satyrAttack();
 				removeStatusEffect(StatusEffects.Charged);

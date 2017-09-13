@@ -30,17 +30,17 @@ package classes.Scenes.Areas.HighMountains
 		}
 		
 		protected function phoenixFireBreath():void {
-			if (findStatusEffect(StatusEffects.Uber) < 0) {
+			if (!hasStatusEffect(StatusEffects.Uber)) {
 				outputText("Suddenly the phoenix disengages from you and loops through the air, giving out a loud cry before she starts to barrel down at you. She’s clearly building up for something, so you’d better wait until she makes her move if you want a chance to dodge!");
 				createStatusEffect(StatusEffects.Uber, 0, 0, 0, 0);
 			}
 			else {
 				if (flags[kFLAGS.IN_COMBAT_USE_PLAYER_WAITED_FLAG] == 1) {
-					outputText("You dive to the ground just as the phoenix breathes a great gout of flame at you. The fire blooms over your back, singeing your [armor], but doesn’t harm you. As she swoops low you see the phoenix scowl, looking quite disappointed, but it’s clear she isn’t done yet!", false);
+					outputText("You dive to the ground just as the phoenix breathes a great gout of flame at you. The fire blooms over your back, singeing your [armor], but doesn’t harm you. As she swoops low you see the phoenix scowl, looking quite disappointed, but it’s clear she isn’t done yet!");
 				}
 				//MASSIVE DAMAGE!
 				else {
-					outputText("As she zooms over you a great gout of flame erupts from the phoenix’s mouth! You dive out of the way, but all too late. The wall of fire rolls over you as you leap through it, the brief contact with the inferno searing both you and your " + player.armorName + " badly. ", false);
+					outputText("As she zooms over you a great gout of flame erupts from the phoenix’s mouth! You dive out of the way, but all too late. The wall of fire rolls over you as you leap through it, the brief contact with the inferno searing both you and your " + player.armorName + " badly. ");
 					var damage:int = str + weaponAttack + 300 + rand(250);
 					damage = player.reduceDamage(damage);
 					player.takeDamage(damage, true);
@@ -61,9 +61,8 @@ package classes.Scenes.Areas.HighMountains
 				if (player.hasCock() && player.hasVagina()) outputText("whilst your");
 				if (player.hasVagina()) outputText("thighs are suddenly soaked by a torrent of girlcum as your body reacts to the potent chemicals");
 				outputText(".");
-				var lustDmg:Number = (30 + rand(30)) * (player.lustPercent() / 100);
-				game.dynStats("lus", lustDmg, "resisted", false);
-				outputText(" <b>(<font color=\"#ff00ff\">" + (Math.round(lustDmg*10)/10) + "</font>)</b>");
+				var lustDmg:Number = 30 + rand(30);
+				player.takeLustDamage(lustDmg, true);
 			}
 			combatRoundOver();
 		}
@@ -71,7 +70,7 @@ package classes.Scenes.Areas.HighMountains
 		override protected function performCombatAction():void
 		{
 			var choice:Number = rand(4);
-			if (findStatusEffect(StatusEffects.Uber) >= 0) {
+			if (hasStatusEffect(StatusEffects.Uber)) {
 				phoenixFireBreath();
 				return;
 			}
@@ -146,6 +145,7 @@ package classes.Scenes.Areas.HighMountains
 			this.level = 23;
 			this.gems = 30 + rand(25);
 			this.drop = new ChainedDrop().add(weapons.SCIMITR,1/20)
+					.add(useables.EBNFLWR, 1/10)
 					.elseDrop(NO_DROP);
 			this.wingType = WING_TYPE_HARPY;
 			this.special1 = doubleSlash;

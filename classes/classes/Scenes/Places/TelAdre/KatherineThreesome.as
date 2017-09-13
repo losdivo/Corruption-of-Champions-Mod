@@ -98,7 +98,7 @@
 				if (player.cumQ() < 500)
 					outputText("Rope upon rope of hot, white jism erupts from your [cocks] arching through the air to fall back on the three of you.  Adding another small layer of white to your entwined bodies.  Urta and Kath both look at you with wanton eyes, and you know this isn’t finished yet...");
 				else if (player.cumQ() < 1500)
-					outputText("A fountain of cum sprays into the air, raining down upon you and your lovers.  Your [cocks] twich against the lovely ladies, rubbing you all over.  With a groan you force one last spray out of your cock.  You see the white rope of cum arch and fall, heading towards your face only to be stopped by Kath’s head as she kisses you once more; the rope splattering against the back of her head, only to be licked off by Urta, who eyes you with hunger still...");
+					outputText("A fountain of cum sprays into the air, raining down upon you and your lovers.  Your [cocks] twitch against the lovely ladies, rubbing you all over.  With a groan you force one last spray out of your cock.  You see the white rope of cum arch and fall, heading towards your face only to be stopped by Kath’s head as she kisses you once more; the rope splattering against the back of her head, only to be licked off by Urta, who eyes you with hunger still...");
 				else outputText("A veritable eruption soars forth from your [cocks] spurting so far up, you fear you might end up painting the ceiling; a continuous rope of white spunk falls over you and your lovers, further contributing to the mess and hosing their bodies down with your own orgasm.  You can’t help but look up in bliss, moaning as the girls take turn licking your body and face, until finally, one last spray falls on your chin, only to be licked off by a pair of tongues, who proceed to fight for the last in a kiss, each trying to one-up the other and catch the last drop of cum.  You don’t know who wins... but moments later, they look at you with hunger in their eyes... even after all this, they are not sated yet...");
 			}
 			outputText("The two morphic herms moan and growl lustily, eagerly rubbing their stiff, mismatched dicks across your stomach, your " + (player.hasBreasts() ? player.breastDescript(0) : "chest") + ", your [hips]");
@@ -112,7 +112,7 @@
 			else outputText("her huge balls dredging up a load so massive it washes Urta’s cum right off your body");
 			outputText(".  With twin moans of tired relief, the two girls flop, none-too-gently, onto your cum-soaked body, splattering jizz everywhere and instinctively snuggling against you, one face cuddling into either crook of your neck.\n\n");
 			outputText("You hug the girls close, enjoying your shared afterglow.  Panting as you fight to remain awake.  Looking down, you see the sleeping visage of both Urta and Kath, snuggled tightly against you, and you smile.  Well... it doesn’t seem like you’re going anywhere... so might as well as let go and join them...");
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(false);
 			flags[kFLAGS.URTA_TIME_SINCE_LAST_CAME] = 2 + rand(2);
@@ -177,7 +177,7 @@
 			outputText("  You give " + (doKath ? "Kath" : "Urta") + "’s belly a little pat and she moans appreciatively.\n\n");
 			outputText("You pull free and roll away.  It’s not that you want to, but you’ve got things to attend to.  " + (katherine.hasCock() ? "The two herms" : "Kath and Urta") + " separate and lie back on the floor exhausted.  As you pass them, heading for the door, you notice they’re holding hands.  It’s actually quite a romantic scene.");
 			if (!doKath) urta.knockUpUrtaChance();
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(false);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -283,7 +283,7 @@
 			}
 			outputText("\n\nKath collapses on top of you, spent.  Urta twists you around enough to give you and Kath each a kiss.  “<i>Thanks " + player.short + ", that’s exactly what I needed.</i>”\n\n");
 			outputText("“<i>Me too,</i>” purrs Kath as she snuggles up against your back for a nap.  You stick around long enough for " + katherine.cockMultiple("Katherine’s knot", "Kath’s knots") + " to slide out, then you’re on your way - leaving Kath and Urta to take care of each other.");
-			player.orgasm();
+			player.orgasm('VaginalAnal');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(false);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -347,7 +347,7 @@
 				outputText("It would be difficult enough for Kath to take Urta’s load but her belly already holds several buckets of your cum.  There’s no escape and you " + (player.isTaur() ? "feel" : "see") + " her belly expand even further.  Urta pulls back on Kath’s hips hard enough to leave marks, driven by a deep urge to breed Katherine’s velvet pussy.  When her strength fails her Urta falls back and a thick stream of semen erupts from Kath’s cunt");
 			outputText(".\n\nUrta pants like she’s just run a marathon and Kath" + (player.hasCock() ? ", her mouth still occupied by your shaft," : "") + " just moans contentedly.  You’re quite happy yourself and sit down with them for a minute to rest.\n\n");
 			outputText("Urta doesn’t say anything but she laces her fingers with yours and rests your entwined hands on top of Kath’s bulging belly.  Kath puts her arms around you both and you soon hear snoring from your exhausted friend.  Urta offers to stay with Kath and clean up the mess so you leave her to it.  You’d love to stay but duty calls.");
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(false);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -387,10 +387,13 @@
 			katherine.katherineAndUrtaHadSex(true);
 			katherine.orgasm();
 			urta.urtaLove(1);
+			menu();
 			if (player.hasCock()) {
-				simpleChoices("Stuff Kath", pinAndFuckStuffKath, "Mount Urta", pinAndFuckMountUrta, "", null, "", null, "", null);
+				addButton(0, "Stuff Kath", pinAndFuckStuffKath);
+			} else {
+				addDisabledButton(0, "Stuff Kath", "This scene requires you to have cock.");
 			}
-			else doNext(pinAndFuckMountUrta);
+			addButton(1, "Mount Urta", pinAndFuckMountUrta);
 		}
 
 		private function pinAndFuckMountUrta():void { //Plays for anyone without a cock and for herms who select this option
@@ -412,7 +415,7 @@
 					else
 						outputText("think about the baby inside your belly and wish there was some way she could have fathered it.");
 				}
-				else if (player.findStatusEffect(StatusEffects.Contraceptives) >= 0)
+				else if (player.hasStatusEffect(StatusEffects.Contraceptives))
 					outputText("think about your empty womb.  Wouldn’t it feel good if Urta’s cum could impregnate you as nature intended?");
 				else if (flags[kFLAGS.URTA_FERTILE] > 0)
 					outputText("start to fantasize.  The masses of cum Urta produces stand a good chance of seeding you.");
@@ -438,7 +441,7 @@
 			outputText("“<i>Again?</i>” says Urta, “<i>No, no, I can’t do it again!  I’ve already cum twice.</i>”\n\n");
 
 			outputText("Kath laughs and continues to gently fuck Urta.  You pull off Urta’s cock and wait for her massive load to finish gushing from your " + (player.hasVagina() ? "pussy" : "ass") + " before putting on your clothes.  Before you leave you give Urta a kiss and squeeze her belly a little.  Her only reply is to moan.  You tell Kath to take good care of Urta and then leave.  You know that if you stay much longer their display will get you excited enough that you’d stay around all afternoon and unfortunately you’ve got things you need to do.\n\n");
-			player.orgasm();
+			player.orgasm('Vaginal');
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
 			flags[kFLAGS.URTA_TIME_SINCE_LAST_CAME] = 8 + rand(2);
 			if (model.time.hours >= 13) flags[kFLAGS.KATHERINE_LOCATION] = Katherine.KLOC_URTAS_APT; //Katherine.timeChange will sort out whether Kath actually stays with Urta
@@ -521,7 +524,7 @@
 			outputText("Once Urta is finished Kath gives Urta a poke and says, “<i>Aren’t you going to help me?  I still haven’t got off, you know.</i>”\n\n");
 			outputText("Urta raises her head just long enough to grin at Kath and say, “<i>Maybe,</i>” in a mocking tone.\n\n");
 			if (katherine.hasCock()) {
-				outputText("Kath looks your way and rubs one of her hard cocks but you point out that Urta just offered to help.  Katherine needs no further encouragement.  She stands up, depositing a river of cum on Urta’s lap.  Urta is too tired to resist much, so Katherine picks her up and drapes her over the chair.\n\n");
+				outputText("Kath looks your way and rubs " + katherine.cockMultiple("her hard cock", "one of her hard cocks") + ", but you point out that Urta just offered to help.  Katherine needs no further encouragement.  She stands up, depositing a river of cum on Urta’s lap.  Urta is too tired to resist much, so Katherine picks her up and drapes her over the chair.\n\n");
 				outputText("Urta looks up at you just in time to feel Kath slip her " + katherine.cockType() + " shaft" + katherine.cockMultiple(" into her pussy", "s into her cunt and rectum") + ".\n\n");
 			}
 			else {
@@ -604,7 +607,7 @@
 			outputText("You’re already close thanks to the scene before you, so you just rub Kath’s ears a little more forcefully and let it happen.  Kath isn’t surprised by the amount you cum" + (player.cocks.length > 0 ? ", swallowing it all eagerly, despite her swollen belly" : " and laps eagerly at your pussy, sucking up every drop") + ".  When you finish she pulls back and looks up at you, grinning from ear to ear.\n\n");
 			outputText("You all lie there in a tangle, spent and happy.  Urta is the first to recover, gently turning Katherine’s head around so she can give her a long kiss.  She smiles at you and says “<i>Thanks again for introducing the two of us " + player.short + ".  Now how about you get back to your camp and I take care of this trapped kitty, hmmm?</i>”\n\n");
 			outputText("You get dressed, watching the two herms snuggle together.  With Urta stroking Kath’s heavy belly like that you have to wonder if your horny fox is already thinking about a round two.  If she is you know Katherine isn’t about to complain.\n\n");
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(true);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -621,9 +624,13 @@
 			outputText("When Urta is mostly naked Kath gets behind her and puts her cock" + katherine.cockMultiple("", "s") + " between Urta’s thighs.  Taken by surprise Urta closes her legs.  Kath grabs Urta’s hips and purrs in her ear as she starts to slide her member" + katherine.cockMultiple("", "s") + " in and out.  You see them start to glisten with Urta’s juices and when Kath next pulls back she winks at you.  Her " + katherine.cockMultiple("", "upper cock pressing against Urta’s ass and her lower ") + "cock " + (katherine.cockNumber == 1 && urta.pregnancy.isPregnant ? "pressing against Urta’s ass" : "slipping between the folds of Urta’s dripping snatch") + ".  Urta’s jaw quivers and she holds her breath, waiting for her fucking to begin.\n\n");
 			outputText("You put your hands on Urta’s shoulders, pushing her back towards Katherine.  When Kath sinks her shaft" + katherine.cockMultiple("", "s") + " into Urta you comment that they’re really getting along well.  You’re glad to see there isn’t much friction between them.\n\n");
 			outputText("“<i>How could there be when she’s cumming buckets?</i>” asks Kath, her cock" + katherine.cockMultiple("", "s") + " bottoming out inside Urta.  “<i>Now how about you give her something to do?</i>”");
-			if (player.hasCock())
-				simpleChoices("Mount Urta", sandwichGetFucked, "Get Licked", (player.isTaur() ? sandwichMaleCentaurLicked : sandwichGetLicked), "", null, "", null, "", null);
-			else doNext(sandwichGetFucked);
+			menu();
+			addButton(0, "Mount Urta", sandwichGetFucked);
+			if (player.hasCock()) {
+				addButton(1, "Get Licked", (player.isTaur() ? sandwichMaleCentaurLicked : sandwichGetLicked));
+			} else {
+				addDisabledButton(1, "Get Licked", "This scene requires you to have cock.");
+			}
 		}
 
 		private function sandwichGetFucked():void {
@@ -734,7 +741,7 @@
 			outputText("You keep rubbing Kath with one hand but you move your other to tease Urta’s clit.  You tell Urta that deep down she knows she can take it.  She tries to fight back, but with her stomach stuffed and Kath already knotted she can’t escape.\n\n");
 			outputText("You kiss Kath again and ask her, “<i>Don’t you want to see how big you can make her?</i>”  Despite having just cum you see the drunken lust reignite in Kath’s eyes.  She digs her claws into Urta’s hips and starts gently rocking her shaft in and out.\n\n");
 			outputText("Urta clutches her belly and moans, “<i>Oh no,</i>” but you think she’s starting to get into it.  Before you get too turned on you leave your lovers to it." + (flags[kFLAGS.KATHERINE_URTA_AFFECTION] >= 31 ? "  They really need some more time together and you’re sure this qualifies as a ‘bonding experience’." : ""));
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(true);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -792,7 +799,7 @@
 			outputText("Using one of the room’s columns as support Urta pulls herself upright and surveys the damage.  “<i>I’m going to have to sort this out.  Oh yeah, this was worth it, but now I’m going to need to sweep it all under the rug.  Yeesh.</i>”\n\n");
 			outputText("She tosses a spermy bit of your clothing to you and says, “<i>You should get out of here " + player.short + ".  Don’t you worry, I’ll take care of this.</i>”  Poking Katherine with her foot, she adds, “<i>Besides, Kath needs a bit more education on the subject of Watch paperwork.</i>”\n\n");
 			outputText("“<i>Aw - not paperwork,</i>” groans Kath as you wave and escape out the door.");
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(true);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -886,7 +893,7 @@
 					outputText(", giving you a warm feeling in the bottom of your heart.");
 				else outputText(player.cor < 66 ? ".  Despite having just cum you feel a little twitch from your cock." : ".  It's sickly sweet, but who cares as long as they keep fucking like that.");
 			}
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(true);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -984,7 +991,7 @@
 				outputText("Urta hugs both of you against her body and kisses each of you in turn.  “<i>You two... what would I do without you?  I can still remember the days when I just sat in the bar drinking.  Now I’m spoilt for choice.</i>”\n\n");
 				outputText("Kath sniffs and says, “<i>Yeah, before you found me I never got any love.  Now I have to take breaks cause my pussy gets sore.</i>”  She snuggles up to you and Urta and you’re pretty sure she falls asleep right away, secure in the arms of her lovers.");
 			}
-			player.orgasm();
+			player.orgasm('Dick');
 			katherine.orgasm();
 			katherine.katherineAndUrtaHadSex(true);
 			flags[kFLAGS.URTA_COMFORTABLE_WITH_OWN_BODY]++;
@@ -1022,7 +1029,7 @@
 			outputText("“<i>Oh yes,</i>” Vala says weakly, “<i>it feels so good.</i>”  She rests her hand on her wobbling belly and rubs her protruding belly button.  “<i>I feel so close to both of you,</i>” she says, looking dreamily over her shoulder.\n\n");
 			valaCommonPostSex(katherine.hasCock());
 			outputText("She’s right, of course.  You get dressed and only pause before leaving to take a mental picture of Vala cuddling against Katherine, belly still swollen, your cum dripping from her ass.");
-			player.orgasm();
+			player.orgasm('Generic');
 			katherine.orgasm();
 			katherine.katherineAndValaHadSex();
 			flags[kFLAGS.VALA_TIMES_CONSENSUAL_SEX]++;
@@ -1060,11 +1067,11 @@
 			outputText("With both girls doing all they can to drive the other mad their pussies are becoming totally drenched.  You think they're loose enough, so you bend your fingers and thumbs and push your palm inside each of them.  Their flesh yields just enough and when the girls break their kiss again they look down to see you've worked your hands in up to your wrists.\n\n");
 			outputText("“<i>Gently,</i>” begs Kath, but you're having none of it.  You know what these girls like and you twist your fists back and forth within them, your knuckles sliding past their sensitive nerves.  They stop arguing and throw back their heads.  Only Kath's death grip around Vala prevents them both from falling off their chairs.\n\n");
 			outputText("Vala releases Kath's tail and hugs her back, lost in ecstasy.  You get quite a show as Kath and Vala play with each other's bodies, but you concentrate most on the feelings from the digits you've crammed inside them.\n\n");
-			outputText("You map out their favorite spots and wait until you belive they're both on the edge of cumming.  Then you hit all the good spots one after the other and are rewarded as two pussies clamp down on your fists.  The girls jerk and shake as one orgasm after another slams through their bodies.");
+			outputText("You map out their favorite spots and wait until you believe they're both on the edge of cumming.  Then you hit all the good spots one after the other and are rewarded as two pussies clamp down on your fists.  The girls jerk and shake as one orgasm after another slams through their bodies.");
 			if (katherine.hasCock())
 				outputText("  Kath's cock" + katherine.cockMultiple("", "s") + ", which you've ignored this whole time, " + katherine.cockMultiple("springs to life and blasts", "spring to life and blast") + " you and the surrounding area with a hefty load of spooge.");
 			outputText("\n\nAfter some gasping and panting both girls find the power of speech and thank you profusely for the ride you just took them on.");
-			outputText("Vala gets a mischevious gleam in her eye.  ");
+			outputText("Vala gets a mischievous gleam in her eye.  ");
 			valaCommonPostSex(false);
 			outputText("After you extract your hands and clean yourself off you notice Kath has pulled Vala into her lap and is just holding her.  Vala smiles at you like all is right with the world and you give each of them a kiss before leaving.");
 			dynStats("lus", 10 + player.lib / 20);

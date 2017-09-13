@@ -68,12 +68,12 @@ package classes.Scenes.Places
 			addButton(7, "Inventory", inventory.inventoryMenu);
 			if (player.lust >= 30) {
 				if (player.lust >= player.maxLust()) {
-					outputText("\n\n<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>", false);
+					outputText("\n\n<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>");
 					removeButton(0);
 					removeButton(4);
 				}
 				addButton(8, "Masturbate", kGAMECLASS.masturbation.masturbateMenu);
-				if (((player.findPerk(PerkLib.HistoryReligious) >= 0 && player.cor <= 66) || (player.findPerk(PerkLib.Enlightened) >= 0 && player.cor < 10)) && !(player.findStatusEffect(StatusEffects.Exgartuan) >= 0 && player.statusEffectv2(StatusEffects.Exgartuan) == 0) || flags[kFLAGS.SFW_MODE] >= 1) addButton(8, "Meditate", kGAMECLASS.masturbation.masturbateMenu);
+				if (((player.findPerk(PerkLib.HistoryReligious) >= 0 && player.cor <= (66 + player.corruptionTolerance())) || (player.findPerk(PerkLib.Enlightened) >= 0 && player.cor < (10 + player.corruptionTolerance()))) && !(player.hasStatusEffect(StatusEffects.Exgartuan) && player.statusEffectv2(StatusEffects.Exgartuan) == 0) || flags[kFLAGS.SFW_MODE] >= 1) addButton(8, "Meditate", kGAMECLASS.masturbation.masturbateMenu);
 			}
 			//Show wait/rest/sleep depending on conditions.
 			addButton(9, "Wait", kGAMECLASS.camp.doWait);
@@ -154,7 +154,7 @@ package classes.Scenes.Places
 				return;
 			}
 			else {
-				outputText("You explore the village of Ingnam for a while but you don't find anything intersting.");
+				outputText("You explore the village of Ingnam for a while but you don't find anything interesting.");
 			}
 			doNext(camp.returnToCampUseOneHour);
 		}
@@ -401,7 +401,7 @@ package classes.Scenes.Places
 			if (player.horns > 0 && player.hornType > 0) {
 				outputText("\n\n\"<i>Are these " + (player.hornType == HORNS_ANTLERS ? "antlers" : "horns") + "? I can imagine they must be real,</i>\" The innkeeper says before touching your [horns]. You can already feel his fingers rubbing against your [horns]. \"<i>Yes, they're real and I think you look better,</i>\" he says. You thank him for complimenting on your horns.");
 			}
-			if (player.wingType > 0 && player.wingType != WING_TYPE_SHARK_FIN) {
+			if (player.wingType != WING_TYPE_NONE) {
 				outputText("\n\nNext, he looks at your wings that sprout from your back and says, \"<i>Wings? I've never seen a person with wings before!</i>\" ");
 				if (player.canFly()) outputText("You tell him that you can fly. To demonstrate, you guide the innkeeper outside and you grit your teeth with effort as you flap your wings and you finally launch off from the ground and fly around the town! The people of Ingnam, including your family and friends, look at you in shock and some even say, \"<i>" + player.mf("He", "She") + " can fly!</i>\"");
 			}
@@ -466,7 +466,7 @@ package classes.Scenes.Places
 			outputText("\n\nYou kick back and drink the beer slowly. ");
 			dynStats("lus", 20);
 			player.refillHunger(10);
-			if (player.findStatusEffect(StatusEffects.Drunk) < 0) {
+			if (!player.hasStatusEffect(StatusEffects.Drunk)) {
 				player.createStatusEffect(StatusEffects.Drunk, 2, 1, 1, 0);
 				dynStats("str", 0.1);
 				dynStats("inte", -0.5);

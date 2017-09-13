@@ -52,7 +52,7 @@ package classes.Scenes.Areas.HighMountains
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
 			flags[kFLAGS.IZUMI_TIMES_LOST_FIGHT]++;
-			if (player.findStatusEffect(StatusEffects.Titsmother) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Titsmother))
 			{
 				this.cleanup();
 				game.highMountains.izumiScenes.deathBySnuSnuIMeanGiantOniTits();
@@ -70,7 +70,7 @@ package classes.Scenes.Areas.HighMountains
 		override protected function performCombatAction():void
 		{
 			// Handle chokeslam mechanics
-			if (player.findStatusEffect(StatusEffects.Chokeslam) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Chokeslam))
 			{
 				if (combatDebug) trace("ChokeSlam Rounds to Damage: " + player.statusEffectv1(StatusEffects.Chokeslam));
 				
@@ -87,7 +87,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 			
 			// Handle groundpound
-			if (player.findStatusEffect(StatusEffects.Groundpound) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Groundpound))
 			{
 				player.addStatusValue(StatusEffects.Groundpound,1,-1);
 				
@@ -98,7 +98,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 			
 			// Handle titsmother
-			if (player.findStatusEffect(StatusEffects.Titsmother) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Titsmother))
 			{
 				combatRoundOver();
 				return;
@@ -107,13 +107,13 @@ package classes.Scenes.Areas.HighMountains
 			// Titsmother toggle; gonna need to play with this, it should only be used once per fight
 			if (this.HPRatio() <= 0.25)
 			{
-				if (this.findStatusEffect(StatusEffects.UsedTitsmother) <= -1)
+				if (!hasStatusEffect(StatusEffects.UsedTitsmother))
 				{
 					trace("Could use titsmother...");
 				}
 			}
 			
-			if ((this.HPRatio() <= 0.25) && (this.findStatusEffect(StatusEffects.UsedTitsmother) <= -1))
+			if ((this.HPRatio() <= 0.25) && (hasStatusEffect(StatusEffects.UsedTitsmother)))
 			{
 				if (combatDebug) trace("Using Titsmother!");
 				titSmother();
@@ -124,7 +124,7 @@ package classes.Scenes.Areas.HighMountains
 			{
 				var actions:Array = [straightJab, straightJab, straightJab, roundhouseKick, roundhouseKick, roundhouseKick, chokeSlam]; 
 				
-				if (player.findStatusEffect(StatusEffects.Groundpound) <= -1)
+				if (!player.hasStatusEffect(StatusEffects.Groundpound))
 				{
 					actions.push(groundPound);
 					actions.push(groundPound);
@@ -181,13 +181,13 @@ package classes.Scenes.Areas.HighMountains
 			{
 				outputText("You fall backwards and stagger away, already feeling a flush of warmth colouring your cheeks, trying to drag your mind back to the fight and away from... other things.");
 
-				game.dynStats("lus", 10 + player.lib / 10);
+				player.takeLustDamage(10 + player.lib / 10, true);
 			}
 			else
 			{
 				outputText("You furrow a brow at the Oni's ineffectual attack, not entirely sure if she was intending to hurt you or turn you on.  Her thighs did look rather tantalizing though...");
 
-				game.dynStats("lus", 5 + player.lib / 20);
+				player.takeLustDamage(5 + player.lib / 20, true);
 			}
 
 			combatRoundOver();
@@ -252,8 +252,8 @@ package classes.Scenes.Areas.HighMountains
 			
 			if (flags[kFLAGS.PC_FETISH] >= 2)
 			{
-				outputText(" and to be honest, the grip isn't an entirely unplesent experience, either.  If only Izumi would stop playing around and just <i>take you</i> already.");
-				game.dynStats("lus", 5);
+				outputText(" and to be honest, the grip isn't an entirely unpleasant experience, either.  If only Izumi would stop playing around and just <i>take you</i> already.");
+				player.takeLustDamage(5, true);
 			}
 			else
 			{
@@ -299,7 +299,7 @@ package classes.Scenes.Areas.HighMountains
 		// Remove the effect post-combat
 		public function cleanupChokeslam():void
 		{
-			if (player.findStatusEffect(StatusEffects.Chokeslam) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Chokeslam))
 			{
 				trace("Removing chokeslam");
 				
@@ -333,7 +333,7 @@ package classes.Scenes.Areas.HighMountains
 		// Remove the effect post-combat, fixup stats
 		public function cleanupGroundpound():void
 		{
-			if (player.findStatusEffect(StatusEffects.Groundpound) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Groundpound))
 			{
 				// Can't use dynStats to achieve this, as it can give back more speed than we originally took away due to perks
 				player.spe += player.statusEffectv2(StatusEffects.Groundpound);
@@ -358,14 +358,14 @@ package classes.Scenes.Areas.HighMountains
 			outputText("first into Izumi - specifically, into her chest.  Shocked by suddenly having your face rammed into the pillowy soft expanse of Izumi’s bust, you rear back only to be slammed straight back into the mountainous expanse by Izumi’s arm.");
 			
 			player.createStatusEffect(StatusEffects.Titsmother, 0, 0, 0, 0);
-			game.dynStats("lus", (player.lib / 15) + 5 + rand(5));
+			player.takeLustDamage((player.lib / 15) + 5 + rand(5), true);
 			combatRoundOver();
 		}
 		
 		// Remove the effect post-combat
 		public function cleanupTitsmother():void
 		{
-			if (player.findStatusEffect(StatusEffects.Titsmother) >= 0)
+			if (player.hasStatusEffect(StatusEffects.Titsmother))
 			{
 				player.removeStatusEffect(StatusEffects.Titsmother);
 				if (combatDebug) trace("Removing Titsmother");
@@ -421,8 +421,7 @@ package classes.Scenes.Areas.HighMountains
 						outputText("Izumi’s bust encloses you on all sides, leaving you feeling like you’re trapped in some kind of breast sarcophagus.  The heat radiating from the soft flesh combines with the scent of whatever strange drug Izumi had been smoking, now hanging around her like some heady perfume.");
 					}
 				}
-				
-				game.dynStats("lus", player.lib / 15 + 5 + rand(5));
+				player.takeLustDamage(player.lib / 15 + 5 + rand(5), true);
 				doAI();
 			}
 		}
@@ -468,12 +467,12 @@ package classes.Scenes.Areas.HighMountains
 			
 			outputText("With your face crushed into the Oni's cleavage, you can't help but wonder; why bother resisting?  She's just so <i>strong</i>, and her breasts feel so lushious against your [face]...");
 			
-			game.dynStats("lus", player.lib / 10 + 5 + rand(5));
+			player.takeLustDamage(player.lib / 10 + 5 + rand(5), true);
 			
 			if (flags[kFLAGS.PC_FETISH] >= 2)
 			{
-				outputText(" and to be honest, her grip isn't an entirely unplesent experience, either.  If only Izumi would stop playing around and just <i>take you</i> already.");
-				game.dynStats("lus", 5);
+				outputText(" and to be honest, her grip isn't an entirely unpleasant experience, either.  If only Izumi would stop playing around and just <i>take you</i> already.");
+				player.takeLustDamage(5, true);
 			}
 			else
 			{

@@ -1,4 +1,4 @@
-﻿package classes.Scenes.Monsters
+package classes.Scenes.Monsters
 {
 	import classes.*;
 	import classes.internals.*;
@@ -16,40 +16,40 @@
 			if (temp2 == 4) color = "black";
 			//Throw offensive potions at the player
 			if (color != "blue") {
-				outputText(capitalA + short + " uncorks a glass bottle full of " + color + " fluid and swings her arm, flinging a wave of fluid at you.", false);
+				outputText(capitalA + short + " uncorks a glass bottle full of " + color + " fluid and swings her arm, flinging a wave of fluid at you.");
 			}
 			//Drink blue pots
 			else {
-				outputText(capitalA + short + " pulls out a blue vial and uncaps it, swiftly downing its contents.", false);
+				outputText(capitalA + short + " pulls out a blue vial and uncaps it, swiftly downing its contents.");
 				if (HPRatio() < 1) {
-					outputText("  She looks to have recovered from some of her wounds!\n", false);
-					addHP(eMaxHP() /4);
+					outputText("  She looks to have recovered from some of her wounds!\n");
+					addHP(maxHP() / 4);
 				}
-				else outputText("  There doesn't seem to be any effect.\n", false);
+				else outputText("  There doesn't seem to be any effect.\n");
 			}
 			//Dodge chance!
 			if ((player.findPerk(PerkLib.Evade) >= 0 && rand(10) <= 3) || (rand(100) < player.spe/5)) {
-				outputText("\nYou narrowly avoid the gush of alchemic fluids!\n", false);		
+				outputText("\nYou narrowly avoid the gush of alchemic fluids!\n");		
 			}
 			//Get hit!
 			//Temporary heat
 			if (color == "red") {
-				outputText("\nThe red fluids hit you and instantly soak into your skin, disappearing.  Your skin flushes and you feel warm.  Oh no...\n", false);
-				if (player.findStatusEffect(StatusEffects.TemporaryHeat) < 0) player.createStatusEffect(StatusEffects.TemporaryHeat,0,0,0,0);
+				outputText("\nThe red fluids hit you and instantly soak into your skin, disappearing.  Your skin flushes and you feel warm.  Oh no...\n");
+				if (!player.hasStatusEffect(StatusEffects.TemporaryHeat)) player.createStatusEffect(StatusEffects.TemporaryHeat,0,0,0,0);
 			}
 			//Green poison
 			if (color == "green") {
-				outputText("\nThe greenish fluids splash over you, making you feel slimy and gross.  Nausea plagues you immediately - you have been poisoned!\n", false);
-				if (player.findStatusEffect(StatusEffects.Poison) < 0) player.createStatusEffect(StatusEffects.Poison,0,0,0,0);
+				outputText("\nThe greenish fluids splash over you, making you feel slimy and gross.  Nausea plagues you immediately - you have been poisoned!\n");
+				if (!player.hasStatusEffect(StatusEffects.Poison)) player.createStatusEffect(StatusEffects.Poison,0,0,0,0);
 			}
 			//sticky flee prevention
 			if (color == "white") {
-				outputText("\nYou try to avoid it, but it splatters the ground around you with very sticky white fluid, making it difficult to run.  You'll have a hard time escaping now!\n", false);
-				if (player.findStatusEffect(StatusEffects.NoFlee) < 0) player.createStatusEffect(StatusEffects.NoFlee,0,0,0,0);
+				outputText("\nYou try to avoid it, but it splatters the ground around you with very sticky white fluid, making it difficult to run.  You'll have a hard time escaping now!\n");
+				if (!player.hasStatusEffect(StatusEffects.NoFlee)) player.createStatusEffect(StatusEffects.NoFlee,0,0,0,0);
 			}
 			//Increase fatigue
 			if (color == "black") {
-				outputText("\nThe black fluid splashes all over you and wicks into your skin near-instantly.  It makes you feel tired and drowsy.\n", false);
+				outputText("\nThe black fluid splashes all over you and wicks into your skin near-instantly.  It makes you feel tired and drowsy.\n");
 				player.changeFatigue(10 + rand(25));
 			}
 			combatRoundOver();
@@ -57,20 +57,22 @@
 		}
 		//Lust Needle
 		protected function lustNeedle():void {
+			var lustDmg:int;
 			outputText("With a swift step, the assassin vanishes, her movements too quick for you to follow. You take a sharp breath as you feel her ample thighs clench your head in between them, her slick cunt in full view as you take in her scent.");
 			//Miss
 			if (player.getEvasionRoll()) 
 			{
 				//Miss: 
 				outputText("\nYou’ve already prepared, however, as you hold your breath and grab the goblin by her sides. Unhindered by her advance, you take the opportunity to move backwards, throwing the goblin off balance and leaving you only faintly smelling of her pussy.");
-				game.dynStats("lus", rand(player.lib/10) +4);
+				lustDmg = rand(player.lib/10) +4;
 			}
 			//Hit: 
 			else 
 			{
 				outputText("\nYou’re far too distracted to notice the needle injected into the back of your neck, but by the time she flips back into her original position you already feel the contents of the syringe beginning to take effect.");
-				game.dynStats("lus", rand(player.lib/4) +20);
+				lustDmg = rand(player.lib/4) +20;
 			}
+			player.takeLustDamage(lustDmg, true);
 			combatRoundOver();
 		}
 		//Dual Shot
@@ -107,7 +109,7 @@
 		override public function won(hpVictory:Boolean, pcCameWorms:Boolean):void
 		{
 			if (player.gender == 0 || flags[kFLAGS.SFW_MODE] > 0) {
-				outputText("You collapse in front of the goblin, too wounded to fight.  She growls and kicks you in the head, making your vision swim. As your sight fades, you hear her murmur, \"<i>Fucking dicks can't even bother to grow a dick or cunt.</i>\"", false);
+				outputText("You collapse in front of the goblin, too wounded to fight.  She growls and kicks you in the head, making your vision swim. As your sight fades, you hear her murmur, \"<i>Fucking dicks can't even bother to grow a dick or cunt.</i>\"");
 				game.combat.cleanupAfterCombat();
 			} 
 			else {

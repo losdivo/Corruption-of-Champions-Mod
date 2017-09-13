@@ -395,7 +395,7 @@ package classes.Parser
 				var condArg:* = convertConditionalArgumentFromStr(textCond);
 				if (condArg != null)
 				{
-					if (printConditionalEvalDebug) trace("WARNING: Conditional \"", textCond, "\" Evalueated to: \"", condArg, "\"")
+					if (printConditionalEvalDebug) trace("WARNING: Conditional \"", textCond, "\" Evaluated to: \"", condArg, "\"")
 					return condArg
 				}
 				else
@@ -873,6 +873,18 @@ package classes.Parser
 				return false;
 		}
 
+		private function isSpeechStatement(textCtnt:String):Boolean
+		{
+			if (textCtnt.toLowerCase().indexOf("say: ") == 0)
+				return true;
+			else
+				return false;
+		}
+
+		private function parseSpeech(textCtnt:String):String{
+			return "\"<i>" + textCtnt.substring(5,textCtnt.length + 1) + "</i>\"";
+		}
+		
 		// Called to determine if the contents of a bracket are a parseable statement or not
 		// If the contents *are* a parseable, it calls the relevant function to evaluate it
 		// if not, it simply returns the contents as passed
@@ -1002,6 +1014,10 @@ package classes.Parser
 							if (conditionalDebug) trace("WARNING: ------------------0000000000000000000000000000000000000000000000000000000000000000-----------------------")
 							//trace("WARNING: Parsed Ccnditional - ", retStr)
 						}
+						else if (isSpeechStatement(tmpStr))
+						{
+							retStr += parseSpeech(recParser(tmpStr,depth));
+						}
 						else if (tmpStr)
 						{
 
@@ -1060,7 +1076,7 @@ package classes.Parser
 		// textCtnt is the text you want parsed, depth is a number, which should be 0
 		// or not passed at all.
 		// You pass in the string you want parsed, and the parsed result is returned as a string.
-		public function recursiveParser(contents:String, parseAsMarkdown:Boolean = false, prettyQuotes:Boolean=true):String
+		public function recursiveParser(contents:String):String
 		{
 			if (mainParserDebug) trace("WARNING: ------------------ Parser called on string -----------------------");
 			// Eventually, when this goes properly class-based, we'll add a period, and have this.parserState.
@@ -1078,24 +1094,8 @@ package classes.Parser
 			if (printIntermediateParseStateDebug) trace("WARNING: Parser intermediate contents = ", ret)
 			// Currently, not parsing text as markdown by default because it's fucking with the line-endings.
 
-			if (prettyQuotes)
-			{
-				// Convert quotes to prettyQuotes
-				ret = this.makeQuotesPrettah(ret);
-				// Quote conversion has to go before markdown calls
-			}
-
-			if (parseAsMarkdown)
-			{
-				// trace("WARNING: markdownificating");
-				//ret = Showdown.makeHtml(ret);
-
-
-				//var regexPCloseTag:RegExp = /<\/p>/gi;
-				//ret = ret.replace(regexPCloseTag,"</p>\n");
-				// Finally, add a additional newline after each closing P tag, because flash only
-				// outputs one newline per <p></p> tag, apparently flash again feels the need to be a special snowflake
-			}
+			// Convert quotes to prettyQuotes
+			ret = this.makeQuotesPrettah(ret);
 
 			// cleanup escaped brackets
 			ret = ret.replace(/\\\]/g, "]")

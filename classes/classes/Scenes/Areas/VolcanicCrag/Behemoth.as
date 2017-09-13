@@ -19,14 +19,14 @@ package classes.Scenes.Areas.VolcanicCrag
 				damage = player.reduceDamage(damage)
 				player.takeDamage(damage, true);
 			}
-			if (findStatusEffect(StatusEffects.TailWhip) >= 0) addStatusValue(StatusEffects.TailWhip, 1, 5);
+			if (hasStatusEffect(StatusEffects.TailWhip)) addStatusValue(StatusEffects.TailWhip, 1, 5);
 			else createStatusEffect(StatusEffects.TailWhip, 5, 0, 0, 0);
 			combatRoundOver();
 		}
 		
 		public function tease():void {
 			outputText("\"Want a piece of this?\" the behemoth says, and you avert your eyes as he flips up his loincloth, his huge cock alluring under the red silk and gold chains.");
-			game.dynStats("lus", 10 + (player.cor / 10) + (player.lib / 10));
+			player.takeLustDamage(10 + (player.cor / 10) + (player.lib / 10), true);
 			combatRoundOver();
 		}
 		

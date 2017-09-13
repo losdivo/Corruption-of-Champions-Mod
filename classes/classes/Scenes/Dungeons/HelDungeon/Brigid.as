@@ -7,7 +7,7 @@ package classes.Scenes.Dungeons.HelDungeon
 
 		//Attack One: Hot Poker, Right Up Your Ass!
 		private function brigidPoke():void {
-			outputText("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + player.skin() + " and sending you reeling. ");
+			outputText("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your [skin] and sending you reeling. ");
 			//(Effect: Heavy Damage)
 			var damage:Number = Math.round((str + weaponAttack) - rand(player.tou) - player.armorDef);
 			if (damage < 30) damage = 30;
@@ -29,12 +29,12 @@ package classes.Scenes.Dungeons.HelDungeon
 		//Attack Three: Harpy Ass Grind GO!
 		private function BrigidAssGrind():void {
 			outputText("Brigid grins as she approaches you.  She handily deflects a few defensive blows and grabs you by the shoulders.  She forces you onto your knees and before you can blink, has turned around and smashed your face into her ass!  \"<i>Mmm, you like that, don'tcha?</i>\" she growls, grinding her huge, soft ass across your face, giving you an up-close and personal feel of her egg-laying hips.");
-			game.dynStats("lus", 30);
+			player.takeLustDamage(30, true);
 			game.combat.combatRoundOver();
 		}
 		override protected function performCombatAction():void
 		{
-			if (player.findStatusEffect(StatusEffects.Stunned) >= 0) {
+			if (player.hasStatusEffect(StatusEffects.Stunned)) {
 				player.removeStatusEffect(StatusEffects.Stunned);
 				if (rand(2) == 0) BrigidAssGrind();
 				else brigidPoke();

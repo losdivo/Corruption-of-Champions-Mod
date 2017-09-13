@@ -284,7 +284,7 @@ public function followerSophieMainScreen():void {
 	}
 	else if (flags[kFLAGS.FOLLOWER_AT_FARM_SOPHIE] == 0) {
 		if (flags[kFLAGS.SOPHIE_BIMBO] > 0) outputText("Sophie leans back in her nest as you approach, her prominent, bare F-cups on display.  She's completely nude, as always, and sits with her avian legs shamelessly spread, revealing the slick slit of her womanhood framed by downy-soft platinum blonde feathers.  \"<i>Hey there, " + player.mf("handsome","cutey") + ".  What can Momma Sophie do for you?  Come for a cuddle in my welcoming wings, maybe; or for something more... exciting?</i>\"");
-		else outputText("Sophie leans back in her nest as you approach, her prominant, bare DD-cups on display.  She's completely nude, as always, and sits with her avian legs demurely crossed, concealing the slick slit of her womanhood from you.  \"<i>Hey there, " + player.mf("handsome","cutey") + ".  What can Momma Sophie do for you?</i>\"");
+		else outputText("Sophie leans back in her nest as you approach, her prominent, bare DD-cups on display.  She's completely nude, as always, and sits with her avian legs demurely crossed, concealing the slick slit of her womanhood from you.  \"<i>Hey there, " + player.mf("handsome","cutey") + ".  What can Momma Sophie do for you?</i>\"");
 	}
 	else
 	{
@@ -619,7 +619,7 @@ private function fuckFollowerSophie():void {
 	outputText("  Then, you black out, with your " + player.cockDescript(x));
 	if (y >= 0) outputText(" and " + player.cockDescript(y));
 	outputText(" still pulsing in ecstasy.  It was such a good cum...");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -2);
 	if (sophieBimbo.sophieIsInSeason()) sophieBimbo.sophiePregChance();
 	menu();
@@ -726,7 +726,7 @@ private function sophieBlowsSixtyNine():void {
 	//8 hours lust stick
 	sophieScene.luststickApplication(8);
 	//+10 lust
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("sen", 1);
 	dynStats("lus", 10);
 	doNext(camp.returnToCampUseOneHour);
@@ -785,7 +785,7 @@ private function forceSophieBlowjob():void {
 	outputText("</i>\"");
 	
 	outputText("\n\nYou get dressed with a self-satisfied sigh.");
-	player.orgasm();
+	player.orgasm('Dick');
 	dynStats("sen", -1);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -879,7 +879,7 @@ public function sophieSmallDongTeases():void {
 	outputText("mess you made, wondering why you enjoyed that so much.");
 	
 	flags[kFLAGS.TIMES_MORNING_SOPHIE_FEMDOMMED]++;
-	player.orgasm();
+	player.orgasm('Generic');
 	dynStats("lib", -1, "sen", 3);
 	doNext(playerMenu);
 }
@@ -919,7 +919,7 @@ private function sophieSpecial():void {
 	else outputText("giant piece of a meat rod");
 	outputText(" without blowing a nice big load. It just can't go in my mouth... and you should be nice and compliant, not doing things on your own.</i>\"");
 	
-	outputText("\n\nYou feel Sophie simultanously push at your [chest] and pull at your [legs], causing you to slowly move down on your back, as you realize your [armor] has apparently disappeared in the meantime.  The confident harpy matron smirks and giggles while stepping over your body and showing you her plump, jiggly ass as her wet pussy lowers towards your " + player.cockDescript(x) + ", eager to devour it.  With a wet squelch, you're buried inside her and shuddering beneath her big, wobbly ass.  \"<i>My, my... you really can't hold it in at all, can you? I've barely even put you inside me and you're already so eager to paint my walls white that you're simply going to squirt straight away?</i>\"");
+	outputText("\n\nYou feel Sophie simultaneously push at your [chest] and pull at your [legs], causing you to slowly move down on your back, as you realize your [armor] has apparently disappeared in the meantime.  The confident harpy matron smirks and giggles while stepping over your body and showing you her plump, jiggly ass as her wet pussy lowers towards your " + player.cockDescript(x) + ", eager to devour it.  With a wet squelch, you're buried inside her and shuddering beneath her big, wobbly ass.  \"<i>My, my... you really can't hold it in at all, can you? I've barely even put you inside me and you're already so eager to paint my walls white that you're simply going to squirt straight away?</i>\"");
 	
 	outputText("\n\nYou're not able to recognize if there's a command behind those words, but with a loud moan, you simply discharge the contents of your ");
 	if (player.balls > 0) outputText("[balls] and ");
@@ -987,7 +987,7 @@ private function sophieSpecial():void {
 	outputText("\n\nIndeed, the intensity of her cunt quivering and pulsing around your cum-spewing member is too much and you black out for a moment, waking up with her tit in your mouth, your fingers in her cunt as she drips your cum everywhere.  She's still stroking your head as she cuddles up to you, possessively.");
 	
 	outputText("\n\nYou feel like you may need to rest a few hours.");
-	player.orgasm();
+	player.orgasm('Dick');
 	if (sophieBimbo.sophieIsInSeason()) sophieBimbo.sophiePregChance();
 	player.changeFatigue(15);
 	doNext(camp.returnToCampUseOneHour);
@@ -1203,7 +1203,7 @@ private function phaseTwoOfIncest(daughter:int):void {
 	outputText("\n\nFor nearly an hour you lay there, cuddling, kissing and stroking your daughter's body as she hogs you all to herself.  Despite how comfortable it is to cuddle with your daughter like this, you have to pull yourself away from her curvaceous, cock-pleasing body.  She can't help but pout as you pull away, clearly wanting to spend more time with her beloved " + player.mf("father","mother") + ".  Not wanting to leave her so disappointed, you reach around and give her a spank on the ass and pull her close to you, kissing her once more before promising to spend more time with her later.  With a smile, she giggles and nods, her mind happily thinking about the next time you will spend some quality time with her.");
 	//pass time 1 hour//
 	//return PC to camp interface//
-	player.orgasm();
+	player.orgasm('Generic');
 	doNext(camp.returnToCampUseOneHour);
 }
 }
