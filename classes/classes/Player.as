@@ -65,7 +65,6 @@ use namespace kGAMECLASS;
 		public var hunger:Number = 0; //Also used in survival and realistic mode
 		public var obey:Number = 0;
 		public var esteem:Number = 0;
-		public var will:Number = 0;
 		
 		public var obeySoftCap:Boolean = true;
 		
