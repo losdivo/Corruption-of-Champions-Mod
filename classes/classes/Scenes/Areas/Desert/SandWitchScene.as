@@ -327,6 +327,8 @@ private function sandwitchBewbs():void {
 	outputText("You wake up in the desert, immediately grabbing at your body to see if anything's changed...");
 	player.slimeFeed();
 	player.refillHunger(35);
+    if (!player.hasStatusEffect(StatusEffects.EstrogenSurge)) player.createStatusEffect(StatusEffects.EstrogenSurge,0,0,0,0);
+    player.addStatusValue(StatusEffects.EstrogenSurge, 1, 30);
 	dynStats("lus", 25);
 	combat.cleanupAfterCombat();
 	outputText("\n");

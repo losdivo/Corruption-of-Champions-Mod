@@ -269,6 +269,8 @@ import flash.events.Event;
 						bodyStats += "<b>Slime Stored:</b> " + (17 - player.statusEffectv1(StatusEffects.SlimeCraving)) + " hours until you start losing strength.\n";
 				}
 			}
+            bodyStats += "<b>Estrogen level:</b> "    + player.estrogenScore() + "\n";
+            bodyStats += "<b>Testosteron level:</b> " + player.testosteronScore() + "\n";
 			
 			if (bodyStats != "")
 				outputText("\n<b><u>Body Stats</u></b>\n" + bodyStats);

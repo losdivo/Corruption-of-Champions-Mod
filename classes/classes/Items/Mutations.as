@@ -4465,5 +4465,23 @@ package classes.Items
 		public function prisonCumStew(player:Player):void {
 			prison.prisonItemBread(true);
 		}
+        
+        public function blueBerry(player:Player) : void {
+			clearOutput();
+			outputText("You eat blue berries and feel a sharp taste of their juice overhelms your taste buds. A feeling of energy surges throuh your body feel more energetic and active Eating the sprig of raw mint is a bit of a stretch, but you manage to gulp it down.  As the strong minty flavor overwhelms your taste buds, your mind feels calmer, and a relaxed sensation spreads through your body.");
+			player.refillHunger(10);        
+            player.changeFatigue( -10);
+            if (!player.hasStatusEffect(StatusEffects.TestosteronSurge)) player.createStatusEffect(StatusEffects.TestosteronSurge, 0, 0, 0, 0 );
+            player.addStatusValue(StatusEffects.TestosteronSurge, 1, 30);
+        }
+        public function redBerry(player:Player) : void {
+			clearOutput();
+			outputText("You eat read berries and their sweet taste caress your taste buds. You feel a wave of relaxation and soothing sensation rolls over your body, and your mind clears a bit.");
+			player.refillHunger(10);        
+            dynStats("lus", -10);
+            if (!player.hasStatusEffect(StatusEffects.EstrogenSurge)) player.createStatusEffect(StatusEffects.EstrogenSurge, 0, 0, 0, 0 );
+            player.addStatusValue(StatusEffects.EstrogenSurge, 1, 30);
+        }
+            
 	}
 }

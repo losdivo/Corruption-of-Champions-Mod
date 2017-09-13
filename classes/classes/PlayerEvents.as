@@ -814,6 +814,15 @@ package classes {
 				player.changeStatusValue(StatusEffects.SlimeCraving, 2, 0); //Reset stored hp/toughness values
 				needNext = true;
 			}
+            if (player.hasStatusEffect(StatusEffects.EstrogenSurge)) {
+                player.addStatusValue(StatusEffects.EstrogenSurge, 1, -1);
+                if (player.statusEffectv1(StatusEffects.EstrogenSurge) <= 0) player.removeStatusEffect(StatusEffects.EstrogenSurge);
+            }
+            if (player.hasStatusEffect(StatusEffects.TestosteronSurge)) {
+                player.addStatusValue(StatusEffects.TestosteronSurge, 1, -1);
+                if (player.statusEffectv1(StatusEffects.TestosteronSurge) <= 0) player.removeStatusEffect(StatusEffects.TestosteronSurge);
+            }            
+
 			if (player.hasStatusEffect(StatusEffects.Fullness)) {
 				player.addStatusValue(StatusEffects.Fullness, 1, -1);
 				if (player.statusEffectv1(StatusEffects.Fullness) <= 0) player.removeStatusEffect(StatusEffects.Fullness);
@@ -1079,6 +1088,36 @@ package classes {
 				return getGame().bimboProgress.bimboDoProgress();
 
 			}
+            if (getGame().model.time.hours == 6) {
+                
+                var force:Number = 0.001;
+                var estrogen:Number = player.estrogenScore()*force;
+                var testosteron:Number = player.testosteronScore() * force;
+                
+                
+                if (estrogen > testosteron) {
+                    var feminization:Number = estrogen - testosteron;
+                    player.growTits(feminization, 1, false, 1);
+                    player.modTone   (0, feminization);
+                    if (player.buttRating < 14)  player.buttRating += feminization;
+                    if (player.hipRating  < 14)  player.hipRating  += feminization;
+                    if (player.ballSize   > 0.3) player.ballSize   -= feminization;
+                    if (player.tallness   > 60)  player.tallness   -= feminization;
+                    if (player.femininity < 80) player.modFem  (80, feminization);
+                    player.modCock( -feminization);
+                }
+                else {
+                    var masculinization:Number = testosteron - estrogen;
+                    player.shrinkTits(false, masculinization, false);
+                    player.modTone   (100, masculinization);
+                    if (player.buttRating > 2)      player.buttRating -= masculinization;
+                    if (player.hipRating  > 2)      player.hipRating  -= masculinization;
+                    if (player.ballSize   < 2)      player.ballSize   += masculinization;
+                    if (player.tallness   < 70)     player.tallness   += masculinization;
+                    if (player.femininity > 20) player.modFem  (20, masculinization);
+                    if (player.biggestCockLength() < 6) player.modCock(masculinization);
+                }
+            }
 			
 			//Randomly change weather post-game
 			if (flags[kFLAGS.GAME_END] > 0 && flags[kFLAGS.WEATHER_CHANGE_COOLDOWN] <= 0) {

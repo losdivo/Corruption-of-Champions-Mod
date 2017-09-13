@@ -214,7 +214,10 @@ package classes.Items
 		public const WOLF_PP:Consumable = new WolfPepper();
 
 		public const LARGE_EGGS:Array = [L_BLKEG,L_BLUEG,L_BRNEG,L_PNKEG,L_PRPEG,L_WHTEG];
-		public const SMALL_EGGS:Array = [BLACKEG,BLUEEGG,BROWNEG,PINKEGG,PURPLEG,WHITEEG];
+		public const SMALL_EGGS:Array = [BLACKEG, BLUEEGG, BROWNEG, PINKEGG, PURPLEG, WHITEEG];
+        
+        public const REDBERY:SimpleConsumable = mk("RBerry","RedBerry", "a small and delicious red berry", curry(m.redBerry),"A small and tasty looking red berry.  Its sweet smell reminds you of forest and morning dew. No doubt it tastes delicions.");
+        public const BLUBERY:SimpleConsumable = mk("BBerry","BlueBerry", "a small and tasty blue berry", curry(m.blueBerry),"A small and tasty looking blue berry. The flesh of the berry has musky dark juice.");
 		private function get m():Mutations { return Mutations.init(); }
 
 		/**

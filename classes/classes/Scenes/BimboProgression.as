@@ -1252,7 +1252,7 @@ package classes.Scenes
 			if (flags[kFLAGS.TIMES_ORGASM_DICK]>0) flags[kFLAGS.TIMES_ORGASM_DICK]--;
 		}
 		
-		public 	function shrinkCock():void {
+		public 	function shrinkCock(amount:Number = 0.5):void {
 			var temp:Number  = 0;
 			var temp2:Number = player.cocks.length;
 			var temp3:Number = 0;
@@ -1266,8 +1266,8 @@ package classes.Scenes
 			}
 			//Shrink said cock
 			if (player.cocks[temp].cockLength < 6 && player.cocks[temp].cockLength >= 2.9) {
-				player.cocks[temp].cockLength -= .5;
-				temp3 -= .5;
+				player.cocks[temp].cockLength -= amount;
+				temp3 -= amount;
 			}
 			temp3 += player.increaseCock(temp, (rand(3) + 1) * -1);
 			player.lengthChange(temp3, 1);

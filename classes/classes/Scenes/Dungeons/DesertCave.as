@@ -4021,6 +4021,9 @@ package classes.Scenes.Dungeons
 			
 			player.changeFatigue(-15);
 			player.orgasm('Generic');
+            if (!player.hasStatusEffect(StatusEffects.EstrogenSurge)) player.createStatusEffect(StatusEffects.EstrogenSurge,0,0,0,0);
+            player.addStatusValue(StatusEffects.EstrogenSurge, 1, 30);
+            
 			dynStats("sen", -3);
 			doNext(playerMenu);
 		}

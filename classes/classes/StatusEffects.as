@@ -145,6 +145,8 @@ import classes.StatusEffects.CombatStatusEffect;
 		public static const TensionReleased:StatusEffectType = mk("TensionReleased");
 		public static const TF2:StatusEffectType = mk("TF2");
 		public static const TookBlessedSword:StatusEffectType = mk("Took Blessed Sword");
+        public static const EstrogenSurge:StatusEffectType = mk("Estrogen Surge");
+        public static const TestosteronSurge:StatusEffectType = mk("Testosteron Surge");
 		
 		//Old status plots. DEPRECATED, DO NOT USE. Currently cannot be removed without breaking existing saves.
 		public static const DungeonShutDown:StatusEffectType = mk("DungeonShutDown");
