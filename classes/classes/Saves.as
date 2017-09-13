@@ -1356,6 +1356,7 @@ public function onDataLoaded(evt:Event):void
 	}
 	catch (error:Error)
 	{
+		LOGGER.error(error.message+"\n"+error.getStackTrace());
 		clearOutput();
 		outputText("<b>!</b> Unhandled Exception");
 		outputText("[pg]Failed to load save. The file may be corrupt!");

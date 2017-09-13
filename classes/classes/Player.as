@@ -65,7 +65,6 @@ use namespace kGAMECLASS;
 		public var hunger:Number = 0; //Also used in survival and realistic mode
 		public var obey:Number = 0;
 		public var esteem:Number = 0;
-		public var will:Number = 0;
 		
 		public var obeySoftCap:Boolean = true;
 		
@@ -2261,6 +2260,7 @@ use namespace kGAMECLASS;
 			if (hasPerk(PerkLib.MinotaurCumResistance)) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] = 0; //Never get addicted!
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
 			if (flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) flags[kFLAGS.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
+            kGAMECLASS.dynStats("will", -raw/10);
 
 		}
 		
@@ -2807,6 +2807,7 @@ use namespace kGAMECLASS;
 			else if (stats == "tou" || stats == "toughness") return obj.tou;
 			else if (stats == "spe" || stats == "speed") return obj.spe;
 			else if (stats == "inte" || stats == "int" || stats == "intelligence") return obj.inte;
+            else if (stats == "will") return obj.will;
 			/* [INTERMOD: xianxia]
 			 else if (stats == "wis" || stats == "wisdom") return obj.wis;
 			 else if (stats == "lib" || stats == "libido") return obj.lib;
@@ -2821,6 +2822,7 @@ use namespace kGAMECLASS;
 			var maxTou:int = 100;
 			var maxSpe:int = 100;
 			var maxInt:int = 100;
+            var maxWil:int = 100;
 			//Apply New Game+
 			maxStr += ascensionFactor();
 			maxTou += ascensionFactor();
@@ -2889,7 +2891,8 @@ use namespace kGAMECLASS;
 				str:maxStr,
 				tou:maxTou,
 				spe:maxSpe,
-				inte:maxInt
+				inte:maxInt,
+                will:maxWil
 				/* [INTERMOD: xianxia]
 				wis:maxWis,
 				lib:maxLib
@@ -3418,5 +3421,15 @@ use namespace kGAMECLASS;
 			if (underBodyProps != null)
 				underBody.setProps(underBodyProps);
 		}
+        public function hasWillpower(minWillpower:Number, maxWillpower:Number) : Boolean {
+            // Checks if player has willpower to do some action 
+            
+            if (will < minWillpower) return false;
+            if (will > maxWillpower) return true;
+            var threshold:Number = 100 * (will - minWillpower) / (maxWillpower - minWillpower);
+            if (rand(100) < threshold) return true;
+            return false;
+            
+        }
 	}
 }

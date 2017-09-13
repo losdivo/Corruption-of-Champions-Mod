@@ -1107,6 +1107,7 @@ public function jojoFollowerMeditate():void {
 		if (player.spe100 < 75) dynStats("spe", 1); //Speed boost to 75
 		if (player.inte100 < 80) dynStats("int", 1); //Int boost to 80
 		if (player.lib100 > 0) dynStats("lib", -1); //Libido lower to 15
+        dynStats("will", 0.2);
 		flags[kFLAGS.JOJO_LAST_MEDITATION] = model.time.days;
 		player.addStatusValue(StatusEffects.JojoMeditationCount, 1, 1);
 	}
@@ -2419,7 +2420,7 @@ public function meditateInForest():void {
 	clearOutput();
 	outputText("Jojo smiles and leads you off the path to a small peaceful clearing.  There is a stump in the center, polished smooth and curved in a way to be comfortable.  He gestures for you to sit, and instructs you to meditate.\n\nAn indeterminate amount of time passes, but you feel more in control of yourself.  Jojo congratulates you, but offers a warning as well.  \"<i>Be ever mindful of your current state, and seek me out before you lose yourself to the taints of this world.  Perhaps someday this tainted world can be made right again.</i>\"");
 	
-	dynStats("str", .5, "tou", .5, "int", .5, "lib", -1, "lus", -5, "cor", (-1 - player.countCockSocks("alabaster")));
+	dynStats("str", .5, "tou", .5, "int", .5, "lib", -1, "lus", -5, "cor", (-1 - player.countCockSocks("alabaster")),"will", 0.5);
 	
 	if (!player.hasStatusEffect(StatusEffects.JojoMeditationCount))
 		player.createStatusEffect(StatusEffects.JojoMeditationCount, 1, 0, 0, 0);
@@ -3061,6 +3062,7 @@ public function apparantlyJojoDOESlift():void
 		outputText("As you bow to Jojo he bows back and says, “<i>Go get some rest [name], you’ve earned it.</i>”\n\n");
 		
 		player.changeFatigue(60);
+        dynStats("will", 0.5);
 
 		if (flags[kFLAGS.TIMES_TRAINED_WITH_JOJO] == 5)
 		{
@@ -3073,6 +3075,7 @@ public function apparantlyJojoDOESlift():void
 
 			outputText("<b>(Perk Gained: Controlled Breath -</b> Increases rate of fatigue regeneration by 10%<b>)</b>");
 			player.createPerk(PerkLib.ControlledBreath, 0, 0, 0, 0);
+            dynStats("will", 2);
 		}
 	}
 	//{after the PC has gained the controlled breath perk}
@@ -3092,6 +3095,7 @@ public function apparantlyJojoDOESlift():void
 
 			outputText("<b>(Ability Gained: Cleansing Palm -</b> A ranged fighting technique of Jojo’s order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.<b>)</b>")
 			player.createPerk(PerkLib.CleansingPalm, 0, 0, 0, 0);
+            dynStats("will", 2);
 		}
 	}
 	//{after the PC has gained the Cleansing Palm attack}
@@ -3114,6 +3118,7 @@ public function apparantlyJojoDOESlift():void
 			outputText("<b>(Perk Gained: Enlightened -</b> White magic threshold reduced. Meditation restores health. Grants the ability to meditate alone.<b>)</b>");
 
 			player.createPerk(PerkLib.Enlightened, 0, 0, 0, 0);
+            dynStats("will", 3);
 		}
 	}
 	//{after PC has gained the Enlightened Perk}

@@ -53,7 +53,14 @@ package classes.Scenes.Areas.Desert {
 				outputText(" as you yank your " + player.armorName + " back into place.  You're in charge here, not some possessed appendage!   Exgartuan yells something snide, but it's muffled too much to understand.  You look up in time to sidestep an attack from the Sand Witch.  It looks like you'll have to fight her!");
 				startCombat(new SandWitch());
 			}
-			else doYesNo(allowSandWitchMagic, refuseSandWitchMagic);
+			else {
+                if ( !player.hasWillpower(10, 30) ) {
+                    dynStats("will", -1);
+                    outputText("\n\nYou don't feel enought strength to say 'No' to her.");
+                    doNext(allowSandWitchMagic);
+                }
+                else doYesNo(allowSandWitchMagic, refuseSandWitchMagic);
+            }
 		}
 		
 		private function allowSandWitchMagic():void {

@@ -1,6 +1,9 @@
 package classes.StatusEffects {
 import classes.StatusEffectClass;
 import classes.StatusEffectType;
+import classes.internals.LoggerFactory;
+
+import mx.logging.ILogger;
 
 /**
  * Common superclass for temporary stat [de]buffs with complete recovery after time.
@@ -14,6 +17,7 @@ import classes.StatusEffectType;
  * Using host.dynStats instead of buffHost makes the effect permanent
  */
 public class TemporaryBuff extends StatusEffectClass{
+	private static var LOGGER:ILogger = LoggerFactory.getLogger(TemporaryBuff);
 	private var stat1:String;
 	private var stat2:String;
 	private var stat3:String;
@@ -29,12 +33,18 @@ public class TemporaryBuff extends StatusEffectClass{
 	 * This function does a host.dynStats(...args) and stores the buff in status effect values
 	 */
 	protected function buffHost(...args):* {
-		var debuff:* = host.dynStats.apply(host,args);
-		if (stat1) value1 += debuff[stat1];
-		if (stat2) value2 += debuff[stat2];
-		if (stat3) value3 += debuff[stat3];
-		if (stat4) value4 += debuff[stat4];
-		return debuff;
+		var buff:* = host.dynStats.apply(host,args);
+		if (stat1) value1 += buff[stat1];
+		if (stat2) value2 += buff[stat2];
+		if (stat3) value3 += buff[stat3];
+		if (stat4) value4 += buff[stat4];
+		LOGGER.debug("buffHost("+args.join(",")+"): " +
+					 stat1+(stat1?buff[stat1]:"")+
+					 stat2+(stat2?buff[stat2]:"")+
+					 stat3+(stat3?buff[stat3]:"")+
+					 stat4+(stat4?buff[stat4]:"")+
+					 "->("+value1+", "+value2+", "+value3+", "+value4+")");
+		return buff;
 	}
 	protected function restore():void {
 		var dsargs:Array = ['scale',false];
@@ -42,8 +52,17 @@ public class TemporaryBuff extends StatusEffectClass{
 		if (stat2) dsargs.push(stat2,-value2);
 		if (stat3) dsargs.push(stat3,-value3);
 		if (stat4) dsargs.push(stat4,-value4);
-		host.dynStats.apply(host,dsargs);
-		value1 = value2 = value3 = value4 = 0;
+		var debuff:* = host.dynStats.apply(host,dsargs);
+		if (stat1) value1 += debuff[stat1];
+		if (stat2) value2 += debuff[stat2];
+		if (stat3) value3 += debuff[stat3];
+		if (stat4) value4 += debuff[stat4];
+		LOGGER.debug("restore("+dsargs.join(",")+"): " +
+					 stat1+" "+(stat1?debuff[stat1]:"")+" "+
+					 stat2+" "+(stat2?debuff[stat2]:"")+" "+
+					 stat3+" "+(stat3?debuff[stat3]:"")+" "+
+					 stat4+" "+(stat4?debuff[stat4]:"")+" "+
+					 "->("+value1+", "+value2+", "+value3+", "+value4+")");
 	}
 	public function buffValue(stat:String):Number {
 		switch (stat) {

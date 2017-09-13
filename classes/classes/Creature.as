@@ -131,6 +131,7 @@ import flash.errors.IllegalOperationError;
 		public var lib:Number = 0;
 		public var sens:Number = 0;
 		public var cor:Number = 0;
+        public var will:Number = 0;
 		public var fatigue:Number = 0;
 		
 		//Combat Stats
@@ -149,7 +150,8 @@ import flash.errors.IllegalOperationError;
 		public function get inte100():Number { return 100*inte/getMaxStats('inte'); }
 		public function get lib100():Number { return 100*lib/getMaxStats('lib'); }
 		public function get sens100():Number { return 100*sens/getMaxStats('sens'); }
-		public function get fatigue100():Number { return 100*fatigue/maxFatigue(); }
+		public function get fatigue100():Number { return 100 * fatigue / maxFatigue(); }
+        public function get will100():Number { return 100 * will / getMaxStats('will'); }
 		public function get hp100():Number { return 100*HP/maxHP(); }
 		public function get lust100():Number { return 100*lust/maxLust(); }
 
@@ -161,7 +163,8 @@ import flash.errors.IllegalOperationError;
 				str:100,
 				tou:100,
 				spe:100,
-				inte:100
+				inte:100,
+                will:100
 			};
 		}
 
@@ -174,7 +177,7 @@ import flash.errors.IllegalOperationError;
 		 * valid stat_names are "str", "tou", "spe", "int", "lib", "sen", "lus", "cor" or their full names;
 		 * also "scaled"/"sca" (default true: apply resistances, perks; false - force values)
 		 *
-		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sen, lus, cor
+		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sens, lust, cor
 		 * */
 		public function dynStats(... args):Object {
 			Begin("Creature","dynStats");
@@ -182,25 +185,26 @@ import flash.errors.IllegalOperationError;
 			var prevStr:Number  = str;
 			var prevTou:Number  = tou;
 			var prevSpe:Number  = spe;
-			var prevInt:Number  = inte;
+			var prevInte:Number  = inte;
 			var prevLib:Number  = lib;
-			var prevSen:Number  = sens;
-			var prevLus:Number  = lust;
+			var prevSens:Number  = sens;
+			var prevLust:Number  = lust;
 			var prevCor:Number  = cor;
-			modStats(argz.str, argz.tou, argz.spe, argz.inte, argz.lib, argz.sens, argz.lust, argz.cor, argz.sca);
+            var prevWill:Number = will;
+			modStats(argz.str, argz.tou, argz.spe, argz.inte, argz.lib, argz.sens, argz.lust, argz.cor, argz.will, argz.sca);
 			End("Creature","dynStats");
 			return {
 				str:str-prevStr,
 				tou:tou-prevTou,
 				spe:spe-prevSpe,
-				inte:inte-prevInt,
+				inte:inte-prevInte,
 				lib:lib-prevLib,
-				sen:sens-prevSen,
-				lus:lust-prevLus,
+				sens:sens-prevSens,
+				lust:lust-prevLust,
 				cor:cor-prevCor
 			};
 		}
-		public function modStats(dstr:Number, dtou:Number, dspe:Number, dinte:Number, dlib:Number, dsens:Number, dlust:Number, dcor:Number, scale:Boolean = true):void {
+		public function modStats(dstr:Number, dtou:Number, dspe:Number, dinte:Number, dlib:Number, dsens:Number, dlust:Number, dcor:Number,dwill:Number, scale:Boolean = true):void {
 
 			var maxes:Object = getAllMaxStats();
 			str = Utils.boundFloat(1,str+dstr,maxes.str);
@@ -210,7 +214,8 @@ import flash.errors.IllegalOperationError;
 			lib = Utils.boundFloat(minLib(),lib+dlib,100);
 			sens = Utils.boundFloat(minSens(),sens+dsens,100);
 			lust = Utils.boundFloat(minLust(),lust+dlust,maxLust());
-			cor = Utils.boundFloat(0,cor+dcor,100);
+			cor = Utils.boundFloat(0, cor + dcor, 100);
+            will = Utils.boundFloat(1, will + dwill, maxes.will);
 			if (dtou>0) HP = Utils.boundFloat(-Infinity,HP+dtou*2,maxHP());
 		}
 		/**
@@ -1024,7 +1029,7 @@ import flash.errors.IllegalOperationError;
 		//Create a status
 		public function createStatusEffect(stype:StatusEffectType, value1:Number, value2:Number, value3:Number, value4:Number, fireEvent:Boolean = true):StatusEffectClass
 		{
-			var newStatusEffect:StatusEffectClass = stype.create(this,value1,value2,value3,value4);
+			var newStatusEffect:StatusEffectClass = stype.create(value1,value2,value3,value4);
 			statusEffects.push(newStatusEffect);
 			newStatusEffect.addedToHostList(this,fireEvent);
 			return newStatusEffect;
@@ -4032,20 +4037,20 @@ import flash.errors.IllegalOperationError;
 		/**
 		 * Generate increments for stats
 		 *
-		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sen, lus, cor, scale
+		 * @return Object of (newStat-oldStat) with keys str, tou, spe, inte, lib, sens, lust, cor, scale
 		 * */
 		public static function parseDynStatsArgs(c:Creature, args:Array):Object {
 			// Check num of args, we should have a multiple of 2
 			if ((args.length % 2) != 0)
 			{
 				trace("dynStats aborted. Keys->Arguments could not be matched");
-				return {str:0,tou:0,spe:0,inte:0,lib:0,sen:0,lus:0,cor:0,scale:true};
+				return {str:0,tou:0,spe:0,inte:0,lib:0,sens:0,lust:0,cor:0,wil:0,scale:true};
 			}
 
-			var argNamesFull:Array 	= 	["strength", "toughness", "speed", "intellect", "libido", "sensitivity", "lust", "corruption", "scale"]; // In case somebody uses full arg names etc
-			var argNamesShort:Array = 	["str", 	"tou", 	"spe", 	"int", 	"lib", 	"sen", 	"lus", 	"cor", 	"res", 	"sca"]; // Arg names
-			var argVals:Array = 		[0, 		0,	 	0, 		0, 		0, 		0, 		0, 		0, 		true, ]; // Default arg values
-			var argOps:Array = 			["+",	"+",    "+",    "+",    "+",    "+",    "+",    "+",    "="];   // Default operators
+			var argNamesFull:Array 	= 	["strength", "toughness", "speed", "intellect", "libido", "sensitivity", "lust", "corruption", "willpower","scale"]; // In case somebody uses full arg names etc
+			var argNamesShort:Array = 	["str", 	"tou", 	"spe", 	"int", 	"lib", 	"sen", 	"lus", 	"cor", 	"wil", "res", 	"sca"]; // Arg names
+			var argVals:Array = 		[0, 		0,	 	0, 		0, 		0, 		0, 		0, 		0, 		0, true, ]; // Default arg values
+			var argOps:Array = 			["+",	"+",    "+",    "+",    "+",    "+",    "+",    "+",    "+", "="];   // Default operators
 
 			for (var i:int = 0; i < args.length; i += 2)
 			{
@@ -4067,6 +4072,7 @@ import flash.errors.IllegalOperationError;
 					if (argsi == "inte") argsi = "int";
 					if (argsi == "resisted") argsi = "sca";
 					if (argsi == "res") argsi = "sca";
+                    if (argsi == "will") argsi = "wil";
 					if (argsi.length <= 4) // Short
 					{
 						argIndex = argNamesShort.indexOf(argsi.slice(0, 3));
@@ -4107,6 +4113,7 @@ import flash.errors.IllegalOperationError;
 			var newSens:Number = applyOperator(c.sens, argOps[5], argVals[5]);
 			var newLust:Number = applyOperator(c.lust, argOps[6], argVals[6]);
 			var newCor:Number = applyOperator(c.cor, argOps[7], argVals[7]);
+            var newWill:Number = applyOperator(c.will, argOps[8], argVals[8]);
 			// Because lots of checks and mods are made in the stats(), calculate deltas and pass them. However, this means that the '=' operator could be resisted
 			// In future (as I believe) stats() should be replaced with dynStats(), and checks and mods should be made here
 			return {
@@ -4115,9 +4122,10 @@ import flash.errors.IllegalOperationError;
 				spe     : newSpe - c.spe,
 				inte    : newInte - c.inte,
 				lib     : newLib - c.lib,
-				sen     : newSens - c.sens,
-				lus     : newLust - c.lust,
+				sens    : newSens - c.sens,
+				lust    : newLust - c.lust,
 				cor     : newCor - c.cor,
+                will    : newWill - c.will,
 				scale   : argVals[8]
 			};
 		}

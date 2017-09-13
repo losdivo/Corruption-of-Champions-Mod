@@ -48,6 +48,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 				//Explain the dungeon scenario
 				else {
 					flags[kFLAGS.MARAE_QUEST_START] = 1;
+                    dynStats("will", 3);
 					outputText("\"<i>You seem so surprised by me, Champion.   I suppose that is inevitable.  Your origin is not of Mareth, our land, and few save for the demons remember me,</i>\" says the tree.\n\n");
 					outputText("You take a step back, amazed to find such a creature, apparently uncorrupted.  ");
 					if (player.lib + player.cor > (80 - player.corruptionTolerance())) outputText("Your eyes can't help but take note of the tree-woman's shapely breasts, and wonder if they feel like tits or wood.  ");
@@ -120,6 +121,7 @@ public class MaraeScene extends AbstractBoatContent implements TimeAwareInterfac
 				outputText("Marae pushes the pearl into your hand, and closes your fingers over it gently.  \"<i>Go now, there is still much to be done.  With luck we will not need each other again,</i>\" commands the goddess as she slips back into her tree.  ");
 				inventory.takeItem(consumables.P_PEARL, camp.returnToCampUseOneHour);
 				flags[kFLAGS.MARAE_QUEST_COMPLETE] = 1;
+                dynStats("will", 3);
 			}
 			//Corrupt!
 			else {

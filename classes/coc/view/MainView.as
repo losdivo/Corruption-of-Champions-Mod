@@ -92,7 +92,7 @@ public class MainView extends Block {
 
 	internal static const STATBAR_W:Number = 205;
 	internal static const STATBAR_Y:Number = TOPROW_Y + TOPROW_H;
-	internal static const STATBAR_H:Number = 600;
+	internal static const STATBAR_H:Number = 620;
 
 	/*
 	 // I'd like to have the position calculable, but the borders are part of the bg picture so have to use magic numbers

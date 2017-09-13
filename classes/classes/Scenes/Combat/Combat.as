@@ -43,15 +43,19 @@ public class Combat extends BaseContent
 		
 		//Victory & Loss
 		public function endHpVictory():void { 
+            dynStats("will", 1);
 			monster.defeated_(true);
 		}
 		public function endLustVictory():void {
+            dynStats("will", 1);
 			monster.defeated_(false);
 		}
 		public function endHpLoss():void {
+            dynStats("will", -1);
 			monster.won_(true,false);
 		}
 		public function endLustLoss():void {
+            dynStats("will", -1.5);
 			if (player.hasStatusEffect(StatusEffects.Infested) && flags[kFLAGS.CAME_WORMS_AFTER_COMBAT] == 0) {
 				flags[kFLAGS.CAME_WORMS_AFTER_COMBAT] = 1;
 				getGame().mountain.wormsScene.infestOrgasm();
@@ -104,6 +108,7 @@ public class Combat extends BaseContent
 						doNext(nextFunc);
 						return;
 					}
+
 					temp = rand(10) + 1 + Math.round(monster.level / 2);
 					if (inDungeon) temp += 20 + monster.level * 2;
 					//Increases gems lost in NG+.

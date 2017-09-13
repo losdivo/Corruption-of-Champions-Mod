@@ -85,8 +85,8 @@ import classes.internals.Utils;
 			host.addStatusEffect(this/*,fireEvent*/);
 		}
 
-		protected static function register(id:String,statusEffectClass:Class = null):StatusEffectType {
-			return new StatusEffectType(id,statusEffectClass || StatusEffectClass);
+		protected static function register(id:String,statusEffectClass:Class,arity:int=0):StatusEffectType {
+			return new StatusEffectType(id,statusEffectClass || StatusEffectClass,arity);
 		}
 		protected static function get game():CoC {
 			return kGAMECLASS;

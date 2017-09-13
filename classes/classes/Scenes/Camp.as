@@ -689,6 +689,11 @@ private function doCamp():void { //Only called by playerMenu
 			outputText("<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>\n\n");
 			exploreEvent = null;
 			placesEvent = null;
+            if (!player.hasWillpower(20, 50)) {
+                dynStats("will", -1);
+                doNext(getGame().masturbation.masturbateGo);
+                return;
+            }
 			//This once disabled the ability to rest, sleep or wait, but ir hasn't done that for many many builds
 		}
 	}
@@ -767,7 +772,7 @@ private function doCamp():void { //Only called by playerMenu
 	{
 		flags[kFLAGS.CAMP_CABIN_PROGRESS] = 1;
 		clearOutput();
-		outputText(images.showImage("camp-dreams"));
+		outputText(images.showImage("camp-dream"));
 		outputText("You realize that you have spent two weeks sleeping in tent every night. You think of something so you can sleep nicely and comfortably. Perhaps a cabin will suffice?");
 		doNext(playerMenu);
 		return;
@@ -1498,16 +1503,15 @@ private function swimInStreamFinish():void {
 }
 
 private function examinePortal():void {
+	clearOutput();
 	outputText(images.showImage("camp-portal"));
 	if (flags[kFLAGS.CAMP_PORTAL_PROGRESS] <= 0) {
-		clearOutput();
 		outputText("You walk over to the portal, reminded by how and why you came. You wonder if you can go back to Ingnam. You start by picking up a small pebble and throw it through the portal. It passes through the portal. As you walk around the portal, you spot the pebble at the other side. Seems like you can't get back right now.");
 		flags[kFLAGS.CAMP_PORTAL_PROGRESS] = 1;
 		doNext(camp.returnToCampUseOneHour);
 		return;
 	}
 	else {
-		clearOutput();
 		outputText("You walk over to the portal, reminded by how and why you came. You let out a sigh, knowing you can't return to Ingnam.");
 	}
 	doNext(playerMenu);
@@ -2017,7 +2021,7 @@ public function badEndMinLust():void {
 
 public function allNaturalSelfStimulationBeltContinuation():void {
 	clearOutput();
-	outputText(images.showImage("camp-stimBelt"));
+	outputText(images.showImage("masti-stimBelt-allNatural"));
 	outputText("In shock, you scream as you realize the nodule has instantly grown into a massive, organic dildo. It bottoms out easily and rests against your cervix as you recover from the initial shock of its penetration. As the pangs subside, the infernal appendage begins working itself. It begins undulating in long, slow strokes. It takes great care to adjust itself to fit every curve of your womb. Overwhelmed, your body begins reacting against your conscious thought and slowly thrusts your pelvis in tune to the thing.\n\n");
 	outputText("As suddenly as it penetrated you, it shifts into a different phase of operation. It buries itself as deep as it can and begins short, rapid strokes. The toy hammers your insides faster than any man could ever hope to do. You orgasm immediately and produce successive climaxes. Your body loses what motor control it had and bucks and undulates wildly as the device pistons your cunt without end. You scream at the top of your lungs. Each yell calls to creation the depth of your pleasure and lust.\n\n");
 	outputText("The fiendish belt shifts again. It buries itself as deep as it can go and you feel pressure against the depths of your womanhood. You feel a hot fluid spray inside you. Reflexively, you shout, \"<b>IT'S CUMMING! IT'S CUMMING INSIDE ME!</b>\" Indeed, each push of the prodding member floods your box with juice. It cums... and cums... and cums... and cums...\n\n");
@@ -2031,7 +2035,7 @@ public function allNaturalSelfStimulationBeltContinuation():void {
 public function allNaturalSelfStimulationBeltBadEnd():void {
 	spriteSelect(SpriteDb.s_giacomo);
 	clearOutput();
-	outputText(images.showImage("badend-stimbelt"));
+	outputText(images.showImage("badend-stimBelt"));
 	outputText("Whatever the belt is, whatever it does, it no longer matters to you.  The only thing you want is to feel the belt and its creature fuck the hell out of you, day and night.  You quickly don the creature again and it begins working its usual lustful magic on your insatiable little box.  An endless wave of orgasms take you.  All you now know is the endless bliss of an eternal orgasm.\n\n");
 	outputText("Your awareness hopelessly compromised by the belt and your pleasure, you fail to notice a familiar face approach your undulating form.  It is the very person who sold you this infernal toy.  The merchant, Giacomo.\n\n");
 	outputText("\"<i>Well, well,</i>\" Giacomo says.  \"<i>The Libertines are right.  The creature's fluids are addictive. This poor " + player.mf("man", "woman") + " is a total slave to the beast!</i>\"\n\n");
@@ -2181,8 +2185,8 @@ private function exgartuanCampUpdate():void {
 //Wake up from a bad end.
 public function wakeFromBadEnd():void {
 	clearOutput();
-	trace("Escaping bad end!");
 	outputText(images.showImage("camp-nightmare"));
+	trace("Escaping bad end!");
 	outputText("No, it can't be.  It's all just a dream!  You've got to wake up!");
 	outputText("\n\nYou wake up and scream.  You pull out a mirror and take a look at yourself.  Yep, you look normal again.  That was the craziest dream you ever had.");
 	if (flags[kFLAGS.TIMES_BAD_ENDED] >= 2) { //FOURTH WALL BREAKER
@@ -2363,6 +2367,7 @@ private function buildCampGate():void {
 	flags[kFLAGS.CAMP_CABIN_WOOD_RESOURCES] -= 100;
 	player.addKeyValue("Carpenter's Toolbox", 1, -100);
 	clearOutput();
+	outputText(images.showImage("camp-wall-part4"));
 	outputText("You pull out a book titled \"Carpenter's Guide\" and flip pages until you come across instructions on how to build a gate that can be opened and closed. You spend minutes looking at the instructions and memorize the procedures.");
 	flags[kFLAGS.CAMP_WALL_GATE] = 1;
 	outputText("\n\nYou take the wood from supplies, saw the wood and cut them into planks before nailing them together. ");
@@ -2370,7 +2375,6 @@ private function buildCampGate():void {
 		outputText("\n\n" + formatStringArray(helperArray));
 		outputText(" " + (helpers == 1 ? "assists" : "assist") + " you with building the gate, helping to speed up the process and make construction less fatiguing.");
 	}
-	outputText(images.showImage("camp-wall-part4"));
 	outputText("\n\nYou eventually finish building the gate.");
 	//Gain fatigue.
 	var fatigueAmount:int = 100;

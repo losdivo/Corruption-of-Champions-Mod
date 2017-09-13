@@ -338,9 +338,9 @@ import classes.StatusEffects.CombatStatusEffect;
 		/**
 		 * Creates status affect
 		 */
-		private static function mk(id:String, clazz:Class = null):StatusEffectType
+		private static function mk(id:String, clazz:Class = null, arity: int = 1):StatusEffectType
 		{
-			return new StatusEffectType(id,clazz ? clazz : StatusEffectClass);
+			return new StatusEffectType(id,clazz ? clazz : StatusEffectClass,arity);
 		}
 	}
 }

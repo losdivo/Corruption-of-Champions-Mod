@@ -105,6 +105,7 @@ package classes
 			var showSpecialNames:Boolean = true; // achievements[kACHIEVEMENTS.STORY_FINALBOSS] > 0;			
 			
 			clearOutput();
+			outputText(images.showImage("location-ingnam"));
 			outputText("You grew up in the small village of Ingnam, a remote village with rich traditions, buried deep in the wilds.  Every year for as long as you can remember, your village has chosen a champion to send to the cursed Demon Realm.  Legend has it that in years Ingnam has failed to produce a champion, chaos has reigned over the countryside.  Children disappear, crops wilt, and disease spreads like wildfire.  This year, <b>you</b> have been selected to be the champion.\n\n");
 			//if (showSpecialNames) outputText("\n\n\n\n");			
 			outputText("What is your name?");
@@ -178,7 +179,7 @@ package classes
 			player.hunger = 80;
 			player.obey = 10;
 			player.esteem = 50;
-			player.will = 80;
+			player.will = 50;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) getGame().saves.notes = "No Notes Available.";
 			player.lust = 15;
 			if (flags[kFLAGS.NEW_GAME_PLUS_LEVEL] == 0) {
@@ -1302,6 +1303,7 @@ package classes
 				doNext(playerMenu);
 				return;
 			}
+			outputText(images.showImage("arrival"));
 			outputText("You are prepared for what is to come.  Most of the last year has been spent honing your body and mind to prepare for the challenges ahead.  You are the Champion of Ingnam.  The one who will journey to the demon realm and guarantee the safety of your friends and family, even though you'll never see them again.  You wipe away a tear as you enter the courtyard and see Elder Nomur waiting for you.  You are ready.\n\n");
 			outputText("The walk to the tainted cave is long and silent.  Elder Nomur does not speak.  There is nothing left to say.  The two of you journey in companionable silence.  Slowly the black rock of Mount Ilgast looms closer and closer, and the temperature of the air drops.  You shiver and glance at the Elder, noticing he doesn't betray any sign of the cold.  Despite his age of nearly 80, he maintains the vigor of a man half his age.  You're glad for his strength, as assisting him across this distance would be draining, and you must save your energy for the trials ahead.\n\n");
 			outputText("The entrance of the cave gapes open, sharp stalactites hanging over the entrance, giving it the appearance of a monstrous mouth.  Elder Nomur stops and nods to you, gesturing for you to proceed alone.\n\n");
@@ -1316,6 +1318,7 @@ package classes
 		
 		private function arrivalPartTwo():void {
 			clearOutput();
+			outputText(images.showImage("monster-zetaz"));
 			hideUpDown();
 			dynStats("lus", 40, "cor", 2);
 			model.time.hours = 18;
@@ -1330,6 +1333,7 @@ package classes
 		
 		private function arrivalPartThree():void {
 			clearOutput();
+			outputText(images.showImage("monster-zetaz"));
 			hideUpDown();
 			dynStats("lus", -30);
 			outputText("The imp shakes the empty vial to emphasize his point.  You reel in shock at this revelation - you've just entered the demon realm and you've already been drugged!  You tremble with the aching need in your groin, but resist, righteous anger lending you strength.\n\nIn desperation you leap towards the imp, watching with glee as his cocky smile changes to an expression of sheer terror.  The smaller creature is no match for your brute strength as you pummel him mercilessly.  You pick up the diminutive demon and punt him into the air, frowning grimly as he spreads his wings and begins speeding into the distance.\n\n");
@@ -1455,6 +1459,7 @@ package classes
 				return;
 			}
 			clearOutput();
+			outputText(images.showImage("location-ingnam"));
 			outputText("Would you like to play through the 3-day prologue in Ingnam or just skip?");
 			doYesNo(goToIngnam, arrival);
 		}
